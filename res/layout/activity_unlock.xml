@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal|center_vertical|center"
+    android:gravity="center_horizontal|center_vertical|center"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="${relativePackage}.${activityClass}" >
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal|center_vertical|center"
+        android:gravity="center_horizontal|center_vertical|center"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:text="@string/app_name"
+        android:background="@color/blue" />
+    
+    <TextView
+        android:id="@+id/status_tv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:layout_gravity="center_horizontal|center_vertical|center"
+        android:gravity="center_horizontal|center_vertical|center"
+        android:textColor="@color/blue"
+        android:textSize="30sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/textview_border" />
+    
+    <Button
+        android:id="@+id/unlock_btn"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_margin="80dp"
+        android:layout_gravity="center_horizontal|center_vertical|center"
+        android:gravity="center_horizontal|center_vertical|center"
+        android:background="@drawable/button_shape_oval"
+        android:text="点击开门"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
+
+</LinearLayout>
