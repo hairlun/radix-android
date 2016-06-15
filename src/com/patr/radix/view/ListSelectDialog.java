@@ -16,7 +16,7 @@ import android.widget.TextView;
 /**
  * 列表选择的对话框
  * 
- * @author huangzhongwen 2014-8-13 下午6:59:17
+ * @author zhoushujie 2014-8-13 下午6:59:17
  */
 public class ListSelectDialog extends AbsCustomDialog {
 

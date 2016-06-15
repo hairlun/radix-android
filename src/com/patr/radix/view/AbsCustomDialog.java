@@ -11,7 +11,7 @@ import android.view.WindowManager.LayoutParams;
 /**
  * 自定义无边框对话框抽象类
  * 
- * @author huangzhongwen
+ * @author zhoushujie
  * 
  */
 public abstract class AbsCustomDialog extends Dialog {

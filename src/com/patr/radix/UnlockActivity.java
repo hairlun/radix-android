@@ -408,8 +408,9 @@ public class UnlockActivity extends Activity implements OnItemClickListener,
 
     private void writeOption(String cmd, String data) {
         String dataText = data.replace(" ", "");
+        String cmdText = cmd.replace(" ", "");
         byte[] dataArray = Utils.hexStringToByteArray(dataText);
-        byte[] cmdArray = Utils.hexStringToByteArray(cmd);
+        byte[] cmdArray = Utils.hexStringToByteArray(cmdText);
         byte[] check = { cmdArray[0] };
         for (byte b : dataArray) {
             check[0] ^= b;

@@ -48,4 +48,8 @@
     <!-- 选择列表 -->
     <color name="choose_item_normal">#FF090909</color>
     <color name="choose_item_selected">#FF2968C4</color>
+
+    <!-- TitleBar  按钮背景 -->
+    <color name="titlebar_btn_bg_normal">#FFF04C48</color>
+    <color name="titlebar_btn_bg_pressed">#ffA40500</color>
 </resources>

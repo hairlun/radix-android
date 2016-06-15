@@ -156,5 +156,12 @@
     <string name="hello_world">Hello world!</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
-    
+
+    <!-- 自定义标题栏 -->
+    <string name="titlebar_back">返回</string>
+    <string name="titlebar_cancel">取消</string>
+    <string name="titlebar_check_all">全选</string>
+    <string name="titlebar_send_key">发送钥匙</string>
+    <string name="titlebar_select_key">选择钥匙</string>
+
 </resources>

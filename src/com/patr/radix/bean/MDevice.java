@@ -3,7 +3,7 @@ package com.patr.radix.bean;
 import android.bluetooth.BluetoothDevice;
 
 /**
- * Created by Administrator on 2015-11-16.
+ * Created by zhoushujie on 2015-11-16.
  */
 public class MDevice {
     private BluetoothDevice device;

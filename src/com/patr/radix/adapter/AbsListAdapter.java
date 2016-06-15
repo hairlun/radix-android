@@ -13,7 +13,7 @@ import android.widget.BaseAdapter;
 /**
  * ListView适配器抽象类
  * 
- * @author huangzhongwen
+ * @author zhoushujie
  * 
  * @param <T>
  */
@@ -301,7 +301,7 @@ public abstract class AbsListAdapter<T> extends BaseAdapter {
     /**
      * 数据变化监听器
      * 
-     * @author huangzhongwen 2014-10-9 上午10:13:58
+     * @author zhoushujie 2014-10-9 上午10:13:58
      * @param <T>
      */
     public interface OnDataChangedListener<T> {
