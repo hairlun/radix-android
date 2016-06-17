@@ -1,5 +1,7 @@
 package com.patr.radix.fragment;
 
+import com.patr.radix.R;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +12,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 
-public class FoundFragment extends Fragment {
+public class UnlockFragment extends Fragment {
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -21,13 +23,8 @@ public class FoundFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		TextView tvTitle=new TextView(super.getActivity());
-		tvTitle.setText("����");
-		tvTitle.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
-		tvTitle.setGravity(Gravity.CENTER);
-		tvTitle.setTextSize(30);
-		return tvTitle;
+		View view = inflater.inflate(R.layout.fragment_unlock, container, false);
+		return view;
 	}
 
 	@Override

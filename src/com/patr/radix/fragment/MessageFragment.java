@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 
-public class VideoFragment extends Fragment {
+public class MessageFragment extends Fragment {
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -23,7 +23,7 @@ public class VideoFragment extends Fragment {
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		TextView tvTitle=new TextView(super.getActivity());
-		tvTitle.setText("��Ƶ");
+		tvTitle.setText("消息推送");
 		tvTitle.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
 		tvTitle.setGravity(Gravity.CENTER);
 		tvTitle.setTextSize(30);

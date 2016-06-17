@@ -1,9 +1,9 @@
 package com.patr.radix;
 
-import com.patr.radix.fragment.FoundFragment;
-import com.patr.radix.fragment.NewsFragment;
-import com.patr.radix.fragment.ReadFragment;
-import com.patr.radix.fragment.VideoFragment;
+import com.patr.radix.fragment.SettingsFragment;
+import com.patr.radix.fragment.UnlockFragment;
+import com.patr.radix.fragment.VisitorFragment;
+import com.patr.radix.fragment.MessageFragment;
 
 public class TabDb {
     public static String[] getTabsTxt(){
@@ -19,7 +19,7 @@ public class TabDb {
         return ids;
     }
     public static Class[] getFragments(){
-        Class[] clz={NewsFragment.class, ReadFragment.class, VideoFragment.class, FoundFragment.class};
+        Class[] clz={UnlockFragment.class, VisitorFragment.class, MessageFragment.class, SettingsFragment.class};
         return clz;
     }
 }
