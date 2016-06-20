@@ -26,7 +26,7 @@
     <color name="gray_text_disable">#FFcccccc</color>
     <color name="gray_line">#FFCCCCCC</color>
     <color name="red_line">#FFD95A47</color>
-    <color name="gray_bg">#FF787878</color>
+    <color name="gray_bg">#FFEBEBEB</color>
     <color name="dialog_btn_bg">#ffeeeeee</color>
     <color name="black_text">#FF333333</color>
     <color name="right_text">#FF4983D7</color>
