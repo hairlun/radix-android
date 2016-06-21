@@ -23,7 +23,7 @@ public class GifView extends View {
     /**
      * 默认为1秒
      */
-    private static final int DEFAULT_MOVIE_DURATION = 100;
+    private static final int DEFAULT_MOVIE_DURATION = 1660;
 
     private int mMovieResourceId;
 
@@ -153,7 +153,7 @@ public class GifView extends View {
             if (!mPaused) {
                 updateAnimationTime();
                 drawMovieFrame(canvas);
-                invalidateView();
+                invalidate();
             } else {
                 drawMovieFrame(canvas);
             }

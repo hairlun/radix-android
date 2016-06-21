@@ -33,6 +33,8 @@
 package com.patr.radix.utils;
 
 import android.R.integer;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -45,15 +47,18 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -65,6 +70,7 @@ import com.patr.radix.ble.BluetoothLeService;
 /**
  * Class for commonly used methods in the project
  */
+@SuppressLint("NewApi")
 public class Utils {
 
     // Shared preference constant
@@ -76,6 +82,7 @@ public class Utils {
      * @param characteristic
      * @return manfacture_name_string
      */
+    @SuppressLint("NewApi")
     public static String getManufacturerNameString(
             BluetoothGattCharacteristic characteristic) {
         String manfacture_name_string = characteristic.getStringValue(0);
@@ -89,6 +96,7 @@ public class Utils {
      * @return model_name_string
      */
 
+    @SuppressLint("NewApi")
     public static String getModelNumberString(
             BluetoothGattCharacteristic characteristic) {
         String model_name_string = characteristic.getStringValue(0);
@@ -102,6 +110,7 @@ public class Utils {
      * @param characteristic
      * @return serial_number_string
      */
+    @SuppressLint("NewApi")
     public static String getSerialNumberString(
             BluetoothGattCharacteristic characteristic) {
         String serial_number_string = characteristic.getStringValue(0);
@@ -115,6 +124,7 @@ public class Utils {
      * @param characteristic
      * @return hardware_revision_name_string
      */
+    @SuppressLint("NewApi")
     public static String getHardwareRevisionString(
             BluetoothGattCharacteristic characteristic) {
         String hardware_revision_name_string = characteristic.getStringValue(0);
@@ -127,6 +137,7 @@ public class Utils {
      * @param characteristic
      * @return hardware_revision_name_string
      */
+    @SuppressLint("NewApi")
     public static String getFirmwareRevisionString(
             BluetoothGattCharacteristic characteristic) {
         String firmware_revision_name_string = characteristic.getStringValue(0);
@@ -139,6 +150,7 @@ public class Utils {
      * @param characteristic
      * @return hardware_revision_name_string
      */
+    @SuppressLint("NewApi")
     public static String getSoftwareRevisionString(
             BluetoothGattCharacteristic characteristic) {
         String hardware_revision_name_string = characteristic.getStringValue(0);
@@ -152,6 +164,7 @@ public class Utils {
      * @param characteristic
      * @return {@link String}
      */
+    @SuppressLint("NewApi")
     public static String getPNPID(BluetoothGattCharacteristic characteristic) {
         final byte[] data = characteristic.getValue();
         final StringBuilder stringBuilder = new StringBuilder(data.length);
@@ -169,6 +182,7 @@ public class Utils {
      * @param characteristic
      * @return {@link String}
      */
+    @SuppressLint("NewApi")
     public static String getSYSID(BluetoothGattCharacteristic characteristic) {
         final byte[] data = characteristic.getValue();
         final StringBuilder stringBuilder = new StringBuilder(data.length);
@@ -282,6 +296,7 @@ public class Utils {
      * @param characteristics
      * @return {@link String}
      */
+    @SuppressLint("NewApi")
     public static String getBatteryLevel(
             BluetoothGattCharacteristic characteristics) {
         int battery_level = characteristics.getIntValue(
@@ -559,6 +574,7 @@ public class Utils {
 
 
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static String getPorperties(Context context,BluetoothGattCharacteristic item){
         String proprties;
         String read = null, write = null, notify = null;
@@ -635,6 +651,22 @@ public class Utils {
             csn = imsi.substring(imsi.length() - 8);
         }
         return csn;
+    }
+
+    public static final InputStream byte2Input(byte[] buf) {
+        return new ByteArrayInputStream(buf);
+    }
+
+    public static final byte[] input2byte(InputStream inStream)
+            throws IOException {
+        ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+        byte[] buff = new byte[100];
+        int rc = 0;
+        while ((rc = inStream.read(buff, 0, 100)) > 0) {
+            swapStream.write(buff, 0, rc);
+        }
+        byte[] in2b = swapStream.toByteArray();
+        return in2b;
     }
 
 }
