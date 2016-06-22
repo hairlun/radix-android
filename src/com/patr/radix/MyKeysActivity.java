@@ -20,7 +20,7 @@ public class MyKeysActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        setContentView(R.layout.activity_my_keys);
     }
 
     public static void start(Context context) {
