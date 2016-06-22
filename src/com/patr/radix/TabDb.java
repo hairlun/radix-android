@@ -7,7 +7,7 @@ import com.patr.radix.fragment.MessageFragment;
 
 public class TabDb {
     public static String[] getTabsTxt(){
-        String[] tabs={"手机开门","方可申请","消息推送","个人设置"};
+        String[] tabs={"手机开门","访客申请","消息推送","个人设置"};
         return tabs;
     }
     public static int[] getTabsImg(){

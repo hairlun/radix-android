@@ -163,7 +163,28 @@
     <string name="titlebar_check_all">全选</string>
     <string name="titlebar_send_key">发送钥匙</string>
     <string name="titlebar_select_key">选择钥匙</string>
+    <string name="titlebar_login">业主登录</string>
+    <string name="titlebar_my_keys">我的钥匙</string>
+    <string name="titlebar_key_active_time">钥匙时效</string>
+    <string name="titlebar_send_to_friend">发送好友</string>
+    <string name="titlebar_visitor_request">访客申请</string>
+    <string name="titlebar_latest_msg">最新消息</string>
+    <string name="titlebar_msg_details">消息详情</string>
+    <string name="titlebar_my_settings">个人设置</string>
+    <string name="titlebar_edit_my_frofile">修改用户信息</string>
     
-    <string name="shake_shake">摇一摇</string>
+    <!-- 首页Tab栏 -->
+    <string name="main_tab_unlock">手机开门</string>
+    <string name="main_tab_visitor">访客申请</string>
+    <string name="main_tab_message">消息推送</string>
+    <string name="main_tab_settings">个人设置</string>
+    
+    <!-- 手机开门模块 -->
+    <string name="unlock_shake_shake">摇一摇</string>
+    <string name="unlock_send">发送</string>
+    <string name="unlock_next">下一步</string>
+    <string name="unlock_generate_qrcode">生成二维码</string>
+    <string name="unlock_start_time">开始时间</string>
+    <string name="unlock_active_time">有效时间</string>
 
 </resources>
