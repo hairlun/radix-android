@@ -70,7 +70,6 @@ import com.patr.radix.ble.BluetoothLeService;
 /**
  * Class for commonly used methods in the project
  */
-@SuppressLint("NewApi")
 public class Utils {
 
     // Shared preference constant
@@ -310,6 +309,7 @@ public class Utils {
      * @param characteristics
      * @return {@link String}
      */
+    @SuppressLint("NewApi")
     public static String getAlertLevel(
             BluetoothGattCharacteristic characteristics) {
         int alert_level = characteristics.getIntValue(
@@ -323,13 +323,13 @@ public class Utils {
      * @param characteristics
      * @return {@link integer}
      */
+    @SuppressLint("NewApi")
     public static int getTransmissionPower(
             BluetoothGattCharacteristic characteristics) {
         int power_level = characteristics.getIntValue(
                 BluetoothGattCharacteristic.FORMAT_SINT8, 0);
         return power_level;
     }
-
 
     /**
      * Returns the Date from the long milliseconds
