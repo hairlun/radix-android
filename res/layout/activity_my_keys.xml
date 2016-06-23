@@ -18,6 +18,9 @@
     <Button
         android:id="@+id/ok_btn"
         android:layout_width="match_parent"
-        android:layout_height="52dp" />
+        android:layout_height="52dp"
+        android:text="@string/unlock_next"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
     
 </LinearLayout>

@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:padding="15dp"
-            android:text="@string/shake_shake"
+            android:text="@string/unlock_shake_shake"
             android:textSize="26sp"
             android:textColor="@color/black_text" />"
         
