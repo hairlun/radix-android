@@ -35,9 +35,9 @@ public class MainActivity extends FragmentActivity implements OnTabChangeListene
 	}
 	
 	private void initTab(){
-		String tabs[]=TabDb.getTabsTxt();
+		int tabs[]=TabDb.getTabsTxt();
 		for(int i=0;i<tabs.length;i++){
-			TabSpec tabSpec=tabHost.newTabSpec(tabs[i]).setIndicator(getTabView(i));
+			TabSpec tabSpec=tabHost.newTabSpec(getResources().getString(tabs[i])).setIndicator(getTabView(i));
 			tabHost.addTab(tabSpec,TabDb.getFragments()[i],null);
 			tabHost.setTag(i);
 		}

@@ -173,6 +173,11 @@
     <string name="titlebar_my_settings">个人设置</string>
     <string name="titlebar_edit_my_frofile">修改用户信息</string>
     
+    <!-- 登录页 -->
+    <string name="login_account_hint">请输入账号</string>
+    <string name="login_pwd_hint">请输入密码</string>
+    <string name="login_btn">登录</string>
+    
     <!-- 首页Tab栏 -->
     <string name="main_tab_unlock">手机开门</string>
     <string name="main_tab_visitor">访客申请</string>
@@ -186,5 +191,18 @@
     <string name="unlock_generate_qrcode">生成二维码</string>
     <string name="unlock_start_time">开始时间</string>
     <string name="unlock_active_time">有效时间</string>
+    
+    <!-- 访客申请模块 -->
+    <string name="visitor_mobile_hint">请输入要拜访的业主手机号码</string>
+    <string name="visitor_request_btn">申请钥匙</string>
+    
+    <!-- 个人设置模块 -->
+    <string name="settings_permission">用户授权</string>
+    <string name="settings_feedback">意见反馈</string>
+    <string name="settings_check_update">版本检查及更新</string>
+    <string name="settings_name">用户姓名</string>
+    <string name="settings_pwd">密    码</string>
+    <string name="settings_mobile">手机号码</string>
+    <string name="settings_ok_btn">确定修改</string>
 
 </resources>

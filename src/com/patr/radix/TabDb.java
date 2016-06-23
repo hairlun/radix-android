@@ -6,8 +6,8 @@ import com.patr.radix.fragment.VisitorFragment;
 import com.patr.radix.fragment.MessageFragment;
 
 public class TabDb {
-    public static String[] getTabsTxt(){
-        String[] tabs={"手机开门","访客申请","消息推送","个人设置"};
+    public static int[] getTabsTxt(){
+        int[] tabs={R.string.main_tab_unlock, R.string.main_tab_visitor, R.string.main_tab_message, R.string.main_tab_settings};
         return tabs;
     }
     public static int[] getTabsImg(){
