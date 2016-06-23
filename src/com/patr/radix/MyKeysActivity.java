@@ -6,6 +6,7 @@
  */
 package com.patr.radix;
 
+import com.jade.customervisit.ui.view.swipe.SwipeRefreshLayout;
 import com.patr.radix.adapter.KeyListAdapter;
 import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bll.ServiceManager;
@@ -34,6 +35,8 @@ public class MyKeysActivity extends Activity implements OnClickListener {
 	private Button okBtn;
 	
 	private KeyListAdapter adapter;
+
+	private SwipeRefreshLayout swipe;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
