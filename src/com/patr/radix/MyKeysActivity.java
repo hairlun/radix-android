@@ -6,12 +6,17 @@
  */
 package com.patr.radix;
 
-import com.jade.customervisit.ui.view.swipe.SwipeRefreshLayout;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.patr.radix.adapter.KeyListAdapter;
 import com.patr.radix.bean.GetLockListResult;
+import com.patr.radix.bean.RadixLock;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.view.TitleBarView;
+import com.patr.radix.view.swipe.SwipeRefreshLayout;
 
 import android.app.Activity;
 import android.content.Context;
@@ -38,11 +43,16 @@ public class MyKeysActivity extends Activity implements OnClickListener {
 
 	private SwipeRefreshLayout swipe;
 	
+	private Context context;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
         setContentView(R.layout.activity_my_keys);
         initView();
+        // 测试数据
+        testData();
         loadData();
     }
     
@@ -63,22 +73,57 @@ public class MyKeysActivity extends Activity implements OnClickListener {
 
                 @Override
                 public void onStart() {
-                    
+                    swipe.post(new Runnable() {
+                        
+                        @Override
+                        public void run() {
+                            swipe.setRefreshing(true);
+                        }
+                    });
                 }
 
                 @Override
                 public void onSuccess(int stateCode, GetLockListResult result) {
-                    
+                    if (result != null) {
+                        if (result.isSuccesses()) {
+                            MyApplication.instance.setLocks(result.getLocks());
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            ToastUtil.showShort(context, result.getRetinfo());
+                        }
+                    } else {
+                        ToastUtil.showShort(context, R.string.connect_exception);
+                    }
                 }
 
                 @Override
                 public void onFailure(Exception error, String content) {
-                    
+                    ToastUtil.showShort(context, R.string.connect_exception);
+                }
+                
+                @Override
+                public void onStopped() {
+                    swipe.setRefreshing(false);
                 }
                 
             });
         }
         
+    }
+    
+    private void testData() {
+        List<RadixLock> locks = new ArrayList<RadixLock>();
+        RadixLock lock;
+        for (int i = 0; i < 4; i++) {
+            lock = new RadixLock();
+            lock.setName("Radix" + i);
+            lock.setBleName("Radix" + i);
+            lock.setKey("123456");
+            lock.setStart("2016-06-24 12:00");
+            lock.setEnd("2016-06-30 12:00");
+            locks.add(lock);
+        }
+        MyApplication.instance.setLocks(locks);
     }
 
     public static void start(Context context) {
@@ -92,7 +137,7 @@ public class MyKeysActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-        case R.id.unlock_btn:
+        case R.id.ok_btn:
             break;
         }
     }

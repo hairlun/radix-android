@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/gray_bg"
     tools:context=".MyKeysActivity" >
     
     <com.patr.radix.view.TitleBarView
@@ -13,12 +14,14 @@
     <ListView
         android:id="@+id/my_keys_lv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:divider="@color/gray_line" />
     
     <Button
         android:id="@+id/ok_btn"
         android:layout_width="match_parent"
         android:layout_height="52dp"
+        android:background="@drawable/titlebar_btn_bg_selector"
         android:text="@string/unlock_next"
         android:textColor="@color/white"
         android:textSize="18sp" />

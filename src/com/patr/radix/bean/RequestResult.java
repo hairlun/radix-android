@@ -58,7 +58,7 @@ public class RequestResult implements Serializable {
      * @return
      */
     public boolean isSuccesses() {
-        return retcode.equals("000000");
+        return retcode.equals("1");
     }
 
     public String getRetcode() {
