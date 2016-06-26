@@ -204,6 +204,7 @@
     <string name="settings_pwd">密    码</string>
     <string name="settings_mobile">手机号码</string>
     <string name="settings_ok_btn">确定修改</string>
+    <string name="settings_logout_btn">退出登录</string>
 
     <!-- 异常提示语 -->
     <string name="connect_exception">请求失败，请稍候再试！</string>

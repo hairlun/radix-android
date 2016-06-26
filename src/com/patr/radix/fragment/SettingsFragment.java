@@ -1,5 +1,8 @@
 package com.patr.radix.fragment;
 
+import com.patr.radix.R;
+import com.patr.radix.view.TitleBarView;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +14,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 
 public class SettingsFragment extends Fragment {
+    
+    private TitleBarView titleBarView;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -21,13 +26,10 @@ public class SettingsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		TextView tvTitle=new TextView(super.getActivity());
-		tvTitle.setText("个人设置");
-		tvTitle.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
-		tvTitle.setGravity(Gravity.CENTER);
-		tvTitle.setTextSize(30);
-		return tvTitle;
+	    View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        titleBarView = (TitleBarView) view.findViewById(R.id.settings_titlebar);
+        titleBarView.hideBackBtn().setTitle(R.string.titlebar_my_settings);
+        return view;
 	}
 
 	@Override
