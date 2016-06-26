@@ -24,16 +24,16 @@
             android:textColor="@color/white_text" />
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:orientation="horizontal" >
+        android:layout_height="52dp" >
 
         <!-- 标题栏返回按钮 -->
         <ImageButton
             android:id="@+id/titlebar_back_btn"
             android:layout_width="52dp"
             android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
             android:background="@drawable/titlebar_btn_bg_selector"
             android:contentDescription="@string/titlebar_back"
             android:src="@drawable/arrow_left"
@@ -45,6 +45,7 @@
             android:id="@+id/titlebar_cancel_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
             android:background="@drawable/titlebar_btn_bg_shape_selector"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -58,6 +59,8 @@
             android:id="@+id/titlebar_check_all_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
             android:background="@drawable/titlebar_btn_bg_shape_selector"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -71,6 +74,7 @@
             android:id="@+id/titlebar_send_key_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
             android:background="@drawable/titlebar_btn_bg_shape_selector"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -84,12 +88,13 @@
             android:id="@+id/titlebar_select_key_btn"
             android:layout_width="52dp"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
             android:background="@drawable/titlebar_btn_bg_selector"
             android:contentDescription="@string/titlebar_select_key"
             android:padding="4dp"
             android:scaleType="fitCenter"
             android:src="@drawable/choose_key_btn"
-            android:visibility="visible" />
-    </LinearLayout>
+            android:visibility="gone" />
+    </RelativeLayout>
 
 </FrameLayout>
