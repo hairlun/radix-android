@@ -2,6 +2,7 @@ package com.patr.radix;
 
 import android.app.Application;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.xutils.x;
 
 import com.patr.radix.bean.MService;
 import com.patr.radix.bean.RadixLock;
+import com.patr.radix.utils.PrefUtil;
 
 public class MyApplication extends Application {
 
@@ -27,6 +29,8 @@ public class MyApplication extends Application {
     private final List<BluetoothGattCharacteristic> characteristics = new ArrayList<>();
     
     private final List<RadixLock> locks = new ArrayList<>();
+    
+    private String mUsername;
     
     public static MyApplication instance;
 
@@ -63,6 +67,17 @@ public class MyApplication extends Application {
     public void setLocks(List<RadixLock> locks) {
         this.locks.clear();
         this.locks.addAll(locks);
+    }
+    
+    public String getUsername() {
+        if (TextUtils.isEmpty(mUsername)) {
+            mUsername = PrefUtil.getString(instance, "username");
+        }
+        return mUsername;
+    }
+    
+    public void setUsername(String username) {
+        this.mUsername = username;
     }
 
 }

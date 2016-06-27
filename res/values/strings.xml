@@ -176,7 +176,7 @@
     <!-- 登录页 -->
     <string name="login_account_hint">请输入账号</string>
     <string name="login_pwd_hint">请输入密码</string>
-    <string name="login_btn">登录</string>
+    <string name="login">登录</string>
     
     <!-- 首页Tab栏 -->
     <string name="main_tab_unlock">手机开门</string>
@@ -194,7 +194,7 @@
     
     <!-- 访客申请模块 -->
     <string name="visitor_mobile_hint">请输入要拜访的业主手机号码</string>
-    <string name="visitor_request_btn">申请钥匙</string>
+    <string name="visitor_request">申请钥匙</string>
     
     <!-- 个人设置模块 -->
     <string name="settings_permission">用户授权</string>
@@ -203,8 +203,8 @@
     <string name="settings_name">用户姓名</string>
     <string name="settings_pwd">密    码</string>
     <string name="settings_mobile">手机号码</string>
-    <string name="settings_ok_btn">确定修改</string>
-    <string name="settings_logout_btn">退出登录</string>
+    <string name="settings_ok">确定修改</string>
+    <string name="settings_logout">退出登录</string>
 
     <!-- 异常提示语 -->
     <string name="connect_exception">请求失败，请稍候再试！</string>
