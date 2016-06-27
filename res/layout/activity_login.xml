@@ -1,0 +1,22 @@
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/gray_bg"
+    tools:context=".LoginActivity" >
+    
+    <com.patr.radix.view.TitleBarView
+        android:id="@+id/login_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
+    <ImageView
+        android:layout_width="450dp"
+        android:layout_height="105dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/logo" />
+
+</LinearLayout>

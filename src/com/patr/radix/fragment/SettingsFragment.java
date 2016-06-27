@@ -12,13 +12,14 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment implements OnClickListener {
     
     private Context context;
     
@@ -57,6 +58,10 @@ public class SettingsFragment extends Fragment {
         permissionBtn.setCompoundDrawablePadding(15);
         feedbackBtn.setCompoundDrawablePadding(15);
         checkUpdateBtn.setCompoundDrawablePadding(15);
+        permissionBtn.setOnClickListener(this);
+        feedbackBtn.setOnClickListener(this);
+        checkUpdateBtn.setOnClickListener(this);
+        logoutBtn.setOnClickListener(this);
         String username = MyApplication.instance.getUsername();
         if (TextUtils.isEmpty(username)) {
             // 未登录
@@ -74,5 +79,32 @@ public class SettingsFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.setArguments(args);
 	}
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+        case R.id.settings_user_permission_btn:
+            break;
+        case R.id.settings_feedback_btn:
+            break;
+        case R.id.settings_check_update_btn:
+            break;
+        case R.id.settings_logout_btn:
+            if (TextUtils.isEmpty(MyApplication.instance.getUsername())) {
+                login();
+            } else {
+                logout();
+            }
+            break;
+        }
+    }
+    
+    private void login() {
+        
+    }
+    
+    private void logout() {
+        
+    }
 
 }
