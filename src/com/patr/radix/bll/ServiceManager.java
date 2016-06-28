@@ -9,6 +9,7 @@ package com.patr.radix.bll;
 import org.xutils.common.Callback.Cancelable;
 
 import com.patr.radix.bean.GetLockListResult;
+import com.patr.radix.bean.LoginResult;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.network.WebService;
 
@@ -52,6 +53,8 @@ public class ServiceManager {
         
         String USERNAME = "username";
         
+        String USER_ID = "userId";
+        
         String MOBILE = "mobile";
         
         String PWD = "pwd";
@@ -88,6 +91,10 @@ public class ServiceManager {
      * 接口地址
      */
     public interface Url {
+        
+        /** 用户登录 */
+        String LOGIN = "/login.do?";
+        
         /** 用户列表 */
         String USER_LIST = "/userList.do?";
         
@@ -106,7 +113,23 @@ public class ServiceManager {
         /** 修改用户信息 */
         String EDIT_USER = "/editUser.do?";
     }
-    
+
+    /**
+     * 用户账号登录
+     * 
+     * @param account
+     * @param pwd
+     * @param listener
+     * @return
+     */
+    public static Cancelable login(String account, String pwd,
+            final RequestListener<LoginResult> listener) {
+        String[] keys = { RequestKey.USERNAME, RequestKey.PWD };
+        String[] values = { account, pwd };
+        return WebService.post(Url.LOGIN, keys, values, listener,
+                new LoginParser(listener));
+    }
+   
     public static Cancelable getLockList(final RequestListener<GetLockListResult> listener) {
         String[] keys = {  };
         String[] values = {};
