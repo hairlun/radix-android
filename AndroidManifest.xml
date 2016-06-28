@@ -42,9 +42,11 @@
             android:label="@string/app_name" >
         </activity>
         
+        <activity android:name="com.patr.radix.LoginActivity" />
         <activity android:name="com.patr.radix.MyKeysActivity" />
 
-  com.patr.radix.ble.BluetoothLeServicem.patr.ble.unlocker.ble.BluetoothLeService"
+        <service
+            android:name="com.patr.radix.ble.BluetoothLeService"
             android:enabled="true" />
     </application>
 

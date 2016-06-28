@@ -21,7 +21,7 @@
             android:singleLine="true"
             android:text=""
             android:textSize="20sp"
-            android:textColor="@color/white_text" />
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <RelativeLayout
@@ -51,7 +51,7 @@
             android:paddingRight="5dp"
             android:text="@string/titlebar_cancel"
             android:textSize="18sp"
-            android:textColor="@color/white_text"
+            android:textColor="@color/white"
             android:visibility="gone" />
 
         <!-- 全选 -->
@@ -66,7 +66,7 @@
             android:paddingRight="5dp"
             android:text="@string/titlebar_check_all"
             android:textSize="18sp"
-            android:textColor="@color/white_text"
+            android:textColor="@color/white"
             android:visibility="gone" />
 
         <!-- 发送钥匙 -->
@@ -80,7 +80,7 @@
             android:paddingRight="5dp"
             android:text="@string/titlebar_send_key"
             android:textSize="18sp"
-            android:textColor="@color/white_text"
+            android:textColor="@color/white"
             android:visibility="gone" />
 
         <!-- 选择钥匙 -->
