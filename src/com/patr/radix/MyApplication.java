@@ -30,7 +30,9 @@ public class MyApplication extends Application {
     
     private final List<RadixLock> locks = new ArrayList<>();
     
-    private String mUsername;
+    private String mUserId;
+    
+    private String mName;
     
     public static MyApplication instance;
 
@@ -69,15 +71,26 @@ public class MyApplication extends Application {
         this.locks.addAll(locks);
     }
     
-    public String getUsername() {
-        if (TextUtils.isEmpty(mUsername)) {
-            mUsername = PrefUtil.getString(instance, "username");
+    public String getUserId() {
+        if (TextUtils.isEmpty(mUserId)) {
+            mUserId = PrefUtil.getString(instance, "userId");
         }
-        return mUsername;
+        return mUserId;
     }
     
-    public void setUsername(String username) {
-        this.mUsername = username;
+    public void setUserId(String userId) {
+        this.mUserId = userId;
+    }
+
+    public String getName() {
+        if (TextUtils.isEmpty(mName)) {
+            mUserId = PrefUtil.getString(instance, "name");
+        }
+        return mName;
+    }
+
+    public void setName(String name) {
+        this.mName = name;
     }
 
 }

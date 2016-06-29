@@ -125,7 +125,7 @@ public class NetUtils {
      * @param context
      */
     public static void showDisconnectMsg(final Context context) {
-        Toast.makeText(context, "当前网络不可用，请检查网络设置！", Toast.LENGTH_LONG).show();
+        ToastUtil.showLong(context, "当前网络不可用，请检查网络设置！");
     }
 
     /**
@@ -135,7 +135,7 @@ public class NetUtils {
      * @param listener
      */
     public static void showRetryMsg(final Context context) {
-        Toast.makeText(context, "服务器繁忙，请稍候再试！", Toast.LENGTH_LONG).show();
+        ToastUtil.showLong(context, "服务器繁忙，请稍候再试！");
     }
 
     /**

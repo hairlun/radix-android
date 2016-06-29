@@ -1,5 +1,6 @@
 package com.patr.radix.fragment;
 
+import com.patr.radix.LoginActivity;
 import com.patr.radix.MyApplication;
 import com.patr.radix.R;
 import com.patr.radix.utils.ToastUtil;
@@ -63,14 +64,14 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         feedbackBtn.setOnClickListener(this);
         checkUpdateBtn.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
-        String username = MyApplication.instance.getUsername();
-        if (TextUtils.isEmpty(username)) {
+        String name = MyApplication.instance.getName();
+        if (TextUtils.isEmpty(name)) {
             // 未登录
             userInfoLl.setVisibility(View.GONE);
             permissionBtn.setVisibility(View.GONE);
             logoutBtn.setText(R.string.login);
         } else {
-            usernameTv.setText(username);
+            usernameTv.setText(name);
         }
         return view;
 	}
@@ -92,7 +93,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         case R.id.settings_check_update_btn:
             break;
         case R.id.settings_logout_btn:
-            if (TextUtils.isEmpty(MyApplication.instance.getUsername())) {
+            if (TextUtils.isEmpty(MyApplication.instance.getUserId())) {
                 login();
             } else {
                 logout();
@@ -102,7 +103,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     }
     
     private void login() {
-        
+        LoginActivity.start(context);
     }
     
     private void logout() {
