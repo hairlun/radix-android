@@ -44,6 +44,10 @@ public class Constants {
 	public static final byte DISCONNECT = (byte) 0xA0;
 	
 	public static final String DEFAULT_CSN = "88 87 22 50 ";
+	
+	public static final String PREF_USER_ID_KEY = "userId";
+	public static final String PREF_NAME_KEY = "name";
+	public static final String PREF_SELECTED_KEY = "selectedKey";
 
     /**
      * Extras Constants

@@ -11,6 +11,7 @@ import org.xutils.x;
 
 import com.patr.radix.bean.MService;
 import com.patr.radix.bean.RadixLock;
+import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.PrefUtil;
 
 public class MyApplication extends Application {
@@ -73,7 +74,7 @@ public class MyApplication extends Application {
     
     public String getUserId() {
         if (TextUtils.isEmpty(mUserId)) {
-            mUserId = PrefUtil.getString(instance, "userId");
+            mUserId = PrefUtil.getString(instance, Constants.PREF_USER_ID_KEY);
         }
         return mUserId;
     }
@@ -84,7 +85,7 @@ public class MyApplication extends Application {
 
     public String getName() {
         if (TextUtils.isEmpty(mName)) {
-            mUserId = PrefUtil.getString(instance, "name");
+            mUserId = PrefUtil.getString(instance, Constants.PREF_NAME_KEY);
         }
         return mName;
     }

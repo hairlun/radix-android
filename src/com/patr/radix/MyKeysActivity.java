@@ -60,7 +60,7 @@ public class MyKeysActivity extends Activity implements OnClickListener {
     	titleBarView = (TitleBarView) findViewById(R.id.my_keys_titlebar);
         keysLv = (ListView) findViewById(R.id.my_keys_lv);
         okBtn = (Button) findViewById(R.id.ok_btn); 
-        titleBarView.setTitle(R.string.titlebar_my_keys);
+        titleBarView.setTitle(R.string.titlebar_my_keys).showSelectKeyBtn().setOnSelectKeyClickListener(this).setOnCancelClickListener(this).setOnCheckAllClickListener(this);
         adapter = new KeyListAdapter(this, MyApplication.instance.getLocks());
         keysLv.setAdapter(adapter);
         okBtn.setOnClickListener(this);
@@ -137,6 +137,25 @@ public class MyKeysActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+        case R.id.titlebar_select_key_btn:
+            adapter.setEdit(true);
+            adapter.notifyDataSetChanged();
+            titleBarView.showCancelBtn().showCheckAllBtn();
+            break;
+        case R.id.titlebar_cancel_btn:
+            adapter.deselectAll();
+            adapter.setEdit(false);
+            adapter.notifyDataSetChanged();
+            titleBarView.showBackBtn().showSelectKeyBtn();
+            break;
+        case R.id.titlebar_check_all_btn:
+            if (!adapter.isSelectAll()) {
+                adapter.selectAll();
+            } else {
+                adapter.deselectAll();
+            }
+            adapter.notifyDataSetChanged();
+            break;
         case R.id.ok_btn:
             break;
         }

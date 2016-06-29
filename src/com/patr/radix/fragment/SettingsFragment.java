@@ -60,6 +60,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         permissionBtn.setCompoundDrawablePadding(15);
         feedbackBtn.setCompoundDrawablePadding(15);
         checkUpdateBtn.setCompoundDrawablePadding(15);
+        userInfoLl.setOnClickListener(this);
         permissionBtn.setOnClickListener(this);
         feedbackBtn.setOnClickListener(this);
         checkUpdateBtn.setOnClickListener(this);
@@ -85,6 +86,8 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+        case R.id.settings_user_info_ll:
+            break;
         case R.id.settings_user_permission_btn:
             ToastUtil.showShort(context, "暂无用户授权功能");
             break;
