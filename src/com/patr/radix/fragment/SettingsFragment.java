@@ -2,6 +2,7 @@ package com.patr.radix.fragment;
 
 import com.patr.radix.MyApplication;
 import com.patr.radix.R;
+import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.view.TitleBarView;
 
 import android.app.Activity;
@@ -84,6 +85,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.settings_user_permission_btn:
+            ToastUtil.showShort(context, "暂无用户授权功能");
             break;
         case R.id.settings_feedback_btn:
             break;

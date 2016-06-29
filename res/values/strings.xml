@@ -197,6 +197,7 @@
     <string name="visitor_request">申请钥匙</string>
     
     <!-- 个人设置模块 -->
+    <string name="settings_community">当前小区</string>
     <string name="settings_permission">用户授权</string>
     <string name="settings_feedback">意见反馈</string>
     <string name="settings_check_update">版本检查及更新</string>
