@@ -163,6 +163,12 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
             adapter.notifyDataSetChanged();
             break;
         case R.id.ok_btn:
+            if (isAfterIM) {
+                // 发送钥匙给视频通话对象
+            } else {
+                // 设置有效时间，生成二维码
+                
+            }
             break;
         }
     }
