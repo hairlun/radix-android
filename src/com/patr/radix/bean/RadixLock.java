@@ -18,6 +18,8 @@ public class RadixLock implements Serializable {
      * 
      */
     private static final long serialVersionUID = -4531879147539004767L;
+    
+    private String id;
 
     private String name;
     
@@ -28,6 +30,14 @@ public class RadixLock implements Serializable {
     private String start;
     
     private String end;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

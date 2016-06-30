@@ -9,7 +9,9 @@ package com.patr.radix.adapter;
 import java.util.HashSet;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +28,7 @@ import com.patr.radix.bean.RadixLock;
  */
 public class KeyListAdapter extends AbsListAdapter<RadixLock> {
     
-    private HashSet<RadixLock> selectedSet = new HashSet<RadixLock>();
+    public HashSet<RadixLock> selectedSet = new HashSet<RadixLock>();
     
     private boolean isEdit = false;
 
@@ -45,6 +47,7 @@ public class KeyListAdapter extends AbsListAdapter<RadixLock> {
      * @see com.patr.radix.adapter.AbsListAdapter#getView(int,
      * android.view.View, android.view.ViewGroup)
      */
+    @SuppressLint("NewApi")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
@@ -64,11 +67,28 @@ public class KeyListAdapter extends AbsListAdapter<RadixLock> {
         if (MyApplication.DEBUG) {
             holder.name.append("(" + lock.getBleName() + ")");
         }
+        if (lock.equals(MyApplication.instance.getSelectedLock())) {
+            holder.name.setTextColor(mContext.getColor(R.color.blue));
+        }
         if (isEdit) {
             holder.chooseIv.setVisibility(View.VISIBLE);
             if (selectedSet.contains(lock)) {
-                holder.chooseIv.setImageDrawable(mContext.getDrawable(R.drawable.checkbox_yes));
+                // 选中
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    holder.chooseIv.setImageDrawable(mContext.getDrawable(R.drawable.checkbox_yes));
+                } else {
+                    holder.chooseIv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.checkbox_yes, null));
+                }
+            } else {
+                // 没选中
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    holder.chooseIv.setImageDrawable(mContext.getDrawable(R.drawable.checkbox_no));
+                } else {
+                    holder.chooseIv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.checkbox_no, null));
+                }
             }
+        } else {
+            holder.chooseIv.setVisibility(View.GONE);
         }
         return convertView;
     }
@@ -79,14 +99,6 @@ public class KeyListAdapter extends AbsListAdapter<RadixLock> {
 
     public void setEdit(boolean isEdit) {
         this.isEdit = isEdit;
-    }
-
-    public HashSet<RadixLock> getSelectedSet() {
-        return selectedSet;
-    }
-
-    public void setSelectedSet(HashSet<RadixLock> selectedSet) {
-        this.selectedSet = selectedSet;
     }
     
     public void selectAll() {

@@ -31,6 +31,8 @@ public class MyApplication extends Application {
     
     private final List<RadixLock> locks = new ArrayList<>();
     
+    private RadixLock selectedLock;
+    
     private String mUserId;
     
     private String mName;
@@ -92,6 +94,15 @@ public class MyApplication extends Application {
 
     public void setName(String name) {
         this.mName = name;
+    }
+
+    public RadixLock getSelectedLock() {
+        return selectedLock;
+    }
+
+    public void setSelectedLock(RadixLock selectedLock) {
+        this.selectedLock = selectedLock;
+        PrefUtil.save(instance, Constants.PREF_SELECTED_KEY, selectedLock.getId());
     }
 
 }

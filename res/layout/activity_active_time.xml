@@ -1,0 +1,98 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".ActiveTimeActivity" >
+
+    <com.patr.radix.view.TitleBarView
+        android:id="@+id/unlock_active_time_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" />
+    
+    <RelativeLayout
+        android:id="@+id/unlock_start_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:orientation="horizontal" >
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_alignParentLeft="true"
+            android:text="@string/unlock_start_time"
+            android:textSize="18sp" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_alignParentRight="true"
+            android:text="@string/unlock_start_time"
+            android:textSize="18sp" />
+        
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:id="@+id/unlock_active_time_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:orientation="horizontal" >
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:text="@string/unlock_start_time"
+            android:textSize="18sp" />
+        
+        <EditText
+            android:id="@+id/unlock_active_time_et"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:text=""
+            android:inputType="number"
+            android:textSize="18sp" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:text="@string/unlock_start_time"
+            android:textSize="18sp" />
+        
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/unlock_generate_qrcode_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_bg_shape_selector"
+        android:padding="12dp"
+        android:text="@string/unlock_generate_qrcode"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+    
+</LinearLayout>

@@ -102,10 +102,15 @@ public class UnlockFragment extends Fragment implements OnClickListener {
     private void setTitle() {
         String selectedKey = PrefUtil.getString(context, Constants.PREF_SELECTED_KEY);
         for (RadixLock lock : MyApplication.instance.getLocks()) {
-            if (selectedKey.equals(lock.getName())) {
-                titleBarView.setTitle(selectedKey);
+            if (selectedKey.equals(lock.getId())) {
+                titleBarView.setTitle(lock.getName());
+                MyApplication.instance.setSelectedLock(lock);
                 return;
             }
+        }
+        if (MyApplication.instance.getLocks().size() > 0) {
+            titleBarView.setTitle(MyApplication.instance.getLocks().get(0).getName());
+            MyApplication.instance.setSelectedLock(MyApplication.instance.getLocks().get(0));
         }
     }
 

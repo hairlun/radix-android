@@ -24,6 +24,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -31,7 +33,7 @@ import android.widget.ListView;
  * @author zhoushujie
  *
  */
-public class MyKeysActivity extends Activity implements OnClickListener {
+public class MyKeysActivity extends Activity implements OnClickListener, OnItemClickListener {
     
 	private TitleBarView titleBarView;
 	
@@ -45,10 +47,13 @@ public class MyKeysActivity extends Activity implements OnClickListener {
 	
 	private Context context;
 	
+	private boolean isAfterIM;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
+        isAfterIM = getIntent().getBooleanExtra("IM", false);
         setContentView(R.layout.activity_my_keys);
         initView();
         // 测试数据
@@ -63,7 +68,11 @@ public class MyKeysActivity extends Activity implements OnClickListener {
         titleBarView.setTitle(R.string.titlebar_my_keys).showSelectKeyBtn().setOnSelectKeyClickListener(this).setOnCancelClickListener(this).setOnCheckAllClickListener(this);
         adapter = new KeyListAdapter(this, MyApplication.instance.getLocks());
         keysLv.setAdapter(adapter);
+        if (isAfterIM) {
+            okBtn.setText(R.string.unlock_send);
+        }
         okBtn.setOnClickListener(this);
+        keysLv.setOnItemClickListener(this);
     }
     
     private void loadData() {
@@ -126,11 +135,6 @@ public class MyKeysActivity extends Activity implements OnClickListener {
         MyApplication.instance.setLocks(locks);
     }
 
-    public static void start(Context context) {
-        Intent intent = new Intent(context, MyKeysActivity.class);
-        context.startActivity(intent);
-    }
-
     /* (non-Javadoc)
      * @see android.view.View.OnClickListener#onClick(android.view.View)
      */
@@ -141,12 +145,14 @@ public class MyKeysActivity extends Activity implements OnClickListener {
             adapter.setEdit(true);
             adapter.notifyDataSetChanged();
             titleBarView.showCancelBtn().showCheckAllBtn();
+            okBtn.setVisibility(View.VISIBLE);
             break;
         case R.id.titlebar_cancel_btn:
             adapter.deselectAll();
             adapter.setEdit(false);
             adapter.notifyDataSetChanged();
             titleBarView.showBackBtn().showSelectKeyBtn();
+            okBtn.setVisibility(View.GONE);
             break;
         case R.id.titlebar_check_all_btn:
             if (!adapter.isSelectAll()) {
@@ -160,4 +166,37 @@ public class MyKeysActivity extends Activity implements OnClickListener {
             break;
         }
     }
+
+    /* (non-Javadoc)
+     * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,
+            long id) {
+        RadixLock lock = adapter.getItem(position);
+        if (adapter.isEdit()) {
+            if (!adapter.selectedSet.contains(lock)) {
+                adapter.selectedSet.add(lock);
+            } else {
+                adapter.selectedSet.remove(lock);
+            }
+            adapter.notifyDataSetChanged();
+        } else {
+            MyApplication.instance.setSelectedLock(lock);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, MyKeysActivity.class);
+        intent.putExtra("IM", false);
+        context.startActivity(intent);
+    }
+    
+    public static void startAfterIM(Context context) {
+        Intent intent = new Intent(context, MyKeysActivity.class);
+        intent.putExtra("IM", true);
+        context.startActivity(intent);
+    }
+
 }

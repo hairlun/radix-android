@@ -26,6 +26,7 @@
         android:background="@drawable/titlebar_btn_bg_selector"
         android:text="@string/unlock_next"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:visibility="gone" />
     
 </LinearLayout>
