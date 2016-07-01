@@ -44,6 +44,7 @@
         
         <activity android:name="com.patr.radix.LoginActivity" />
         <activity android:name="com.patr.radix.MyKeysActivity" />
+        <activity android:name="com.patr.radix.ActiveTimeActivity" />
 
         <service
             android:name="com.patr.radix.ble.BluetoothLeService"

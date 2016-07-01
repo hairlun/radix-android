@@ -21,11 +21,13 @@
     
     <EditText
         android:id="@+id/visitor_user_mobile_et"
+        style="?android:attr/textViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:padding="12dp"
         android:singleLine="true"
+        android:background="@null"
         android:hint="@string/visitor_mobile_hint"
         android:textSize="18sp"
         android:textColor="@color/black"

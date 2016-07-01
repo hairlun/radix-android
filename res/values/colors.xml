@@ -41,7 +41,7 @@
 
     <!-- TitleBar 按钮背景 -->
     <color name="titlebar_btn_bg_normal">#FFF04C48</color>
-    <color name="titlebar_btn_bg_pressed">#ffA40500</color>
+    <color name="titlebar_btn_bg_pressed">#ffB00500</color>
     
     <!-- 加载动画 -->
     <color name="red">#ffDB3A3A</color>

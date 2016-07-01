@@ -40,16 +40,16 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
     private ImageButton mBackBtn;
 
     /** 取消按钮 */
-    private Button mCancelBtn;
+    private LinearLayout mCancelBtn;
 
     /** 标题 */
     private TextView mTitleTv;
 
     /** 全选按钮 */
-    private Button mCheckAllBtn;
+    private LinearLayout mCheckAllBtn;
 
     /** 发送钥匙按钮 */
-    private Button mSendKeyBtn;
+    private LinearLayout mSendKeyBtn;
 
     /** 选择钥匙按钮 */
     private ImageButton mSelectKeyBtn;
@@ -76,9 +76,9 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
         mTitleTv.setClickable(true);
         mTitleTv.setText(title);
         mBackBtn = (ImageButton) findViewById(R.id.titlebar_back_btn);
-        mCancelBtn = (Button) findViewById(R.id.titlebar_cancel_btn);
-        mCheckAllBtn = (Button) findViewById(R.id.titlebar_check_all_btn);
-        mSendKeyBtn = (Button) findViewById(R.id.titlebar_send_key_btn);
+        mCancelBtn = (LinearLayout) findViewById(R.id.titlebar_cancel_ll);
+        mCheckAllBtn = (LinearLayout) findViewById(R.id.titlebar_check_all_ll);
+        mSendKeyBtn = (LinearLayout) findViewById(R.id.titlebar_send_key_ll);
         mSelectKeyBtn = (ImageButton) findViewById(R.id.titlebar_select_key_btn);
 
         hideCancelBtn();

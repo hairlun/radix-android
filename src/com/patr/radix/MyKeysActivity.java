@@ -65,7 +65,7 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
     	titleBarView = (TitleBarView) findViewById(R.id.my_keys_titlebar);
         keysLv = (ListView) findViewById(R.id.my_keys_lv);
         okBtn = (Button) findViewById(R.id.ok_btn); 
-        titleBarView.setTitle(R.string.titlebar_my_keys).showSelectKeyBtn().setOnSelectKeyClickListener(this).setOnCancelClickListener(this).setOnCheckAllClickListener(this);
+        titleBarView.setTitle(R.string.titlebar_my_keys).showSendKeyBtn().setOnSelectKeyClickListener(this).setOnCancelClickListener(this).setOnCheckAllClickListener(this);
         adapter = new KeyListAdapter(this, MyApplication.instance.getLocks());
         keysLv.setAdapter(adapter);
         if (isAfterIM) {
