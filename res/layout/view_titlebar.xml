@@ -46,16 +46,22 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:padding="5dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:orientation="horizontal"
-            android:background="@drawable/titlebar_btn_bg_shape_selector"
+            android:background="@drawable/titlebar_btn_bg_selector"
             android:clickable="true"
-            android:visibility="gone" >"
+            android:visibility="gone" >
 
             <TextView
-                android:id="@+id/titlebar_cancel_btn"
+                android:id="@+id/titlebar_cancel_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@drawable/titlebar_btn_bg_shape_selector"
+                android:padding="2dp"
+                android:gravity="center"
                 android:text="@string/titlebar_cancel"
                 android:textSize="18sp"
                 android:textColor="@color/white" />
@@ -68,21 +74,25 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:padding="5dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:orientation="horizontal"
-            android:background="@drawable/titlebar_btn_bg_shape_selector"
+            android:background="@drawable/titlebar_btn_bg_selector"
             android:clickable="true"
             android:visibility="gone" >
 
             <TextView
-                android:id="@+id/titlebar_check_all_btn"
+                android:id="@+id/titlebar_check_all_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
+                android:background="@drawable/titlebar_btn_bg_shape_selector"
+                android:padding="2dp"
+                android:gravity="center"
                 android:text="@string/titlebar_check_all"
                 android:textSize="18sp"
-                android:textColor="@color/white"
-                android:visibility="gone" />
+                android:textColor="@color/white" />
             
         </LinearLayout>
 
@@ -92,20 +102,25 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:padding="5dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:orientation="horizontal"
-            android:background="@drawable/titlebar_btn_bg_shape_selector"
+            android:background="@drawable/titlebar_btn_bg_selector"
             android:clickable="true"
             android:visibility="gone" >
 
             <TextView
-                android:id="@+id/titlebar_send_key_btn"
+                android:id="@+id/titlebar_send_key_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="@drawable/titlebar_btn_bg_shape_selector"
+                android:padding="2dp"
+                android:gravity="center"
                 android:text="@string/titlebar_send_key"
-                android:textSize="18sp"
-                android:textColor="@color/white"
-                android:visibility="gone" />
+                android:textSize="16sp"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 

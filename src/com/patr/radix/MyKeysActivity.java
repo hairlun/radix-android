@@ -141,20 +141,20 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-        case R.id.titlebar_select_key_btn:
+        case R.id.titlebar_send_key_ll:
             adapter.setEdit(true);
             adapter.notifyDataSetChanged();
             titleBarView.showCancelBtn().showCheckAllBtn();
             okBtn.setVisibility(View.VISIBLE);
             break;
-        case R.id.titlebar_cancel_btn:
+        case R.id.titlebar_cancel_ll:
             adapter.deselectAll();
             adapter.setEdit(false);
             adapter.notifyDataSetChanged();
             titleBarView.showBackBtn().showSelectKeyBtn();
             okBtn.setVisibility(View.GONE);
             break;
-        case R.id.titlebar_check_all_btn:
+        case R.id.titlebar_check_all_ll:
             if (!adapter.isSelectAll()) {
                 adapter.selectAll();
             } else {

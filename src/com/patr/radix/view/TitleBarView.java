@@ -320,11 +320,11 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
         case R.id.titlebar_back_btn:
             ((Activity) getContext()).onBackPressed();
             break;
-        case R.id.titlebar_cancel_btn:
+        case R.id.titlebar_cancel_ll:
             break;
-        case R.id.titlebar_check_all_btn:
+        case R.id.titlebar_check_all_ll:
             break;
-        case R.id.titlebar_send_key_btn:
+        case R.id.titlebar_send_key_ll:
             break;
         case R.id.titlebar_select_key_btn:
             break;
