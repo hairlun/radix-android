@@ -6,6 +6,7 @@ import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.view.LoadingDialog;
+import com.patr.radix.view.TitleBarView;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,19 +17,24 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 public class LoginActivity extends Activity implements OnClickListener {
-    
+
     private Context context;
-    
+
+    private TitleBarView titleBarView;
+
+    private ImageView logoIv;
+
     private EditText accountEt;
-    
+
     private EditText pwdEt;
-    
+
     private Button loginBtn;
-    
+
     private String account;
-    
+
     private String pwd;
 
     /** 等待框 */
@@ -41,15 +47,28 @@ public class LoginActivity extends Activity implements OnClickListener {
         context = this;
         initView();
     }
-    
+
     private void initView() {
+        titleBarView = (TitleBarView) findViewById(R.id.login_titlebar);
+        logoIv = (ImageView) findViewById(R.id.login_logo_iv);
         accountEt = (EditText) findViewById(R.id.login_user_et);
         pwdEt = (EditText) findViewById(R.id.login_pwd_et);
         loginBtn = (Button) findViewById(R.id.login_btn);
+        titleBarView.hideBackBtn().setTitle(R.string.titlebar_login);
         loginBtn.setOnClickListener(this);
+        int width = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        int height = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        logoIv.measure(width, height);
+        height = logoIv.getMeasuredHeight();
+        width = logoIv.getMeasuredWidth();
+        logoIv.setPadding(0, height / 3, 0, height / 3);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see android.view.View.OnClickListener#onClick(android.view.View)
      */
     @Override
@@ -68,7 +87,7 @@ public class LoginActivity extends Activity implements OnClickListener {
             break;
         }
     }
-    
+
     private void login() {
         // 判断是否有网络
         if (NetUtils.isNetConnected(context)) {
@@ -77,9 +96,9 @@ public class LoginActivity extends Activity implements OnClickListener {
             NetUtils.showDisconnectMsg(context);
         }
     }
-    
+
     private void accountLogin() {
-     // 创建回调对象
+        // 创建回调对象
         RequestListener<LoginResult> callback = new RequestListener<LoginResult>() {
 
             @Override
@@ -132,7 +151,7 @@ public class LoginActivity extends Activity implements OnClickListener {
             loadingDialog.show("正在核实…");
         }
     }
-    
+
     public static void start(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
