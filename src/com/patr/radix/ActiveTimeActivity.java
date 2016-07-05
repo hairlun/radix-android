@@ -121,6 +121,7 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
             break;
         case R.id.unlock_generate_qrcode_btn:
             // 生成二维码
+            QRCodeActivity.start(context);
             break;
         }
     }
