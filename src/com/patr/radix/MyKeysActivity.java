@@ -65,7 +65,7 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
     	titleBarView = (TitleBarView) findViewById(R.id.my_keys_titlebar);
         keysLv = (ListView) findViewById(R.id.my_keys_lv);
         okBtn = (Button) findViewById(R.id.ok_btn); 
-        titleBarView.setTitle(R.string.titlebar_my_keys).showSendKeyBtn().setOnSelectKeyClickListener(this).setOnCancelClickListener(this).setOnCheckAllClickListener(this);
+        titleBarView.setTitle(R.string.titlebar_my_keys).showSendKeyBtn().setOnSendKeyClickListener(this).setOnCancelClickListener(this).setOnCheckAllClickListener(this);
         adapter = new KeyListAdapter(this, MyApplication.instance.getLocks());
         keysLv.setAdapter(adapter);
         if (isAfterIM) {
@@ -125,6 +125,7 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         RadixLock lock;
         for (int i = 0; i < 4; i++) {
             lock = new RadixLock();
+            lock.setId("" + i);
             lock.setName("Radix" + i);
             lock.setBleName("Radix" + i);
             lock.setKey("123456");
@@ -151,7 +152,7 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
             adapter.deselectAll();
             adapter.setEdit(false);
             adapter.notifyDataSetChanged();
-            titleBarView.showBackBtn().showSelectKeyBtn();
+            titleBarView.showBackBtn().showSendKeyBtn();
             okBtn.setVisibility(View.GONE);
             break;
         case R.id.titlebar_check_all_ll:
@@ -167,7 +168,7 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
                 // 发送钥匙给视频通话对象
             } else {
                 // 设置有效时间，生成二维码
-                
+                ActiveTimeActivity.start(context);
             }
             break;
         }
@@ -190,6 +191,7 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         } else {
             MyApplication.instance.setSelectedLock(lock);
             adapter.notifyDataSetChanged();
+            finish();
         }
     }
 

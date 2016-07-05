@@ -17,6 +17,7 @@ import com.patr.radix.view.picker.DatetimePickerView.Type;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -70,6 +71,7 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
         keyStartTimeRl.setOnClickListener(this);
         keyActiveTimeLl.setOnClickListener(this);
         generateQrcodeBtn.setOnClickListener(this);
+        cal = Calendar.getInstance();
     }
 
     /**
@@ -118,6 +120,7 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
             keyActiveTimeEt.requestFocus();
             break;
         case R.id.unlock_generate_qrcode_btn:
+            // 生成二维码
             break;
         }
     }
@@ -125,6 +128,11 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
     @Override
     public void OnConfirm(Date date, String dateStr) {
         setDateTime(date);
+    }
+    
+    public static void start(Context context) {
+        Intent intent = new Intent(context, ActiveTimeActivity.class);
+        context.startActivity(intent);
     }
 
 }

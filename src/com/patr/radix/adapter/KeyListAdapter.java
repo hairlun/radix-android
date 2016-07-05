@@ -68,7 +68,18 @@ public class KeyListAdapter extends AbsListAdapter<RadixLock> {
             holder.name.append("(" + lock.getBleName() + ")");
         }
         if (lock.equals(MyApplication.instance.getSelectedLock())) {
-            holder.name.setTextColor(mContext.getColor(R.color.blue));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                holder.name.setTextColor(mContext.getColor(R.color.blue));
+            } else {
+                holder.name.setTextColor(mContext.getResources().getColor(R.color.blue));
+            }
+            holder.name.setText(holder.name.getText() + "-默认");
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                holder.name.setTextColor(mContext.getColor(R.color.black));
+            } else {
+                holder.name.setTextColor(mContext.getResources().getColor(R.color.black));
+            }
         }
         if (isEdit) {
             holder.chooseIv.setVisibility(View.VISIBLE);
@@ -77,14 +88,14 @@ public class KeyListAdapter extends AbsListAdapter<RadixLock> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     holder.chooseIv.setImageDrawable(mContext.getDrawable(R.drawable.checkbox_yes));
                 } else {
-                    holder.chooseIv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.checkbox_yes, null));
+                    holder.chooseIv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.checkbox_yes));
                 }
             } else {
                 // 没选中
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     holder.chooseIv.setImageDrawable(mContext.getDrawable(R.drawable.checkbox_no));
                 } else {
-                    holder.chooseIv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.checkbox_no, null));
+                    holder.chooseIv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.checkbox_no));
                 }
             }
         } else {

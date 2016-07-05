@@ -125,6 +125,12 @@ public class UnlockFragment extends Fragment implements OnClickListener {
         gifView.startAnimation();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setTitle();
+    }
+
     /* (non-Javadoc)
      * @see android.view.View.OnClickListener#onClick(android.view.View)
      */
