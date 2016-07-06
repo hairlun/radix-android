@@ -2,6 +2,7 @@ package com.patr.radix.fragment;
 
 import com.patr.radix.R;
 import com.patr.radix.view.TitleBarView;
+import com.patr.radix.view.swipe.SwipeRefreshLayout;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class MessageFragment extends Fragment {
     
     TitleBarView titleBarView;
+    private ListView lv;
+    private SwipeRefreshLayout swipe;
 
 	@Override
 	public void onAttach(Activity activity) {
