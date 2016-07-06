@@ -18,11 +18,14 @@
         android:layout_height="300dp"
         android:contentDescription="@string/app_name" />
     
-    <ImageView
-        android:id="@+id/unlock_share_iv"
+    <Button
+        android:id="@+id/unlock_share_btn"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/user_picture_default"
-        android:contentDescription="@string/app_name" />
+        android:drawableTop="@drawable/user_picture_default"
+        android:contentDescription="@string/app_name"
+        android:text="@string/unlock_share"
+        android:textSize="20sp"
+        android:textColor="@color/black" />
 
 </LinearLayout>

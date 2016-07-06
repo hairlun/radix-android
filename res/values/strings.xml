@@ -192,6 +192,7 @@
     <string name="unlock_start_time">开始时间</string>
     <string name="unlock_active_time">有效时间</string>
     <string name="unlock_minute">分钟</string>
+    <string name="unlock_share">发送好友</string>
     
     <!-- 访客申请模块 -->
     <string name="visitor_mobile_hint">请输入要拜访的业主手机号码</string>

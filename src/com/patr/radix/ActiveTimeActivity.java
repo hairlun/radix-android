@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.patr.radix.utils.TimeUtil;
+import com.patr.radix.utils.qrcode.QRCodeUtil;
 import com.patr.radix.view.TitleBarView;
 import com.patr.radix.view.picker.DatetimeDialog;
 import com.patr.radix.view.picker.DatetimeDialog.OnConfirmListener;
@@ -18,6 +19,7 @@ import com.patr.radix.view.picker.DatetimePickerView.Type;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -121,7 +123,12 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
             break;
         case R.id.unlock_generate_qrcode_btn:
             // 生成二维码
-            QRCodeActivity.start(context);
+            try {
+                Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(keyStartTimeTv.getText().toString() + "&" + keyActiveTimeEt.getText().toString(), 300, 300);
+                QRCodeActivity.start(context, bitmap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             break;
         }
     }

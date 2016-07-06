@@ -32,9 +32,9 @@ public class QRCodeUtil {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (bitMatrix.get(x, y)) {
-                        pixels[y * width + x] = 0xff000000;
+                        pixels[y * width + x] = BLACK;
                     } else {
-                        pixels[y * width + x] = 0xffffffff;
+                        pixels[y * width + x] = WHITE;
                     }
                 }
             }
