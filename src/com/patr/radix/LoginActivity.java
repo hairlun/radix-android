@@ -63,7 +63,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         logoIv.measure(width, height);
         height = logoIv.getMeasuredHeight();
         width = logoIv.getMeasuredWidth();
-        logoIv.setPadding(0, height / 3, 0, height / 3);
+        logoIv.setPadding((int)(height * 1.2), (int)(height * 1.2), (int)(height * 1.2), (int)(height * 1.2));
     }
 
     /*

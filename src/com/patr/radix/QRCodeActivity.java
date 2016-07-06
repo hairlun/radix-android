@@ -1,9 +1,5 @@
 package com.patr.radix;
 
-import java.io.File;
-
-import com.google.zxing.common.BitMatrix;
-import com.patr.radix.utils.qrcode.QRCodeUtil;
 import com.patr.radix.view.TitleBarView;
 
 import android.app.Activity;
@@ -29,6 +25,8 @@ public class QRCodeActivity extends Activity implements OnClickListener {
     private Button shareBtn;
     
     private Bitmap bitmap;
+    
+    private Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +45,8 @@ public class QRCodeActivity extends Activity implements OnClickListener {
         try {
             if (bitmap != null) {
                 qrcodeIv.setImageBitmap(bitmap);
-            }
+                uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null));
+                            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -68,16 +67,14 @@ public class QRCodeActivity extends Activity implements OnClickListener {
      * @param imgPath
      *            图片路径，不分享图片则传null
      */
-    public void shareMsg(String activityTitle, String msgTitle, String msgText,
-            Bitmap bitmap) {
+    public void shareMsg(String activityTitle, String msgTitle, String msgText) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         if (bitmap == null) {
             intent.setType("text/plain"); // 纯文本
         } else {
-            Uri u = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null));
             intent.setType("image/*");
-            if (u != null) {
-                intent.putExtra(Intent.EXTRA_STREAM, u);
+            if (uri != null) {
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
             }
         }
         intent.putExtra(Intent.EXTRA_SUBJECT, msgTitle);
@@ -88,7 +85,7 @@ public class QRCodeActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        
+        shareMsg("请选择", "", "");
     }
     
     public static void start(Context context, Bitmap bitmap) {
