@@ -23,7 +23,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:background="@null"
-        android:drawableTop="@drawable/user_picture_default"
+        android:drawableTop="@drawable/share"
         android:contentDescription="@string/app_name"
         android:text="@string/unlock_share"
         android:textSize="20sp"
