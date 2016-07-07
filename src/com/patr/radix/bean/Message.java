@@ -18,6 +18,10 @@ public class Message implements Serializable {
     private String sentDate;
     
     private String readTime;
+    
+    private String imgUrl;
+    
+    private String from;
 
     public String getId() {
         return id;
@@ -57,6 +61,22 @@ public class Message implements Serializable {
 
     public void setReadTime(String readTime) {
         this.readTime = readTime;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
     }
 
     @Override
