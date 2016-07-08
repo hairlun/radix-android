@@ -2,7 +2,7 @@ package com.patr.radix.bean;
 
 import java.io.Serializable;
 
-public class Message implements Serializable {
+public class Notice implements Serializable {
     
     /**
      * 
@@ -32,7 +32,7 @@ public class Message implements Serializable {
     }
 
     public String getTitle() {
-        return title;
+        return title == null ? "" : title;
     }
 
     public void setTitle(String title) {
@@ -40,7 +40,7 @@ public class Message implements Serializable {
     }
 
     public String getContent() {
-        return content;
+        return content == null ? "" : content;
     }
 
     public void setContent(String content) {
@@ -48,7 +48,7 @@ public class Message implements Serializable {
     }
 
     public String getSentDate() {
-        return sentDate;
+        return sentDate == null ? "" : sentDate;
     }
 
     public void setSentDate(String sentDate) {
@@ -56,7 +56,7 @@ public class Message implements Serializable {
     }
 
     public String getReadTime() {
-        return readTime;
+        return readTime == null ? "" : readTime;
     }
 
     public void setReadTime(String readTime) {
@@ -72,7 +72,7 @@ public class Message implements Serializable {
     }
 
     public String getFrom() {
-        return from;
+        return from == null ? "" : from;
     }
 
     public void setFrom(String from) {
@@ -95,7 +95,7 @@ public class Message implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Message other = (Message) obj;
+        Notice other = (Notice) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

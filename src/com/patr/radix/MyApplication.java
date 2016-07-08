@@ -2,13 +2,21 @@ package com.patr.radix;
 
 import android.app.Application;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.text.TextUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.xutils.x;
 
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.patr.radix.bean.MService;
 import com.patr.radix.bean.RadixLock;
 import com.patr.radix.utils.Constants;
@@ -26,10 +34,10 @@ public class MyApplication extends Application {
      */
     public static final String DEFAULT_URL = "http://117.34.71.28/web/mobile";
 
-    private final List<MService> services = new ArrayList<>();
-    private final List<BluetoothGattCharacteristic> characteristics = new ArrayList<>();
+    private final List<MService> services = new ArrayList<MService>();
+    private final List<BluetoothGattCharacteristic> characteristics = new ArrayList<BluetoothGattCharacteristic>();
     
-    private final List<RadixLock> locks = new ArrayList<>();
+    private final List<RadixLock> locks = new ArrayList<RadixLock>();
     
     private RadixLock selectedLock;
     

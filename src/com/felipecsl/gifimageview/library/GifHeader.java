@@ -34,7 +34,7 @@ public class GifHeader {
     int frameCount = 0;
 
     GifFrame currentFrame;
-    List<GifFrame> frames = new ArrayList<>();
+    List<GifFrame> frames = new ArrayList<GifFrame>();
     // Logical screen size.
     // Full image width.
     int width;

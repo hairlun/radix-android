@@ -4,6 +4,7 @@ import com.patr.radix.R;
 import com.patr.radix.view.TitleBarView;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 
 public class VisitorFragment extends Fragment implements OnClickListener {
     
+    private Context context;
+    
     private TitleBarView titleBarView;
     
     private EditText mobileEt;
@@ -28,8 +31,8 @@ public class VisitorFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
 		super.onAttach(activity);
+		context = activity;
 	}
 
 	@Override

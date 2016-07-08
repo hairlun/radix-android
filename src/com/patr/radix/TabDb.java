@@ -3,7 +3,7 @@ package com.patr.radix;
 import com.patr.radix.fragment.SettingsFragment;
 import com.patr.radix.fragment.UnlockFragment;
 import com.patr.radix.fragment.VisitorFragment;
-import com.patr.radix.fragment.MessageFragment;
+import com.patr.radix.fragment.NoticeFragment;
 
 public class TabDb {
     public static int[] getTabsTxt(){
@@ -19,7 +19,7 @@ public class TabDb {
         return ids;
     }
     public static Class[] getFragments(){
-        Class[] clz={UnlockFragment.class, VisitorFragment.class, MessageFragment.class, SettingsFragment.class};
+        Class[] clz={UnlockFragment.class, VisitorFragment.class, NoticeFragment.class, SettingsFragment.class};
         return clz;
     }
 }

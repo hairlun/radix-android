@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <com.patr.radix.view.NetImageView
-            android:id="@+id/item_message_niv"
+        <ImageView
+            android:id="@+id/item_notice_iv"
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
@@ -27,7 +27,7 @@
             android:paddingLeft="0dp" >
 
             <TextView
-                android:id="@+id/item_message_title_tv"
+                android:id="@+id/item_notice_title_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -37,7 +37,7 @@
                 android:textSize="16sp" />
             
             <TextView
-                android:id="@+id/item_message_content_tv"
+                android:id="@+id/item_notice_content_tv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ellipsize="end"
@@ -54,7 +54,7 @@
                 android:paddingTop="5dp" >
                 
                 <TextView
-                    android:id="@+id/item_message_from_tv"
+                    android:id="@+id/item_notice_from_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -65,7 +65,7 @@
                     android:textColor="@color/gray_text" />
 
                 <TextView
-                    android:id="@+id/item_message_datetime_tv"
+                    android:id="@+id/item_notice_datetime_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

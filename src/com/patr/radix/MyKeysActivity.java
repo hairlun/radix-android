@@ -17,6 +17,8 @@ import com.patr.radix.network.RequestListener;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.view.TitleBarView;
 import com.patr.radix.view.swipe.SwipeRefreshLayout;
+import com.patr.radix.view.swipe.SwipeRefreshLayout.OnRefreshListener;
+import com.patr.radix.view.swipe.SwipeRefreshLayoutDirection;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,7 +35,7 @@ import android.widget.ListView;
  * @author zhoushujie
  *
  */
-public class MyKeysActivity extends Activity implements OnClickListener, OnItemClickListener {
+public class MyKeysActivity extends Activity implements OnClickListener, OnItemClickListener, OnRefreshListener {
     
 	private TitleBarView titleBarView;
 	
@@ -64,7 +66,8 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
     private void initView() {
     	titleBarView = (TitleBarView) findViewById(R.id.my_keys_titlebar);
         keysLv = (ListView) findViewById(R.id.my_keys_lv);
-        okBtn = (Button) findViewById(R.id.ok_btn); 
+        okBtn = (Button) findViewById(R.id.ok_btn);
+        swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
         titleBarView.setTitle(R.string.titlebar_my_keys).showSendKeyBtn().setOnSendKeyClickListener(this).setOnCancelClickListener(this).setOnCheckAllClickListener(this);
         adapter = new KeyListAdapter(this, MyApplication.instance.getLocks());
         keysLv.setAdapter(adapter);
@@ -73,6 +76,7 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         }
         okBtn.setOnClickListener(this);
         keysLv.setOnItemClickListener(this);
+        swipe.setOnRefreshListener(this);
     }
     
     private void loadData() {
@@ -205,6 +209,15 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         Intent intent = new Intent(context, MyKeysActivity.class);
         intent.putExtra("IM", true);
         context.startActivity(intent);
+    }
+
+    /* (non-Javadoc)
+     * @see com.patr.radix.view.swipe.SwipeRefreshLayout.OnRefreshListener#onRefresh(com.patr.radix.view.swipe.SwipeRefreshLayoutDirection)
+     */
+    @Override
+    public void onRefresh(SwipeRefreshLayoutDirection direction) {
+        // TODO Auto-generated method stub
+        
     }
 
 }
