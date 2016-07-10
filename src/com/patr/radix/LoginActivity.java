@@ -54,7 +54,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         accountEt = (EditText) findViewById(R.id.login_user_et);
         pwdEt = (EditText) findViewById(R.id.login_pwd_et);
         loginBtn = (Button) findViewById(R.id.login_btn);
-        titleBarView.hideBackBtn().setTitle(R.string.titlebar_login);
+        titleBarView.setTitle(R.string.titlebar_login);
         loginBtn.setOnClickListener(this);
         int width = View.MeasureSpec.makeMeasureSpec(0,
                 View.MeasureSpec.UNSPECIFIED);
