@@ -48,7 +48,9 @@ public class GetLockListParser extends AbsBaseParser<GetLockListResult> {
                     for (int i = 0; i < size; i++) {
                         JSONObject obj = array.optJSONObject(i);
                         if (obj != null) {
-                            String id = obj.optString(ResponseKey.ID);
+                            // id参数暂时没有返回值，先使用name参数
+                            // String id = obj.optString(ResponseKey.ID);
+                            String id = obj.optString(ResponseKey.NAME);
                             String name = obj.optString(ResponseKey.NAME);
                             String bleName = obj.optString(ResponseKey.BLE_NAME);
                             String key = obj.optString(ResponseKey.KEY);

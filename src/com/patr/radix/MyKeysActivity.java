@@ -58,9 +58,11 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         isAfterIM = getIntent().getBooleanExtra("IM", false);
         setContentView(R.layout.activity_my_keys);
         initView();
-        // 测试数据
-        testData();
-        loadData();
+//        // 测试数据
+//        testData();
+        if (MyApplication.instance.getLocks().size() == 0) {
+            loadData();
+        }
     }
     
     private void initView() {
@@ -81,47 +83,46 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
     }
     
     private void loadData() {
-        if (MyApplication.instance.getLocks().size() == 0) {
-            // 从服务器获取门禁钥匙列表
-            ServiceManager.getLockList(new RequestListener<GetLockListResult>() {
+        
+        // 从服务器获取门禁钥匙列表
+        ServiceManager.getLockList(new RequestListener<GetLockListResult>() {
 
-                @Override
-                public void onStart() {
-                    swipe.post(new Runnable() {
-                        
-                        @Override
-                        public void run() {
-                            swipe.setRefreshing(true);
-                        }
-                    });
-                }
-
-                @Override
-                public void onSuccess(int stateCode, GetLockListResult result) {
-                    if (result != null) {
-                        if (result.isSuccesses()) {
-                            MyApplication.instance.setLocks(result.getLocks());
-                            adapter.notifyDataSetChanged();
-                        } else {
-                            ToastUtil.showShort(context, result.getRetinfo());
-                        }
-                    } else {
-                        ToastUtil.showShort(context, R.string.connect_exception);
+            @Override
+            public void onStart() {
+                swipe.post(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        swipe.setRefreshing(true);
                     }
-                }
+                });
+            }
 
-                @Override
-                public void onFailure(Exception error, String content) {
+            @Override
+            public void onSuccess(int stateCode, GetLockListResult result) {
+                if (result != null) {
+                    if (result.isSuccesses()) {
+                        MyApplication.instance.setLocks(result.getLocks());
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        ToastUtil.showShort(context, result.getRetinfo());
+                    }
+                } else {
                     ToastUtil.showShort(context, R.string.connect_exception);
                 }
-                
-                @Override
-                public void onStopped() {
-                    swipe.setRefreshing(false);
-                }
-                
-            });
-        }
+            }
+
+            @Override
+            public void onFailure(Exception error, String content) {
+                ToastUtil.showShort(context, R.string.connect_exception);
+            }
+            
+            @Override
+            public void onStopped() {
+                swipe.setRefreshing(false);
+            }
+            
+        });
         
     }
     
@@ -172,8 +173,12 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
             if (isAfterIM) {
                 // 发送钥匙给视频通话对象
             } else {
-                // 设置有效时间，生成二维码
-                ActiveTimeActivity.start(context);
+                if (!adapter.selectedSet.isEmpty()) {
+                    // 设置有效时间，生成二维码
+                    ActiveTimeActivity.start(context);
+                } else {
+                    ToastUtil.showShort(context, "请至少选择一个钥匙！");
+                }
             }
             break;
         }

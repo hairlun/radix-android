@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.patr.radix.utils.TimeUtil;
+import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.utils.qrcode.QRCodeUtil;
 import com.patr.radix.view.TitleBarView;
 import com.patr.radix.view.picker.DatetimeDialog;
@@ -122,6 +123,12 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
             keyActiveTimeEt.requestFocus();
             break;
         case R.id.unlock_generate_qrcode_btn:
+            if (TextUtils.isEmpty(keyStartTimeTv.getText())) {
+                ToastUtil.showShort(context, "请选择开始时间！");
+            }
+            if (TextUtils.isEmpty(keyActiveTimeEt.getText())) {
+                ToastUtil.showShort(context, "请选择有效时间！");
+            }
             // 生成二维码
             try {
                 Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(keyStartTimeTv.getText().toString() + "&" + keyActiveTimeEt.getText().toString(), 300, 300);
