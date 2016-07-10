@@ -125,9 +125,11 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
         case R.id.unlock_generate_qrcode_btn:
             if (TextUtils.isEmpty(keyStartTimeTv.getText())) {
                 ToastUtil.showShort(context, "请选择开始时间！");
+                break;
             }
             if (TextUtils.isEmpty(keyActiveTimeEt.getText())) {
                 ToastUtil.showShort(context, "请选择有效时间！");
+                break;
             }
             // 生成二维码
             try {
