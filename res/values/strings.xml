@@ -171,7 +171,7 @@
     <string name="titlebar_latest_msg">最新消息</string>
     <string name="titlebar_msg_details">消息详情</string>
     <string name="titlebar_my_settings">个人设置</string>
-    <string name="titlebar_edit_my_frofile">修改用户信息</string>
+    <string name="titlebar_edit_user_info">修改用户信息</string>
     
     <!-- 登录页 -->
     <string name="login_account_hint">请输入账号</string>

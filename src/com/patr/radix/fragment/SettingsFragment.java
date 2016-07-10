@@ -87,13 +87,16 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.settings_user_info_ll:
+            // 修改用户信息
             break;
         case R.id.settings_user_permission_btn:
             ToastUtil.showShort(context, "暂无用户授权功能");
             break;
         case R.id.settings_feedback_btn:
+            // 意见反馈
             break;
         case R.id.settings_check_update_btn:
+            // 版本检查及更新
             break;
         case R.id.settings_logout_btn:
             if (TextUtils.isEmpty(MyApplication.instance.getUserId())) {
