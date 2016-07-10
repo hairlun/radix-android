@@ -1,7 +1,17 @@
 package com.patr.radix.fragment;
 
+import java.util.List;
+
+import com.patr.radix.MyApplication;
+import com.patr.radix.NoticeDetailsActivity;
 import com.patr.radix.R;
 import com.patr.radix.adapter.NoticeAdapter;
+import com.patr.radix.bean.GetLockListResult;
+import com.patr.radix.bean.Notice;
+import com.patr.radix.bll.GetNoticeListResult;
+import com.patr.radix.bll.ServiceManager;
+import com.patr.radix.network.RequestListener;
+import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.view.TitleBarView;
 import com.patr.radix.view.swipe.SwipeRefreshLayout;
 import com.patr.radix.view.swipe.SwipeRefreshLayout.OnRefreshListener;
@@ -32,6 +42,12 @@ public class NoticeFragment extends Fragment implements OnItemClickListener, OnR
     private NoticeAdapter adapter;
     
     private SwipeRefreshLayout swipe;
+    
+    private int pageNum;
+    
+    private int totalCount;
+    
+    private int totalPage;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -42,8 +58,8 @@ public class NoticeFragment extends Fragment implements OnItemClickListener, OnR
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-	    View view = inflater.inflate(R.layout.fragment_message, container, false);
-        titleBarView = (TitleBarView) view.findViewById(R.id.message_titlebar);
+	    View view = inflater.inflate(R.layout.fragment_notice, container, false);
+        titleBarView = (TitleBarView) view.findViewById(R.id.notice_titlebar);
         lv = (ListView) view.findViewById(R.id.message_lv);
         swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         titleBarView.hideBackBtn().setTitle(R.string.titlebar_latest_msg);
@@ -51,7 +67,56 @@ public class NoticeFragment extends Fragment implements OnItemClickListener, OnR
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
         swipe.setOnRefreshListener(this);
+        pageNum = 1;
+        totalCount = 0;
+        totalPage = 0;
+        loadData();
         return view;
+	}
+	
+	private void loadData() {
+	    // 从服务器获取公告列表
+        ServiceManager.getNoticeList(pageNum, new RequestListener<GetNoticeListResult>() {
+
+            @Override
+            public void onStart() {
+                swipe.post(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        swipe.setRefreshing(true);
+                    }
+                });
+            }
+
+            @Override
+            public void onSuccess(int stateCode, GetNoticeListResult result) {
+                if (result != null) {
+                    if (result.isSuccesses()) {
+                        List<Notice> notices = result.getNotices();
+                        totalCount = result.getTotalCount();
+                        totalPage = result.getTotalPage();
+                        adapter.set(notices);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        ToastUtil.showShort(context, result.getRetinfo());
+                    }
+                } else {
+                    ToastUtil.showShort(context, R.string.connect_exception);
+                }
+            }
+
+            @Override
+            public void onFailure(Exception error, String content) {
+                ToastUtil.showShort(context, R.string.connect_exception);
+            }
+            
+            @Override
+            public void onStopped() {
+                swipe.setRefreshing(false);
+            }
+            
+        });
 	}
 
 	@Override
@@ -66,8 +131,8 @@ public class NoticeFragment extends Fragment implements OnItemClickListener, OnR
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
             long id) {
-        // TODO Auto-generated method stub
-        
+        Notice notice = adapter.getItem(position);
+        NoticeDetailsActivity.start(context, notice.getId());
     }
 
     /* (non-Javadoc)
@@ -75,8 +140,19 @@ public class NoticeFragment extends Fragment implements OnItemClickListener, OnR
      */
     @Override
     public void onRefresh(SwipeRefreshLayoutDirection direction) {
-        // TODO Auto-generated method stub
-        
+        if (SwipeRefreshLayoutDirection.TOP == direction) {
+            pageNum = 1;
+            totalCount = 0;
+            totalPage = 0;
+            loadData();
+        } else {
+            if (pageNum < totalPage) {
+                pageNum++;
+                loadData();
+            } else {
+                ToastUtil.showShort(context, "已显示全部数据");
+            }
+        }
     }
 
 }

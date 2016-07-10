@@ -32,7 +32,7 @@ public class MyApplication extends Application {
     /**
      * 服务器地址
      */
-    public static final String DEFAULT_URL = "http://117.34.71.28/web/mobile";
+    public static final String DEFAULT_URL = "http://112.92.206.187/surpass/mobile";
 
     private final List<MService> services = new ArrayList<MService>();
     private final List<BluetoothGattCharacteristic> characteristics = new ArrayList<BluetoothGattCharacteristic>();
@@ -41,7 +41,7 @@ public class MyApplication extends Application {
     
     private RadixLock selectedLock;
     
-    private String mUserId;
+    private String mUserId = "admin";
     
     private String mName;
     

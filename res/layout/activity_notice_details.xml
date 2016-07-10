@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.patr.radix"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".NoticeDetailsActivity" >
+
+    <com.patr.radix.view.TitleBarView
+        android:id="@+id/notice_details_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
+    <com.patr.radix.view.swipe.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:direction="top" >
+    
+    </com.patr.radix.view.swipe.SwipeRefreshLayout>
+
+</LinearLayout>

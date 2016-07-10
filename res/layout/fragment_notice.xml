@@ -9,7 +9,7 @@
     tools:context=".MainActivity" >
 
     <com.patr.radix.view.TitleBarView
-        android:id="@+id/message_titlebar"
+        android:id="@+id/notice_titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

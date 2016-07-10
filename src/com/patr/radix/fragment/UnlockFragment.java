@@ -138,7 +138,7 @@ public class UnlockFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.titlebar_select_key_btn:
-            MyKeysActivity.start(getActivity());
+            MyKeysActivity.start(context);
             break;
         }
     }

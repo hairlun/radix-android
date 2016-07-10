@@ -77,6 +77,7 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         okBtn.setOnClickListener(this);
         keysLv.setOnItemClickListener(this);
         swipe.setOnRefreshListener(this);
+        swipe.setDirection(SwipeRefreshLayoutDirection.TOP);
     }
     
     private void loadData() {
@@ -216,8 +217,9 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
      */
     @Override
     public void onRefresh(SwipeRefreshLayoutDirection direction) {
-        // TODO Auto-generated method stub
-        
+        if (SwipeRefreshLayoutDirection.TOP == direction) {
+            loadData();
+        }
     }
 
 }
