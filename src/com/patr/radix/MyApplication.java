@@ -41,7 +41,7 @@ public class MyApplication extends Application {
     
     private RadixLock selectedLock;
     
-    private String mUserId = "admin";
+    private String mUserId;
     
     private String mName;
     
@@ -53,6 +53,9 @@ public class MyApplication extends Application {
         x.Ext.init(this);
         x.Ext.setDebug(DEBUG);
         instance = this;
+        if (DEBUG) {
+            mUserId = "admin";
+        }
     }
 
     public List<MService> getServices() {

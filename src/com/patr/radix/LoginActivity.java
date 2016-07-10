@@ -1,6 +1,7 @@
 package com.patr.radix;
 
 import com.patr.radix.bean.LoginResult;
+import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.PrefUtil;
@@ -82,10 +83,19 @@ public class LoginActivity extends Activity implements OnClickListener {
             } else if (TextUtils.isEmpty(pwd)) {
                 ToastUtil.showLong(context, "密码不能为空，请重新输入!");
             } else {
-                login();
+                if (MyApplication.DEBUG) {
+                    testLogin();
+                } else {
+                    login();
+                }
             }
             break;
         }
+    }
+    
+    private void testLogin() {
+        
+        
     }
 
     private void login() {
@@ -132,6 +142,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                 loadingDialogDismiss();
             }
         };
+        ServiceManager.login(account, pwd, callback);
     }
 
     /**

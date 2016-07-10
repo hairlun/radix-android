@@ -59,7 +59,7 @@ public class ServiceManager {
         
         String USERNAME = "username";
         
-        String USER_ID = "userId";
+        String USER_ID = "account";
         
         String MOBILE = "mobile";
         
