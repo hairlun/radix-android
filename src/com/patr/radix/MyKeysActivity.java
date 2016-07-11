@@ -58,8 +58,10 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         isAfterIM = getIntent().getBooleanExtra("IM", false);
         setContentView(R.layout.activity_my_keys);
         initView();
-//        // 测试数据
-//        testData();
+        // 测试数据
+        if (MyApplication.DEBUG) {
+            testData();
+        }
         if (MyApplication.instance.getLocks().size() == 0) {
             loadData();
         }

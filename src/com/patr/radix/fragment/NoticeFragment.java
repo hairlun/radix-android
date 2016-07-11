@@ -102,13 +102,13 @@ public class NoticeFragment extends Fragment implements OnItemClickListener, OnR
                         ToastUtil.showShort(context, result.getRetinfo());
                     }
                 } else {
-                    ToastUtil.showShort(context, R.string.connect_exception);
+//                    ToastUtil.showShort(context, R.string.connect_exception);
                 }
             }
 
             @Override
             public void onFailure(Exception error, String content) {
-                ToastUtil.showShort(context, R.string.connect_exception);
+//                ToastUtil.showShort(context, R.string.connect_exception);
             }
             
             @Override

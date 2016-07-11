@@ -14,14 +14,16 @@
     
     <ImageView
         android:id="@+id/unlock_qrcode_iv"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="50dp"
         android:contentDescription="@string/app_name" />
     
     <Button
         android:id="@+id/unlock_share_btn"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_marginTop="30dp"
         android:background="@null"
         android:drawableTop="@drawable/share"
         android:contentDescription="@string/app_name"
