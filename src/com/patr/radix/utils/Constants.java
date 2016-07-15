@@ -45,9 +45,10 @@ public class Constants {
 	
 	public static final String DEFAULT_CSN = "88 87 22 50 ";
 	
-	public static final String PREF_USER_ID_KEY = "userId";
-	public static final String PREF_NAME_KEY = "name";
+	public static final String PREF_USER_ID = "userId";
+	public static final String PREF_NAME = "name";
 	public static final String PREF_SELECTED_KEY = "selectedKey";
+	public static final String PREF_SELECTED_COMMUNITY = "selectedCommunity";
 
     /**
      * Extras Constants

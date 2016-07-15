@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.patr.radix.bean.GetNoticeListResult;
 import com.patr.radix.bean.Notice;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.bll.ServiceManager.ResponseKey;

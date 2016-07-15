@@ -1,6 +1,6 @@
 package com.patr.radix;
 
-import com.patr.radix.bll.GetNoticeDetailsResult;
+import com.patr.radix.bean.GetNoticeDetailsResult;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.utils.ToastUtil;

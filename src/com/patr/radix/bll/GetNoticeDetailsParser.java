@@ -3,6 +3,7 @@ package com.patr.radix.bll;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.patr.radix.bean.GetNoticeDetailsResult;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.bll.ServiceManager.ResponseKey;
 import com.patr.radix.network.IAsyncListener;

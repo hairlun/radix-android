@@ -10,6 +10,8 @@ import org.xutils.common.Callback.Cancelable;
 
 import com.patr.radix.MyApplication;
 import com.patr.radix.bean.GetLockListResult;
+import com.patr.radix.bean.GetNoticeDetailsResult;
+import com.patr.radix.bean.GetNoticeListResult;
 import com.patr.radix.bean.LoginResult;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.network.RequestListener;

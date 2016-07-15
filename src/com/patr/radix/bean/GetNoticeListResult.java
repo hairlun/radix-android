@@ -1,10 +1,8 @@
-package com.patr.radix.bll;
+package com.patr.radix.bean;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.patr.radix.bean.Notice;
-import com.patr.radix.bean.RequestResult;
 
 public class GetNoticeListResult extends RequestResult {
 

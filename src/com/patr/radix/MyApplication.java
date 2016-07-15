@@ -17,6 +17,7 @@ import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.patr.radix.bean.Community;
 import com.patr.radix.bean.MService;
 import com.patr.radix.bean.RadixLock;
 import com.patr.radix.utils.Constants;
@@ -40,6 +41,8 @@ public class MyApplication extends Application {
     private final List<RadixLock> locks = new ArrayList<RadixLock>();
     
     private RadixLock selectedLock;
+    
+    private Community selectedCommunity;
     
     private String mUserId;
     
@@ -87,7 +90,7 @@ public class MyApplication extends Application {
     
     public String getUserId() {
         if (TextUtils.isEmpty(mUserId)) {
-            mUserId = PrefUtil.getString(instance, Constants.PREF_USER_ID_KEY);
+            mUserId = PrefUtil.getString(instance, Constants.PREF_USER_ID);
         }
         return mUserId;
     }
@@ -98,7 +101,7 @@ public class MyApplication extends Application {
 
     public String getName() {
         if (TextUtils.isEmpty(mName)) {
-            mUserId = PrefUtil.getString(instance, Constants.PREF_NAME_KEY);
+            mUserId = PrefUtil.getString(instance, Constants.PREF_NAME);
         }
         return mName;
     }
@@ -114,6 +117,15 @@ public class MyApplication extends Application {
     public void setSelectedLock(RadixLock selectedLock) {
         this.selectedLock = selectedLock;
         PrefUtil.save(instance, Constants.PREF_SELECTED_KEY, selectedLock.getId());
+    }
+
+    public Community getSelectedCommunity() {
+        return selectedCommunity;
+    }
+
+    public void setSelectedCommunity(Community selectedCommunity) {
+        this.selectedCommunity = selectedCommunity;
+        PrefUtil.save(instance, Constants.PREF_SELECTED_COMMUNITY, selectedCommunity.getId());
     }
 
 }

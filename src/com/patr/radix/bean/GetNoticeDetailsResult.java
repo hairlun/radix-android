@@ -1,6 +1,5 @@
-package com.patr.radix.bll;
+package com.patr.radix.bean;
 
-import com.patr.radix.bean.RequestResult;
 
 public class GetNoticeDetailsResult extends RequestResult {
 
