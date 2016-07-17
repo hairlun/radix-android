@@ -38,11 +38,15 @@ public class MyApplication extends Application {
     private final List<MService> services = new ArrayList<MService>();
     private final List<BluetoothGattCharacteristic> characteristics = new ArrayList<BluetoothGattCharacteristic>();
     
+    private final List<Community> communities = new ArrayList<Community>();
+    
     private final List<RadixLock> locks = new ArrayList<RadixLock>();
     
     private RadixLock selectedLock;
     
     private Community selectedCommunity;
+    
+    private String communityId;
     
     private String mUserId;
     
@@ -126,6 +130,22 @@ public class MyApplication extends Application {
     public void setSelectedCommunity(Community selectedCommunity) {
         this.selectedCommunity = selectedCommunity;
         PrefUtil.save(instance, Constants.PREF_SELECTED_COMMUNITY, selectedCommunity.getId());
+    }
+    
+    public String getCommunityId() {
+        if (TextUtils.isEmpty(communityId)) {
+            communityId = PrefUtil.getString(instance, Constants.PREF_SELECTED_COMMUNITY);
+        }
+        return communityId;
+    }
+
+    public List<Community> getCommunities() {
+        return communities;
+    }
+    
+    public void setCommunities(List<Community> communities) {
+        this.communities.clear();
+        this.communities.addAll(communities);
     }
 
 }

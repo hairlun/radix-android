@@ -6,19 +6,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
+import org.xutils.common.util.LogUtil;
+
 import com.felipecsl.gifimageview.library.GifImageView;
 import com.patr.radix.MyApplication;
 import com.patr.radix.MyKeysActivity;
 import com.patr.radix.R;
+import com.patr.radix.adapter.CommunityListAdapter;
+import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.RadixLock;
+import com.patr.radix.bll.CacheManager;
+import com.patr.radix.bll.GetCommunityListParser;
 import com.patr.radix.bll.ServiceManager;
+import com.patr.radix.bll.ServiceManager.Url;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.utils.Constants;
+import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.utils.Utils;
 import com.patr.radix.view.GifView;
+import com.patr.radix.view.ListSelectDialog;
 import com.patr.radix.view.TitleBarView;
 
 import android.app.Activity;
@@ -32,9 +41,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
-public class UnlockFragment extends Fragment implements OnClickListener {
+public class UnlockFragment extends Fragment implements OnClickListener, OnItemClickListener {
     
     private Context context;
     
@@ -71,6 +82,10 @@ public class UnlockFragment extends Fragment implements OnClickListener {
 	}
     
     private void loadData() {
+        if (MyApplication.instance.getSelectedCommunity() == null) {
+            getCommunityList();
+            return;
+        }
         if (MyApplication.instance.getLocks().size() == 0) {
             // 从服务器获取门禁钥匙列表
             ServiceManager.getLockList(new RequestListener<GetLockListResult>() {
@@ -97,6 +112,78 @@ public class UnlockFragment extends Fragment implements OnClickListener {
             });
         }
         
+    }
+    
+    private void getCommunityList() {
+        switch (NetUtils.getConnectedType(context)) {
+        case NONE:
+            getCommunityListFromCache();
+            break;
+        case WIFI:
+        case OTHER:
+            getCommunityListFromServer();
+            break;
+        default:
+            break;
+        }
+    }
+    
+    private void getCommunityListFromCache() {
+        CacheManager.getCacheContent(context, getUrl(),
+                new RequestListener<GetCommunityListResult>() {
+                    
+                }, new GetCommunityListParser());
+    }
+    
+    private void getCommunityListFromServer() {
+        // 从服务器获取小区列表
+        ServiceManager.getCommunityList(new RequestListener<GetCommunityListResult>() {
+
+            @Override
+            public void onSuccess(int stateCode, GetCommunityListResult result) {
+                if (result != null) {
+                    if (result.isSuccesses()) {
+                        MyApplication.instance.setCommunities(result.getCommunities());
+                        saveToDb(result.getResponse());
+                        ListSelectDialog.show(context, "请选择门禁", new CommunityListAdapter(context, MyApplication.instance.getCommunities()), UnlockFragment.this);
+                    } else {
+                        ToastUtil.showShort(context, result.getRetinfo());
+                        getCommunityListFromCache();
+                    }
+                } else {
+                    getCommunityListFromCache();
+                }
+            }
+
+            @Override
+            public void onFailure(Exception error, String content) {
+                getCommunityListFromCache();
+            }
+            
+        });
+    }
+
+    /**
+     * 保存列表到数据库
+     * 
+     * @param content
+     */
+    protected void saveToDb(String content) {
+        CacheManager.saveCacheContent(context, getUrl(), content,
+                new RequestListener<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean result) {
+                        LogUtil.i("save " + getUrl() + "=" + result);
+                    }
+                });
+    }
+
+    /**
+     * 
+     * @return
+     */
+    private String getUrl() {
+        return String.format("%s%s&account=%s", MyApplication.instance.getSelectedCommunity().getHost(), Url.LOCK_LIST, MyApplication.instance.getUserId());
     }
     
     private void setTitle() {
@@ -141,6 +228,13 @@ public class UnlockFragment extends Fragment implements OnClickListener {
             MyKeysActivity.start(context);
             break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,
+            long id) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

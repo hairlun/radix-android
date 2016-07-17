@@ -5,7 +5,7 @@ import java.util.List;
 import com.patr.radix.MyApplication;
 import com.patr.radix.NoticeDetailsActivity;
 import com.patr.radix.R;
-import com.patr.radix.adapter.NoticeAdapter;
+import com.patr.radix.adapter.NoticeListAdapter;
 import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.GetNoticeListResult;
 import com.patr.radix.bean.Notice;
@@ -39,7 +39,7 @@ public class NoticeFragment extends Fragment implements OnItemClickListener, OnR
     
     private ListView lv;
     
-    private NoticeAdapter adapter;
+    private NoticeListAdapter adapter;
     
     private SwipeRefreshLayout swipe;
     
@@ -63,7 +63,7 @@ public class NoticeFragment extends Fragment implements OnItemClickListener, OnR
         lv = (ListView) view.findViewById(R.id.message_lv);
         swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         titleBarView.hideBackBtn().setTitle(R.string.titlebar_latest_msg);
-        adapter = new NoticeAdapter(context, null);
+        adapter = new NoticeListAdapter(context, null);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
         swipe.setOnRefreshListener(this);

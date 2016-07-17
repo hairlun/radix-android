@@ -13,9 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class NoticeAdapter extends AbsListAdapter<Notice> {
+public class NoticeListAdapter extends AbsListAdapter<Notice> {
 
-    public NoticeAdapter(Context context, List<Notice> list) {
+    public NoticeListAdapter(Context context, List<Notice> list) {
         super(context, list);
     }
 

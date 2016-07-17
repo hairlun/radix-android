@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.patr.radix.bean.Community;
 import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.bll.ServiceManager.ResponseKey;
@@ -21,6 +22,10 @@ import com.patr.radix.network.IAsyncListener;
  */
 public class GetCommunityListParser extends
         AbsBaseParser<GetCommunityListResult> {
+
+    public GetCommunityListParser() {
+        super();
+    }
 
     /**
      * @param listener
@@ -48,7 +53,16 @@ public class GetCommunityListParser extends
                     for (int i = 0; i < size; i++) {
                         JSONObject obj = array.optJSONObject(i);
                         if (obj != null) {
-                            String id = obj.optString(ResponseKey.ID);
+                            String id = obj.optString(ResponseKey.AREA_ID);
+                            String name = obj.optString(ResponseKey.AREA_NAME);
+                            String host = obj.optString(ResponseKey.HOST);
+                            String port = obj.optString(ResponseKey.PORT);
+                            Community community = new Community();
+                            community.setId(id);
+                            community.setName(name);
+                            community.setHost(host);
+                            community.setPort(port);
+                            result.getCommunities().add(community);
                         }
                     }
                 }

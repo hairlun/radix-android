@@ -63,7 +63,12 @@ public class WebService {
     public static <T> Cancelable post(String url, String[] keys, String[] values,
             final RequestListener<T> listener,
             final ResultParser<T> parser) {
-        String requestUrl = URL + url;
+        String requestUrl;
+        if (!url.startsWith("http")) {
+            requestUrl = URL + url;
+        } else {
+            requestUrl = url;
+        }
         RequestParams params = createParams(keys, values, requestUrl);
         return request(HttpMethod.POST, params, listener, parser);
     }

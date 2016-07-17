@@ -9,6 +9,7 @@ package com.patr.radix.bll;
 import org.xutils.common.Callback.Cancelable;
 
 import com.patr.radix.MyApplication;
+import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.GetNoticeDetailsResult;
 import com.patr.radix.bean.GetNoticeListResult;
@@ -55,7 +56,13 @@ public class ServiceManager {
         
         String NAME = "name";
         
-        String PATH = "path";
+        String AREA_ID = "areaId";
+        
+        String AREA_NAME = "areaName";
+        
+        String HOST = "host";
+        
+        String PORT = "port";
         
         String USER_LIST = "userList";
         
@@ -114,6 +121,8 @@ public class ServiceManager {
      */
     public interface Url {
         
+        String COMMUNITY_LIST = "http://he28123790.ushost2.asia";
+        
         /** 用户登录 */
         String LOGIN = "/login.do?";
         
@@ -134,6 +143,17 @@ public class ServiceManager {
         
         /** 修改用户信息 */
         String EDIT_USER_INFO = "/updateMobileUserInfo?";
+    }
+    
+    /**
+     * 获取小区列表
+     * 
+     * @param listener
+     * @return
+     */
+    public static Cancelable getCommunityList(final RequestListener<GetCommunityListResult> listener) {
+        return WebService.post(Url.COMMUNITY_LIST, null, null, listener,
+                new GetCommunityListParser(listener));
     }
 
     /**
