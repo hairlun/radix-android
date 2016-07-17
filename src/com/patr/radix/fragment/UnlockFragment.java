@@ -131,6 +131,13 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
     private void getCommunityListFromCache() {
         CacheManager.getCacheContent(context, getUrl(),
                 new RequestListener<GetCommunityListResult>() {
+
+                    @Override
+                    public void onSuccess(int stateCode,
+                            GetCommunityListResult result) {
+                        MyApplication.instance.setCommunities(result.getCommunities());
+                        ListSelectDialog.show(context, "请选择门禁", new CommunityListAdapter(context, MyApplication.instance.getCommunities()), UnlockFragment.this);
+                    }
                     
                 }, new GetCommunityListParser());
     }
@@ -233,7 +240,6 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
             long id) {
-        // TODO Auto-generated method stub
         
     }
 
