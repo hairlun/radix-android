@@ -4,6 +4,8 @@ import java.io.File;
 
 import org.xutils.common.util.LogUtil;
 
+import com.patr.radix.MyApplication;
+import com.patr.radix.bll.ServiceManager.Url;
 import com.patr.radix.dal.CacheDAOImpl;
 import com.patr.radix.dal.CacheDAOImpl.Key;
 import com.patr.radix.network.IAsyncListener.ResultParser;
@@ -17,6 +19,14 @@ public class CacheManager {
     
     public static final File CACHE_DIR = new File(Environment
             .getExternalStorageDirectory().getAbsolutePath() + "/radix/cache");
+
+    public static String getCommunityListUrl() {
+        return Url.COMMUNITY_LIST;
+    }
+    
+    public static String getLockListUrl() {
+        return String.format("%s%s?account=%s", MyApplication.instance.getSelectedCommunity().getUrl(), Url.LOCK_LIST, MyApplication.instance.getUserId());
+    }
 
     /**
      * 保存缓存内容

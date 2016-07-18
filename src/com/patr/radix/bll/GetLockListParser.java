@@ -23,11 +23,17 @@ import com.patr.radix.network.IAsyncListener;
 public class GetLockListParser extends AbsBaseParser<GetLockListResult> {
 
     /**
+     * 
+     */
+    public GetLockListParser() {
+        super();
+    }
+
+    /**
      * @param listener
      */
     public GetLockListParser(IAsyncListener<GetLockListResult> listener) {
         super(listener);
-        // TODO Auto-generated constructor stub
     }
 
     /* (non-Javadoc)
@@ -48,9 +54,7 @@ public class GetLockListParser extends AbsBaseParser<GetLockListResult> {
                     for (int i = 0; i < size; i++) {
                         JSONObject obj = array.optJSONObject(i);
                         if (obj != null) {
-                            //TODO id参数暂时没有返回值，先使用name参数
-                            // String id = obj.optString(ResponseKey.ID);
-                            String id = obj.optString(ResponseKey.NAME);
+                            String id = obj.optString(ResponseKey.ID);
                             String name = obj.optString(ResponseKey.NAME);
                             String bleName = obj.optString(ResponseKey.BLE_NAME);
                             String key = obj.optString(ResponseKey.KEY);

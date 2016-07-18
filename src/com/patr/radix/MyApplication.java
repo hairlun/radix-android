@@ -17,11 +17,21 @@ import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.patr.radix.adapter.CommunityListAdapter;
 import com.patr.radix.bean.Community;
+import com.patr.radix.bean.GetCommunityListResult;
+import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.MService;
 import com.patr.radix.bean.RadixLock;
+import com.patr.radix.bll.CacheManager;
+import com.patr.radix.bll.GetCommunityListParser;
+import com.patr.radix.bll.GetLockListParser;
+import com.patr.radix.bll.ServiceManager.Url;
+import com.patr.radix.fragment.UnlockFragment;
+import com.patr.radix.network.RequestListener;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.PrefUtil;
+import com.patr.radix.view.ListSelectDialog;
 
 public class MyApplication extends Application {
 
@@ -46,7 +56,9 @@ public class MyApplication extends Application {
     
     private Community selectedCommunity;
     
-    private String communityId;
+    private String selectedCommunityId;
+    
+    private String selectedLockId;
     
     private String mUserId;
     
@@ -63,8 +75,54 @@ public class MyApplication extends Application {
         if (DEBUG) {
             mUserId = "admin";
         }
+        // 从缓存读取小区列表和当前选择小区
+        getCommunityListFromCache();
+        // 从缓存读取门禁钥匙列表和当前选择门禁钥匙
+        getLockListFromCache();
     }
+    
+    private void getCommunityListFromCache() {
+        CacheManager.getCacheContent(instance, CacheManager.getCommunityListUrl(),
+                new RequestListener<GetCommunityListResult>() {
 
+                    @Override
+                    public void onSuccess(int stateCode,
+                            GetCommunityListResult result) {
+                        setCommunities(result.getCommunities());
+                        if (getSelectedCommunityId() != null) {
+                            for (Community community : getCommunities()) {
+                                if (selectedCommunityId.equals(community.getId())) {
+                                    setSelectedCommunity(community);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    
+                }, new GetCommunityListParser());
+    }
+    
+    private void getLockListFromCache() {
+        CacheManager.getCacheContent(instance, CacheManager.getLockListUrl(), 
+                new RequestListener<GetLockListResult>() {
+
+                    @Override
+                    public void onSuccess(int stateCode,
+                            GetLockListResult result) {
+                        setLocks(result.getLocks());
+                        if (getSelectedLockId() != null) {
+                            for (RadixLock lock : getLocks()) {
+                                if (selectedLockId.equals(lock.getId())) {
+                                    setSelectedLock(lock);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    
+                }, new GetLockListParser());
+    }
+    
     public List<MService> getServices() {
         return services;
     }
@@ -122,6 +180,13 @@ public class MyApplication extends Application {
         this.selectedLock = selectedLock;
         PrefUtil.save(instance, Constants.PREF_SELECTED_KEY, selectedLock.getId());
     }
+    
+    public String getSelectedLockId() {
+        if (TextUtils.isEmpty(selectedLockId)) {
+            selectedLockId = PrefUtil.getString(instance, Constants.PREF_SELECTED_KEY);
+        }
+        return selectedLockId;
+    }
 
     public Community getSelectedCommunity() {
         return selectedCommunity;
@@ -132,11 +197,11 @@ public class MyApplication extends Application {
         PrefUtil.save(instance, Constants.PREF_SELECTED_COMMUNITY, selectedCommunity.getId());
     }
     
-    public String getCommunityId() {
-        if (TextUtils.isEmpty(communityId)) {
-            communityId = PrefUtil.getString(instance, Constants.PREF_SELECTED_COMMUNITY);
+    public String getSelectedCommunityId() {
+        if (TextUtils.isEmpty(selectedCommunityId)) {
+            selectedCommunityId = PrefUtil.getString(instance, Constants.PREF_SELECTED_COMMUNITY);
         }
-        return communityId;
+        return selectedCommunityId;
     }
 
     public List<Community> getCommunities() {

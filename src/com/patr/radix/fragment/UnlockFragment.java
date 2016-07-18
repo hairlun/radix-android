@@ -52,6 +52,8 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
     private TitleBarView titleBarView;
     
     private GifImageView gifView;
+    
+    private CommunityListAdapter adapter;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -77,11 +79,13 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
         } catch (IOException e) {
             e.printStackTrace();
         }
+        adapter = new CommunityListAdapter(context, MyApplication.instance.getCommunities());
         loadData();
 		return view;
 	}
     
     private void loadData() {
+        // 若没有
         if (MyApplication.instance.getSelectedCommunity() == null) {
             getCommunityList();
             return;
@@ -129,14 +133,15 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
     }
     
     private void getCommunityListFromCache() {
-        CacheManager.getCacheContent(context, getUrl(),
+        CacheManager.getCacheContent(context, CacheManager.getCommunityListUrl(),
                 new RequestListener<GetCommunityListResult>() {
 
                     @Override
                     public void onSuccess(int stateCode,
                             GetCommunityListResult result) {
                         MyApplication.instance.setCommunities(result.getCommunities());
-                        ListSelectDialog.show(context, "请选择门禁", new CommunityListAdapter(context, MyApplication.instance.getCommunities()), UnlockFragment.this);
+                        adapter.notifyDataSetChanged();
+                        ListSelectDialog.show(context, "请选择小区", adapter, UnlockFragment.this);
                     }
                     
                 }, new GetCommunityListParser());
@@ -151,8 +156,9 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
                 if (result != null) {
                     if (result.isSuccesses()) {
                         MyApplication.instance.setCommunities(result.getCommunities());
-                        saveToDb(result.getResponse());
-                        ListSelectDialog.show(context, "请选择门禁", new CommunityListAdapter(context, MyApplication.instance.getCommunities()), UnlockFragment.this);
+                        saveCommunityListToDb(result.getResponse());
+                        adapter.notifyDataSetChanged();
+                        ListSelectDialog.show(context, "请选择小区", adapter, UnlockFragment.this);
                     } else {
                         ToastUtil.showShort(context, result.getRetinfo());
                         getCommunityListFromCache();
@@ -175,7 +181,7 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
      * 
      * @param content
      */
-    protected void saveToDb(String content) {
+    protected void saveCommunityListToDb(String content) {
         CacheManager.saveCacheContent(context, getUrl(), content,
                 new RequestListener<Boolean>() {
                     @Override
@@ -240,7 +246,8 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
             long id) {
-        
+        MyApplication.instance.setSelectedCommunity(adapter.getItem(position));
+        adapter.select(position);
     }
 
 }

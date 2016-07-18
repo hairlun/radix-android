@@ -26,6 +26,8 @@ public class Community implements Serializable {
     private String host;
     
     private String port;
+    
+    private String url;
 
     public String getId() {
         return id;
@@ -49,6 +51,7 @@ public class Community implements Serializable {
 
     public void setHost(String host) {
         this.host = host;
+        this.url = null;
     }
 
     public String getPort() {
@@ -57,6 +60,14 @@ public class Community implements Serializable {
 
     public void setPort(String port) {
         this.port = port;
+        this.url = null;
+    }
+
+    public String getUrl() {
+        if (url == null || url.equals("")) {
+            url = String.format("%s:%s/surpass/mobile", host, port);
+        }
+        return url;
     }
 
     @Override
