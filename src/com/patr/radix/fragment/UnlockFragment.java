@@ -18,6 +18,7 @@ import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.RadixLock;
 import com.patr.radix.bll.CacheManager;
 import com.patr.radix.bll.GetCommunityListParser;
+import com.patr.radix.bll.GetLockListParser;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.bll.ServiceManager.Url;
 import com.patr.radix.network.RequestListener;
@@ -85,37 +86,15 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
 	}
     
     private void loadData() {
-        // 若没有
+        // 若没有选小区，则获取小区列表，让用户选小区
         if (MyApplication.instance.getSelectedCommunity() == null) {
             getCommunityList();
             return;
         }
-        if (MyApplication.instance.getLocks().size() == 0) {
-            // 从服务器获取门禁钥匙列表
-            ServiceManager.getLockList(new RequestListener<GetLockListResult>() {
-
-                @Override
-                public void onSuccess(int stateCode, GetLockListResult result) {
-                    if (result != null) {
-                        if (result.isSuccesses()) {
-                            MyApplication.instance.setLocks(result.getLocks());
-                            setTitle();
-                        } else {
-                            ToastUtil.showShort(context, result.getRetinfo());
-                        }
-                    } else {
-//                        ToastUtil.showShort(context, R.string.connect_exception);
-                    }
-                }
-
-                @Override
-                public void onFailure(Exception error, String content) {
-//                    ToastUtil.showShort(context, R.string.connect_exception);
-                }
-                
-            });
+        // 若没有选钥匙，则获取钥匙列表
+        if (MyApplication.instance.getSelectedLock() == null) {
+            getLockList();
         }
-        
     }
     
     private void getCommunityList() {
@@ -182,21 +161,90 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
      * @param content
      */
     protected void saveCommunityListToDb(String content) {
-        CacheManager.saveCacheContent(context, getUrl(), content,
+        CacheManager.saveCacheContent(context, CacheManager.getCommunityListUrl(), content,
                 new RequestListener<Boolean>() {
                     @Override
                     public void onSuccess(Boolean result) {
-                        LogUtil.i("save " + getUrl() + "=" + result);
+                        LogUtil.i("save " + CacheManager.getCommunityListUrl() + "=" + result);
                     }
                 });
     }
+    
+    private void getLockList() {
+        if (MyApplication.instance.getLocks().size() == 0) {
+            switch (NetUtils.getConnectedType(context)) {
+            case NONE:
+                getLockListFromCache();
+                break;
+            case WIFI:
+            case OTHER:
+                getLockListFromServer();
+                break;
+            default:
+                break;
+            }
+        } else {
+            titleBarView.setTitle(MyApplication.instance.getLocks().get(0).getName());
+            MyApplication.instance.setSelectedLock(MyApplication.instance.getLocks().get(0));
+        }
+
+    }
+    
+    private void getLockListFromCache() {
+        CacheManager.getCacheContent(context, CacheManager.getLockListUrl(),
+                new RequestListener<GetLockListResult>() {
+
+                    @Override
+                    public void onSuccess(int stateCode,
+                            GetLockListResult result) {
+                        MyApplication.instance.setLocks(result.getLocks());
+                        setTitle();
+                    }
+                    
+                }, new GetLockListParser());
+    }
+    
+    private void getLockListFromServer() {
+        // 从服务器获取门禁钥匙列表
+        ServiceManager.getLockList(new RequestListener<GetLockListResult>() {
+
+            @Override
+            public void onSuccess(int stateCode, GetLockListResult result) {
+                if (result != null) {
+                    if (result.isSuccesses()) {
+                        MyApplication.instance.setLocks(result.getLocks());
+                        saveLockListToDb(result.getResponse());
+                        setTitle();
+                    } else {
+                        ToastUtil.showShort(context, result.getRetinfo());
+                        getLockListFromCache();
+                    }
+                } else {
+                    getLockListFromCache();
+                }
+            }
+
+            @Override
+            public void onFailure(Exception error, String content) {
+                getLockListFromCache();
+            }
+            
+        });
+    }
 
     /**
+     * 保存列表到数据库
      * 
-     * @return
+     * @param content
      */
-    private String getUrl() {
-        return String.format("%s%s&account=%s", MyApplication.instance.getSelectedCommunity().getHost(), Url.LOCK_LIST, MyApplication.instance.getUserId());
+    protected void saveLockListToDb(String content) {
+        CacheManager.saveCacheContent(context, CacheManager.getLockListUrl(), content,
+                new RequestListener<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean result) {
+                        LogUtil.i("save " + CacheManager.getLockListUrl() + "=" + result);
+                    }
+                });
     }
     
     private void setTitle() {
@@ -208,6 +256,7 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
                 return;
             }
         }
+        // 若没有选择钥匙，则默认选第一个
         if (MyApplication.instance.getLocks().size() > 0) {
             titleBarView.setTitle(MyApplication.instance.getLocks().get(0).getName());
             MyApplication.instance.setSelectedLock(MyApplication.instance.getLocks().get(0));
