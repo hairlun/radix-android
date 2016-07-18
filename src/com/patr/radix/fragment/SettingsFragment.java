@@ -35,6 +35,10 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     
     private Button feedbackBtn;
     
+    private LinearLayout currentCommunityLl;
+    
+    private TextView currentCommunityTv;
+    
     private Button checkUpdateBtn;
     
     private Button logoutBtn;
@@ -55,6 +59,8 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         usernameTv = (TextView) view.findViewById(R.id.settings_username_tv);
         permissionBtn = (Button) view.findViewById(R.id.settings_user_permission_btn);
         feedbackBtn = (Button) view.findViewById(R.id.settings_feedback_btn);
+        currentCommunityLl = (LinearLayout) view.findViewById(R.id.settings_current_community_ll);
+        currentCommunityTv = (TextView) view.findViewById(R.id.settings_current_community_tv);
         checkUpdateBtn = (Button) view.findViewById(R.id.settings_check_update_btn);
         logoutBtn = (Button) view.findViewById(R.id.settings_logout_btn);
         permissionBtn.setCompoundDrawablePadding(15);

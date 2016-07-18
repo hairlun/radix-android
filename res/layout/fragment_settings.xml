@@ -74,6 +74,49 @@
         android:text="@string/settings_feedback"
         android:textSize="18sp" />
     
+    <LinearLayout
+        android:id="@+id/settings_current_community_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/btn_bg_selector"
+        android:clickable="true"
+        android:orientation="horizontal" >
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="35dp"
+            android:background="@null"
+            android:src="@drawable/setting_icon04"
+            android:scaleType="fitCenter" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="15dp"
+            android:background="@null"
+            android:text="@string/settings_community"
+            android:textSize="18sp"
+            android:textColor="@color/black" />
+        
+        <TextView
+            android:id="@+id/settings_current_community_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="3dp"
+            android:background="@null"
+            android:text="@string/settings_community"
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+    </LinearLayout>
+    
     <Button
         android:id="@+id/settings_check_update_btn"
         android:layout_width="match_parent"
