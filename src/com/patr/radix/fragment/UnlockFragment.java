@@ -296,6 +296,10 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
     public void onItemClick(AdapterView<?> parent, View view, int position,
             long id) {
         MyApplication.instance.setSelectedCommunity(adapter.getItem(position));
+        if (!adapter.isSelect(position)) {
+            MyApplication.instance.setSelectedLock(null);
+            getLockList();
+        }
         adapter.select(position);
     }
 
