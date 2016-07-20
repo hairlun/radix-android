@@ -83,6 +83,16 @@ public class PrefUtil {
     public static String getString(Context context, String key) {
         return getString(PREF_FILE, context, key, "");
     }
+    
+    /**
+     * @param context
+     * @param key
+     * @param defValue
+     * @return
+     */
+    public static String getString(Context context, String key, String defValue) {
+        return getString(PREF_FILE, context, key, defValue);
+    }
 
     /**
      * 获取字符串数据，自定义默认值

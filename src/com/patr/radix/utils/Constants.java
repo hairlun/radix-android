@@ -49,6 +49,8 @@ public class Constants {
 	public static final String PREF_NAME = "name";
 	public static final String PREF_SELECTED_KEY = "selectedKey";
 	public static final String PREF_SELECTED_COMMUNITY = "selectedCommunity";
+	public static final String PREF_LOCK_STATUS = "lockStatus";
+	public static final String PREF_LOCK_KEY = "lockKey";
 
     /**
      * Extras Constants

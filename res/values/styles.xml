@@ -5,4 +5,13 @@
         <item name="android:windowExitAnimation">@anim/bottom_dialog_out</item>
     </style>
 
+    <declare-styleable name="LockPatternView">
+
+        <!--
+             Aspect to use when drawing LockPatternView. Choices are "square"(default), "lock_width"
+             or "lock_height"
+        -->
+        <attr name="aspect" format="string" />
+    </declare-styleable>
+    
 </resources>

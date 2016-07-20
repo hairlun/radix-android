@@ -88,12 +88,14 @@ public class MyApplication extends Application {
                     @Override
                     public void onSuccess(int stateCode,
                             GetCommunityListResult result) {
-                        setCommunities(result.getCommunities());
-                        if (getSelectedCommunityId() != null) {
-                            for (Community community : getCommunities()) {
-                                if (selectedCommunityId.equals(community.getId())) {
-                                    setSelectedCommunity(community);
-                                    break;
+                        if (result != null) {
+                            setCommunities(result.getCommunities());
+                            if (getSelectedCommunityId() != null) {
+                                for (Community community : getCommunities()) {
+                                    if (selectedCommunityId.equals(community.getId())) {
+                                        setSelectedCommunity(community);
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -103,24 +105,28 @@ public class MyApplication extends Application {
     }
     
     private void getLockListFromCache() {
-        CacheManager.getCacheContent(instance, CacheManager.getLockListUrl(), 
-                new RequestListener<GetLockListResult>() {
-
-                    @Override
-                    public void onSuccess(int stateCode,
-                            GetLockListResult result) {
-                        setLocks(result.getLocks());
-                        if (getSelectedLockId() != null) {
-                            for (RadixLock lock : getLocks()) {
-                                if (selectedLockId.equals(lock.getId())) {
-                                    setSelectedLock(lock);
-                                    break;
+        if (getSelectedCommunity() != null) {
+            CacheManager.getCacheContent(instance, CacheManager.getLockListUrl(), 
+                    new RequestListener<GetLockListResult>() {
+    
+                        @Override
+                        public void onSuccess(int stateCode,
+                                GetLockListResult result) {
+                            if (result != null) {
+                                setLocks(result.getLocks());
+                                if (getSelectedLockId() != null) {
+                                    for (RadixLock lock : getLocks()) {
+                                        if (selectedLockId.equals(lock.getId())) {
+                                            setSelectedLock(lock);
+                                            break;
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                    
-                }, new GetLockListParser());
+                        
+                    }, new GetLockListParser());
+        }
     }
     
     public List<MService> getServices() {
@@ -211,6 +217,14 @@ public class MyApplication extends Application {
     public void setCommunities(List<Community> communities) {
         this.communities.clear();
         this.communities.addAll(communities);
+    }
+    
+    public boolean getLockStatus() {
+        return PrefUtil.getString(instance, Constants.PREF_LOCK_STATUS, "0").equals("1") ? true : false;
+    }
+    
+    public void setLockStatus(boolean lockStatus) {
+        PrefUtil.save(instance, Constants.PREF_LOCK_STATUS, lockStatus ? "1" : "0");
     }
 
 }

@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    tools:context=".LockSetupActivity" >
+
+    <com.patr.radix.view.TitleBarView
+        android:id="@+id/lock_settings_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/text_lock_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lock_settings_titlebar"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/lockpattern_enter_new_lockpattern"
+        android:textSize="16sp" />
+
+    <com.sini.mobileoa.ui.view.LockPatternView
+        android:id="@+id/lock_pattern"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_below="@id/text_lock_hint"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>

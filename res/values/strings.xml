@@ -172,6 +172,7 @@
     <string name="titlebar_msg_details">消息详情</string>
     <string name="titlebar_my_settings">个人设置</string>
     <string name="titlebar_edit_user_info">修改用户信息</string>
+    <string name="titlebar_lock_setup">设置手势密码</string>
     
     <!-- 登录页 -->
     <string name="login_account_hint">请输入账号</string>
@@ -201,6 +202,7 @@
     <!-- 个人设置模块 -->
     <string name="settings_community">当前小区</string>
     <string name="settings_permission">用户授权</string>
+    <string name="settings_lock">手势密码</string>
     <string name="settings_feedback">意见反馈</string>
     <string name="settings_check_update">版本检查及更新</string>
     <string name="settings_name">用户姓名</string>

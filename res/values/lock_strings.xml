@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- 手势密码 -->
+    <string name="lockpattern_setup">设置手势密码</string>
+    <string name="lockpattern_cancel">清除手势密码</string>
+    <string name="lockpattern_canceled">手势密码已清除！</string>
+    <string name="lockpattern_enter_lockpattern">请输入手势密码</string>
+    <string name="lockpattern_enter_new_lockpattern">请绘制密码图案</string>
+    <string name="lockpattern_reenter_new_lockpattern">请再次绘制密码图案</string>
+    <string name="lockpattern_recording_incorrect_too_short">至少连接4个点，请重绘</string>
+    <string name="lock_error">密码错误，还可以再输入%d次</string>
+    <string name="lock_error_count">您连续%d次输入错误，请重新登录</string>
+    <string name="lock_error_count2">您连续%d次输入错误，请稍候再试</string>
+    <string name="lock_cancel">取消</string>
+    <string name="lock_try_again">重绘</string>
+    <string name="lock_goon">继续</string>
+    <string name="lock_confirm">确认</string>
+    <string name="lock_confirm_error">两次密码图案不一致</string>
+    <string name="lockpattern_ok">绘制完成</string>
+    <string name="lock_forget_pwd">忘记手势密码</string>
+    <string name="lock_other_account">用其他账号登录</string>
+    <!-- Accessibility description sent when user starts drawing a lock pattern. [CHAR LIMIT=NONE] -->
+    <string name="lockscreen_access_pattern_start">Pattern started</string>
+    <!-- Accessibility description sent when the pattern times out and is cleared. [CHAR LIMIT=NONE] -->
+    <string name="lockscreen_access_pattern_cleared">Pattern cleared</string>
+    <!-- Accessibility description sent when user adds a cell to the pattern. [CHAR LIMIT=NONE] -->
+    <string name="lockscreen_access_pattern_cell_added">Cell added</string>
+    <!-- Accessibility description sent when user completes drawing a pattern. [CHAR LIMIT=NONE] -->
+    <string name="lockscreen_access_pattern_detected">Pattern completed</string>
+
+</resources>

@@ -118,9 +118,11 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
                     @Override
                     public void onSuccess(int stateCode,
                             GetCommunityListResult result) {
-                        MyApplication.instance.setCommunities(result.getCommunities());
-                        adapter.notifyDataSetChanged();
-                        ListSelectDialog.show(context, "请选择小区", adapter, UnlockFragment.this);
+                        if (result != null) {
+                            MyApplication.instance.setCommunities(result.getCommunities());
+                            adapter.notifyDataSetChanged();
+                            ListSelectDialog.show(context, "请选择小区", adapter, UnlockFragment.this);
+                        }
                     }
                     
                 }, new GetCommunityListParser());
@@ -191,17 +193,21 @@ public class UnlockFragment extends Fragment implements OnClickListener, OnItemC
     }
     
     private void getLockListFromCache() {
-        CacheManager.getCacheContent(context, CacheManager.getLockListUrl(),
-                new RequestListener<GetLockListResult>() {
-
-                    @Override
-                    public void onSuccess(int stateCode,
-                            GetLockListResult result) {
-                        MyApplication.instance.setLocks(result.getLocks());
-                        setTitle();
-                    }
-                    
-                }, new GetLockListParser());
+        if (MyApplication.instance.getSelectedCommunity() != null) {
+            CacheManager.getCacheContent(context, CacheManager.getLockListUrl(),
+                    new RequestListener<GetLockListResult>() {
+    
+                        @Override
+                        public void onSuccess(int stateCode,
+                                GetLockListResult result) {
+                            if (result != null) {
+                                MyApplication.instance.setLocks(result.getLocks());
+                                setTitle();
+                            }
+                        }
+                        
+                    }, new GetLockListParser());
+        }
     }
     
     private void getLockListFromServer() {

@@ -5,7 +5,7 @@
     android:background="@color/gray_bg"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".ActiveTimeActivity" >
+    tools:context=".EditUserInfoActivity" >
 
     <com.patr.radix.view.TitleBarView
         android:id="@+id/user_info_titlebar"

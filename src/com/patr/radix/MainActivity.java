@@ -2,6 +2,8 @@ package com.patr.radix;
 
 import java.util.ArrayList;
 
+import com.patr.radix.utils.TabDb;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;

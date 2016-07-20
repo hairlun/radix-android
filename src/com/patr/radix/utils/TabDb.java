@@ -1,5 +1,8 @@
-package com.patr.radix;
+package com.patr.radix.utils;
 
+import com.patr.radix.R;
+import com.patr.radix.R.drawable;
+import com.patr.radix.R.string;
 import com.patr.radix.fragment.SettingsFragment;
 import com.patr.radix.fragment.UnlockFragment;
 import com.patr.radix.fragment.VisitorFragment;

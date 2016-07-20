@@ -2,6 +2,7 @@ package com.patr.radix.fragment;
 
 import org.xutils.common.util.LogUtil;
 
+import com.patr.radix.LockSetupActivity;
 import com.patr.radix.LoginActivity;
 import com.patr.radix.MyApplication;
 import com.patr.radix.R;
@@ -48,6 +49,10 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
     
     private Button feedbackBtn;
     
+    private LinearLayout lockLl;
+    
+    private TextView lockStatusTv;
+    
     private LinearLayout currentCommunityLl;
     
     private TextView currentCommunityTv;
@@ -74,6 +79,8 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
         usernameTv = (TextView) view.findViewById(R.id.settings_username_tv);
         permissionBtn = (Button) view.findViewById(R.id.settings_user_permission_btn);
         feedbackBtn = (Button) view.findViewById(R.id.settings_feedback_btn);
+        lockLl = (LinearLayout) view.findViewById(R.id.settings_lock_ll);
+        lockStatusTv = (TextView) view.findViewById(R.id.settings_lock_status_tv);
         currentCommunityLl = (LinearLayout) view.findViewById(R.id.settings_current_community_ll);
         currentCommunityTv = (TextView) view.findViewById(R.id.settings_current_community_tv);
         checkUpdateBtn = (Button) view.findViewById(R.id.settings_check_update_btn);
@@ -84,6 +91,7 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
         userInfoLl.setOnClickListener(this);
         permissionBtn.setOnClickListener(this);
         feedbackBtn.setOnClickListener(this);
+        lockLl.setOnClickListener(this);
         currentCommunityLl.setOnClickListener(this);
         checkUpdateBtn.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
@@ -110,6 +118,11 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
                 break;
             }
         }
+        if (MyApplication.instance.getLockStatus()) {
+            lockStatusTv.setText("(已开启)");
+        } else {
+            lockStatusTv.setText("(已关闭)");
+        }
         return view;
 	}
 
@@ -130,6 +143,15 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
             break;
         case R.id.settings_feedback_btn:
             // 意见反馈
+            break;
+        case R.id.settings_lock_ll:
+            // 手势密码
+            if (!MyApplication.instance.getLockStatus()) {
+                // 打开密码锁
+                LockSetupActivity.start(context);
+            } else {
+                //TODO 关闭密码锁
+            }
             break;
         case R.id.settings_current_community_ll:
             // 选择小区
@@ -169,9 +191,11 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
                     @Override
                     public void onSuccess(int stateCode,
                             GetCommunityListResult result) {
-                        MyApplication.instance.setCommunities(result.getCommunities());
-                        adapter.notifyDataSetChanged();
-                        ListSelectDialog.show(context, "请选择小区", adapter, SettingsFragment.this);
+                        if (result != null) {
+                            MyApplication.instance.setCommunities(result.getCommunities());
+                            adapter.notifyDataSetChanged();
+                            ListSelectDialog.show(context, "请选择小区", adapter, SettingsFragment.this);
+                        }
                     }
                     
                 }, new GetCommunityListParser());

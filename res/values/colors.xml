@@ -12,16 +12,6 @@
     <color name="btn_context_menu_normal">#ffffff</color>
     <color name="btn_context_menu_pressed">#40000000</color>
 
-    <color name="secondary_text">#727272</color>
-    <color name="divider">#B6B6B6</color>
-
-    <color name="blue_text">#FF4983D7</color>
-    <color name="red_line">#FFD95A47</color>
-    <color name="black_text">#FF333333</color>
-    <color name="right_text">#FF4983D7</color>
-    <color name="error_text">#FFEB3946</color>
-
-
     <!-- 列表默认背景色 -->
     <color name="listitem_bg_normal">#FFFFFFFF</color>
     <!-- 列表激活背景色 -->
@@ -55,5 +45,8 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="blue">#60AFF6</color>
-
+    <color name="black_text">#FF333333</color>
+    <color name="right_text">#FF4983D7</color>
+    <color name="error_text">#FFEB3946</color>
+    
 </resources>
