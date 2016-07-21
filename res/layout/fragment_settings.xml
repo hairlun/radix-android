@@ -46,33 +46,67 @@
             android:src="@drawable/arrow_right" />
     </LinearLayout>
     
-    <Button
-        android:id="@+id/settings_user_permission_btn"
+    <LinearLayout
+        android:id="@+id/settings_user_permission_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left|center_vertical"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:paddingLeft="35dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_bg_selector"
-        android:drawableLeft="@drawable/setting_icon01"
-        android:text="@string/settings_permission"
-        android:textSize="18sp" />
-    
-    <Button
-        android:id="@+id/settings_feedback_btn"
+        android:clickable="true"
+        android:orientation="horizontal" >
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="35dp"
+            android:background="@null"
+            android:src="@drawable/setting_icon01"
+            android:scaleType="fitCenter" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="12dp"
+            android:background="@null"
+            android:text="@string/settings_permission"
+            android:textSize="18sp"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/settings_feedback_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left|center_vertical"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:paddingLeft="35dp"
         android:layout_marginTop="1dp"
         android:background="@drawable/btn_bg_selector"
-        android:drawableLeft="@drawable/setting_icon02"
-        android:text="@string/settings_feedback"
-        android:textSize="18sp" />
+        android:clickable="true"
+        android:orientation="horizontal" >
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="35dp"
+            android:background="@null"
+            android:src="@drawable/setting_icon02"
+            android:scaleType="fitCenter" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="12dp"
+            android:background="@null"
+            android:text="@string/settings_feedback"
+            android:textSize="18sp"
+            android:textColor="@color/black" />
+    </LinearLayout>
     
     <LinearLayout
         android:id="@+id/settings_lock_ll"
@@ -98,7 +132,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            android:paddingLeft="15dp"
+            android:paddingLeft="12dp"
             android:background="@null"
             android:text="@string/settings_lock"
             android:textSize="18sp"
@@ -141,7 +175,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            android:paddingLeft="15dp"
+            android:paddingLeft="12dp"
             android:background="@null"
             android:text="@string/settings_community"
             android:textSize="18sp"
@@ -159,21 +193,38 @@
             android:textSize="16sp"
             android:textColor="@color/gray_text" />
     </LinearLayout>
-    
-    <Button
-        android:id="@+id/settings_check_update_btn"
+
+    <LinearLayout
+        android:id="@+id/settings_check_update_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left|center_vertical"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:paddingLeft="35dp"
         android:layout_marginTop="1dp"
         android:background="@drawable/btn_bg_selector"
-        android:drawableLeft="@drawable/setting_icon03"
-        android:text="@string/settings_check_update"
-        android:textSize="18sp" />
-
+        android:clickable="true"
+        android:orientation="horizontal" >
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="35dp"
+            android:background="@null"
+            android:src="@drawable/setting_icon03"
+            android:scaleType="fitCenter" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="12dp"
+            android:background="@null"
+            android:text="@string/settings_check_update"
+            android:textSize="18sp"
+            android:textColor="@color/black" />
+    </LinearLayout>
+    
     <Button
         android:id="@+id/settings_logout_btn"
         android:layout_width="match_parent"

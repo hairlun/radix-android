@@ -218,13 +218,5 @@ public class MyApplication extends Application {
         this.communities.clear();
         this.communities.addAll(communities);
     }
-    
-    public boolean getLockStatus() {
-        return PrefUtil.getString(instance, Constants.PREF_LOCK_STATUS, "0").equals("1") ? true : false;
-    }
-    
-    public void setLockStatus(boolean lockStatus) {
-        PrefUtil.save(instance, Constants.PREF_LOCK_STATUS, lockStatus ? "1" : "0");
-    }
 
 }

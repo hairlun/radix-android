@@ -49,8 +49,19 @@ public class Constants {
 	public static final String PREF_NAME = "name";
 	public static final String PREF_SELECTED_KEY = "selectedKey";
 	public static final String PREF_SELECTED_COMMUNITY = "selectedCommunity";
-	public static final String PREF_LOCK_STATUS = "lockStatus";
 	public static final String PREF_LOCK_KEY = "lockKey";
+
+    /** 验证手势密码请求码 */
+    public static final int LOCK_CHECK = 100;
+
+    /** 输入5次错误的手势密码返回码 */
+    public static final int LOCK_CHECK_WRONG = 200;
+
+    /** 取消手势密码校验返回码 */
+    public static final int LOCK_CHECK_CANCELED = 201;
+
+    /** 手势密码校验正确返回码 */
+    public static final int LOCK_CHECK_OK = 202;
 
     /**
      * Extras Constants

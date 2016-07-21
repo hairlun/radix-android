@@ -27,6 +27,8 @@ public class MainActivity extends FragmentActivity implements
     private FragmentTabHost tabHost;
     
     private boolean isAfterLogin;
+    
+    private String curFragmentTag = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,12 @@ public class MainActivity extends FragmentActivity implements
             }
 
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        
     }
 
     public static void startAfterLogin(Context context) {

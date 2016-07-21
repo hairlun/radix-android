@@ -46,7 +46,7 @@
     <color name="black">#000000</color>
     <color name="blue">#60AFF6</color>
     <color name="black_text">#FF333333</color>
-    <color name="right_text">#FF4983D7</color>
+    <color name="right_text">#FF333333</color>
     <color name="error_text">#FFEB3946</color>
     
 </resources>

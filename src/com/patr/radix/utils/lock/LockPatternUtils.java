@@ -26,6 +26,7 @@ import android.os.FileObserver;
  */
 public class LockPatternUtils {
     public static final String TAG = LockPatternUtils.class.getName();
+
     private static final String LOCK_PATTERN_FILE = "gesture.key";
     /**
      * The minimum number of dots in a valid pattern.

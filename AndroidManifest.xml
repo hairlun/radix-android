@@ -52,6 +52,7 @@
         <activity android:name="com.patr.radix.NoticeDetailsActivity" />
         <activity android:name="com.patr.radix.EditUserInfoActivity" />
         <activity android:name="com.patr.radix.LockSetupActivity" />
+        <activity android:name="com.patr.radix.LockValidateActivity" />
 
         <service
             android:name="com.patr.radix.ble.BluetoothLeService"

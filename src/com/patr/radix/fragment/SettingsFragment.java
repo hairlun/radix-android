@@ -3,6 +3,7 @@ package com.patr.radix.fragment;
 import org.xutils.common.util.LogUtil;
 
 import com.patr.radix.LockSetupActivity;
+import com.patr.radix.LockValidateActivity;
 import com.patr.radix.LoginActivity;
 import com.patr.radix.MyApplication;
 import com.patr.radix.R;
@@ -13,13 +14,16 @@ import com.patr.radix.bll.CacheManager;
 import com.patr.radix.bll.GetCommunityListParser;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.NetUtils;
+import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.view.ListSelectDialog;
 import com.patr.radix.view.TitleBarView;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -45,9 +49,9 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
     
     private TextView usernameTv;
     
-    private Button permissionBtn;
+    private LinearLayout permissionLl;
     
-    private Button feedbackBtn;
+    private LinearLayout feedbackLl;
     
     private LinearLayout lockLl;
     
@@ -57,7 +61,7 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
     
     private TextView currentCommunityTv;
     
-    private Button checkUpdateBtn;
+    private LinearLayout checkUpdateLl;
     
     private Button logoutBtn;
     
@@ -77,29 +81,46 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
         titleBarView.hideBackBtn().setTitle(R.string.titlebar_my_settings);
         userInfoLl = (LinearLayout) view.findViewById(R.id.settings_user_info_ll);
         usernameTv = (TextView) view.findViewById(R.id.settings_username_tv);
-        permissionBtn = (Button) view.findViewById(R.id.settings_user_permission_btn);
-        feedbackBtn = (Button) view.findViewById(R.id.settings_feedback_btn);
+        permissionLl = (LinearLayout) view.findViewById(R.id.settings_user_permission_ll);
+        feedbackLl = (LinearLayout) view.findViewById(R.id.settings_feedback_ll);
         lockLl = (LinearLayout) view.findViewById(R.id.settings_lock_ll);
         lockStatusTv = (TextView) view.findViewById(R.id.settings_lock_status_tv);
         currentCommunityLl = (LinearLayout) view.findViewById(R.id.settings_current_community_ll);
         currentCommunityTv = (TextView) view.findViewById(R.id.settings_current_community_tv);
-        checkUpdateBtn = (Button) view.findViewById(R.id.settings_check_update_btn);
+        checkUpdateLl = (LinearLayout) view.findViewById(R.id.settings_check_update_ll);
         logoutBtn = (Button) view.findViewById(R.id.settings_logout_btn);
-        permissionBtn.setCompoundDrawablePadding(15);
-        feedbackBtn.setCompoundDrawablePadding(15);
-        checkUpdateBtn.setCompoundDrawablePadding(15);
         userInfoLl.setOnClickListener(this);
-        permissionBtn.setOnClickListener(this);
-        feedbackBtn.setOnClickListener(this);
+        permissionLl.setOnClickListener(this);
+        feedbackLl.setOnClickListener(this);
         lockLl.setOnClickListener(this);
         currentCommunityLl.setOnClickListener(this);
-        checkUpdateBtn.setOnClickListener(this);
+        checkUpdateLl.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
+        adapter = new CommunityListAdapter(context, MyApplication.instance.getCommunities());
+        Community selectedCommunity = MyApplication.instance.getSelectedCommunity();
+        int size = adapter.getCount();
+        for (int i = 0; i < size; i++) {
+            if (selectedCommunity.equals(adapter.getList().get(i))) {
+                adapter.select(i);
+                break;
+            }
+        }
+        return view;
+	}
+
+	@Override
+    public void onResume() {
+        super.onResume();
+        if (!TextUtils.isEmpty(PrefUtil.getString(context, Constants.PREF_LOCK_KEY, null))) {
+            lockStatusTv.setText("(已开启)");
+        } else {
+            lockStatusTv.setText("(已关闭)");
+        }
         String name = MyApplication.instance.getName();
         if (TextUtils.isEmpty(name)) {
             // 未登录
             userInfoLl.setVisibility(View.GONE);
-            permissionBtn.setVisibility(View.GONE);
+            permissionLl.setVisibility(View.GONE);
             logoutBtn.setText(R.string.login);
         } else {
             usernameTv.setText(name);
@@ -110,25 +131,10 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
         } else {
             currentCommunityTv.setText("");
         }
-        adapter = new CommunityListAdapter(context, MyApplication.instance.getCommunities());
-        int size = adapter.getCount();
-        for (int i = 0; i < size; i++) {
-            if (selectedCommunity.equals(adapter.getList().get(i))) {
-                adapter.select(i);
-                break;
-            }
-        }
-        if (MyApplication.instance.getLockStatus()) {
-            lockStatusTv.setText("(已开启)");
-        } else {
-            lockStatusTv.setText("(已关闭)");
-        }
-        return view;
-	}
+    }
 
-	@Override
+    @Override
 	public void setArguments(Bundle args) {
-		// TODO Auto-generated method stub
 		super.setArguments(args);
 	}
 
@@ -138,26 +144,27 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
         case R.id.settings_user_info_ll:
             // 修改用户信息
             break;
-        case R.id.settings_user_permission_btn:
+        case R.id.settings_user_permission_ll:
             ToastUtil.showShort(context, "暂无用户授权功能");
             break;
-        case R.id.settings_feedback_btn:
+        case R.id.settings_feedback_ll:
             // 意见反馈
             break;
         case R.id.settings_lock_ll:
             // 手势密码
-            if (!MyApplication.instance.getLockStatus()) {
+            if (TextUtils.isEmpty(PrefUtil.getString(context, Constants.PREF_LOCK_KEY, null))) {
                 // 打开密码锁
                 LockSetupActivity.start(context);
             } else {
-                //TODO 关闭密码锁
+                // 关闭密码锁
+                LockValidateActivity.startForResult(this, Constants.LOCK_CHECK);
             }
             break;
         case R.id.settings_current_community_ll:
             // 选择小区
             getCommunityList();
             break;
-        case R.id.settings_check_update_btn:
+        case R.id.settings_check_update_ll:
             // 版本检查及更新
             break;
         case R.id.settings_logout_btn:
@@ -261,6 +268,15 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
             MyApplication.instance.setSelectedLock(null);
         }
         adapter.select(position);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.LOCK_CHECK) {
+            if (resultCode == Constants.LOCK_CHECK_OK) {
+                PrefUtil.save(context, Constants.PREF_LOCK_KEY, "");
+            }
+        }
     }
 
 }
