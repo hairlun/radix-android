@@ -53,6 +53,9 @@ public class Constants {
 
     /** 验证手势密码请求码 */
     public static final int LOCK_CHECK = 100;
+    
+    /** 清除手势密码请求吗 */
+    public static final int LOCK_CLEAR = 101;
 
     /** 输入5次错误的手势密码返回码 */
     public static final int LOCK_CHECK_WRONG = 200;

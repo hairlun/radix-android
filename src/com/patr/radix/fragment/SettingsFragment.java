@@ -272,7 +272,7 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.LOCK_CHECK) {
+        if (requestCode == Constants.LOCK_CLEAR) {
             if (resultCode == Constants.LOCK_CHECK_OK) {
                 PrefUtil.save(context, Constants.PREF_LOCK_KEY, "");
             }

@@ -174,6 +174,7 @@
     <string name="titlebar_edit_user_info">修改用户信息</string>
     <string name="titlebar_lock_setup">设置手势密码</string>
     <string name="titlebar_lock_close">关闭手势密码</string>
+    <string name="titlebar_lock_check">验证手势密码</string>
     
     <!-- 登录页 -->
     <string name="login_account_hint">请输入账号</string>

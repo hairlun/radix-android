@@ -48,6 +48,8 @@ public class LockValidateActivity extends Activity implements OnPatternListener 
 
     /** 密码数据 */
     private List<Cell> lockPattern;
+    
+    private int requestCode;
 
     /** 手势密码错误的次数 */
     private int wrongCount;
@@ -59,6 +61,7 @@ public class LockValidateActivity extends Activity implements OnPatternListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lock_setup);
         context = this;
+        requestCode = getIntent().getIntExtra("requestCode", Constants.LOCK_CHECK);
         String patternString = PrefUtil.getString(context, Constants.PREF_LOCK_KEY, null);
         if (TextUtils.isEmpty(patternString)) {
             finish();
@@ -71,7 +74,11 @@ public class LockValidateActivity extends Activity implements OnPatternListener 
     
     private void initView() {
         titleBarView = (TitleBarView) findViewById(R.id.lock_settings_titlebar);
-        titleBarView.setTitle(R.string.titlebar_lock_close);
+        if (requestCode == Constants.LOCK_CLEAR) {
+            titleBarView.setTitle(R.string.titlebar_lock_close);
+        } else {
+            titleBarView.setTitle(R.string.titlebar_lock_check);
+        }
         lockPatternView = (LockPatternView) findViewById(R.id.lock_pattern);
         lockPatternView.setOnPatternListener(this);
         title = (TextView) findViewById(R.id.text_lock_hint);
@@ -134,6 +141,7 @@ public class LockValidateActivity extends Activity implements OnPatternListener 
      */
     public static void startForResult(Fragment fragment, int requestCode) {
         Intent intent = new Intent(fragment.getActivity(), LockValidateActivity.class);
+        intent.putExtra("requestCode", requestCode);
         fragment.startActivityForResult(intent, requestCode);
     }
 
