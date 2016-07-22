@@ -27,12 +27,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -111,7 +109,11 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
 	@Override
     public void onResume() {
         super.onResume();
-        if (!TextUtils.isEmpty(PrefUtil.getString(context, Constants.PREF_LOCK_KEY, null))) {
+        refresh();
+    }
+	
+	private void refresh() {
+	    if (!TextUtils.isEmpty(PrefUtil.getString(context, Constants.PREF_LOCK_KEY, null))) {
             lockStatusTv.setText("(已开启)");
         } else {
             lockStatusTv.setText("(已关闭)");
@@ -131,7 +133,7 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
         } else {
             currentCommunityTv.setText("");
         }
-    }
+	}
 
     @Override
 	public void setArguments(Bundle args) {
@@ -157,7 +159,7 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
                 LockSetupActivity.start(context);
             } else {
                 // 关闭密码锁
-                LockValidateActivity.startForResult(this, Constants.LOCK_CHECK);
+                LockValidateActivity.startForResult(this, Constants.LOCK_CLEAR);
             }
             break;
         case R.id.settings_current_community_ll:
@@ -268,6 +270,7 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
             MyApplication.instance.setSelectedLock(null);
         }
         adapter.select(position);
+        refresh();
     }
 
     @Override

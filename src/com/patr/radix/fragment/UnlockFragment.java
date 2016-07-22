@@ -1,10 +1,6 @@
 package com.patr.radix.fragment;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,37 +11,39 @@ import com.patr.radix.LockValidateActivity;
 import com.patr.radix.MyApplication;
 import com.patr.radix.MyKeysActivity;
 import com.patr.radix.R;
-import com.patr.radix.UnlockActivity;
 import com.patr.radix.adapter.CommunityListAdapter;
 import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.MDevice;
 import com.patr.radix.bean.RadixLock;
+import com.patr.radix.ble.BluetoothLeService;
 import com.patr.radix.bll.CacheManager;
 import com.patr.radix.bll.GetCommunityListParser;
 import com.patr.radix.bll.GetLockListParser;
 import com.patr.radix.bll.ServiceManager;
-import com.patr.radix.bll.ServiceManager.Url;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.utils.Constants;
+import com.patr.radix.utils.GattAttributes;
 import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.utils.Utils;
-import com.patr.radix.view.GifView;
 import com.patr.radix.view.ListSelectDialog;
 import com.patr.radix.view.TitleBarView;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothAdapter.LeScanCallback;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -60,16 +58,13 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TextView;
 
 public class UnlockFragment extends Fragment implements OnClickListener,
         OnItemClickListener, SensorEventListener {
@@ -96,6 +91,22 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private boolean mScanning = false;
 
+    private BluetoothGattCharacteristic notifyCharacteristic;
+    
+    private BluetoothGattCharacteristic writeCharacteristic;
+    
+    private boolean nofityEnable = false;
+    
+    private boolean handShake = false;
+    
+    private String cardNum = "FF FF FF FF ";
+    
+    private String csn;
+    
+    private String currentDevAddress;
+    
+    private String currentDevName;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -111,6 +122,12 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         titleBarView.hideBackBtn().showSelectKeyBtn();
         titleBarView.setOnSelectKeyClickListener(this);
         gifView = (GifImageView) view.findViewById(R.id.unlock_giv);
+        init();
+        loadData();
+        return view;
+    }
+    
+    private void init() {
         sensorManager = (SensorManager) context
                 .getSystemService(Context.SENSOR_SERVICE);
         vibrator = (Vibrator) context
@@ -127,8 +144,389 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         }
         adapter = new CommunityListAdapter(context,
                 MyApplication.instance.getCommunities());
-        loadData();
-        return view;
+        checkBleSupportAndInitialize();
+
+        Intent gattServiceIntent = new Intent(context,
+                BluetoothLeService.class);
+        context.startService(gattServiceIntent);
+        handler = new Handler();
+        if (!mScanning) {
+            startScan();
+        }
+        csn = Utils.getCsn(context);
+    }
+
+    /**
+     * BroadcastReceiver for receiving the GATT communication status
+     */
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            // Status received when connected to GATT Server
+            // 连接成功
+            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
+                System.out.println("--------------------->连接成功");
+                // statusTv.setText("已连接门禁。");
+
+                // 搜索服务
+                BluetoothLeService.discoverServices();
+            }
+            // Services Discovered from GATT Server
+            else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED
+                    .equals(action)) {
+                System.out.println("--------------------->发现SERVICES");
+//                statusTv.setText("已连接门禁，正在开门…");
+                prepareGattServices(BluetoothLeService
+                        .getSupportedGattServices());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doUnlock();
+                    }
+                }, 50);
+            } else if (action
+                    .equals(BluetoothLeService.ACTION_GATT_DISCONNECTED)) {
+                System.out.println("--------------------->断开连接");
+                // connect break (连接断开)
+//                statusTv.setText("连接已断开。");
+                BluetoothLeService.close();
+            }
+
+            // There are four basic operations for moving data in BLE: read,
+            // write, notify,
+            // and indicate. The BLE protocol specification requires that the
+            // maximum data
+            // payload size for these operations is 20 bytes, or in the case of
+            // read operations,
+            // 22 bytes. BLE is built for low power consumption, for infrequent
+            // short-burst data transmissions.
+            // Sending lots of data is possible, but usually ends up being less
+            // efficient than classic Bluetooth
+            // when trying to achieve maximum throughput.
+            // 从google查找的，解释了为什么android下notify无法解释超过
+            // 20个字节的数据
+            Bundle extras = intent.getExtras();
+            if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
+                // Data Received
+                if (extras.containsKey(Constants.EXTRA_BYTE_VALUE)) {
+                    if (extras.containsKey(Constants.EXTRA_BYTE_UUID_VALUE)) {
+                        byte[] encryptArray = intent
+                                .getByteArrayExtra(Constants.EXTRA_BYTE_VALUE);
+                        int size = encryptArray.length;
+                        byte[] array = new byte[size];
+                        for (int i = 0; i < size; i++) {
+                            array[i] = (byte) (encryptArray[i] ^ Constants.ENCRYPT);
+                        }
+                        handle(array);
+                    }
+                }
+                if (extras.containsKey(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE)) {
+                    if (extras
+                            .containsKey(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE_CHARACTERISTIC_UUID)) {
+                        byte[] array = intent
+                                .getByteArrayExtra(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE);
+
+                        // updateButtonStatus(array);
+
+                    }
+                }
+            }
+
+            if (action
+                    .equals(BluetoothLeService.ACTION_GATT_DESCRIPTORWRITE_RESULT)) {
+                if (extras.containsKey(Constants.EXTRA_DESCRIPTOR_WRITE_RESULT)) {
+                    int status = extras
+                            .getInt(Constants.EXTRA_DESCRIPTOR_WRITE_RESULT);
+                    if (status != BluetoothGatt.GATT_SUCCESS) {
+                        Toast.makeText(context, R.string.option_fail,
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            if (action
+                    .equals(BluetoothLeService.ACTION_GATT_CHARACTERISTIC_ERROR)) {
+                if (extras
+                        .containsKey(Constants.EXTRA_CHARACTERISTIC_ERROR_MESSAGE)) {
+                    String errorMessage = extras
+                            .getString(Constants.EXTRA_CHARACTERISTIC_ERROR_MESSAGE);
+                    System.out
+                            .println("GattDetailActivity---------------------->err:"
+                                    + errorMessage);
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG)
+                            .show();
+                }
+
+            }
+
+            // write characteristics succcess
+            if (action
+                    .equals(BluetoothLeService.ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS)) {
+                // Toast.makeText(context, "开门成功", Toast.LENGTH_SHORT).show();
+                // notifyOption();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        disconnectDevice();
+                    }
+                }, 100);
+            }
+
+            if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
+                // final int state =
+                // intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE,
+                // BluetoothDevice.ERROR);
+                // if (state == BluetoothDevice.BOND_BONDING) {}
+                // else if (state == BluetoothDevice.BOND_BONDED) {}
+                // else if (state == BluetoothDevice.BOND_NONE) {}
+            }
+
+        }
+    };
+
+    /**
+     * Getting the GATT Services 获得服务
+     * 
+     * @param gattServices
+     */
+    private void prepareGattServices(List<BluetoothGattService> gattServices) {
+        prepareData(gattServices);
+    }
+
+    /**
+     * Prepare GATTServices data.
+     * 
+     * @param gattServices
+     */
+    private void prepareData(List<BluetoothGattService> gattServices) {
+
+        if (gattServices == null)
+            return;
+
+        for (BluetoothGattService gattService : gattServices) {
+            String uuid = gattService.getUuid().toString();
+            if (uuid.equals(GattAttributes.GENERIC_ACCESS_SERVICE)
+                    || uuid.equals(GattAttributes.GENERIC_ATTRIBUTE_SERVICE))
+                continue;
+            if (uuid.equals(GattAttributes.USR_SERVICE)) {
+                initCharacteristics(gattService.getCharacteristics());
+                // notifyOption();
+                break;
+            }
+        }
+    }
+
+    private void handle(byte[] array) {
+        int size = array.length;
+        if (size < 5 || array[0] != (byte) 0xAA) {
+            // invalidMsg();
+            return;
+        }
+        byte cmd = array[1];
+        switch (cmd) {
+        case Constants.HAND_SHAKE:
+            if (size < 5 || array[4] != (byte) 0xDD) {
+                // invalidMsg();
+            } else {
+                if ((cmd ^ array[2]) == array[3]) {
+                    if (array[2] == (byte) 0x00) {
+                        handShake = true;
+                        // messageEt.append("握手成功。\n");
+                        // messageEt.setSelection(messageEt.getText().length(),
+                        // messageEt.getText().length());
+                    } else {
+                        // messageEt.append("握手失败。\n");
+                        // messageEt.setSelection(messageEt.getText().length(),
+                        // messageEt.getText().length());
+                    }
+                } else {
+                    // checkFailed();
+                }
+            }
+            break;
+        case Constants.READ_CARD:
+            if (size < 12 || array[11] != (byte) 0xDD) {
+                // invalidMsg();
+            } else {
+                for (int i = 2; i < 10; i++) {
+                    if (array[i] != (byte) 0x00) {
+                        // checkFailed();
+                        writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
+                        return;
+                    }
+                }
+                byte check = cmd;
+                for (int i = 2; i < 10; i++) {
+                    check ^= array[i];
+                }
+                if (check == array[10]) {
+                    if (handShake) {
+                        // messageEt.append("读卡号。\n");
+                        // messageEt.setSelection(messageEt.getText().length(),
+                        // messageEt.getText().length());
+                        writeOption("90 ", "00 00 00 00 00 " + cardNum);
+                    } else {
+                        // messageEt.append("未握手，读卡失败。\n");
+                        // messageEt.setSelection(messageEt.getText().length(),
+                        // messageEt.getText().length());
+                        writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
+                    }
+                } else {
+                    // checkFailed();
+                    writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
+                }
+            }
+            break;
+        case Constants.WRITE_CARD:
+            if (size < 12 || array[11] != (byte) 0xDD) {
+                // invalidMsg();
+            } else {
+                for (int i = 2; i < 6; i++) {
+                    if (array[i] != (byte) 0x00) {
+                        // checkFailed();
+                        writeOption("91 ", "FF 00 00 00 00 00 00 00 00 ");
+                        return;
+                    }
+                }
+                byte check = cmd;
+                for (int i = 2; i < 10; i++) {
+                    check ^= array[i];
+                }
+                if (check == array[10]) {
+                    if (handShake) {
+                        byte[] cn = new byte[4];
+                        for (int i = 0; i < 4; i++) {
+                            cn[i] = array[i + 6];
+                        }
+                        cardNum = Utils.ByteArraytoHex(cn);
+                        csn = cardNum;
+                        // messageEt.append("写卡号。新卡号：" + cardNum + "\n");
+                        // messageEt.setSelection(messageEt.getText().length(),
+                        // messageEt.getText().length());
+                        writeOption("91 ", "00 ");
+                    } else {
+                        // messageEt.append("未握手，写卡失败。\n");
+                        // messageEt.setSelection(messageEt.getText().length(),
+                        // messageEt.getText().length());
+                        writeOption("91 ", "FF ");
+                    }
+                } else {
+                    // checkFailed();
+                    writeOption("91 ", "FF ");
+                }
+            }
+            break;
+        case Constants.DISCONNECT:
+            if (size < 12 || array[11] != (byte) 0xDD) {
+                // invalidMsg();
+            } else {
+                for (int i = 2; i < 10; i++) {
+                    if (array[i] != (byte) 0x00) {
+                        // checkFailed();
+                        writeOption("A0 ", "FF ");
+                        return;
+                    }
+                }
+                byte check = cmd;
+                for (int i = 2; i < 10; i++) {
+                    check ^= array[i];
+                }
+                if (check == array[10]) {
+                    if (handShake) {
+                        // messageEt.append("断开连接。\n");
+                        // messageEt.setSelection(messageEt.getText().length(),
+                        // messageEt.getText().length());
+                        writeOption("A0 ", "00 ");
+                        handShake = false;
+                    } else {
+                        // messageEt.append("未握手，断开连接失败。\n");
+                        // messageEt.setSelection(messageEt.getText().length(),
+                        // messageEt.getText().length());
+                        writeOption("A0 ", "FF ");
+                    }
+                } else {
+                    // checkFailed();
+                    writeOption("A0 ", "FF ");
+                }
+            }
+            break;
+        default:
+            // messageEt.append("INVALID REQUEST/RESPONSE.");
+            // messageEt.setSelection(messageEt.getText().length(),
+            // messageEt.getText().length());
+            break;
+        }
+    }
+    
+    private void doUnlock() {
+        writeOption("31 ", "00 00 00 00 " + csn);
+    }
+
+    private void writeOption(String cmd, String data) {
+        String dataText = data.replace(" ", "");
+        String cmdText = cmd.replace(" ", "");
+        byte[] dataArray = Utils.hexStringToByteArray(dataText);
+        byte[] cmdArray = Utils.hexStringToByteArray(cmdText);
+        byte[] check = { cmdArray[0] };
+        for (byte b : dataArray) {
+            check[0] ^= b;
+        }
+        writeOption("AA " + cmd + data + Utils.ByteArraytoHex(check) + "DD");
+    }
+
+    private void writeOption(String hexStr) {
+        String text = hexStr.replace(" ", "");
+        byte[] array = Utils.hexStringToByteArray(text);
+        int size = array.length;
+        for (int i = 0; i < size; i++) {
+            array[i] ^= Constants.ENCRYPT;
+        }
+        writeCharacteristic(writeCharacteristic, array);
+        // messageEt.append("Sent: HEX:" + hexStr + "(encrypt: " +
+        // Utils.ByteArraytoHex(array) + ")\n");
+        // messageEt.setSelection(messageEt.getText().length(),
+        // messageEt.getText().length());
+    }
+
+    private void writeCharacteristic(
+            BluetoothGattCharacteristic characteristic, byte[] bytes) {
+        // Writing the hexValue to the characteristics
+        try {
+            BluetoothLeService.writeCharacteristicGattDb(characteristic, bytes);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initCharacteristics(
+            List<BluetoothGattCharacteristic> characteristics) {
+        for (BluetoothGattCharacteristic c : characteristics) {
+            if (Utils.getPorperties(context, c).equals("Notify")) {
+                notifyCharacteristic = c;
+                continue;
+            }
+
+            if (Utils.getPorperties(context, c).equals("Write")) {
+                writeCharacteristic = c;
+                continue;
+            }
+        }
+    }
+
+    private void connectDevice(BluetoothDevice device) {
+        currentDevAddress = device.getAddress();
+        currentDevName = device.getName();
+        // 如果是连接状态，断开，重新连接
+        if (BluetoothLeService.getConnectionState() != BluetoothLeService.STATE_DISCONNECTED)
+            BluetoothLeService.disconnect();
+
+//        statusTv.setText("正在连接门禁…");
+        BluetoothLeService.connect(currentDevAddress, currentDevName, context);
+    }
+
+    private void disconnectDevice() {
+        BluetoothLeService.disconnect();
     }
 
     private void loadData() {
@@ -350,6 +748,9 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
+        // 注册广播接收者，接收消息
+        context.registerReceiver(mGattUpdateReceiver,
+                Utils.makeGattUpdateIntentFilter());
         setTitle();
     }
 
@@ -357,6 +758,12 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     public void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
+        context.unregisterReceiver(mGattUpdateReceiver);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     /*
@@ -417,7 +824,12 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
     
     private void unlock() {
-        
+        RadixLock lock = MyApplication.instance.getSelectedLock();
+        for (MDevice device : list) {
+            if (device.getDevice().getName().equals(lock.getBleName())) {
+                connectDevice(device.getDevice());
+            }
+        }
     }
 
     private void checkBleSupportAndInitialize() {

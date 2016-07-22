@@ -184,7 +184,11 @@ public class MyApplication extends Application {
 
     public void setSelectedLock(RadixLock selectedLock) {
         this.selectedLock = selectedLock;
-        PrefUtil.save(instance, Constants.PREF_SELECTED_KEY, selectedLock.getId());
+        if (selectedLock != null) {
+            PrefUtil.save(instance, Constants.PREF_SELECTED_KEY, selectedLock.getId());
+        } else {
+            PrefUtil.save(instance, Constants.PREF_SELECTED_KEY, null);
+        }
     }
     
     public String getSelectedLockId() {
@@ -200,7 +204,11 @@ public class MyApplication extends Application {
 
     public void setSelectedCommunity(Community selectedCommunity) {
         this.selectedCommunity = selectedCommunity;
-        PrefUtil.save(instance, Constants.PREF_SELECTED_COMMUNITY, selectedCommunity.getId());
+        if (selectedCommunity != null) {
+            PrefUtil.save(instance, Constants.PREF_SELECTED_COMMUNITY, selectedCommunity.getId());
+        } else {
+            PrefUtil.save(instance, Constants.PREF_SELECTED_COMMUNITY, null);
+        }
     }
     
     public String getSelectedCommunityId() {

@@ -56,13 +56,11 @@ public class ServiceManager {
         
         String NAME = "name";
         
-        String AREA_ID = "areaId";
-        
         String AREA_NAME = "areaName";
         
-        String HOST = "host";
+        String HOST = "ipAddress";
         
-        String PORT = "port";
+        String PORT = "portNum";
         
         String USER_LIST = "userList";
         
@@ -121,7 +119,7 @@ public class ServiceManager {
      */
     public interface Url {
         
-        String COMMUNITY_LIST = "http://he28123790.ushost2.asia";
+        String COMMUNITY_LIST = "http://he28123790.ushost2.08jt.com/";
         
         /** 用户登录 */
         String LOGIN = "/login.do?";

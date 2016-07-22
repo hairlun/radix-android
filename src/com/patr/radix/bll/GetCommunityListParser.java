@@ -44,8 +44,18 @@ public class GetCommunityListParser extends
         try {
             JSONObject json = new JSONObject(response);
             if (json != null) {
-                String retcode = json.optString(RequestResult.RET_CODE_KEY);
-                String retinfo = json.optString(RequestResult.RET_INFO_KEY);
+                String retcode = "";
+                if (!json.isNull(RequestResult.RET_CODE_KEY)) {
+                    retcode = json.optString(RequestResult.RET_CODE_KEY);
+                } else {
+                    retcode = json.optString("retCode");
+                }
+                String retinfo = "";
+                if (!json.isNull(RequestResult.RET_INFO_KEY)) {
+                    retinfo = json.optString(RequestResult.RET_INFO_KEY);
+                } else {
+                    retinfo = json.optString("retInfo");
+                }
                 result = new GetCommunityListResult(retcode, retinfo);
                 JSONArray array = json.optJSONArray(ResponseKey.COMMUNITY_LIST);
                 if (array != null) {
@@ -53,7 +63,7 @@ public class GetCommunityListParser extends
                     for (int i = 0; i < size; i++) {
                         JSONObject obj = array.optJSONObject(i);
                         if (obj != null) {
-                            String id = obj.optString(ResponseKey.AREA_ID);
+                            String id = obj.optString(ResponseKey.ID);
                             String name = obj.optString(ResponseKey.AREA_NAME);
                             String host = obj.optString(ResponseKey.HOST);
                             String port = obj.optString(ResponseKey.PORT);
