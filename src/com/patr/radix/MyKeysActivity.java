@@ -59,9 +59,9 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         setContentView(R.layout.activity_my_keys);
         initView();
         // 测试数据
-//        if (MyApplication.DEBUG) {
-//            testData();
-//        }
+        if (MyApplication.DEBUG) {
+            testData();
+        }
         if (MyApplication.instance.getLocks().size() == 0) {
             loadData();
         }
@@ -131,6 +131,14 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
     private void testData() {
         List<RadixLock> locks = new ArrayList<RadixLock>();
         RadixLock lock;
+        lock = new RadixLock();
+        lock.setId("99");
+        lock.setName("RADIX");
+        lock.setBleName("RADIX");
+        lock.setKey("123456");
+        lock.setStart("2016-06-24 12:00");
+        lock.setEnd("2016-06-30 12:00");
+        locks.add(lock);
         for (int i = 0; i < 4; i++) {
             lock = new RadixLock();
             lock.setId("" + i);
@@ -176,6 +184,7 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
                 // 发送钥匙给视频通话对象
             } else {
                 if (!adapter.selectedSet.isEmpty()) {
+                    MyApplication.instance.setSelectedLocks(new ArrayList<RadixLock>(adapter.selectedSet));
                     // 设置有效时间，生成二维码
                     ActiveTimeActivity.start(context);
                 } else {

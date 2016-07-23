@@ -159,8 +159,8 @@
 
     <!-- 自定义标题栏 -->
     <string name="titlebar_back">返回</string>
-    <string name="titlebar_cancel">取消</string>
-    <string name="titlebar_check_all">全选</string>
+    <string name="titlebar_cancel"> 取消 </string>
+    <string name="titlebar_check_all"> 全选 </string>
     <string name="titlebar_send_key">发送钥匙</string>
     <string name="titlebar_select_key">选择钥匙</string>
     <string name="titlebar_login">业主登录</string>
@@ -193,6 +193,7 @@
     <string name="unlock_next">下一步</string>
     <string name="unlock_generate_qrcode">生成二维码</string>
     <string name="unlock_start_time">开始时间</string>
+    <string name="unlock_end_time">截止时间</string>
     <string name="unlock_active_time">有效时间</string>
     <string name="unlock_minute">分钟</string>
     <string name="unlock_share">发送好友</string>

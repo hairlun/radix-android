@@ -679,4 +679,57 @@ public class Utils {
         return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
     }
 
+    /**
+     * 时间算法
+     *     Byte3       Byte2       Byte1     Byte0
+     *  [yyyyyydd] [dddmmmms] [ssssssss][ssssssss]
+     * @param time
+     * @return
+     */
+    public static byte[] dateTime2Bytes(Date time) {
+        byte[] data = new byte[4];
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(time.getTime());
+        
+        int y = cal.get(Calendar.YEAR)-2000;
+        int d = cal.get(Calendar.DATE);
+        int m = cal.get(Calendar.MONTH)+1;
+        int s = cal.get(Calendar.HOUR_OF_DAY)*3600 + cal.get(Calendar.MINUTE)*60 + cal.get(Calendar.SECOND);
+
+        int i = 0;
+        i = (y << 26);  //32-6=26 左移26位表示 日的长度+月的长度+秒的长度
+        i |= (d << 21);
+        i |= (m << 17);
+        i |= s;
+
+        data[3] = (byte)(i & 0xff);
+        data[2] = (byte)((i >> 8) & 0xff);
+        data[1] = (byte)((i >> 16) & 0xff);
+        data[0] = (byte)((i >> 24) & 0xff);
+        
+        return data;
+    }
+    
+    public static String getCmdData(String cmd, String data) {
+        String dataText = data.replace(" ", "");
+        String cmdText = cmd.replace(" ", "");
+        byte[] dataArray = Utils.hexStringToByteArray(dataText);
+        byte[] cmdArray = Utils.hexStringToByteArray(cmdText);
+        byte[] check = { cmdArray[0] };
+        for (byte b : dataArray) {
+            check[0] ^= b;
+        }
+        return "AA " + cmd + data + Utils.ByteArraytoHex(check) + "DD";
+    }
+    
+    public static byte[] getEncryptedCmdDate(String cmdData) {
+        String text = cmdData.replace(" ", "");
+        byte[] array = Utils.hexStringToByteArray(text);
+        int size = array.length;
+        for (int i = 0; i < size; i++) {
+            array[i] ^= Constants.ENCRYPT;
+        }
+        return array;
+    }
+
 }

@@ -407,25 +407,11 @@ public class UnlockActivity extends Activity implements OnItemClickListener,
     }
 
     private void writeOption(String cmd, String data) {
-        String dataText = data.replace(" ", "");
-        String cmdText = cmd.replace(" ", "");
-        byte[] dataArray = Utils.hexStringToByteArray(dataText);
-        byte[] cmdArray = Utils.hexStringToByteArray(cmdText);
-        byte[] check = { cmdArray[0] };
-        for (byte b : dataArray) {
-            check[0] ^= b;
-        }
-        writeOption("AA " + cmd + data + Utils.ByteArraytoHex(check) + "DD");
+        writeOption(Utils.getCmdData(cmd, data));
     }
 
     private void writeOption(String hexStr) {
-        String text = hexStr.replace(" ", "");
-        byte[] array = Utils.hexStringToByteArray(text);
-        int size = array.length;
-        for (int i = 0; i < size; i++) {
-            array[i] ^= Constants.ENCRYPT;
-        }
-        writeCharacteristic(writeCharacteristic, array);
+        writeCharacteristic(writeCharacteristic, Utils.getEncryptedCmdDate(hexStr));
         // messageEt.append("Sent: HEX:" + hexStr + "(encrypt: " +
         // Utils.ByteArraytoHex(array) + ")\n");
         // messageEt.setSelection(messageEt.getText().length(),

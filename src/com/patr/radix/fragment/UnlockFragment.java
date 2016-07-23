@@ -99,10 +99,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     
     private boolean handShake = false;
     
-    private String cardNum = "FF FF FF FF ";
-    
-    private String csn;
-    
     private String currentDevAddress;
     
     private String currentDevName;
@@ -150,10 +146,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 BluetoothLeService.class);
         context.startService(gattServiceIntent);
         handler = new Handler();
-        if (!mScanning) {
-            startScan();
-        }
-        csn = Utils.getCsn(context);
+        MyApplication.instance.setCsn(Utils.getCsn(context));
     }
 
     /**
@@ -365,7 +358,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                         // messageEt.append("读卡号。\n");
                         // messageEt.setSelection(messageEt.getText().length(),
                         // messageEt.getText().length());
-                        writeOption("90 ", "00 00 00 00 00 " + cardNum);
+                        writeOption("90 ", "00 00 00 00 00 " + MyApplication.instance.getCardNum());
                     } else {
                         // messageEt.append("未握手，读卡失败。\n");
                         // messageEt.setSelection(messageEt.getText().length(),
@@ -399,8 +392,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                         for (int i = 0; i < 4; i++) {
                             cn[i] = array[i + 6];
                         }
-                        cardNum = Utils.ByteArraytoHex(cn);
-                        csn = cardNum;
+                        MyApplication.instance.setCardNum(Utils.ByteArraytoHex(cn));
+                        MyApplication.instance.setCsn(MyApplication.instance.getCardNum());
                         // messageEt.append("写卡号。新卡号：" + cardNum + "\n");
                         // messageEt.setSelection(messageEt.getText().length(),
                         // messageEt.getText().length());
@@ -460,29 +453,15 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
     
     private void doUnlock() {
-        writeOption("31 ", "00 00 00 00 " + csn);
+        writeOption("31 ", "00 00 00 00 " + MyApplication.instance.getCsn());
     }
 
     private void writeOption(String cmd, String data) {
-        String dataText = data.replace(" ", "");
-        String cmdText = cmd.replace(" ", "");
-        byte[] dataArray = Utils.hexStringToByteArray(dataText);
-        byte[] cmdArray = Utils.hexStringToByteArray(cmdText);
-        byte[] check = { cmdArray[0] };
-        for (byte b : dataArray) {
-            check[0] ^= b;
-        }
-        writeOption("AA " + cmd + data + Utils.ByteArraytoHex(check) + "DD");
+        writeOption(Utils.getCmdData(cmd, data));
     }
 
     private void writeOption(String hexStr) {
-        String text = hexStr.replace(" ", "");
-        byte[] array = Utils.hexStringToByteArray(text);
-        int size = array.length;
-        for (int i = 0; i < size; i++) {
-            array[i] ^= Constants.ENCRYPT;
-        }
-        writeCharacteristic(writeCharacteristic, array);
+        writeCharacteristic(writeCharacteristic, Utils.getEncryptedCmdDate(hexStr));
         // messageEt.append("Sent: HEX:" + hexStr + "(encrypt: " +
         // Utils.ByteArraytoHex(array) + ")\n");
         // messageEt.setSelection(messageEt.getText().length(),
@@ -751,6 +730,9 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         // 注册广播接收者，接收消息
         context.registerReceiver(mGattUpdateReceiver,
                 Utils.makeGattUpdateIntentFilter());
+        if (!mScanning) {
+            startScan();
+        }
         setTitle();
     }
 
@@ -826,7 +808,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     private void unlock() {
         RadixLock lock = MyApplication.instance.getSelectedLock();
         for (MDevice device : list) {
-            if (device.getDevice().getName().equals(lock.getBleName())) {
+            if (device.getDevice().getName().equalsIgnoreCase(lock.getBleName())) {
                 connectDevice(device.getDevice());
             }
         }

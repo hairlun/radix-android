@@ -2,22 +2,13 @@ package com.patr.radix;
 
 import android.app.Application;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.Context;
 import android.text.TextUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.xutils.x;
 
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.patr.radix.adapter.CommunityListAdapter;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
@@ -26,19 +17,16 @@ import com.patr.radix.bean.RadixLock;
 import com.patr.radix.bll.CacheManager;
 import com.patr.radix.bll.GetCommunityListParser;
 import com.patr.radix.bll.GetLockListParser;
-import com.patr.radix.bll.ServiceManager.Url;
-import com.patr.radix.fragment.UnlockFragment;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.PrefUtil;
-import com.patr.radix.view.ListSelectDialog;
 
 public class MyApplication extends Application {
 
     /**
      * 打包发布要改为false
      */
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     /**
      * 服务器地址
@@ -52,6 +40,8 @@ public class MyApplication extends Application {
     
     private final List<RadixLock> locks = new ArrayList<RadixLock>();
     
+    private final List<RadixLock> selectedLocks = new ArrayList<RadixLock>();
+    
     private RadixLock selectedLock;
     
     private Community selectedCommunity;
@@ -64,6 +54,10 @@ public class MyApplication extends Application {
     
     private String mName;
     
+    private String cardNum = "FF FF FF FF ";
+    
+    private String csn;
+
     public static MyApplication instance;
 
     @Override
@@ -225,6 +219,31 @@ public class MyApplication extends Application {
     public void setCommunities(List<Community> communities) {
         this.communities.clear();
         this.communities.addAll(communities);
+    }
+
+    public String getCardNum() {
+        return cardNum;
+    }
+
+    public void setCardNum(String cardNum) {
+        this.cardNum = cardNum;
+    }
+
+    public String getCsn() {
+        return csn;
+    }
+
+    public void setCsn(String csn) {
+        this.csn = csn;
+    }
+
+    public List<RadixLock> getSelectedLocks() {
+        return selectedLocks;
+    }
+    
+    public void setSelectedLocks(List<RadixLock> list) {
+        this.selectedLocks.clear();
+        this.selectedLocks.addAll(list);
     }
 
 }

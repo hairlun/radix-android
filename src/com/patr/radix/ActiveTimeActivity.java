@@ -9,8 +9,10 @@ package com.patr.radix;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.patr.radix.bean.RadixLock;
 import com.patr.radix.utils.TimeUtil;
 import com.patr.radix.utils.ToastUtil;
+import com.patr.radix.utils.Utils;
 import com.patr.radix.utils.qrcode.QRCodeUtil;
 import com.patr.radix.view.TitleBarView;
 import com.patr.radix.view.picker.DatetimeDialog;
@@ -26,8 +28,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,13 +47,21 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
     
     private TextView keyStartTimeTv;
     
-    private LinearLayout keyActiveTimeLl;
+    private RelativeLayout keyEndTimeRl;
     
-    private EditText keyActiveTimeEt;
+    private TextView keyEndTimeTv;
+    
+//    private LinearLayout keyActiveTimeLl;
+//    
+//    private EditText keyActiveTimeEt;
     
     private Button generateQrcodeBtn;
     
-    private Calendar cal;
+    private Calendar startCal;
+    
+    private Calendar endCal;
+    
+    private int timeType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,28 +75,44 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
         titleBarView = (TitleBarView) findViewById(R.id.unlock_active_time_titlebar);
         keyStartTimeRl = (RelativeLayout) findViewById(R.id.unlock_start_rl);
         keyStartTimeTv = (TextView) findViewById(R.id.unlock_start_tv);
-        keyActiveTimeLl = (LinearLayout) findViewById(R.id.unlock_active_time_ll);
-        keyActiveTimeEt = (EditText) findViewById(R.id.unlock_active_time_et);
+        keyEndTimeRl = (RelativeLayout) findViewById(R.id.unlock_end_rl);
+        keyEndTimeTv = (TextView) findViewById(R.id.unlock_end_tv);
+//        keyActiveTimeLl = (LinearLayout) findViewById(R.id.unlock_active_time_ll);
+//        keyActiveTimeEt = (EditText) findViewById(R.id.unlock_active_time_et);
         generateQrcodeBtn = (Button) findViewById(R.id.unlock_generate_qrcode_btn);
         titleBarView.setTitle(R.string.titlebar_key_active_time);
         keyStartTimeRl.setOnClickListener(this);
-        keyActiveTimeLl.setOnClickListener(this);
+        keyEndTimeRl.setOnClickListener(this);
+//        keyActiveTimeLl.setOnClickListener(this);
         generateQrcodeBtn.setOnClickListener(this);
-        cal = Calendar.getInstance();
+        startCal = Calendar.getInstance();
+        endCal = Calendar.getInstance();
     }
 
     /**
      * 显示日期选择框
      */
-    private void showDatePickerDialog() {
+    private void showDatePickerDialog(int timeType) {
         Type type = Type.DATETIME;
-        if (TextUtils.isEmpty(keyStartTimeTv.getText().toString().trim())) {
-            cal.setTimeInMillis(System.currentTimeMillis());
+        DatetimeDialog picker;
+        if (timeType == 0) {
+            if (TextUtils.isEmpty(keyStartTimeTv.getText().toString().trim())) {
+                startCal.setTimeInMillis(System.currentTimeMillis());
+            }
+            picker = new DatetimeDialog(context, startCal.getTime(),
+                    type);
+            picker.setOnConfirmListener(this);
+            picker.show();
+        } else {
+            if (TextUtils.isEmpty(keyEndTimeTv.getText().toString().trim())) {
+                endCal.setTimeInMillis(System.currentTimeMillis());
+            }
+            picker = new DatetimeDialog(context, endCal.getTime(),
+                    type);
+            picker.setOnConfirmListener(this);
+            picker.show();
         }
-        DatetimeDialog picker = new DatetimeDialog(context, cal.getTime(),
-                type);
-        picker.setOnConfirmListener(this);
-        picker.show();
+        this.timeType = timeType;
     }
 
     /**
@@ -98,14 +122,26 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
      */
     public void setDateTime(Date date) {
         if (date == null) {
-            keyStartTimeTv.setText("");
-            cal.setTimeInMillis(System.currentTimeMillis());
-            cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MILLISECOND, 0);
+            if (timeType == 0) {
+                keyStartTimeTv.setText("");
+                startCal.setTimeInMillis(System.currentTimeMillis());
+                startCal.set(Calendar.SECOND, 0);
+                startCal.set(Calendar.MILLISECOND, 0);
+            } else {
+                keyEndTimeTv.setText("");
+                endCal.setTimeInMillis(System.currentTimeMillis());
+                endCal.set(Calendar.SECOND, 0);
+                endCal.set(Calendar.MILLISECOND, 0);
+            }
             return;
         }
-        cal.setTime(date);
-        keyStartTimeTv.setText(TimeUtil.getDateStr(cal.getTime(), DATE_FORMAT));
+        if (timeType == 0) {
+            startCal.setTime(date);
+            keyStartTimeTv.setText(TimeUtil.getDateStr(startCal.getTime(), DATE_FORMAT));
+        } else {
+            endCal.setTime(date);
+            keyEndTimeTv.setText(TimeUtil.getDateStr(endCal.getTime(), DATE_FORMAT));
+        }
     }
 
     /* (non-Javadoc)
@@ -115,25 +151,42 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.unlock_start_rl:
-            showDatePickerDialog();
+            showDatePickerDialog(0);
             break;
-        case R.id.unlock_active_time_ll:
-            keyActiveTimeEt.setFocusable(true);
-            keyActiveTimeEt.setFocusableInTouchMode(true);
-            keyActiveTimeEt.requestFocus();
+//        case R.id.unlock_active_time_ll:
+//            keyActiveTimeEt.setFocusable(true);
+//            keyActiveTimeEt.setFocusableInTouchMode(true);
+//            keyActiveTimeEt.requestFocus();
+//            break;
+        case R.id.unlock_end_rl:
+            showDatePickerDialog(1);
             break;
         case R.id.unlock_generate_qrcode_btn:
             if (TextUtils.isEmpty(keyStartTimeTv.getText())) {
                 ToastUtil.showShort(context, "请选择开始时间！");
                 break;
             }
-            if (TextUtils.isEmpty(keyActiveTimeEt.getText())) {
-                ToastUtil.showShort(context, "请选择有效时间！");
+            if (TextUtils.isEmpty(keyEndTimeTv.getText())) {
+                ToastUtil.showShort(context, "请选择截止时间！");
                 break;
             }
+//            if (TextUtils.isEmpty(keyActiveTimeEt.getText())) {
+//                ToastUtil.showShort(context, "请选择有效时间！");
+//                break;
+//            }
             // 生成二维码
             try {
-                Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(keyStartTimeTv.getText().toString() + "&" + keyActiveTimeEt.getText().toString(), 300, 300);
+                String cmd = "31 ";
+                String data = "00 00 00 00 " + MyApplication.instance.getCsn()
+                        + Utils.ByteArraytoHex(Utils.dateTime2Bytes(startCal.getTime()))
+                        + Utils.ByteArraytoHex(Utils.dateTime2Bytes(endCal.getTime()));
+                for (RadixLock lock : MyApplication.instance.getSelectedLocks()) {
+                    data += Utils.ByteArraytoHex(new byte[]{ (byte) Integer.parseInt(lock.getId()) });
+                }
+                String cmdData = Utils.getCmdData(cmd, data);
+                byte[] array = Utils.hexStringToByteArray(cmdData.replace(" ", ""));
+                String text = new String(data);
+                Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(text, 300, 300);
                 QRCodeActivity.start(context, bitmap);
             } catch (Exception e) {
                 e.printStackTrace();
