@@ -185,7 +185,7 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
                 }
                 String cmdData = Utils.getCmdData(cmd, data);
                 byte[] array = Utils.hexStringToByteArray(cmdData.replace(" ", ""));
-                String text = new String(data);
+                String text = new String(array);
                 Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(text, 300, 300);
                 QRCodeActivity.start(context, bitmap);
             } catch (Exception e) {

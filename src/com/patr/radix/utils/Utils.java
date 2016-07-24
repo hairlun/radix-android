@@ -650,7 +650,11 @@ public class Utils {
         if (imsi != null && imsi.length() >= 8) {
             csn = imsi.substring(imsi.length() - 8);
         }
-        return csn;
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < 4; i++) {
+            sb.append(csn.substring(i * 2, i * 2 + 2)).append(" ");
+        }
+        return sb.toString();
     }
 
     public static final InputStream byte2Input(byte[] buf) {

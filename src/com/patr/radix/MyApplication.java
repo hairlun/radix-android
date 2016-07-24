@@ -26,7 +26,7 @@ public class MyApplication extends Application {
     /**
      * 打包发布要改为false
      */
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     /**
      * 服务器地址
