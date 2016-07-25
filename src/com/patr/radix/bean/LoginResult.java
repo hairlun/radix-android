@@ -31,9 +31,9 @@ public class LoginResult extends RequestResult {
     }
 
     /**
-     * 设置Token
+     * 设置userid
      * 
-     * @param token
+     * @param userid
      */
     public void setUserid(String userid) {
         if (userid == null) {

@@ -12,6 +12,10 @@ import com.patr.radix.network.IAsyncListener;
  * 登录结果解析器
  */
 public class LoginParser extends AbsBaseParser<LoginResult> {
+    
+    String userid;
+    
+    String pwd;
 
     public LoginParser(IAsyncListener<LoginResult> listener) {
         super(listener);

@@ -68,6 +68,8 @@ public class ServiceManager {
         
         String USER_ID = "account";
         
+        String AREA_ID = "areaId";
+        
         String MOBILE = "mobile";
         
         String PWD = "pwd";
