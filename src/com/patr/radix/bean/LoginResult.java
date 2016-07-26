@@ -11,7 +11,7 @@ public class LoginResult extends RequestResult {
     private static final long serialVersionUID = -4832219653928648661L;
 
     /** userid */
-    private String userid;
+    private UserInfo userInfo;
 
     /**
      * 无参构造
@@ -30,33 +30,12 @@ public class LoginResult extends RequestResult {
         super(retcode, retinfo);
     }
 
-    /**
-     * 设置userid
-     * 
-     * @param userid
-     */
-    public void setUserid(String userid) {
-        if (userid == null) {
-            userid = "";
-        }
-        this.userid = userid;
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
 
-    /**
-     * 获取Token
-     * 
-     * @return
-     */
-    public String getUserid() {
-        return userid == null ? "" : userid;
-    }
-
-    @Override
-    public String toString() {
-        return "LoginResult [userid=" + userid + ", isSuccesses()="
-                + isSuccesses() + ", getRetcode()=" + getRetcode()
-                + ", getRetinfo()=" + getRetinfo() + ", getResponse()="
-                + getResponse() + "]";
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
 }

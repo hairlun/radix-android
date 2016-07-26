@@ -1,6 +1,7 @@
 package com.patr.radix.fragment;
 
 import org.xutils.common.util.LogUtil;
+import org.xutils.ex.HttpException;
 
 import com.patr.radix.LockSetupActivity;
 import com.patr.radix.LockValidateActivity;
@@ -10,6 +11,7 @@ import com.patr.radix.R;
 import com.patr.radix.adapter.CommunityListAdapter;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.GetCommunityListResult;
+import com.patr.radix.bean.UserInfo;
 import com.patr.radix.bll.CacheManager;
 import com.patr.radix.bll.GetCommunityListParser;
 import com.patr.radix.bll.ServiceManager;
@@ -20,6 +22,8 @@ import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.view.ListSelectDialog;
 import com.patr.radix.view.TitleBarView;
+import com.patr.radix.view.dialog.MsgDialog;
+import com.patr.radix.view.dialog.MsgDialog.BtnType;
 
 import android.app.Activity;
 import android.content.Context;
@@ -170,7 +174,7 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
             // 版本检查及更新
             break;
         case R.id.settings_logout_btn:
-            if (TextUtils.isEmpty(MyApplication.instance.getUserId())) {
+            if (TextUtils.isEmpty(MyApplication.instance.getUserInfo().getAccount())) {
                 login();
             } else {
                 logout();
@@ -259,7 +263,16 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
     }
     
     private void logout() {
-        
+        MsgDialog.show(context, "确认", "确定要退出当前账号吗？", "确定",
+                new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        MyApplication.instance.setUserInfo(new UserInfo());
+                        PrefUtil.saveUserInfo(context, new UserInfo());
+                        refresh();
+                    }
+                }, BtnType.TWO);
     }
 
     @Override

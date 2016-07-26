@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.patr.radix.R;
-import com.patr.radix.view.AbsCustomDialog;
+import com.patr.radix.view.dialog.AbsCustomDialog;
 import com.patr.radix.view.picker.DatetimePickerView.Type;
 
 import android.content.Context;

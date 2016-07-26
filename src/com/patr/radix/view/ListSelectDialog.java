@@ -1,6 +1,7 @@
 package com.patr.radix.view;
 
 import com.patr.radix.R;
+import com.patr.radix.view.dialog.AbsCustomDialog;
 
 import android.content.Context;
 import android.os.Bundle;

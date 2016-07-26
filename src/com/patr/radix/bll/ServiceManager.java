@@ -34,6 +34,8 @@ public class ServiceManager {
     public interface RequestKey {
         String ACCOUNT = "account";
         
+        String TOKEN = "token";
+        
         String PAGE_NUM = "pageNum";
         
         String PAGE_SIZE = "pageSize";
@@ -113,6 +115,8 @@ public class ServiceManager {
         String READ_TIME = "readTime";
         
         String URL = "url";
+        
+        String MODEL = "model";
 
     }
 
@@ -124,7 +128,7 @@ public class ServiceManager {
         String COMMUNITY_LIST = "http://he28123790.ushost2.08jt.com/";
         
         /** 用户登录 */
-        String LOGIN = "/login.do?";
+        String LOGIN = "/mobileUserLogin?";
         
         /** 用户列表 */
         String USER_LIST = "/mobileUserList?";
@@ -179,8 +183,8 @@ public class ServiceManager {
      * @return
      */
     public static Cancelable getLockList(final RequestListener<GetLockListResult> listener) {
-        String[] keys = { RequestKey.ACCOUNT };
-        String[] values = { MyApplication.instance.getUserId() };
+        String[] keys = { RequestKey.TOKEN };
+        String[] values = { MyApplication.instance.getUserInfo().getToken() };
         return WebService.post(Url.LOCK_LIST, keys, values, listener, new GetLockListParser(listener));
     }
     
@@ -192,8 +196,8 @@ public class ServiceManager {
      * @return
      */
     public static Cancelable getNoticeList(int pageNum, final RequestListener<GetNoticeListResult> listener) {
-        String[] keys = { RequestKey.ACCOUNT, RequestKey.PAGE_NUM, RequestKey.PAGE_SIZE };
-        String[] values = { MyApplication.instance.getUserId(), String.valueOf(pageNum), String.valueOf(LIMIT)};
+        String[] keys = { RequestKey.TOKEN, RequestKey.PAGE_NUM, RequestKey.PAGE_SIZE };
+        String[] values = { MyApplication.instance.getUserInfo().getToken(), String.valueOf(pageNum), String.valueOf(LIMIT)};
         return WebService.post(Url.NOTICE_LIST, keys, values, listener, new GetNoticeListParser(listener));
     }
     
@@ -205,8 +209,8 @@ public class ServiceManager {
      * @return
      */
     public static Cancelable getNoticeDetails(String id, final RequestListener<GetNoticeDetailsResult> listener) {
-        String[] keys = { RequestKey.ACCOUNT, RequestKey.ID };
-        String[] values = { MyApplication.instance.getUserId(), id };
+        String[] keys = { RequestKey.TOKEN, RequestKey.ID };
+        String[] values = { MyApplication.instance.getUserInfo().getToken(), id };
         return WebService.post(Url.NOTICE_DETAILS, keys, values, listener, new GetNoticeDetailsParser(listener));
     }
     
@@ -220,8 +224,8 @@ public class ServiceManager {
      * @return
      */
     public static Cancelable updateUserInfo(String name, String mobile, String pwd, final RequestListener<RequestResult> listener) {
-        String[] keys = { RequestKey.ACCOUNT, RequestKey.NAME, RequestKey.MOBILE, RequestKey.PWD };
-        String[] values = { MyApplication.instance.getUserId(), name, mobile, pwd };
+        String[] keys = { RequestKey.TOKEN, RequestKey.NAME, RequestKey.MOBILE, RequestKey.PWD };
+        String[] values = { MyApplication.instance.getUserInfo().getToken(), name, mobile, pwd };
         return WebService.post(Url.EDIT_USER_INFO, keys, values, listener, new RequestResultParser(listener));
     }
 }

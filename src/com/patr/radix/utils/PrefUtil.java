@@ -6,8 +6,11 @@
  */
 package com.patr.radix.utils;
 
+import com.patr.radix.bean.UserInfo;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 /**
  * SharedPreferences工具类
@@ -56,6 +59,36 @@ public class PrefUtil {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(key, value);
         return editor.commit();
+    }
+
+    /**
+     * @param userInfo
+     */
+    public static void saveUserInfo(Context context, UserInfo userInfo) {
+        save(context, Constants.PREF_ACCOUNT, userInfo.getAccount());
+        save(context, Constants.PREF_NAME, userInfo.getName());
+        save(context, Constants.PREF_AREA_ID, userInfo.getAreaId());
+        save(context, Constants.PREF_AREA_NAME, userInfo.getAreaName());
+        save(context, Constants.PREF_MOBILE, userInfo.getMobile());
+        save(context, Constants.PREF_HOME, userInfo.getHome());
+        save(context, Constants.PREF_TOKEN, userInfo.getToken());
+    }
+    
+    public static UserInfo getUserInfo(Context context) {
+        String account = getString(context, Constants.PREF_ACCOUNT);
+        String name = getString(context, Constants.PREF_NAME);
+        String areaId = getString(context, Constants.PREF_AREA_ID);
+        String areaName = getString(context, Constants.PREF_AREA_NAME);
+        String mobile = getString(context, Constants.PREF_MOBILE);
+        String home = getString(context, Constants.PREF_HOME);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setAccount(account);
+        userInfo.setName(name);
+        userInfo.setAreaId(areaId);
+        userInfo.setAreaName(areaName);
+        userInfo.setMobile(mobile);
+        userInfo.setHome(home);
+        return userInfo;
     }
 
     /**

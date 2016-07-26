@@ -45,11 +45,21 @@ public class Constants {
 	
 	public static final String DEFAULT_CSN = "88 87 22 50 ";
 	
-	public static final String PREF_USER_ID = "userId";
+	public static final String PREF_ACCOUNT = "account";
 	public static final String PREF_NAME = "name";
+	public static final String PREF_AREA_ID = "areaId";
+	public static final String PREF_AREA_NAME = "areaName";
+	public static final String PREF_MOBILE = "mobile";
+	public static final String PREF_HOME = "home";
+	public static final String PREF_TOKEN = "token";
 	public static final String PREF_SELECTED_KEY = "selectedKey";
 	public static final String PREF_SELECTED_COMMUNITY = "selectedCommunity";
 	public static final String PREF_LOCK_KEY = "lockKey";
+
+    /**
+     * 密钥，用于加密缓存
+     */
+    public static final String DEFAULT_KEY = "1482df2448f146979077dc7272e03b81";
 
     /** 验证手势密码请求码 */
     public static final int LOCK_CHECK = 100;

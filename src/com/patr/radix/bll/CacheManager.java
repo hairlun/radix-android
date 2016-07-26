@@ -25,7 +25,7 @@ public class CacheManager {
     }
     
     public static String getLockListUrl() {
-        return String.format("%s%s?account=%s", MyApplication.instance.getSelectedCommunity().getUrl(), Url.LOCK_LIST, MyApplication.instance.getUserId());
+        return String.format("%s%s?account=%s", MyApplication.instance.getSelectedCommunity().getUrl(), Url.LOCK_LIST, MyApplication.instance.getUserInfo().getAccount());
     }
 
     /**

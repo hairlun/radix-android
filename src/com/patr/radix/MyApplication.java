@@ -14,10 +14,12 @@ import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.MService;
 import com.patr.radix.bean.RadixLock;
+import com.patr.radix.bean.UserInfo;
 import com.patr.radix.bll.CacheManager;
 import com.patr.radix.bll.GetCommunityListParser;
 import com.patr.radix.bll.GetLockListParser;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.network.WebService;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.PrefUtil;
 
@@ -26,12 +28,7 @@ public class MyApplication extends Application {
     /**
      * 打包发布要改为false
      */
-    public static final boolean DEBUG = false;
-
-    /**
-     * 服务器地址
-     */
-    public static final String DEFAULT_URL = "http://112.92.206.187/surpass/mobile";
+    public static final boolean DEBUG = true;
 
     private final List<MService> services = new ArrayList<MService>();
     private final List<BluetoothGattCharacteristic> characteristics = new ArrayList<BluetoothGattCharacteristic>();
@@ -50,7 +47,7 @@ public class MyApplication extends Application {
     
     private String selectedLockId;
     
-    private String mUserId;
+    private UserInfo userInfo = new UserInfo();
     
     private String mName;
     
@@ -66,9 +63,16 @@ public class MyApplication extends Application {
         x.Ext.init(this);
         x.Ext.setDebug(DEBUG);
         instance = this;
-        if (DEBUG) {
-            mUserId = "admin";
-        }
+        // 从缓存读取用户信息
+        userInfo = PrefUtil.getUserInfo(instance);
+//        if (DEBUG) {
+//            if (TextUtils.isEmpty(userInfo.getAccount())) {
+//                userInfo = new UserInfo();
+//                userInfo.setAccount("admin");
+//                userInfo.setName("admin");
+//                userInfo.setId("0");
+//            }
+//        }
         // 从缓存读取小区列表和当前选择小区
         getCommunityListFromCache();
         // 从缓存读取门禁钥匙列表和当前选择门禁钥匙
@@ -150,20 +154,17 @@ public class MyApplication extends Application {
         this.locks.addAll(locks);
     }
     
-    public String getUserId() {
-        if (TextUtils.isEmpty(mUserId)) {
-            mUserId = PrefUtil.getString(instance, Constants.PREF_USER_ID);
-        }
-        return mUserId;
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
     
-    public void setUserId(String userId) {
-        this.mUserId = userId;
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
     public String getName() {
         if (TextUtils.isEmpty(mName)) {
-            mUserId = PrefUtil.getString(instance, Constants.PREF_NAME);
+            mName = PrefUtil.getString(instance, Constants.PREF_NAME);
         }
         return mName;
     }
@@ -199,6 +200,7 @@ public class MyApplication extends Application {
     public void setSelectedCommunity(Community selectedCommunity) {
         this.selectedCommunity = selectedCommunity;
         if (selectedCommunity != null) {
+            WebService.URL = selectedCommunity.getUrl();
             PrefUtil.save(instance, Constants.PREF_SELECTED_COMMUNITY, selectedCommunity.getId());
         } else {
             PrefUtil.save(instance, Constants.PREF_SELECTED_COMMUNITY, null);

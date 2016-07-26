@@ -1,4 +1,4 @@
-package com.patr.radix.view;
+package com.patr.radix.view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

@@ -1,6 +1,7 @@
 package com.patr.radix;
 
 import com.patr.radix.bean.LoginResult;
+import com.patr.radix.bean.UserInfo;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.utils.NetUtils;
@@ -65,6 +66,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         height = logoIv.getMeasuredHeight();
         width = logoIv.getMeasuredWidth();
         logoIv.setPadding((int)(height * 1.2), (int)(height * 1.2), (int)(height * 1.2), (int)(height * 1.2));
+        loadingDialog = new LoadingDialog(context);
     }
 
     /*
@@ -83,19 +85,29 @@ public class LoginActivity extends Activity implements OnClickListener {
             } else if (TextUtils.isEmpty(pwd)) {
                 ToastUtil.showLong(context, "密码不能为空，请重新输入!");
             } else {
-                if (MyApplication.DEBUG) {
-                    testLogin();
-                } else {
+//                if (MyApplication.DEBUG) {
+//                    testLogin();
+//                } else {
                     login();
-                }
+//                }
             }
             break;
         }
     }
     
     private void testLogin() {
-        
-        
+        UserInfo userInfo = new UserInfo();
+        userInfo.setAccount("admin");
+        userInfo.setName("admin");
+        userInfo.setId("1");
+        userInfo.setAreaId("5");
+        userInfo.setAreaName("物业部");
+        userInfo.setHome("0508");
+        userInfo.setMobile("88888888");
+        MyApplication.instance.setUserInfo(userInfo);
+        PrefUtil.saveUserInfo(context, userInfo);
+//        MainActivity.startAfterLogin(context);
+        finish();
     }
 
     private void login() {
@@ -120,9 +132,9 @@ public class LoginActivity extends Activity implements OnClickListener {
             public void onSuccess(int statusCode, LoginResult result) {
                 if (result != null) {
                     if (result.isSuccesses()) {
-                        MyApplication.instance.setUserId(result.getUserid());
-                        PrefUtil.save(context, "userId", result.getUserid());
-                        MainActivity.startAfterLogin(context);
+                        MyApplication.instance.setUserInfo(result.getUserInfo());
+                        PrefUtil.saveUserInfo(context, result.getUserInfo());
+//                        MainActivity.startAfterLogin(context);
                         finish();
                     } else {
                         ToastUtil.showLong(context, result.getRetinfo());

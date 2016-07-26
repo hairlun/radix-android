@@ -3,6 +3,7 @@ package com.patr.radix;
 import com.patr.radix.bean.GetNoticeDetailsResult;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.network.WebService;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.view.NewsShowUrlWebView;
 import com.patr.radix.view.NewsShowUrlWebView.NewsWebViewClient;
@@ -51,7 +52,7 @@ public class NoticeDetailsActivity extends Activity implements OnRefreshListener
     }
     
     private void loadData() {
-        String url = MyApplication.DEFAULT_URL + "/mobileViewNotice?account=" + MyApplication.instance.getUserId() + "&id=" + noticeId;
+        String url = WebService.URL + "/mobileViewNotice?account=" + MyApplication.instance.getUserInfo().getAccount() + "&id=" + noticeId;
         initWebView(url);
 //        // 从服务器获取公告详情
 //        ServiceManager.getNoticeDetails(noticeId, new RequestListener<GetNoticeDetailsResult>() {

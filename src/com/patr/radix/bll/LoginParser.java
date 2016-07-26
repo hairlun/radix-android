@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import com.patr.radix.bean.LoginResult;
 import com.patr.radix.bean.RequestResult;
+import com.patr.radix.bean.UserInfo;
 import com.patr.radix.bll.ServiceManager.ResponseKey;
 import com.patr.radix.network.IAsyncListener;
 
@@ -12,10 +13,6 @@ import com.patr.radix.network.IAsyncListener;
  * 登录结果解析器
  */
 public class LoginParser extends AbsBaseParser<LoginResult> {
-    
-    String userid;
-    
-    String pwd;
 
     public LoginParser(IAsyncListener<LoginResult> listener) {
         super(listener);
@@ -30,11 +27,27 @@ public class LoginParser extends AbsBaseParser<LoginResult> {
                 String retcode = json.optString(RequestResult.RET_CODE_KEY);
                 String retinfo = json.optString(RequestResult.RET_INFO_KEY);
                 result = new LoginResult(retcode, retinfo);
-                String userid = json.optString(ResponseKey.USER_ID);
-                result.setUserid(userid);
                 if (result.isSuccesses()) {
-                    result.setResponse(response);
+                    JSONObject obj = json.optJSONObject(ResponseKey.MODEL);
+                    if (obj != null) {
+                        String id = obj.optString(ResponseKey.ID);
+                        String account = obj.optString(ResponseKey.USER_ID);
+                        String areaId = obj.optString(ResponseKey.AREA_ID);
+                        String areaName = obj.optString(ResponseKey.AREA_NAME);
+                        String name = obj.optString(ResponseKey.NAME);
+                        String mobile = obj.optString(ResponseKey.MOBILE);
+                        String home = obj.optString(ResponseKey.HOME);
+                        UserInfo userInfo = new UserInfo();
+                        userInfo.setId(id);
+                        userInfo.setAccount(account);
+                        userInfo.setAreaId(areaId);
+                        userInfo.setAreaName(areaName);
+                        userInfo.setName(name);
+                        userInfo.setMobile(mobile);
+                        userInfo.setHome(home);
+                    }
                 }
+                result.setResponse(response);
             }
         } catch (JSONException e) {
             e.printStackTrace();

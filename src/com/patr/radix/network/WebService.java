@@ -34,7 +34,7 @@ public class WebService {
     /**
      * 服务器地址
      */
-    public static String URL = MyApplication.DEFAULT_URL;
+    public static String URL;
 
     /**
      * 异步HTTP请求工具，30S超时
