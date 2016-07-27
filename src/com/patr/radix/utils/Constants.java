@@ -55,6 +55,12 @@ public class Constants {
 	public static final String PREF_SELECTED_KEY = "selectedKey";
 	public static final String PREF_SELECTED_COMMUNITY = "selectedCommunity";
 	public static final String PREF_LOCK_KEY = "lockKey";
+	public static final String PREF_BILL_1_IN = "bill1in";
+	public static final String PREF_BILL_5_IN = "bill5in";
+    public static final String PREF_BILL_10_IN = "bill10in";
+    public static final String PREF_BILL_20_IN = "bill20in";
+    public static final String PREF_COIN_1_YUAN_IN = "coin1yuanin";
+    public static final String PREF_COIN_5_JIAO_IN = "coin5jiaoin";
 
     /**
      * 密钥，用于加密缓存
