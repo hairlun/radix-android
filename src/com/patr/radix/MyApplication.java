@@ -28,7 +28,7 @@ public class MyApplication extends Application {
     /**
      * 打包发布要改为false
      */
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     private final List<MService> services = new ArrayList<MService>();
     private final List<BluetoothGattCharacteristic> characteristics = new ArrayList<BluetoothGattCharacteristic>();

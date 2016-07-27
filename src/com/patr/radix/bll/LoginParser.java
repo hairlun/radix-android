@@ -45,6 +45,7 @@ public class LoginParser extends AbsBaseParser<LoginResult> {
                         userInfo.setName(name);
                         userInfo.setMobile(mobile);
                         userInfo.setHome(home);
+                        result.setUserInfo(userInfo);
                     }
                 }
                 result.setResponse(response);
