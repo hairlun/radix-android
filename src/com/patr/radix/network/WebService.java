@@ -14,9 +14,7 @@ import org.xutils.ex.HttpException;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
 
-import com.patr.radix.MyApplication;
 import com.patr.radix.network.IAsyncListener.ResultParser;
-
 
 /**
  * Web服务
@@ -41,6 +39,9 @@ public class WebService {
      */
     public static final HttpManager HTTP = x.http();
 
+    /** 连接超时时间 */
+    public static final int TIMEOUT = 30000;
+
     /**
      * 私有构造
      */
@@ -60,8 +61,8 @@ public class WebService {
      *            结果解析器
      * @return
      */
-    public static <T> Cancelable post(String url, String[] keys, String[] values,
-            final RequestListener<T> listener,
+    public static <T> Cancelable post(String url, String[] keys,
+            String[] values, final RequestListener<T> listener,
             final ResultParser<T> parser) {
         String requestUrl;
         if (!url.startsWith("http")) {
@@ -141,8 +142,13 @@ public class WebService {
      *            结果解析器
      * @return
      */
-    public static <T> Cancelable request(HttpMethod method, final RequestParams params,
-            final RequestListener<T> listener, final ResultParser<T> parser) {
+    public static <T> Cancelable request(HttpMethod method,
+            final RequestParams params, final RequestListener<T> listener,
+            final ResultParser<T> parser) {
+        if (params != null) {
+            params.setConnectTimeout(TIMEOUT);
+            params.setHeader("User-Agent", "android");
+        }
         return HTTP.request(method, params, new ProgressCallback<String>() {
 
             @Override
@@ -280,9 +286,8 @@ public class WebService {
      *            结果解析器
      * @return
      */
-    public static <T> Cancelable upload(
-            final RequestParams params, final RequestListener<T> listener,
-            final ResultParser<T> parser) {
+    public static <T> Cancelable upload(final RequestParams params,
+            final RequestListener<T> listener, final ResultParser<T> parser) {
         return request(HttpMethod.POST, params, listener, parser);
     }
 
@@ -301,8 +306,9 @@ public class WebService {
      *            回调
      * @return
      */
-    public static Cancelable download(final RequestParams params, String target,
-            boolean autoRename, final RequestListener<File> listener) {
+    public static Cancelable download(final RequestParams params,
+            String target, boolean autoRename,
+            final RequestListener<File> listener) {
         params.setSaveFilePath(target);
         params.setAutoRename(autoRename);
         params.setAutoResume(true);
@@ -403,7 +409,8 @@ public class WebService {
         });
     }
 
-    public static RequestParams createParams(String[] keys, String[] values, String url) {
+    public static RequestParams createParams(String[] keys, String[] values,
+            String url) {
         RequestParams params = new RequestParams(url);
         if (keys != null) {
             int len = keys.length;
