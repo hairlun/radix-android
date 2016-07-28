@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.patr.radix.utils.TabDb;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -25,9 +26,9 @@ public class MainActivity extends FragmentActivity implements
         OnTabChangeListener {
 
     private FragmentTabHost tabHost;
-    
+
     private boolean isAfterLogin;
-    
+
     private String curFragmentTag = "";
 
     @Override
@@ -93,9 +94,20 @@ public class MainActivity extends FragmentActivity implements
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter
+                .getDefaultAdapter();
+
+        if (bluetoothAdapter != null) {
+            bluetoothAdapter.disable();
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
+
     }
 
     public static void startAfterLogin(Context context) {
