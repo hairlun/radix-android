@@ -37,6 +37,7 @@ public class LoginParser extends AbsBaseParser<LoginResult> {
                         String name = obj.optString(ResponseKey.NAME);
                         String mobile = obj.optString(ResponseKey.MOBILE);
                         String home = obj.optString(ResponseKey.HOME);
+                        String token = json.optString(ResponseKey.TOKEN);
                         UserInfo userInfo = new UserInfo();
                         userInfo.setId(id);
                         userInfo.setAccount(account);
@@ -45,6 +46,7 @@ public class LoginParser extends AbsBaseParser<LoginResult> {
                         userInfo.setName(name);
                         userInfo.setMobile(mobile);
                         userInfo.setHome(home);
+                        userInfo.setToken(token);
                         result.setUserInfo(userInfo);
                     }
                 }

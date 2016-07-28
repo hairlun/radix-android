@@ -117,6 +117,8 @@ public class ServiceManager {
         String URL = "url";
         
         String MODEL = "model";
+        
+        String TOKEN = "token";
 
     }
 

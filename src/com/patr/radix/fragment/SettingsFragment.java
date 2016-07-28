@@ -122,14 +122,19 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
         } else {
             lockStatusTv.setText("(已关闭)");
         }
-        String name = MyApplication.instance.getName();
+        String name = MyApplication.instance.getUserInfo().getName();
         if (TextUtils.isEmpty(name)) {
             // 未登录
             userInfoLl.setVisibility(View.GONE);
             permissionLl.setVisibility(View.GONE);
             logoutBtn.setText(R.string.login);
         } else {
+            // 已登录
+            userInfoLl.setVisibility(View.VISIBLE);
+            permissionLl.setVisibility(View.VISIBLE);
+            logoutBtn.setText(R.string.settings_logout);
             usernameTv.setText(name);
+            
         }
         Community selectedCommunity = MyApplication.instance.getSelectedCommunity();
         if (selectedCommunity != null) {
