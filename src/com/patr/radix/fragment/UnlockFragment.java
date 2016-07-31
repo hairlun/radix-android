@@ -110,6 +110,30 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sensorManager = (SensorManager) context
+                .getSystemService(Context.SENSOR_SERVICE);
+        vibrator = (Vibrator) context
+                .getSystemService(Context.VIBRATOR_SERVICE);
+        adapter = new CommunityListAdapter(context,
+                MyApplication.instance.getCommunities());
+        checkBleSupportAndInitialize();
+
+        handler = new Handler();
+        MyApplication.instance.setCsn(Utils.getCsn(context));
+        // 注册广播接收者，接收消息
+        context.registerReceiver(mGattUpdateReceiver,
+                Utils.makeGattUpdateIntentFilter());
+        Intent gattServiceIntent = new Intent(context.getApplicationContext(),
+                BluetoothLeService.class);
+        context.startService(gattServiceIntent);
+        if (!mScanning) {
+            startScan();
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater
@@ -124,10 +148,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
     
     private void init() {
-        sensorManager = (SensorManager) context
-                .getSystemService(Context.SENSOR_SERVICE);
-        vibrator = (Vibrator) context
-                .getSystemService(Context.VIBRATOR_SERVICE);
         byte[] bytes;
         try {
             bytes = Utils.input2byte(getResources().openRawResource(
@@ -138,15 +158,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         } catch (IOException e) {
             e.printStackTrace();
         }
-        adapter = new CommunityListAdapter(context,
-                MyApplication.instance.getCommunities());
-        checkBleSupportAndInitialize();
-
-        Intent gattServiceIntent = new Intent(context,
-                BluetoothLeService.class);
-        context.startService(gattServiceIntent);
-        handler = new Handler();
-        MyApplication.instance.setCsn(Utils.getCsn(context));
     }
 
     /**
@@ -724,28 +735,22 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
+        setTitle();
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
-        // 注册广播接收者，接收消息
-        context.registerReceiver(mGattUpdateReceiver,
-                Utils.makeGattUpdateIntentFilter());
-        if (!mScanning) {
-            startScan();
-        }
-        setTitle();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
-        context.unregisterReceiver(mGattUpdateReceiver);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        context.unregisterReceiver(mGattUpdateReceiver);
     }
 
     /*
