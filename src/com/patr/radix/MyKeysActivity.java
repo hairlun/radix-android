@@ -59,7 +59,7 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         setContentView(R.layout.activity_my_keys);
         initView();
         // 测试数据
-        if (MyApplication.DEBUG) {
+        if (MyApplication.TEST) {
             testData();
         }
         if (MyApplication.instance.getLocks().size() == 0) {
