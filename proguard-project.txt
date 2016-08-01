@@ -30,16 +30,14 @@
 
 -libraryjars libs/armeabi/libbdpush_V2_2.so
 -libraryjars libs/armeabi/libwebpbackport.so
--libraryjars libs/mips/libwebpbackport.so
+-libraryjars libs/mips/libbdpush_V2_2.so
 -libraryjars libs/x86/libwebpbackport.so
 -libraryjars libs/core-3.2.1.jar
 -libraryjars libs/pushservice-4.4.1.88.jar
--libraryjars libs/universal-image-loader-1.9.1.jar
 -libraryjars libs/xUtils_3.3.32.jar
 
 -keep class com.baidu.** { *; }
 -keep class vi.com.gdi.bgl.android.** { *; }
--keep class com.nostra13.universalimageloader.** { *; }
 -keep class org.xutils.** { *; }
 
 -keep public class * extends android.app.Fragment  
@@ -83,6 +81,7 @@
 -dontwarn org.apache.commons.net.** 
 -dontwarn com.tencent.**
 -dontwarn com.baidu.**
+-dontwarn org.xutils.**
 
 -keepclasseswithmembers class * {
     native <methods>;
