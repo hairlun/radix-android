@@ -82,7 +82,7 @@
             android:drawableRight="@drawable/chatto_voice_playing"
             android:minHeight="@dimen/ChattingContentMinHeight" />
 
-        <com.yuntongxun.ui.chatting.view.CCPAnimImageView
+        <com.yuntongxun.ecdemo.ui.chatting.view.CCPAnimImageView
             android:id="@+id/chatting_voice_anim"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

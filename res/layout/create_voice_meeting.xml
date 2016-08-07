@@ -21,14 +21,14 @@
         style="@style/CCPBody"
         android:paddingTop="10.0dip">
 
-        <com.yuntongxun.common.base.CCPFormInputView
+        <com.yuntongxun.ecdemo.common.base.CCPFormInputView
             android:id="@+id/meeting_name"
             style="@style/CCPFormInputView"
             form:form_hint="@string/str_chatroom_name_input_hit"
             form:form_layout="@layout/ccp_form_input_clear_et_view"
             form:form_title="@string/str_chatroom_name" />
 
-        <com.yuntongxun.common.base.CCPFormInputView
+        <com.yuntongxun.ecdemo.common.base.CCPFormInputView
             android:id="@+id/meeting_pass"
             style="@style/CCPFormInputView"
             form:form_hint="@string/str_chatroom_pwd_input_hit"
@@ -51,7 +51,7 @@
             style="@style/CheckboxStyle"
             android:text="@string/tip_auto_del"/>
 
-        <com.yuntongxun.common.base.SpinnerSelectView
+        <com.yuntongxun.ecdemo.common.base.SpinnerSelectView
             android:id="@+id/spinner_room_type"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             android:visibility="gone"
             spinnerView:Spinner_item="@array/meeting_type" />
 
-        <com.yuntongxun.common.base.SpinnerSelectView
+        <com.yuntongxun.ecdemo.common.base.SpinnerSelectView
             android:id="@+id/spinner_tone_type"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

@@ -14,7 +14,7 @@
         android:background="@drawable/input_bar_bg_active"
         android:orientation="horizontal" >
 
-        <com.yuntongxun.ui.chatting.base.EmojiconEditText
+        <com.yuntongxun.ecdemo.ui.chatting.base.EmojiconEditText
             android:id="@+id/content"
             style="@style/CCPEditText"
             android:layout_width="0.0dip"

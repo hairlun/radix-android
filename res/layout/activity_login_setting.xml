@@ -26,7 +26,7 @@
         android:orientation="vertical" >
 
         // 登陆设置
-        <com.yuntongxun.common.view.SettingItem
+        <com.yuntongxun.ecdemo.common.view.SettingItem
             android:id="@+id/settings_serverIP"
             style="@style/settings_item_layout_single"
             ecdemo:item_accessoryType="arrow"
@@ -34,14 +34,14 @@
             ecdemo:item_showDivider="true"
             ecdemo:item_titleText="@string/settings_server_address" />
 
-        <com.yuntongxun.common.view.SettingItem
+        <com.yuntongxun.ecdemo.common.view.SettingItem
             android:id="@+id/settings_appkey"
             style="@style/settings_item_layout_single"
             ecdemo:item_accessoryType="arrow"
             ecdemo:item_showDivider="true"
             ecdemo:item_titleText="@string/settings_appkey" />
 
-        <com.yuntongxun.common.view.SettingItem
+        <com.yuntongxun.ecdemo.common.view.SettingItem
             android:id="@+id/settings_token"
             style="@style/settings_item_layout_single"
             ecdemo:item_accessoryType="arrow"

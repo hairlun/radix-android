@@ -28,7 +28,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
-            <com.yuntongxun.ui.interphone.InterPhoneBannerView
+            <com.yuntongxun.ecdemo.ui.interphone.InterPhoneBannerView
                 android:id="@+id/notice_tips_ly"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

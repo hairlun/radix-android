@@ -16,7 +16,7 @@
     android:layout_height="match_parent"
     android:background="#ff171b19">
 
-    <com.yuntongxun.ui.chatting.HackyViewPager
+    <com.yuntongxun.ecdemo.ui.chatting.HackyViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

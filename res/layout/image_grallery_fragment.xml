@@ -19,7 +19,7 @@
             android:visibility="visible"
             />
 
-        <com.yuntongxun.photoview.PhotoView
+        <com.yuntongxun.ecdemo.photoview.PhotoView
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -48,7 +48,7 @@
             android:maxWidth="240dip"
             android:maxHeight="160dip"
             >
-            <com.yuntongxun.ui.chatting.base.EmojiconTextView
+            <com.yuntongxun.ecdemo.ui.chatting.base.EmojiconTextView
                 android:id="@+id/tv_location"
                 style="@style/ChattingUIText"
                 android:layout_width="wrap_content"

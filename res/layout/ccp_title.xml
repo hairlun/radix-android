@@ -19,7 +19,7 @@
     android:gravity="center_vertical"
     android:orientation="horizontal" >
 
-    <com.yuntongxun.common.view.CCPImageButton
+    <com.yuntongxun.ecdemo.common.view.CCPImageButton
         android:id="@+id/title_btn4"
         style="@style/CCPTitleButton"
         android:src="@drawable/icon_topbar_back"
@@ -84,7 +84,7 @@
         android:src="@drawable/ccp_chat_mute_notify_pressed"
         android:visibility="gone" />
 
-    <com.yuntongxun.common.view.CCPImageButton
+    <com.yuntongxun.ecdemo.common.view.CCPImageButton
         android:id="@+id/title_btn1"
         style="@style/CCPTitleButton"
         android:background="@drawable/xh_title_button_bg"

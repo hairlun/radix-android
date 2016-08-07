@@ -74,14 +74,14 @@
         style="@style/CCPBigButton" />
         
 
-        <com.yuntongxun.common.view.SettingItem
+        <com.yuntongxun.ecdemo.common.view.SettingItem
             android:id="@+id/settings_new_msg_notify"
             style="@style/settings_item_layout_single"
             ecdemo:item_accessoryType="switchbutton"
             android:layout_marginTop="@dimen/NormalPadding"
             ecdemo:item_showDivider="true"
             ecdemo:item_titleText="@string/settings_new_msg_notify" />
-        <com.yuntongxun.common.view.SettingItem
+        <com.yuntongxun.ecdemo.common.view.SettingItem
             android:id="@+id/settings_group_show_nickname"
             style="@style/settings_item_layout_single"
             ecdemo:item_accessoryType="switchbutton"
@@ -89,32 +89,32 @@
             android:visibility="gone"
             ecdemo:item_showDivider="true"
             ecdemo:item_titleText="@string/settings_group_show_nickname" />
-        <com.yuntongxun.common.view.SettingItem
+        <com.yuntongxun.ecdemo.common.view.SettingItem
             android:id="@+id/settings_room_my_displayname"
             style="@style/settings_item_layout_single"
             android:visibility="gone"
             ecdemo:item_showDivider="true"
             ecdemo:item_titleText="@string/room_my_displayname" />
 
-        <com.yuntongxun.common.view.SettingItem
+        <com.yuntongxun.ecdemo.common.view.SettingItem
             android:id="@+id/group_name"
             style="@style/settings_item_layout_single"
             android:layout_marginTop="@dimen/NormalPadding"
             ecdemo:item_showDivider="true"
             ecdemo:item_titleText="@string/group_title_name" />
 
-        <com.yuntongxun.common.view.SettingItem
+        <com.yuntongxun.ecdemo.common.view.SettingItem
             android:id="@+id/group_notice2"
             style="@style/settings_item_layout_single"
             ecdemo:item_showDivider="true"
             ecdemo:item_titleText="@string/str_group_notice_tips" />
-        <com.yuntongxun.common.view.SettingItem
+        <com.yuntongxun.ecdemo.common.view.SettingItem
             android:id="@+id/group_card"
             style="@style/settings_item_layout_single"
             ecdemo:item_showDivider="true"
             ecdemo:item_titleText="@string/str_group_notice_card" />
         
-        <com.yuntongxun.common.view.SettingItem
+        <com.yuntongxun.ecdemo.common.view.SettingItem
             android:id="@+id/clear_msg"
             style="@style/settings_item_layout_single"
             android:layout_marginTop="@dimen/SmallListHeight"

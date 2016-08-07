@@ -48,7 +48,7 @@
             android:visibility="gone"
             />
 
-        <com.yuntongxun.common.base.CCPTextView
+        <com.yuntongxun.ecdemo.common.base.CCPTextView
             android:id="@+id/chatting_content_itv"
             style="@style/ChattingUIText"
             android:background="@drawable/chatfrom_bg"

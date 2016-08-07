@@ -37,13 +37,13 @@
         android:orientation="vertical"
         android:padding="12.0dip" >
 
-        <com.yuntongxun.ui.videomeeting.CCPVideoConUI
+        <com.yuntongxun.ecdemo.ui.videomeeting.CCPVideoConUI
             android:id="@+id/video_ui"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_above="@+id/camera_layout"
             android:orientation="vertical" >
-        </com.yuntongxun.ui.videomeeting.CCPVideoConUI>
+        </com.yuntongxun.ecdemo.ui.videomeeting.CCPVideoConUI>
 
         <LinearLayout
             android:id="@+id/camera_layout"

@@ -31,7 +31,7 @@
             android:background="@drawable/tab_item_bg"
             android:text="@string/str_group_profile_tips" />
 
-        <com.yuntongxun.ui.group.GroupProfileView
+        <com.yuntongxun.ecdemo.ui.group.GroupProfileView
             android:id="@+id/group_file"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

@@ -68,7 +68,7 @@
                     android:focusable="false" />
             </FrameLayout>
 
-            <com.yuntongxun.common.base.CCPTextView
+            <com.yuntongxun.ecdemo.common.base.CCPTextView
                 android:id="@+id/chatting_content_itv"
                 style="@style/ChattingUIText"
                 android:layout_width="wrap_content"

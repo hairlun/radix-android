@@ -20,7 +20,7 @@
         style="@style/CCPBody"
         android:paddingTop="10.0dip" >
 
-        <com.yuntongxun.common.base.CCPClearEditText
+        <com.yuntongxun.ecdemo.common.base.CCPClearEditText
             android:id="@+id/group_name"
             style="@style/CCPLineEditText"
             android:layout_marginTop="@dimen/NormalPadding"
@@ -31,9 +31,9 @@
             android:singleLine="false" >
 
             <requestFocus />
-        </com.yuntongxun.common.base.CCPClearEditText>
+        </com.yuntongxun.ecdemo.common.base.CCPClearEditText>
 
-        <com.yuntongxun.common.base.CCPClearEditText
+        <com.yuntongxun.ecdemo.common.base.CCPClearEditText
             android:id="@+id/group_notice"
             style="@style/CCPLineEditText"
             android:layout_marginTop="@dimen/NormalPadding"
@@ -43,7 +43,7 @@
             android:maxLines="3"
             android:paddingLeft="10.0dip"
             android:paddingRight="10.0dip" />
-        <com.yuntongxun.common.base.CCPClearEditText
+        <com.yuntongxun.ecdemo.common.base.CCPClearEditText
             android:id="@+id/group_provice"
             style="@style/CCPLineEditText"
             android:layout_marginTop="@dimen/NormalPadding"
@@ -54,7 +54,7 @@
             android:maxLines="3"
             android:paddingLeft="10.0dip"
             android:paddingRight="10.0dip" />
-        <com.yuntongxun.common.base.CCPClearEditText
+        <com.yuntongxun.ecdemo.common.base.CCPClearEditText
             android:id="@+id/group_city"
             android:maxLength="30"
             style="@style/CCPLineEditText"

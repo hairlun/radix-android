@@ -43,7 +43,7 @@
                 android:padding="@dimen/dialog_padding"
                 android:visibility="gone" >
 
-                <com.yuntongxun.common.base.CCPTextView
+                <com.yuntongxun.ecdemo.common.base.CCPTextView
                     android:id="@+id/dialog_tv_title"
                     style="@style/DialogTitle"
                     android:layout_width="fill_parent"
@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical" >
 
-                        <com.yuntongxun.common.base.CCPTextView
+                        <com.yuntongxun.ecdemo.common.base.CCPTextView
                             android:id="@+id/dialog_tv_message"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

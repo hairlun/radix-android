@@ -10,7 +10,7 @@
     <fragment 
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:name="com.yuntongxun.ui.DiscussionListFragment"
+        android:name="com.yuntongxun.ecdemo.ui.DiscussionListFragment"
         android:id="@+id/discussion_fragment"
         
         />

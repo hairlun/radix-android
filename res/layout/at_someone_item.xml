@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/SmallPadding"
     android:paddingRight="@dimen/SmallPadding">
 
-    <com.yuntongxun.ui.chatting.view.CCPMaskLayout
+    <com.yuntongxun.ecdemo.ui.chatting.view.CCPMaskLayout
         android:id="@+id/at_someone_item_avatar"
         android:layout_width="@dimen/NormalAvatarWrapSize"
         android:layout_height="@dimen/NormalAvatarWrapSize">
@@ -16,9 +16,9 @@
             android:layout_width="@dimen/NormalAvatarSize"
             android:layout_height="@dimen/NormalAvatarSize"
             android:layout_centerVertical="true"/>
-    </com.yuntongxun.ui.chatting.view.CCPMaskLayout>
+    </com.yuntongxun.ecdemo.ui.chatting.view.CCPMaskLayout>
 
-    <com.yuntongxun.ui.chatting.base.EmojiconTextView
+    <com.yuntongxun.ecdemo.ui.chatting.base.EmojiconTextView
         android:id="@+id/at_someone_item_nick"
         style="@style/CCPFontTitleInList"
         android:layout_width="wrap_content"

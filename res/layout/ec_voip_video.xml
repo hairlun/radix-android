@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <com.yuntongxun.ui.voip.ECCaptureView
+        <com.yuntongxun.ecdemo.ui.voip.ECCaptureView
             android:id="@+id/CaptureVideo"
             android:layout_width="1.0dip"
             android:layout_height="1.0dip" />
@@ -21,7 +21,7 @@
             android:background="#ff141414"
             android:visibility="visible">
 
-            <com.yuntongxun.ui.voip.ECOpenGlView
+            <com.yuntongxun.ecdemo.ui.voip.ECOpenGlView
                 android:id="@+id/bigVideo"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -67,7 +67,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone" />
 
-            <com.yuntongxun.ui.voip.ECCallShowSmallTalker
+            <com.yuntongxun.ecdemo.ui.voip.ECCallShowSmallTalker
                 android:id="@+id/voip_small_talker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <com.yuntongxun.ui.voip.ECCallShowBigTalker
+    <com.yuntongxun.ecdemo.ui.voip.ECCallShowBigTalker
         android:id="@+id/voip_big_talker"
         android:layout_width="wrap_content"
         android:layout_height="340.0dip"
@@ -161,7 +161,7 @@
         android:textSize="14.0dip"
         android:visibility="gone" />
 
-    <com.yuntongxun.ui.voip.ECVoIPCallToolBar
+    <com.yuntongxun.ecdemo.ui.voip.ECVoIPCallToolBar
         android:id="@+id/voip_tool_bar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

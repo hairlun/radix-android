@@ -10,7 +10,7 @@
    in the file PATENTS.  All contributing project authors may
    be found in the AUTHORS file in the root of the source tree.
  -->
-<com.yuntongxun.common.base.OnLayoutChangedLinearLayout
+<com.yuntongxun.ecdemo.common.base.OnLayoutChangedLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/chatting_bg_ll"
     style="@style/NavPage"
@@ -34,7 +34,7 @@
         android:layout_height="0.0dip"
         android:layout_weight="1.0">
 
-        <com.yuntongxun.ui.chatting.base.ECPullDownView
+        <com.yuntongxun.ecdemo.ui.chatting.base.ECPullDownView
             android:id="@+id/chatting_pull_down_view"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
@@ -50,7 +50,7 @@
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="vertical"
                 android:scrollingCache="false" />
-        </com.yuntongxun.ui.chatting.base.ECPullDownView>
+        </com.yuntongxun.ecdemo.ui.chatting.base.ECPullDownView>
 
     </FrameLayout>
 
@@ -58,7 +58,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-        <com.yuntongxun.ui.chatting.view.CCPChattingFooter2
+        <com.yuntongxun.ecdemo.ui.chatting.view.CCPChattingFooter2
             android:id="@+id/nav_footer"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
@@ -69,4 +69,4 @@
             android:layout_height="@dimen/message_editor_hight" />
     </RelativeLayout>
 
-</com.yuntongxun.common.base.OnLayoutChangedLinearLayout>
+</com.yuntongxun.ecdemo.common.base.OnLayoutChangedLinearLayout>

@@ -18,7 +18,7 @@
          android:drawableLeft="@drawable/log_password_icon"
         style="@style/CCPFormInputTitleTextView" />
 
-    <com.yuntongxun.common.base.CCPClearEditText
+    <com.yuntongxun.ecdemo.common.base.CCPClearEditText
         android:id="@id/edittext"
         style="@style/CCPFormInputEditPass"
         android:imeOptions="actionDone" />

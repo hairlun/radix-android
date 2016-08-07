@@ -18,7 +18,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1.0" >
-        <com.yuntongxun.ui.contact.PinnedHeaderListView
+        <com.yuntongxun.ecdemo.ui.contact.PinnedHeaderListView
             android:id="@+id/address_contactlist"
             style="@style/CCPList"
             android:focusable="true"
@@ -29,7 +29,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="fill_parent" >
-            <com.yuntongxun.ui.contact.BladeView
+            <com.yuntongxun.ecdemo.ui.contact.BladeView
                 android:id="@+id/mLetterListView"
                 android:layout_width="30dp"
                 android:layout_height="fill_parent"

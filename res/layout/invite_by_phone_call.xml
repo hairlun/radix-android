@@ -15,7 +15,7 @@
                 android:paddingRight="0.0dip"
                 android:text="@string/dialog_title_summary" />
 
-            <com.yuntongxun.common.base.CCPClearEditText
+            <com.yuntongxun.ecdemo.common.base.CCPClearEditText
                 android:id="@+id/say_hi_content"
                 style="@style/CCPLineEditText"
                 android:paddingLeft="5.0dip"
@@ -24,7 +24,7 @@
                 android:inputType="textMultiLine" >
 
                 <requestFocus />
-            </com.yuntongxun.common.base.CCPClearEditText>
+            </com.yuntongxun.ecdemo.common.base.CCPClearEditText>
 
             <LinearLayout
                 android:id="@+id/not_allow_see_permission"

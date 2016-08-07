@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?><!--
      Copyright (c) 2015 The CCP project authors. All Rights Reserved.
  
-     Use of this source code is governed by a Beijing Speedtong 
-     Information Technology Co.,Ltd license that can be found in the 
-     LICENSE file in the root of the web site.
+ 	 Use of this source code is governed by a Beijing Speedtong 
+ 	 Information Technology Co.,Ltd license that can be found in the 
+ 	 LICENSE file in the root of the web site.
  
      http://www.yuntongxun.com
  
      An additional intellectual property rights grant can be found
      in the file PATENTS.  All contributing project authors may
-     be found in the AUTHORS file in the root of the source tree.
+ 	 be found in the AUTHORS file in the root of the source tree.
 -->
 <resources>
 
@@ -99,9 +99,9 @@
     
     <color name="darkRed">#AA2222</color>
     <color name="darkGrey">#848284</color>
-    
-    <!-- version 3.6 -->
-    <!-- developer mode launcher normal color -->
+	
+	<!-- version 3.6 -->
+	<!-- developer mode launcher normal color -->
     <color name="ccp_developer_normal">#B6D556</color>
     <!-- developer mode launcher pressed color -->
     <color name="ccp_developer_pressed">#88A040</color>

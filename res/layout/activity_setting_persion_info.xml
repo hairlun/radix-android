@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
 
-            <com.yuntongxun.common.base.CCPFormInputView
+            <com.yuntongxun.ecdemo.common.base.CCPFormInputView
                 android:id="@+id/nickname_tv"
                 style="@style/CCPFormInputView"
                 form:form_hint="@string/login_prompt_nickname"
@@ -31,7 +31,7 @@
                 form:form_title="@string/login_prompt_nickname" />
             
             
-            <com.yuntongxun.common.base.CCPFormInputView
+            <com.yuntongxun.ecdemo.common.base.CCPFormInputView
                 android:id="@+id/sign_tv"
                 style="@style/CCPFormInputView"
                 form:form_hint="@string/login_prompt_sign"

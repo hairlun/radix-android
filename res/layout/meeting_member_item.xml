@@ -8,7 +8,7 @@
         android:id="@+id/meeting_contact_item_layout"
         style="@style/CCPListItem">
 
-        <com.yuntongxun.ui.chatting.view.CCPMaskLayout
+        <com.yuntongxun.ecdemo.ui.chatting.view.CCPMaskLayout
             android:id="@+id/meeting_contact_item_avatar"
             android:layout_width="@dimen/NormalAvatarWrapSize"
             android:layout_height="@dimen/NormalAvatarWrapSize"
@@ -21,7 +21,7 @@
                 android:layout_width="@dimen/NormalAvatarSize"
                 android:layout_height="@dimen/NormalAvatarSize"
                 android:layout_centerInParent="true" />
-        </com.yuntongxun.ui.chatting.view.CCPMaskLayout>
+        </com.yuntongxun.ecdemo.ui.chatting.view.CCPMaskLayout>
 
         <RelativeLayout
             android:id="@+id/meeting_contact_item_state"

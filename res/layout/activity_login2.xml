@@ -57,14 +57,14 @@
                 android:visibility="gone"
                 android:hint="@string/login_prompt_token" />
 
-            <com.yuntongxun.common.base.CCPFormInputView
+            <com.yuntongxun.ecdemo.common.base.CCPFormInputView
                 android:id="@+id/mobile"
                 style="@style/CCPFormInputView"
                 form:form_hint="@string/login_prompt_mobile_hint"
                 form:form_layout="@layout/ccp_form_input_clear_et_view"
                 form:form_title="@string/login_prompt_mobile" />
 
-            <com.yuntongxun.common.base.CCPFormInputView
+            <com.yuntongxun.ecdemo.common.base.CCPFormInputView
                 android:id="@+id/VoIP_mode"
                 style="@style/CCPFormInputView"
                 form:form_hint="@string/login_prompt_VoIP_pass"

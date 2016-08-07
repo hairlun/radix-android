@@ -36,7 +36,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
-            <com.yuntongxun.ui.chatting.base.EmojiconTextView
+            <com.yuntongxun.ecdemo.ui.chatting.base.EmojiconTextView
                 android:id="@+id/contact_name"
                 style="@style/CCPFontTitleInList"
                 android:layout_width="fill_parent"

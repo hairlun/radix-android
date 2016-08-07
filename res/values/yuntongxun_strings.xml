@@ -415,8 +415,8 @@
     <string name="mulit_video_unjoin">未加入</string>
     <string name="video_publish_video_frame">发布视频</string>
     <string name="video_unpublish_video_frame">取消发布视频</string>
-    
-    <string name="str_video_desc">"&lt;font color='#FFFFFF' size='16'>能力介绍：&lt;/font>\t&lt;font color='#D9D4D1' size='13'>云通讯视频会议能力提供多路交叉视频以及一对多视频（可手动切换或自动切换到发言方）并支持电话用户语音加入，同时提供丰富的会议管理能力以满足不同的应用场景&lt;/font>
+	
+	<string name="str_video_desc">"&lt;font color='#FFFFFF' size='16'>能力介绍：&lt;/font>\t&lt;font color='#D9D4D1' size='13'>云通讯视频会议能力提供多路交叉视频以及一对多视频（可手动切换或自动切换到发言方）并支持电话用户语音加入，同时提供丰富的会议管理能力以满足不同的应用场景&lt;/font>
        &lt;br/>&lt;br/>&lt;font color='#CCCCCC' size='13'>Demo演示一对多视频会议，即多方查看一方视频、可手动切换，语音为多方实时参与.&lt;/font>"</string>
 
     <string name="str_create_new_video_conference">暂无房间，请先创建一个</string>

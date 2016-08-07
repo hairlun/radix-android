@@ -18,7 +18,7 @@
 
 
 
-    <com.yuntongxun.common.base.CCPClearEditText
+    <com.yuntongxun.ecdemo.common.base.CCPClearEditText
         android:id="@+id/setup_name"
         style="@style/CCPLineEditText"
         android:layout_marginTop="@dimen/NormalPadding"
@@ -28,7 +28,7 @@
         android:paddingRight="10.0dip"
         android:singleLine="true" />
     
-     <com.yuntongxun.common.base.CCPClearEditText
+     <com.yuntongxun.ecdemo.common.base.CCPClearEditText
             android:id="@+id/setup_connect"
             style="@style/CCPLineEditText"
             android:layout_marginTop="@dimen/NormalPadding"
@@ -37,7 +37,7 @@
             android:paddingLeft="10.0dip"
             android:paddingRight="10.0dip"
             android:singleLine="true" />
-     <com.yuntongxun.common.base.CCPClearEditText
+     <com.yuntongxun.ecdemo.common.base.CCPClearEditText
             android:id="@+id/setup_connect_port"
             style="@style/CCPLineEditText"
             android:layout_marginTop="@dimen/NormalPadding"
@@ -46,7 +46,7 @@
             android:paddingLeft="10.0dip"
             android:paddingRight="10.0dip"
             android:singleLine="true" />
-     <com.yuntongxun.common.base.CCPClearEditText
+     <com.yuntongxun.ecdemo.common.base.CCPClearEditText
             android:id="@+id/setup_lvs"
             style="@style/CCPLineEditText"
             android:layout_marginTop="@dimen/NormalPadding"
@@ -55,7 +55,7 @@
             android:paddingLeft="10.0dip"
             android:paddingRight="10.0dip"
             android:singleLine="true" />
-     <com.yuntongxun.common.base.CCPClearEditText
+     <com.yuntongxun.ecdemo.common.base.CCPClearEditText
             android:id="@+id/setup_lvs_port"
             style="@style/CCPLineEditText"
             android:layout_marginTop="@dimen/NormalPadding"
@@ -64,7 +64,7 @@
             android:paddingLeft="10.0dip"
             android:paddingRight="10.0dip"
             android:singleLine="true" />
-     <com.yuntongxun.common.base.CCPClearEditText
+     <com.yuntongxun.ecdemo.common.base.CCPClearEditText
             android:id="@+id/setup_fileserver"
             style="@style/CCPLineEditText"
             android:layout_marginTop="@dimen/NormalPadding"
@@ -73,7 +73,7 @@
             android:paddingLeft="10.0dip"
             android:paddingRight="10.0dip"
             android:singleLine="true" />
-     <com.yuntongxun.common.base.CCPClearEditText
+     <com.yuntongxun.ecdemo.common.base.CCPClearEditText
             android:id="@+id/setup_fileserver_port"
             style="@style/CCPLineEditText"
             android:layout_marginTop="@dimen/NormalPadding"
@@ -82,7 +82,7 @@
             android:paddingLeft="10.0dip"
             android:paddingRight="10.0dip"
             android:singleLine="true" />
-     <com.yuntongxun.common.base.CCPClearEditText
+     <com.yuntongxun.ecdemo.common.base.CCPClearEditText
             android:id="@+id/setup_appid"
             style="@style/CCPLineEditText"
             android:layout_marginTop="@dimen/NormalPadding"
@@ -91,7 +91,7 @@
             android:paddingLeft="10.0dip"
             android:paddingRight="10.0dip"
             android:singleLine="true" />
-     <com.yuntongxun.common.base.CCPClearEditText
+     <com.yuntongxun.ecdemo.common.base.CCPClearEditText
             android:id="@+id/setup_apptoken"
             style="@style/CCPLineEditText"
             android:layout_marginTop="@dimen/NormalPadding"

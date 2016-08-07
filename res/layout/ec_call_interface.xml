@@ -15,7 +15,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.yuntongxun.ui.voip.ECCallHeadUILayout
+    <com.yuntongxun.ecdemo.ui.voip.ECCallHeadUILayout
         android:id="@+id/call_header_ll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,7 +23,7 @@
         android:layout_above="@+id/call_control_ll"
         android:paddingTop="20dip" />
 
-    <com.yuntongxun.ui.voip.ECCallControlUILayout
+    <com.yuntongxun.ecdemo.ui.voip.ECCallControlUILayout
         android:id="@+id/call_control_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

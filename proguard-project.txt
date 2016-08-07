@@ -35,12 +35,10 @@
 -libraryjars libs/core-3.2.1.jar
 -libraryjars libs/pushservice-4.4.1.88.jar
 -libraryjars libs/xUtils_3.3.32.jar
--libraryjars libs/Yuntx_FullLib_v5.2.2r.jar
 
 -keep class com.baidu.** { *; }
 -keep class vi.com.gdi.bgl.android.** { *; }
 -keep class org.xutils.** { *; }
--keep class com.yuntongxun.ecsdk.** { *; }
 
 -keep public class * extends android.app.Fragment  
 -keep public class * extends android.app.Activity

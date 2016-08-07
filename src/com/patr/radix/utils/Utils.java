@@ -638,16 +638,6 @@ public class Utils {
         return  (int)(dp* Resources.getSystem().getDisplayMetrics().density);
     }
     
-    /**
-     * 获取电话号码
-     */
-    public static String getNativePhoneNumber(Context context) {
-        String NativePhoneNumber = null;
-        TelephonyManager mTelephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        NativePhoneNumber = mTelephonyMgr.getLine1Number();
-        return NativePhoneNumber;
-    }
-    
     public static String getImsi(Context context) {
         TelephonyManager mTelephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         String imsi = mTelephonyMgr.getSubscriberId();
