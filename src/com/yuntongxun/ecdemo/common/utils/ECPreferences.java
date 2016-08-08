@@ -23,7 +23,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import com.yuntongxun.ecdemo.ECApplication;
+import com.patr.radix.MyApplication;
 
 
 /**
@@ -75,7 +75,7 @@ public class ECPreferences {
      * @hide
      */
     public static SharedPreferences getSharedPreferences() {
-        return ECApplication.getInstance().getSharedPreferences(
+        return MyApplication.instance.getSharedPreferences(
                 getDefaultSharedPreferencesFileName(), Context.MODE_MULTI_PROCESS);
     }
 

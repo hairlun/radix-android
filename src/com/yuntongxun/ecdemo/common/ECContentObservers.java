@@ -6,7 +6,7 @@ import android.database.ContentObserver;
 import android.os.Handler;
 import android.provider.ContactsContract;
 
-import com.yuntongxun.ecdemo.ECApplication;
+import com.patr.radix.MyApplication;
 import com.yuntongxun.ecdemo.core.ContactsCache;
 
 /**
@@ -25,7 +25,7 @@ public class ECContentObservers {
     private Context mContext;
     private ECContentObservers() {
 
-        mContext = ECApplication.getInstance().getApplicationContext();
+        mContext = MyApplication.instance.getApplicationContext();
     }
 
 

@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
-import com.yuntongxun.ecdemo.ECApplication;
+import com.patr.radix.MyApplication;
 import com.patr.radix.R;
 import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.common.utils.ECNotificationManager;
@@ -92,7 +92,7 @@ public class SDKCoreHelper implements ECDevice.InitListener , ECDevice.OnECDevic
     public static void init(Context ctx , ECInitParams.LoginMode mode) {
         getInstance().mKickOff = false;
         LogUtil.d(TAG , "[init] start regist..");
-        ctx = ECApplication.getInstance().getApplicationContext();
+        ctx = MyApplication.instance.getApplicationContext();
         getInstance().mMode = mode;
         getInstance().mContext = ctx;
         // 判断SDK是否已经初始化，没有初始化则先初始化SDK

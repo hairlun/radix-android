@@ -108,6 +108,7 @@
         <service
             android:name="com.patr.radix.ble.BluetoothLeService"
             android:enabled="true" />
+
         <!-- Demo主程序路口 -->
         <activity
             android:name="com.yuntongxun.ecdemo.ui.LauncherActivity"

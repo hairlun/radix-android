@@ -16,7 +16,7 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
-import com.yuntongxun.ecdemo.ECApplication;
+import com.patr.radix.MyApplication;
 
 /**
  * Created by Jorstin on 2015/3/18.
@@ -93,7 +93,7 @@ public class DensityUtil {
      */
     public static float getDensity(Context context) {
         if (context == null)
-            context = ECApplication.getInstance().getApplicationContext();
+            context = MyApplication.instance.getApplicationContext();
         if (density < 0.0F)
             density = context.getResources().getDisplayMetrics().density;
         return density;

@@ -1,26 +1,22 @@
 package com.patr.radix;
 
-import java.util.ArrayList;
 
 import com.patr.radix.utils.TabDb;
+import com.yuntongxun.ecdemo.common.ECContentObservers;
+import com.yuntongxun.ecdemo.common.utils.CrashHandler;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TabWidget;
-import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity implements
         OnTabChangeListener {
@@ -28,8 +24,6 @@ public class MainActivity extends FragmentActivity implements
     private FragmentTabHost tabHost;
 
     private boolean isAfterLogin;
-
-    private String curFragmentTag = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +37,9 @@ public class MainActivity extends FragmentActivity implements
         tabHost.setOnTabChangedListener(this);
         initTab();
 
+        // 云通讯初始化
+        ECContentObservers.getInstance().initContentObserver();
+        CrashHandler.getInstance().setContext(this);
     }
 
     private void initTab() {

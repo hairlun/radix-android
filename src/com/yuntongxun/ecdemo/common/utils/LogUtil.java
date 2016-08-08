@@ -39,7 +39,7 @@ public class LogUtil {
     private static List<String> logList;
 
     static {
-        //isPrint = ECApplication.getInstance().getLoggingSwitch();
+        //isPrint = MyApplication.instance.getLoggingSwitch();
     }
 
     public static void v(String tag, String msg) {
