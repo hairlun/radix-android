@@ -151,6 +151,7 @@ public class NoticeFragment extends Fragment implements OnItemClickListener, OnR
                 loadData();
             } else {
                 ToastUtil.showShort(context, "已显示全部数据");
+                swipe.setRefreshing(false);
             }
         }
     }
