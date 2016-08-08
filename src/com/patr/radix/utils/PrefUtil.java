@@ -10,7 +10,6 @@ import com.patr.radix.bean.UserInfo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 
 /**
  * SharedPreferences工具类
@@ -81,6 +80,7 @@ public class PrefUtil {
         String areaName = getString(context, Constants.PREF_AREA_NAME);
         String mobile = getString(context, Constants.PREF_MOBILE);
         String home = getString(context, Constants.PREF_HOME);
+        String token = getString(context, Constants.PREF_TOKEN);
         UserInfo userInfo = new UserInfo();
         userInfo.setAccount(account);
         userInfo.setName(name);
@@ -88,6 +88,7 @@ public class PrefUtil {
         userInfo.setAreaName(areaName);
         userInfo.setMobile(mobile);
         userInfo.setHome(home);
+        userInfo.setToken(token);
         return userInfo;
     }
 
