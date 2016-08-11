@@ -290,7 +290,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.yuntongxun.ecdemo.ui.voip.VideoActivity"
+            android:name="com.yuntongxun.ecdemo.ui.voip.SJVideoActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
