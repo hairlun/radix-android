@@ -8,7 +8,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.yuntongxun.ecdemo.ECApplication;
+import com.patr.radix.MyApplication;
 import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.common.utils.LogUtil;
 import com.yuntongxun.ecdemo.core.comparator.ServerConfigBean;
@@ -51,7 +51,7 @@ public class ServerConfigSqlManager  {
     private static ServerConfigDB sqliteDBHelper;
 
     private ServerConfigSqlManager(){
-         sqliteDBHelper=new ServerConfigDB(ECApplication.getInstance(),null,null, CCPAppManager.getVersionCode());
+         sqliteDBHelper=new ServerConfigDB(MyApplication.instance,null,null, CCPAppManager.getVersionCode());
         if(sqliteDB==null){
             sqliteDB=sqliteDBHelper.getWritableDatabase();
         }

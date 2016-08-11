@@ -17,7 +17,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.yuntongxun.ecdemo.ECApplication;
+import com.patr.radix.MyApplication;
 import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.common.utils.LogUtil;
 import com.yuntongxun.ecsdk.ECMessage;
@@ -37,7 +37,7 @@ public abstract class AbstractSQLManager {
     private static SQLiteDatabase sqliteDB;
 
     public AbstractSQLManager() {
-        openDatabase(ECApplication.getInstance(), CCPAppManager.getVersionCode());
+        openDatabase(MyApplication.instance, CCPAppManager.getVersionCode());
     }
 
     private void openDatabase(Context context, int databaseVersion) {
