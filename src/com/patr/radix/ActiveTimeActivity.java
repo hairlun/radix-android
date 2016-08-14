@@ -6,8 +6,10 @@
  */
 package com.patr.radix;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import com.patr.radix.bean.RadixLock;
 import com.patr.radix.utils.TimeUtil;
@@ -18,6 +20,9 @@ import com.patr.radix.view.TitleBarView;
 import com.patr.radix.view.picker.DatetimeDialog;
 import com.patr.radix.view.picker.DatetimeDialog.OnConfirmListener;
 import com.patr.radix.view.picker.DatetimePickerView.Type;
+import com.yuntongxun.ecdemo.ui.chatting.IMChattingHelper;
+import com.yuntongxun.ecsdk.ECMessage;
+import com.yuntongxun.ecsdk.im.ECTextMessageBody;
 
 import android.app.Activity;
 import android.content.Context;
@@ -62,12 +67,18 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
     private Calendar endCal;
     
     private int timeType;
+    
+    private boolean isAfterIM;
+    
+    private String callNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_active_time);
         context = this;
+        isAfterIM = getIntent().getBooleanExtra("IM", false);
+        callNumber = getIntent().getStringExtra("callNumber");
         initView();
     }
     
@@ -144,6 +155,41 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
         }
     }
 
+    /**
+     * 处理文本发送方法事件通知
+     * @param text
+     */
+    private void handleSendTextMessage(CharSequence text) {
+        if(text == null || text.toString().trim().length() <= 0) {
+            return ;
+        }
+        // 组建一个待发送的ECMessage
+        ECMessage msg = ECMessage.createECMessage(ECMessage.Type.TXT);
+        // 设置消息接收者
+        msg.setTo(callNumber);
+        // 创建一个文本消息体，并添加到消息对象中
+        ECTextMessageBody msgBody = new ECTextMessageBody(text.toString());
+        msg.setBody(msgBody);
+        try {
+            // 发送消息，该函数见上
+            long rowId = -1;
+//            if(mCustomerService) {
+//                rowId = CustomerServiceHelper.sendMCMessage(msg);
+//            } else {
+                rowId = IMChattingHelper.sendECMessage(msg);
+//            }
+            // 通知列表刷新
+            msg.setId(rowId);
+//            notifyIMessageListView(msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void sendKey() {
+        List<RadixLock> list = MyApplication.instance.getSelectedLocks();
+    }
+
     /* (non-Javadoc)
      * @see android.view.View.OnClickListener#onClick(android.view.View)
      */
@@ -202,6 +248,15 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
     
     public static void start(Context context) {
         Intent intent = new Intent(context, ActiveTimeActivity.class);
+        intent.putExtra("IM", false);
+        context.startActivity(intent);
+    }
+    
+    public static void startAfterIM(Context context, String callNumber) {
+        Intent intent = new Intent(context, ActiveTimeActivity.class);
+        context.startActivity(intent);
+        intent.putExtra("IM", true);
+        intent.putExtra("callNumber", callNumber);
         context.startActivity(intent);
     }
 

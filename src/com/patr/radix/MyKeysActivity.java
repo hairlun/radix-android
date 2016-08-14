@@ -19,7 +19,6 @@ import com.patr.radix.view.TitleBarView;
 import com.patr.radix.view.swipe.SwipeRefreshLayout;
 import com.patr.radix.view.swipe.SwipeRefreshLayout.OnRefreshListener;
 import com.patr.radix.view.swipe.SwipeRefreshLayoutDirection;
-import com.yuntongxun.ecdemo.ui.chatting.CustomerServiceHelper;
 import com.yuntongxun.ecdemo.ui.chatting.IMChattingHelper;
 import com.yuntongxun.ecsdk.ECMessage;
 import com.yuntongxun.ecsdk.im.ECTextMessageBody;
@@ -159,41 +158,6 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         MyApplication.instance.setLocks(locks);
     }
 
-    /**
-     * 处理文本发送方法事件通知
-     * @param text
-     */
-    private void handleSendTextMessage(CharSequence text) {
-        if(text == null || text.toString().trim().length() <= 0) {
-            return ;
-        }
-        // 组建一个待发送的ECMessage
-        ECMessage msg = ECMessage.createECMessage(ECMessage.Type.TXT);
-        // 设置消息接收者
-        msg.setTo(callNumber);
-        // 创建一个文本消息体，并添加到消息对象中
-        ECTextMessageBody msgBody = new ECTextMessageBody(text.toString());
-        msg.setBody(msgBody);
-        try {
-            // 发送消息，该函数见上
-            long rowId = -1;
-//            if(mCustomerService) {
-//                rowId = CustomerServiceHelper.sendMCMessage(msg);
-//            } else {
-                rowId = IMChattingHelper.sendECMessage(msg);
-//            }
-            // 通知列表刷新
-            msg.setId(rowId);
-//            notifyIMessageListView(msg);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    private void sendKey() {
-        List<RadixLock> list = new ArrayList<RadixLock>(adapter.selectedSet);
-    }
-
     /* (non-Javadoc)
      * @see android.view.View.OnClickListener#onClick(android.view.View)
      */
@@ -225,13 +189,10 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
             if (adapter.selectedSet.isEmpty()) {
                 ToastUtil.showShort(context, "请至少选择一个钥匙！");
             } else {
+                MyApplication.instance.setSelectedLocks(new ArrayList<RadixLock>(adapter.selectedSet));
                 if (isAfterIM) {
-                    // 发送钥匙给视频通话对象
-                    if (callNumber != null) {
-                        sendKey();
-                    }
+                    ActiveTimeActivity.startAfterIM(context, callNumber);
                 } else {
-                    MyApplication.instance.setSelectedLocks(new ArrayList<RadixLock>(adapter.selectedSet));
                     // 设置有效时间，生成二维码
                     ActiveTimeActivity.start(context);
                 }
