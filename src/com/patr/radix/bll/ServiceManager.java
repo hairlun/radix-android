@@ -11,7 +11,6 @@ import org.xutils.common.Callback.Cancelable;
 import com.patr.radix.MyApplication;
 import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
-import com.patr.radix.bean.GetNoticeDetailsResult;
 import com.patr.radix.bean.GetNoticeListResult;
 import com.patr.radix.bean.LoginResult;
 import com.patr.radix.bean.RequestResult;
@@ -58,11 +57,11 @@ public class ServiceManager {
         
         String NAME = "name";
         
-        String AREA_NAME = "areaName";
+        String AREA_NAME = "name";
         
-        String HOST = "ipAddress";
+        String HOST = "path";
         
-        String PORT = "portNum";
+        String PORT = "port";
         
         String USER_LIST = "userList";
         
@@ -74,13 +73,17 @@ public class ServiceManager {
         
         String MOBILE = "mobile";
         
+        String AREA_PIC = "areaPic";
+        
         String PWD = "pwd";
         
         String HOME = "home";
         
         String LOCK_LIST = "lockList";
         
-        String BLE_NAME = "bleName";
+        String BLE_NAME1 = "bleName1";
+        
+        String BLE_NAME2 = "bleName2";
         
         String KEY = "key";
         
@@ -114,6 +117,10 @@ public class ServiceManager {
         
         String READ_TIME = "readTime";
         
+        String PIC = "pic";
+        
+        String VIDEO = "video";
+        
         String URL = "url";
         
         String MODEL = "model";
@@ -127,7 +134,7 @@ public class ServiceManager {
      */
     public interface Url {
         
-        String COMMUNITY_LIST = "http://he28123790.ushost2.08jt.com/";
+        String COMMUNITY_LIST = "http://119.29.33.197:8080/surpass/mobile/getCommunityList";
         
         /** 用户登录 */
         String LOGIN = "/mobileUserLogin?";
@@ -145,7 +152,7 @@ public class ServiceManager {
         String NOTICE_LIST = "/noticeList?";
         
         /** 公告详情 */
-        String NOTICE_DETAILS = "/mobileViewNotice?";
+        String NOTICE_DETAILS = "/notice.html?";
         
         /** 修改用户信息 */
         String EDIT_USER_INFO = "/updateMobileUserInfo?";
@@ -201,19 +208,6 @@ public class ServiceManager {
         String[] keys = { RequestKey.TOKEN, RequestKey.PAGE_NUM, RequestKey.PAGE_SIZE };
         String[] values = { MyApplication.instance.getUserInfo().getToken(), String.valueOf(pageNum), String.valueOf(LIMIT)};
         return WebService.post(Url.NOTICE_LIST, keys, values, listener, new GetNoticeListParser(listener));
-    }
-    
-    /**
-     * 获取公告详情
-     * 
-     * @param id
-     * @param listener
-     * @return
-     */
-    public static Cancelable getNoticeDetails(String id, final RequestListener<GetNoticeDetailsResult> listener) {
-        String[] keys = { RequestKey.TOKEN, RequestKey.ID };
-        String[] values = { MyApplication.instance.getUserInfo().getToken(), id };
-        return WebService.post(Url.NOTICE_DETAILS, keys, values, listener, new GetNoticeDetailsParser(listener));
     }
     
     /**

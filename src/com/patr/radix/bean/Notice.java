@@ -22,6 +22,8 @@ public class Notice implements Serializable {
     private String imgUrl;
     
     private String from;
+    
+    private boolean isVideo;
 
     public String getId() {
         return id;
@@ -77,6 +79,14 @@ public class Notice implements Serializable {
 
     public void setFrom(String from) {
         this.from = from;
+    }
+
+    public boolean isVideo() {
+        return isVideo;
+    }
+
+    public void setVideo(boolean isVideo) {
+        this.isVideo = isVideo;
     }
 
     @Override

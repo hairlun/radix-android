@@ -33,6 +33,8 @@ public class UserInfo implements Serializable {
     
     private String mobile;
     
+    private String areaPic;
+    
     private String token;
 
     public String getId() {
@@ -89,6 +91,14 @@ public class UserInfo implements Serializable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getAreaPic() {
+        return areaPic;
+    }
+
+    public void setAreaPic(String areaPic) {
+        this.areaPic = areaPic;
     }
 
     public String getToken() {

@@ -812,8 +812,12 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     
     private void unlock() {
         RadixLock lock = MyApplication.instance.getSelectedLock();
+        String bleName = lock.getBleName1();
+        if (TextUtils.isEmpty(bleName)) {
+            bleName = lock.getBleName2();
+        }
         for (MDevice device : list) {
-            if (device.getDevice().getName().equalsIgnoreCase(lock.getBleName())) {
+            if (device.getDevice().getName().equalsIgnoreCase(bleName)) {
                 connectDevice(device.getDevice());
             }
         }

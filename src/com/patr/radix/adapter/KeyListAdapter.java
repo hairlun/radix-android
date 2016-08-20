@@ -65,7 +65,7 @@ public class KeyListAdapter extends AbsListAdapter<RadixLock> {
         RadixLock lock = getItem(position);
         holder.name.setText(lock.getName());
         if (MyApplication.DEBUG) {
-            holder.name.append("(" + lock.getBleName() + ")");
+            holder.name.append("(" + lock.getBleName1() + "," + lock.getBleName2() + ")");
         }
         if (lock.equals(MyApplication.instance.getSelectedLock())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

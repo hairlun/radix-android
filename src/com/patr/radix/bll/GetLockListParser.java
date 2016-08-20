@@ -56,14 +56,16 @@ public class GetLockListParser extends AbsBaseParser<GetLockListResult> {
                         if (obj != null) {
                             String id = obj.optString(ResponseKey.ID);
                             String name = obj.optString(ResponseKey.NAME);
-                            String bleName = obj.optString(ResponseKey.BLE_NAME);
+                            String bleName1 = obj.optString(ResponseKey.BLE_NAME1);
+                            String bleName2 = obj.optString(ResponseKey.BLE_NAME2);
                             String key = obj.optString(ResponseKey.KEY);
                             String start = obj.optString(ResponseKey.START);
                             String end = obj.optString(ResponseKey.END);
                             RadixLock lock = new RadixLock();
                             lock.setId(id);
                             lock.setName(name);
-                            lock.setBleName(bleName);
+                            lock.setBleName1(bleName1);
+                            lock.setBleName2(bleName2);
                             lock.setKey(key);
                             lock.setStart(start);
                             lock.setEnd(end);

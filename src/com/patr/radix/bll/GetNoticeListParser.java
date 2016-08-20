@@ -44,12 +44,16 @@ public class GetNoticeListParser extends AbsBaseParser<GetNoticeListResult> {
                                 String sentDate = obj.optString(ResponseKey.SENT_DATE);
                                 String content = obj.optString(ResponseKey.CONTENT);
                                 String readTime = obj.optString(ResponseKey.READ_TIME);
+                                String imgUrl = obj.optString(ResponseKey.PIC);
+                                int video = obj.optInt(ResponseKey.VIDEO);
                                 Notice notice = new Notice();
                                 notice.setId(id);
                                 notice.setTitle(title);
                                 notice.setSentDate(sentDate);
                                 notice.setContent(content);
                                 notice.setReadTime(readTime);
+                                notice.setImgUrl(imgUrl);
+                                notice.setVideo(video == 1 ? true : false);
                                 result.getNotices().add(notice);
                             }
                         }

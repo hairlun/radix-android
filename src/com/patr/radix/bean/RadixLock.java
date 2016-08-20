@@ -23,7 +23,9 @@ public class RadixLock implements Serializable {
 
     private String name;
     
-    private String bleName;
+    private String bleName1;
+    
+    private String bleName2;
     
     private String key;
     
@@ -47,12 +49,20 @@ public class RadixLock implements Serializable {
         this.name = name;
     }
 
-    public String getBleName() {
-        return bleName;
+    public String getBleName1() {
+        return bleName1 == null ? "" : bleName1;
     }
 
-    public void setBleName(String bleName) {
-        this.bleName = bleName;
+    public void setBleName1(String bleName1) {
+        this.bleName1 = bleName1;
+    }
+
+    public String getBleName2() {
+        return bleName2 == null ? "" : bleName2;
+    }
+
+    public void setBleName2(String bleName2) {
+        this.bleName2 = bleName2;
     }
 
     public String getKey() {
