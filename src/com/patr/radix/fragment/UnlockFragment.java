@@ -464,7 +464,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
     
     private void doUnlock() {
-        writeOption("31 ", "00 00 00 00 " + MyApplication.instance.getCsn());
+        writeOption("31 ", "06 00 00 00 00 " + MyApplication.instance.getCsn());
     }
 
     private void writeOption(String cmd, String data) {
@@ -472,7 +472,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void writeOption(String hexStr) {
-        writeCharacteristic(writeCharacteristic, Utils.getEncryptedCmdDate(hexStr));
+        writeCharacteristic(writeCharacteristic, Utils.getEncryptedCmdData(hexStr));
         // messageEt.append("Sent: HEX:" + hexStr + "(encrypt: " +
         // Utils.ByteArraytoHex(array) + ")\n");
         // messageEt.setSelection(messageEt.getText().length(),

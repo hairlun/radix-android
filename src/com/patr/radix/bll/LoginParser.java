@@ -3,6 +3,8 @@ package com.patr.radix.bll;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.patr.radix.MyApplication;
+import com.patr.radix.bean.Community;
 import com.patr.radix.bean.LoginResult;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.bean.UserInfo;
@@ -37,8 +39,8 @@ public class LoginParser extends AbsBaseParser<LoginResult> {
                         String name = obj.optString(ResponseKey.NAME);
                         String mobile = obj.optString(ResponseKey.MOBILE);
                         String home = obj.optString(ResponseKey.HOME);
-                        String areaPic = obj.optString(ResponseKey.AREA_ID);
                         String token = json.optString(ResponseKey.TOKEN);
+                        String areaPic = obj.optString(ResponseKey.AREA_PIC);
                         UserInfo userInfo = new UserInfo();
                         userInfo.setId(id);
                         userInfo.setAccount(account);
@@ -48,6 +50,11 @@ public class LoginParser extends AbsBaseParser<LoginResult> {
                         userInfo.setMobile(mobile);
                         userInfo.setHome(home);
                         userInfo.setToken(token);
+                        if (!areaPic.startsWith("http")) {
+                            Community community = MyApplication.instance.getSelectedCommunity();
+                            areaPic = String.format("%s:%s%s", community.getHost(), community.getPort(), areaPic);
+                        }
+                        userInfo.setAreaPic(areaPic);
                         result.setUserInfo(userInfo);
                     }
                 }

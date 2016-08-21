@@ -411,7 +411,7 @@ public class UnlockActivity extends Activity implements OnItemClickListener,
     }
 
     private void writeOption(String hexStr) {
-        writeCharacteristic(writeCharacteristic, Utils.getEncryptedCmdDate(hexStr));
+        writeCharacteristic(writeCharacteristic, Utils.getEncryptedCmdData(hexStr));
         // messageEt.append("Sent: HEX:" + hexStr + "(encrypt: " +
         // Utils.ByteArraytoHex(array) + ")\n");
         // messageEt.setSelection(messageEt.getText().length(),

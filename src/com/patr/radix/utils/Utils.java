@@ -723,10 +723,16 @@ public class Utils {
         for (byte b : dataArray) {
             check[0] ^= b;
         }
-        return "AA " + cmd + data + Utils.ByteArraytoHex(check) + "DD";
+        return "AA 00 " + cmd + data + Utils.ByteArraytoHex(check) + "DD";
     }
-    
-    public static byte[] getEncryptedCmdDate(String cmdData) {
+
+    public static byte[] getCmdDataByteArray(String cmdData) {
+        String text = cmdData.replace(" ", "");
+        byte[] array = Utils.hexStringToByteArray(text);
+        return array;
+    }
+
+    public static byte[] getEncryptedCmdData(String cmdData) {
         String text = cmdData.replace(" ", "");
         byte[] array = Utils.hexStringToByteArray(text);
         int size = array.length;

@@ -1,5 +1,7 @@
 package com.patr.radix;
 
+import org.xutils.x;
+
 import com.patr.radix.view.TitleBarView;
 
 import android.app.Activity;
@@ -9,10 +11,12 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class QRCodeActivity extends Activity implements OnClickListener {
    
@@ -23,6 +27,12 @@ public class QRCodeActivity extends Activity implements OnClickListener {
     private ImageView qrcodeIv;
     
     private Button shareBtn;
+    
+    private TextView areaPicTv;
+    
+    private ImageView areaPicIv;
+    
+    private Button share2Btn;
     
     private Bitmap bitmap;
     
@@ -41,12 +51,23 @@ public class QRCodeActivity extends Activity implements OnClickListener {
         titleBarView = (TitleBarView) findViewById(R.id.unlock_qrcode_titlebar);
         qrcodeIv = (ImageView) findViewById(R.id.unlock_qrcode_iv);
         shareBtn = (Button) findViewById(R.id.unlock_share_btn);
+        areaPicTv = (TextView) findViewById(R.id.unlock_area_pic_tv);
+        areaPicIv = (ImageView) findViewById(R.id.unlock_area_pic_iv);
+        share2Btn = (Button) findViewById(R.id.unlock_share2_btn);
         titleBarView.setTitle(R.string.titlebar_send_to_friend);
+        String areaPic = MyApplication.instance.getUserInfo().getAreaPic();
+        if (TextUtils.isEmpty(areaPic)) {
+            areaPicTv.setVisibility(View.GONE);
+            areaPicIv.setVisibility(View.GONE);
+            share2Btn.setVisibility(View.GONE);
+        } else {
+            x.image().bind(areaPicIv, areaPic);
+        }
         try {
             if (bitmap != null) {
                 qrcodeIv.setImageBitmap(bitmap);
                 uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null));
-                            }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
