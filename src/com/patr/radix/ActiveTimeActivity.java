@@ -229,7 +229,7 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
                 for (RadixLock lock : MyApplication.instance.getSelectedLocks()) {
                     data += Utils.ByteArraytoHex(new byte[]{ (byte) Integer.parseInt(lock.getId()) });
                 }
-                String cmdData = Utils.getCmdData(cmd, data);
+                String cmdData = Utils.getCmdData("00 ", cmd, data);
                 byte[] array = Utils.hexStringToByteArray(cmdData.replace(" ", ""));
                 String text = new String(array);
                 Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(text, 300, 300);

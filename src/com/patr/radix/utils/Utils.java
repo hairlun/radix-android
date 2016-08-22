@@ -714,16 +714,19 @@ public class Utils {
         return data;
     }
     
-    public static String getCmdData(String cmd, String data) {
+    public static String getCmdData(String rnd, String cmd, String data) {
         String dataText = data.replace(" ", "");
         String cmdText = cmd.replace(" ", "");
+        String rndText = rnd.replace(" ", "");
         byte[] dataArray = Utils.hexStringToByteArray(dataText);
         byte[] cmdArray = Utils.hexStringToByteArray(cmdText);
+        byte[] rndArray = Utils.hexStringToByteArray(rndText);
         byte[] check = { cmdArray[0] };
         for (byte b : dataArray) {
             check[0] ^= b;
         }
-        return "AA 00 " + cmd + data + Utils.ByteArraytoHex(check) + "DD";
+        check[0] ^= rndArray[0];
+        return "AA " + rnd + cmd + data + Utils.ByteArraytoHex(check) + "DD";
     }
 
     public static byte[] getCmdDataByteArray(String cmdData) {
@@ -732,7 +735,7 @@ public class Utils {
         return array;
     }
 
-    public static byte[] getEncryptedCmdData(String cmdData) {
+    public static byte[] getEncryptedCmdDataByteArray(String cmdData) {
         String text = cmdData.replace(" ", "");
         byte[] array = Utils.hexStringToByteArray(text);
         int size = array.length;

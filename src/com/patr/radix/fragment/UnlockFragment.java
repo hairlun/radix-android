@@ -102,6 +102,10 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     private String currentDevAddress;
     
     private String currentDevName;
+    
+    private boolean isUnlocking = false;
+    
+    private int retryCount = 0;
 
     @Override
     public void onAttach(Activity activity) {
@@ -464,19 +468,15 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
     
     private void doUnlock() {
-        writeOption("31 ", "06 00 00 00 00 " + MyApplication.instance.getCsn());
+        writeOption("30 ", "06 00 00 " + MyApplication.instance.getCsn());
     }
 
     private void writeOption(String cmd, String data) {
-        writeOption(Utils.getCmdData(cmd, data));
+        writeOption(Utils.getCmdData("00 ", cmd, data));
     }
 
     private void writeOption(String hexStr) {
-        writeCharacteristic(writeCharacteristic, Utils.getEncryptedCmdData(hexStr));
-        // messageEt.append("Sent: HEX:" + hexStr + "(encrypt: " +
-        // Utils.ByteArraytoHex(array) + ")\n");
-        // messageEt.setSelection(messageEt.getText().length(),
-        // messageEt.getText().length());
+        writeCharacteristic(writeCharacteristic, Utils.getCmdDataByteArray(hexStr));
     }
 
     private void writeCharacteristic(
@@ -819,6 +819,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         for (MDevice device : list) {
             if (device.getDevice().getName().equalsIgnoreCase(bleName)) {
                 connectDevice(device.getDevice());
+                break;
             }
         }
     }

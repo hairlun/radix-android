@@ -81,9 +81,9 @@ public class ServiceManager {
         
         String LOCK_LIST = "lockList";
         
-        String BLE_NAME1 = "bleName1";
+        String BLE_NAME1 = "inBleName";
         
-        String BLE_NAME2 = "bleName2";
+        String BLE_NAME2 = "outBleName";
         
         String KEY = "key";
         
