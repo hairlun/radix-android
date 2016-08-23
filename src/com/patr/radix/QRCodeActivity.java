@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -36,7 +37,7 @@ public class QRCodeActivity extends Activity implements OnClickListener {
     
     private Bitmap bitmap;
     
-    private Uri uri;
+    private Uri qrcodeUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +67,13 @@ public class QRCodeActivity extends Activity implements OnClickListener {
         try {
             if (bitmap != null) {
                 qrcodeIv.setImageBitmap(bitmap);
-                uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null));
+                qrcodeUri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         shareBtn.setOnClickListener(this);
+        share2Btn.setOnClickListener(this);
     }
 
     /**
@@ -88,7 +90,7 @@ public class QRCodeActivity extends Activity implements OnClickListener {
      * @param imgPath
      *            图片路径，不分享图片则传null
      */
-    public void shareMsg(String activityTitle, String msgTitle, String msgText) {
+    public void shareMsg(String activityTitle, String msgTitle, String msgText, Uri uri) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         if (bitmap == null) {
             intent.setType("text/plain"); // 纯文本
@@ -106,7 +108,17 @@ public class QRCodeActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        shareMsg("请选择", "", "");
+        switch (v.getId()) {
+        case R.id.unlock_share_btn:
+            shareMsg("请选择", "", "", qrcodeUri);
+            break;
+            
+        case R.id.unlock_share2_btn:
+            Bitmap bm = ((BitmapDrawable)areaPicIv.getDrawable()).getBitmap();
+            Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bm, null, null));
+            shareMsg("请选择", "", "", uri);
+            break;
+        }
     }
     
     public static void start(Context context, Bitmap bitmap) {

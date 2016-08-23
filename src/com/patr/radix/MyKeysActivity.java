@@ -19,9 +19,6 @@ import com.patr.radix.view.TitleBarView;
 import com.patr.radix.view.swipe.SwipeRefreshLayout;
 import com.patr.radix.view.swipe.SwipeRefreshLayout.OnRefreshListener;
 import com.patr.radix.view.swipe.SwipeRefreshLayoutDirection;
-import com.yuntongxun.ecdemo.ui.chatting.IMChattingHelper;
-import com.yuntongxun.ecsdk.ECMessage;
-import com.yuntongxun.ecsdk.im.ECTextMessageBody;
 
 import android.app.Activity;
 import android.content.Context;
@@ -81,9 +78,6 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         titleBarView.setTitle(R.string.titlebar_my_keys).showSendKeyBtn().setOnSendKeyClickListener(this).setOnCancelClickListener(this).setOnCheckAllClickListener(this);
         adapter = new KeyListAdapter(this, MyApplication.instance.getLocks());
         keysLv.setAdapter(adapter);
-        if (isAfterIM) {
-            okBtn.setText(R.string.unlock_send);
-        }
         okBtn.setOnClickListener(this);
         keysLv.setOnItemClickListener(this);
         swipe.setOnRefreshListener(this);
@@ -189,12 +183,17 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
             if (adapter.selectedSet.isEmpty()) {
                 ToastUtil.showShort(context, "请至少选择一个钥匙！");
             } else {
-                MyApplication.instance.setSelectedLocks(new ArrayList<RadixLock>(adapter.selectedSet));
                 if (isAfterIM) {
+                    MyApplication.instance.setSelectedLocks(new ArrayList<RadixLock>(adapter.selectedSet));
                     ActiveTimeActivity.startAfterIM(context, callNumber);
                 } else {
-                    // 设置有效时间，生成二维码
-                    ActiveTimeActivity.start(context);
+                    if (adapter.selectedSet.size() <= 5) {
+                        MyApplication.instance.setSelectedLocks(new ArrayList<RadixLock>(adapter.selectedSet));
+                        // 设置有效时间，生成二维码
+                        ActiveTimeActivity.start(context);
+                    } else {
+                        ToastUtil.showShort(context, "最多选择5个钥匙！");
+                    }
                 }
             }
             break;

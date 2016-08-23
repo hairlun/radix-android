@@ -222,15 +222,17 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
 //            }
             // 生成二维码
             try {
-                String cmd = "31 ";
+                String cmd = "71 ";
                 String data = "00 00 00 00 " + MyApplication.instance.getCsn()
                         + Utils.ByteArraytoHex(Utils.dateTime2Bytes(startCal.getTime()))
                         + Utils.ByteArraytoHex(Utils.dateTime2Bytes(endCal.getTime()));
+                byte len = (byte) MyApplication.instance.getSelectedLocks().size();
+                data += Utils.ByteArraytoHex(new byte[]{ len });
                 for (RadixLock lock : MyApplication.instance.getSelectedLocks()) {
-                    data += Utils.ByteArraytoHex(new byte[]{ (byte) Integer.parseInt(lock.getId()) });
+                    data += Utils.ByteArraytoHex(new byte[]{ (byte) (lock.getCtrId() & 0xFF), (byte) ((lock.getCtrId()>>8) & 0xFF) });
                 }
                 String cmdData = Utils.getCmdData("00 ", cmd, data);
-                byte[] array = Utils.hexStringToByteArray(cmdData.replace(" ", ""));
+                byte[] array = Utils.getCmdDataByteArray(cmdData);
                 String text = new String(array);
                 Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(text, 300, 300);
                 QRCodeActivity.start(context, bitmap);

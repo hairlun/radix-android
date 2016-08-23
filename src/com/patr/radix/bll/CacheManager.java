@@ -16,16 +16,24 @@ import android.content.Context;
 import android.os.Environment;
 
 public class CacheManager {
-    
+
     public static final File CACHE_DIR = new File(Environment
             .getExternalStorageDirectory().getAbsolutePath() + "/radix/cache");
 
     public static String getCommunityListUrl() {
         return Url.COMMUNITY_LIST;
     }
-    
+
     public static String getLockListUrl() {
-        return String.format("%s%stoken=%s", MyApplication.instance.getSelectedCommunity().getUrl(), Url.LOCK_LIST, MyApplication.instance.getUserInfo().getToken());
+        return String.format("%s%stoken=%s", MyApplication.instance
+                .getSelectedCommunity().getUrl(), Url.LOCK_LIST,
+                MyApplication.instance.getUserInfo().getToken());
+    }
+
+    public static String getUserListUrl() {
+        return String.format("%s%stoken=%s", MyApplication.instance
+                .getSelectedCommunity().getUrl(), Url.USER_LIST,
+                MyApplication.instance.getUserInfo().getToken());
     }
 
     /**

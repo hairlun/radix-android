@@ -12,6 +12,7 @@ import com.patr.radix.MyApplication;
 import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.GetNoticeListResult;
+import com.patr.radix.bean.GetUserListResult;
 import com.patr.radix.bean.LoginResult;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.network.RequestListener;
@@ -90,6 +91,8 @@ public class ServiceManager {
         String START = "start";
         
         String END = "end";
+        
+        String CTR_ID = "ctrId";
         
         String HOUSE_NUMBER_LIST = "houseNumberList";
         
@@ -183,6 +186,18 @@ public class ServiceManager {
         String[] values = { account, pwd };
         return WebService.post(Url.LOGIN, keys, values, listener,
                 new LoginParser(listener));
+    }
+    
+    /**
+     * 获取用户列表
+     * 
+     * @param listener
+     * @return
+     */
+    public static Cancelable getUserList(final RequestListener<GetUserListResult> listener) {
+        String[] keys = { RequestKey.TOKEN };
+        String[] values = { MyApplication.instance.getUserInfo().getToken() };
+        return WebService.post(Url.USER_LIST, keys, values, listener, new GetUserListParser(listener));
     }
    
     /**

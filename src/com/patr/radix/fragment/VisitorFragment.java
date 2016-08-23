@@ -1,8 +1,18 @@
 package com.patr.radix.fragment;
 
+import org.xutils.common.util.LogUtil;
+
 import com.patr.radix.MyApplication;
 import com.patr.radix.R;
+import com.patr.radix.adapter.UserListAdapter;
+import com.patr.radix.bean.GetUserListResult;
+import com.patr.radix.bll.CacheManager;
+import com.patr.radix.bll.GetUserListParser;
+import com.patr.radix.bll.ServiceManager;
+import com.patr.radix.network.RequestListener;
+import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.ToastUtil;
+import com.patr.radix.view.ListSelectDialog;
 import com.patr.radix.view.TitleBarView;
 import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.common.utils.FileAccessor;
@@ -21,10 +31,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class VisitorFragment extends Fragment implements OnClickListener {
+public class VisitorFragment extends Fragment implements OnClickListener, OnItemClickListener {
     
     private Context context;
     
@@ -32,7 +44,11 @@ public class VisitorFragment extends Fragment implements OnClickListener {
     
     private EditText mobileEt;
     
+    private Button contactBtn;
+    
     private Button requestBtn;
+    
+    private UserListAdapter adapter;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -47,8 +63,11 @@ public class VisitorFragment extends Fragment implements OnClickListener {
         titleBarView = (TitleBarView) view.findViewById(R.id.visitor_titlebar);
         titleBarView.hideBackBtn().setTitle(R.string.titlebar_visitor_request);
         mobileEt = (EditText) view.findViewById(R.id.visitor_user_mobile_et);
+        contactBtn = (Button) view.findViewById(R.id.visitor_contact_btn);
         requestBtn = (Button) view.findViewById(R.id.visitor_request_btn);
+        contactBtn.setOnClickListener(this);
         requestBtn.setOnClickListener(this);
+        adapter = new UserListAdapter(context, null);
         return view;
 	}
 
@@ -56,11 +75,92 @@ public class VisitorFragment extends Fragment implements OnClickListener {
 	public void setArguments(Bundle args) {
 		super.setArguments(args);
 	}
+	
+	private void getUserList() {
+        switch (NetUtils.getConnectedType(context)) {
+        case NONE:
+            getUserListFromCache();
+            break;
+        case WIFI:
+        case OTHER:
+            getUserListFromServer();
+            break;
+        default:
+            break;
+        }
+	}
+	
+	private void getUserListFromCache() {
+	    CacheManager.getCacheContent(context, CacheManager.getUserListUrl(),
+	            new RequestListener<GetUserListResult>() {
+
+                    @Override
+                    public void onSuccess(int stateCode,
+                            GetUserListResult result) {
+                        if (result != null) {
+                            adapter.set(result.getUsers());
+                            ListSelectDialog.show(context, "请选择电话号码", adapter, VisitorFragment.this);
+                        }
+                    }
+	        
+	    }, new GetUserListParser());
+	}
+	
+	private void getUserListFromServer() {
+	    ServiceManager.getUserList(new RequestListener<GetUserListResult>() {
+
+            @Override
+            public void onSuccess(int stateCode, GetUserListResult result) {
+                if (result != null) {
+                    if (result.isSuccesses()) {
+                        adapter.set(result.getUsers());
+                        ListSelectDialog.show(context, "请选择电话号码", adapter, VisitorFragment.this);
+                        saveUserListToDb(result.getResponse());
+                    } else {
+                        ToastUtil.showShort(context, result.getRetinfo());
+                        getUserListFromCache();
+                    }
+                } else {
+                    ToastUtil.showShort(context, "网络请求失败！");
+                    getUserListFromCache();
+                }
+            }
+
+            @Override
+            public void onFailure(Exception error, String content) {
+                ToastUtil.showShort(context, content);
+                getUserListFromCache();
+            }
+	        
+	    });
+	}
+
+    /**
+     * 保存列表到数据库
+     * 
+     * @param content
+     */
+    protected void saveUserListToDb(String content) {
+        CacheManager.saveCacheContent(context, CacheManager.getUserListUrl(), content,
+                new RequestListener<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean result) {
+                        LogUtil.i("save " + CacheManager.getUserListUrl() + "=" + result);
+                    }
+                });
+    }
 
     @Override
     public void onClick(View v) {
         String mobile = null;
         switch (v.getId()) {
+        case R.id.visitor_contact_btn:
+            if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getAccount())) {
+                getUserList();
+            } else {
+                ToastUtil.showShort(context, "未登录！");
+            }
+            break;
         case R.id.visitor_request_btn:
             mobile = mobileEt.getText().toString().trim();
             if (TextUtils.isEmpty(mobile)) {
@@ -103,6 +203,16 @@ public class VisitorFragment extends Fragment implements OnClickListener {
             }
             break;
         }
+    }
+
+    /* (non-Javadoc)
+     * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,
+            long id) {
+        adapter.select(position);
+        mobileEt.setText(adapter.getItem(position).getMobile());
     }
 
 }

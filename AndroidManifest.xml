@@ -79,6 +79,17 @@
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:theme="@android:style/Theme.NoTitleBar" >
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="MzfTXxTwEsjui8n2EHmSCq57" />
+
+        <!-- 以下两项为友盟统计 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5750e12967e58e5d18003808" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="yuntongxun_im_5.2.2r" />
         <activity
             android:name="com.patr.radix.MainActivity"
             android:label="@string/app_name"

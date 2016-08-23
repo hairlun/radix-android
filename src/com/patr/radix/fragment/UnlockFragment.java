@@ -199,6 +199,9 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 // connect break (连接断开)
 //                statusTv.setText("连接已断开。");
                 BluetoothLeService.close();
+                if (isUnlocking) {
+                    isUnlocking = false;
+                }
             }
 
             // There are four basic operations for moving data in BLE: read,
@@ -273,12 +276,12 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     .equals(BluetoothLeService.ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS)) {
                 // Toast.makeText(context, "开门成功", Toast.LENGTH_SHORT).show();
                 // notifyOption();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        disconnectDevice();
-                    }
-                }, 100);
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        disconnectDevice();
+//                    }
+//                }, 100);
             }
 
             if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
@@ -327,143 +330,203 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private void handle(byte[] array) {
         int size = array.length;
-        if (size < 5 || array[0] != (byte) 0xAA) {
-            // invalidMsg();
+        if (size < 6 || array[0] != (byte) 0xAA) {
+            // invalid msg
+            if (isUnlocking) {
+                retryCount++;
+                if (retryCount <= 3) {
+                    doUnlock();
+                } else {
+                    disconnectDevice();
+                }
+            }
             return;
         }
-        byte cmd = array[1];
+        byte cmd = array[2];
+        int len;
         switch (cmd) {
-        case Constants.HAND_SHAKE:
-            if (size < 5 || array[4] != (byte) 0xDD) {
-                // invalidMsg();
-            } else {
-                if ((cmd ^ array[2]) == array[3]) {
-                    if (array[2] == (byte) 0x00) {
-                        handShake = true;
-                        // messageEt.append("握手成功。\n");
-                        // messageEt.setSelection(messageEt.getText().length(),
-                        // messageEt.getText().length());
+        case Constants.UNLOCK:
+            len = array[3];
+            if (size < 6 + len || array[len + 5] != (byte) 0xDD) {
+                // invalid msg
+                if (isUnlocking) {
+                    retryCount++;
+                    if (retryCount <= 3) {
+                        doUnlock();
                     } else {
-                        // messageEt.append("握手失败。\n");
-                        // messageEt.setSelection(messageEt.getText().length(),
-                        // messageEt.getText().length());
+                        disconnectDevice();
                     }
-                } else {
-                    // checkFailed();
                 }
-            }
-            break;
-        case Constants.READ_CARD:
-            if (size < 12 || array[11] != (byte) 0xDD) {
-                // invalidMsg();
             } else {
-                for (int i = 2; i < 10; i++) {
-                    if (array[i] != (byte) 0x00) {
-                        // checkFailed();
-                        writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
-                        return;
-                    }
+                byte check = array[1];
+                check = (byte) (check ^ cmd ^ array[3]);
+                for (int i = 0; i < len; i++) {
+                    check ^= array[i + 4];
                 }
-                byte check = cmd;
-                for (int i = 2; i < 10; i++) {
-                    check ^= array[i];
-                }
-                if (check == array[10]) {
-                    if (handShake) {
-                        // messageEt.append("读卡号。\n");
-                        // messageEt.setSelection(messageEt.getText().length(),
-                        // messageEt.getText().length());
-                        writeOption("90 ", "00 00 00 00 00 " + MyApplication.instance.getCardNum());
+                if (check == array[len + 4]) {
+                    // check pass
+                    if (array[4] == 0x00) {
+                        // 命令执行成功，断开蓝牙连接
+                        disconnectDevice();
                     } else {
-                        // messageEt.append("未握手，读卡失败。\n");
-                        // messageEt.setSelection(messageEt.getText().length(),
-                        // messageEt.getText().length());
-                        writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
-                    }
-                } else {
-                    // checkFailed();
-                    writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
-                }
-            }
-            break;
-        case Constants.WRITE_CARD:
-            if (size < 12 || array[11] != (byte) 0xDD) {
-                // invalidMsg();
-            } else {
-                for (int i = 2; i < 6; i++) {
-                    if (array[i] != (byte) 0x00) {
-                        // checkFailed();
-                        writeOption("91 ", "FF 00 00 00 00 00 00 00 00 ");
-                        return;
-                    }
-                }
-                byte check = cmd;
-                for (int i = 2; i < 10; i++) {
-                    check ^= array[i];
-                }
-                if (check == array[10]) {
-                    if (handShake) {
-                        byte[] cn = new byte[4];
-                        for (int i = 0; i < 4; i++) {
-                            cn[i] = array[i + 6];
+                        // 命令执行失败或命令数据错误
+                        if (isUnlocking) {
+                            retryCount++;
+                            if (retryCount <= 3) {
+                                doUnlock();
+                            } else {
+                                disconnectDevice();
+                            }
                         }
-                        MyApplication.instance.setCardNum(Utils.ByteArraytoHex(cn));
-                        MyApplication.instance.setCsn(MyApplication.instance.getCardNum());
-                        // messageEt.append("写卡号。新卡号：" + cardNum + "\n");
-                        // messageEt.setSelection(messageEt.getText().length(),
-                        // messageEt.getText().length());
-                        writeOption("91 ", "00 ");
-                    } else {
-                        // messageEt.append("未握手，写卡失败。\n");
-                        // messageEt.setSelection(messageEt.getText().length(),
-                        // messageEt.getText().length());
-                        writeOption("91 ", "FF ");
                     }
                 } else {
-                    // checkFailed();
-                    writeOption("91 ", "FF ");
+                    // check fail
+                    if (isUnlocking) {
+                        retryCount++;
+                        if (retryCount <= 3) {
+                            doUnlock();
+                        } else {
+                            disconnectDevice();
+                        }
+                    }
                 }
             }
             break;
-        case Constants.DISCONNECT:
-            if (size < 12 || array[11] != (byte) 0xDD) {
-                // invalidMsg();
-            } else {
-                for (int i = 2; i < 10; i++) {
-                    if (array[i] != (byte) 0x00) {
-                        // checkFailed();
-                        writeOption("A0 ", "FF ");
-                        return;
-                    }
-                }
-                byte check = cmd;
-                for (int i = 2; i < 10; i++) {
-                    check ^= array[i];
-                }
-                if (check == array[10]) {
-                    if (handShake) {
-                        // messageEt.append("断开连接。\n");
-                        // messageEt.setSelection(messageEt.getText().length(),
-                        // messageEt.getText().length());
-                        writeOption("A0 ", "00 ");
-                        handShake = false;
-                    } else {
-                        // messageEt.append("未握手，断开连接失败。\n");
-                        // messageEt.setSelection(messageEt.getText().length(),
-                        // messageEt.getText().length());
-                        writeOption("A0 ", "FF ");
-                    }
-                } else {
-                    // checkFailed();
-                    writeOption("A0 ", "FF ");
-                }
-            }
-            break;
+            
         default:
-            // messageEt.append("INVALID REQUEST/RESPONSE.");
-            // messageEt.setSelection(messageEt.getText().length(),
-            // messageEt.getText().length());
+            // INVALID REQUEST/RESPONSE.
             break;
+//        case Constants.HAND_SHAKE:
+//            if (size < 5 || array[4] != (byte) 0xDD) {
+//                // invalidMsg();
+//            } else {
+//                if ((cmd ^ array[2]) == array[3]) {
+//                    if (array[2] == (byte) 0x00) {
+//                        handShake = true;
+//                        // messageEt.append("握手成功。\n");
+//                        // messageEt.setSelection(messageEt.getText().length(),
+//                        // messageEt.getText().length());
+//                    } else {
+//                        // messageEt.append("握手失败。\n");
+//                        // messageEt.setSelection(messageEt.getText().length(),
+//                        // messageEt.getText().length());
+//                    }
+//                } else {
+//                    // checkFailed();
+//                }
+//            }
+//            break;
+//        case Constants.READ_CARD:
+//            if (size < 12 || array[11] != (byte) 0xDD) {
+//                // invalidMsg();
+//            } else {
+//                for (int i = 2; i < 10; i++) {
+//                    if (array[i] != (byte) 0x00) {
+//                        // checkFailed();
+//                        writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
+//                        return;
+//                    }
+//                }
+//                byte check = cmd;
+//                for (int i = 2; i < 10; i++) {
+//                    check ^= array[i];
+//                }
+//                if (check == array[10]) {
+//                    if (handShake) {
+//                        // messageEt.append("读卡号。\n");
+//                        // messageEt.setSelection(messageEt.getText().length(),
+//                        // messageEt.getText().length());
+//                        writeOption("90 ", "00 00 00 00 00 " + MyApplication.instance.getCardNum());
+//                    } else {
+//                        // messageEt.append("未握手，读卡失败。\n");
+//                        // messageEt.setSelection(messageEt.getText().length(),
+//                        // messageEt.getText().length());
+//                        writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
+//                    }
+//                } else {
+//                    // checkFailed();
+//                    writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
+//                }
+//            }
+//            break;
+//        case Constants.WRITE_CARD:
+//            if (size < 12 || array[11] != (byte) 0xDD) {
+//                // invalidMsg();
+//            } else {
+//                for (int i = 2; i < 6; i++) {
+//                    if (array[i] != (byte) 0x00) {
+//                        // checkFailed();
+//                        writeOption("91 ", "FF 00 00 00 00 00 00 00 00 ");
+//                        return;
+//                    }
+//                }
+//                byte check = cmd;
+//                for (int i = 2; i < 10; i++) {
+//                    check ^= array[i];
+//                }
+//                if (check == array[10]) {
+//                    if (handShake) {
+//                        byte[] cn = new byte[4];
+//                        for (int i = 0; i < 4; i++) {
+//                            cn[i] = array[i + 6];
+//                        }
+//                        MyApplication.instance.setCardNum(Utils.ByteArraytoHex(cn));
+//                        MyApplication.instance.setCsn(MyApplication.instance.getCardNum());
+//                        // messageEt.append("写卡号。新卡号：" + cardNum + "\n");
+//                        // messageEt.setSelection(messageEt.getText().length(),
+//                        // messageEt.getText().length());
+//                        writeOption("91 ", "00 ");
+//                    } else {
+//                        // messageEt.append("未握手，写卡失败。\n");
+//                        // messageEt.setSelection(messageEt.getText().length(),
+//                        // messageEt.getText().length());
+//                        writeOption("91 ", "FF ");
+//                    }
+//                } else {
+//                    // checkFailed();
+//                    writeOption("91 ", "FF ");
+//                }
+//            }
+//            break;
+//        case Constants.DISCONNECT:
+//            if (size < 12 || array[11] != (byte) 0xDD) {
+//                // invalidMsg();
+//            } else {
+//                for (int i = 2; i < 10; i++) {
+//                    if (array[i] != (byte) 0x00) {
+//                        // checkFailed();
+//                        writeOption("A0 ", "FF ");
+//                        return;
+//                    }
+//                }
+//                byte check = cmd;
+//                for (int i = 2; i < 10; i++) {
+//                    check ^= array[i];
+//                }
+//                if (check == array[10]) {
+//                    if (handShake) {
+//                        // messageEt.append("断开连接。\n");
+//                        // messageEt.setSelection(messageEt.getText().length(),
+//                        // messageEt.getText().length());
+//                        writeOption("A0 ", "00 ");
+//                        handShake = false;
+//                    } else {
+//                        // messageEt.append("未握手，断开连接失败。\n");
+//                        // messageEt.setSelection(messageEt.getText().length(),
+//                        // messageEt.getText().length());
+//                        writeOption("A0 ", "FF ");
+//                    }
+//                } else {
+//                    // checkFailed();
+//                    writeOption("A0 ", "FF ");
+//                }
+//            }
+//            break;
+//        default:
+//            // messageEt.append("INVALID REQUEST/RESPONSE.");
+//            // messageEt.setSelection(messageEt.getText().length(),
+//            // messageEt.getText().length());
+//            break;
         }
     }
     
@@ -818,6 +881,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         }
         for (MDevice device : list) {
             if (device.getDevice().getName().equalsIgnoreCase(bleName)) {
+                isUnlocking = true;
+                retryCount = 0;
                 connectDevice(device.getDevice());
                 break;
             }

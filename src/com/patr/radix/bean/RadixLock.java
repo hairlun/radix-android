@@ -32,6 +32,8 @@ public class RadixLock implements Serializable {
     private String start;
     
     private String end;
+    
+    private int ctrId;
 
     public String getId() {
         return id;
@@ -87,6 +89,14 @@ public class RadixLock implements Serializable {
 
     public void setEnd(String end) {
         this.end = end;
+    }
+
+    public int getCtrId() {
+        return ctrId;
+    }
+
+    public void setCtrId(int ctrId) {
+        this.ctrId = ctrId;
     }
 
     @Override

@@ -71,6 +71,7 @@ public class PrefUtil {
         save(context, Constants.PREF_MOBILE, userInfo.getMobile());
         save(context, Constants.PREF_HOME, userInfo.getHome());
         save(context, Constants.PREF_TOKEN, userInfo.getToken());
+        save(context, Constants.PREF_AREA_PIC, userInfo.getAreaPic());
     }
     
     public static UserInfo getUserInfo(Context context) {
@@ -81,6 +82,7 @@ public class PrefUtil {
         String mobile = getString(context, Constants.PREF_MOBILE);
         String home = getString(context, Constants.PREF_HOME);
         String token = getString(context, Constants.PREF_TOKEN);
+        String areaPic = getString(context, Constants.PREF_AREA_PIC);
         UserInfo userInfo = new UserInfo();
         userInfo.setAccount(account);
         userInfo.setName(name);
@@ -89,6 +91,7 @@ public class PrefUtil {
         userInfo.setMobile(mobile);
         userInfo.setHome(home);
         userInfo.setToken(token);
+        userInfo.setAreaPic(areaPic);
         return userInfo;
     }
 

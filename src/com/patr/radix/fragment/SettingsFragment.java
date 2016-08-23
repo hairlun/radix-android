@@ -1,7 +1,6 @@
 package com.patr.radix.fragment;
 
 import org.xutils.common.util.LogUtil;
-import org.xutils.ex.HttpException;
 
 import com.patr.radix.LockSetupActivity;
 import com.patr.radix.LockValidateActivity;
@@ -215,7 +214,7 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
                             ListSelectDialog.show(context, "请选择小区", adapter, SettingsFragment.this);
                         }
                     }
-                    
+
                 }, new GetCommunityListParser());
     }
     
@@ -236,12 +235,14 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
                         getCommunityListFromCache();
                     }
                 } else {
+                    ToastUtil.showShort(context, "网络请求失败！");
                     getCommunityListFromCache();
                 }
             }
 
             @Override
             public void onFailure(Exception error, String content) {
+                ToastUtil.showShort(context, content);
                 getCommunityListFromCache();
             }
             

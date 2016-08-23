@@ -19,19 +19,36 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp" />
     
-    <EditText
-        android:id="@+id/visitor_user_mobile_et"
-        style="?android:attr/textViewStyle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:padding="14dp"
-        android:singleLine="true"
         android:background="@color/white"
-        android:hint="@string/visitor_mobile_hint"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/gray_text" />
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/visitor_user_mobile_et"
+            style="?android:attr/textViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:padding="14dp"
+            android:singleLine="true"
+            android:background="@null"
+            android:hint="@string/visitor_mobile_hint"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray_text" />
+        
+        <ImageButton
+            android:id="@+id/visitor_contact_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="14dp"
+            android:src="@drawable/user_icon"
+            android:scaleType="fitCenter" />
+        
+    </LinearLayout>
     
     <Button
         android:id="@+id/visitor_request_btn"

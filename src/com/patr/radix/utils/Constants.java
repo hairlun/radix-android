@@ -42,6 +42,7 @@ public class Constants {
 	public static final byte READ_CARD = (byte) 0x90;
 	public static final byte WRITE_CARD = (byte) 0x91;
 	public static final byte DISCONNECT = (byte) 0xA0;
+	public static final byte UNLOCK = (byte) 0x30;
 	
 	public static final String DEFAULT_CSN = "88 87 22 50 ";
 	
@@ -52,6 +53,7 @@ public class Constants {
 	public static final String PREF_MOBILE = "mobile";
 	public static final String PREF_HOME = "home";
 	public static final String PREF_TOKEN = "token";
+	public static final String PREF_AREA_PIC = "areaPic";
 	public static final String PREF_SELECTED_KEY = "selectedKey";
 	public static final String PREF_SELECTED_COMMUNITY = "selectedCommunity";
 	public static final String PREF_LOCK_KEY = "lockKey";
