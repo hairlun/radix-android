@@ -92,19 +92,19 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     private boolean mScanning = false;
 
     private BluetoothGattCharacteristic notifyCharacteristic;
-    
+
     private BluetoothGattCharacteristic writeCharacteristic;
-    
+
     private boolean nofityEnable = false;
-    
+
     private boolean handShake = false;
-    
+
     private String currentDevAddress;
-    
+
     private String currentDevName;
-    
+
     private boolean isUnlocking = false;
-    
+
     private int retryCount = 0;
 
     @Override
@@ -146,11 +146,12 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         titleBarView.hideBackBtn().showSelectKeyBtn();
         titleBarView.setOnSelectKeyClickListener(this);
         gifView = (GifImageView) view.findViewById(R.id.unlock_giv);
+        gifView.setOnClickListener(this);
         init();
         loadData();
         return view;
     }
-    
+
     private void init() {
         byte[] bytes;
         try {
@@ -184,7 +185,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED
                     .equals(action)) {
                 System.out.println("--------------------->发现SERVICES");
-//                statusTv.setText("已连接门禁，正在开门…");
+                // statusTv.setText("已连接门禁，正在开门…");
                 prepareGattServices(BluetoothLeService
                         .getSupportedGattServices());
                 handler.postDelayed(new Runnable() {
@@ -197,7 +198,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     .equals(BluetoothLeService.ACTION_GATT_DISCONNECTED)) {
                 System.out.println("--------------------->断开连接");
                 // connect break (连接断开)
-//                statusTv.setText("连接已断开。");
+                // statusTv.setText("连接已断开。");
                 BluetoothLeService.close();
                 if (isUnlocking) {
                     isUnlocking = false;
@@ -276,12 +277,12 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     .equals(BluetoothLeService.ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS)) {
                 // Toast.makeText(context, "开门成功", Toast.LENGTH_SHORT).show();
                 // notifyOption();
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        disconnectDevice();
-//                    }
-//                }, 100);
+                // handler.postDelayed(new Runnable() {
+                // @Override
+                // public void run() {
+                // disconnectDevice();
+                // }
+                // }, 100);
             }
 
             if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
@@ -335,8 +336,15 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             if (isUnlocking) {
                 retryCount++;
                 if (retryCount <= 3) {
-                    doUnlock();
+                    ToastUtil.showLong(context, "开门失败，第" + retryCount + "次重试…");
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            doUnlock();
+                        }
+                    }, 50);
                 } else {
+                    ToastUtil.showLong(context, "开门失败，断开连接！");
                     disconnectDevice();
                 }
             }
@@ -352,8 +360,16 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 if (isUnlocking) {
                     retryCount++;
                     if (retryCount <= 3) {
-                        doUnlock();
+                        ToastUtil.showLong(context, "开门失败，第" + retryCount
+                                + "次重试…");
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                doUnlock();
+                            }
+                        }, 50);
                     } else {
+                        ToastUtil.showLong(context, "开门失败，断开连接！");
                         disconnectDevice();
                     }
                 }
@@ -367,14 +383,23 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     // check pass
                     if (array[4] == 0x00) {
                         // 命令执行成功，断开蓝牙连接
+                        ToastUtil.showLong(context, "开门成功");
                         disconnectDevice();
                     } else {
                         // 命令执行失败或命令数据错误
                         if (isUnlocking) {
                             retryCount++;
                             if (retryCount <= 3) {
-                                doUnlock();
+                                ToastUtil.showLong(context, "开门失败，第"
+                                        + retryCount + "次重试…");
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        doUnlock();
+                                    }
+                                }, 50);
                             } else {
+                                ToastUtil.showLong(context, "开门失败，断开连接！");
                                 disconnectDevice();
                             }
                         }
@@ -384,152 +409,161 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     if (isUnlocking) {
                         retryCount++;
                         if (retryCount <= 3) {
-                            doUnlock();
+                            ToastUtil.showLong(context, "开门失败，第" + retryCount
+                                    + "次重试…");
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    doUnlock();
+                                }
+                            }, 50);
                         } else {
+                            ToastUtil.showLong(context, "开门失败，断开连接！");
                             disconnectDevice();
                         }
                     }
                 }
             }
             break;
-            
+
         default:
             // INVALID REQUEST/RESPONSE.
             break;
-//        case Constants.HAND_SHAKE:
-//            if (size < 5 || array[4] != (byte) 0xDD) {
-//                // invalidMsg();
-//            } else {
-//                if ((cmd ^ array[2]) == array[3]) {
-//                    if (array[2] == (byte) 0x00) {
-//                        handShake = true;
-//                        // messageEt.append("握手成功。\n");
-//                        // messageEt.setSelection(messageEt.getText().length(),
-//                        // messageEt.getText().length());
-//                    } else {
-//                        // messageEt.append("握手失败。\n");
-//                        // messageEt.setSelection(messageEt.getText().length(),
-//                        // messageEt.getText().length());
-//                    }
-//                } else {
-//                    // checkFailed();
-//                }
-//            }
-//            break;
-//        case Constants.READ_CARD:
-//            if (size < 12 || array[11] != (byte) 0xDD) {
-//                // invalidMsg();
-//            } else {
-//                for (int i = 2; i < 10; i++) {
-//                    if (array[i] != (byte) 0x00) {
-//                        // checkFailed();
-//                        writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
-//                        return;
-//                    }
-//                }
-//                byte check = cmd;
-//                for (int i = 2; i < 10; i++) {
-//                    check ^= array[i];
-//                }
-//                if (check == array[10]) {
-//                    if (handShake) {
-//                        // messageEt.append("读卡号。\n");
-//                        // messageEt.setSelection(messageEt.getText().length(),
-//                        // messageEt.getText().length());
-//                        writeOption("90 ", "00 00 00 00 00 " + MyApplication.instance.getCardNum());
-//                    } else {
-//                        // messageEt.append("未握手，读卡失败。\n");
-//                        // messageEt.setSelection(messageEt.getText().length(),
-//                        // messageEt.getText().length());
-//                        writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
-//                    }
-//                } else {
-//                    // checkFailed();
-//                    writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
-//                }
-//            }
-//            break;
-//        case Constants.WRITE_CARD:
-//            if (size < 12 || array[11] != (byte) 0xDD) {
-//                // invalidMsg();
-//            } else {
-//                for (int i = 2; i < 6; i++) {
-//                    if (array[i] != (byte) 0x00) {
-//                        // checkFailed();
-//                        writeOption("91 ", "FF 00 00 00 00 00 00 00 00 ");
-//                        return;
-//                    }
-//                }
-//                byte check = cmd;
-//                for (int i = 2; i < 10; i++) {
-//                    check ^= array[i];
-//                }
-//                if (check == array[10]) {
-//                    if (handShake) {
-//                        byte[] cn = new byte[4];
-//                        for (int i = 0; i < 4; i++) {
-//                            cn[i] = array[i + 6];
-//                        }
-//                        MyApplication.instance.setCardNum(Utils.ByteArraytoHex(cn));
-//                        MyApplication.instance.setCsn(MyApplication.instance.getCardNum());
-//                        // messageEt.append("写卡号。新卡号：" + cardNum + "\n");
-//                        // messageEt.setSelection(messageEt.getText().length(),
-//                        // messageEt.getText().length());
-//                        writeOption("91 ", "00 ");
-//                    } else {
-//                        // messageEt.append("未握手，写卡失败。\n");
-//                        // messageEt.setSelection(messageEt.getText().length(),
-//                        // messageEt.getText().length());
-//                        writeOption("91 ", "FF ");
-//                    }
-//                } else {
-//                    // checkFailed();
-//                    writeOption("91 ", "FF ");
-//                }
-//            }
-//            break;
-//        case Constants.DISCONNECT:
-//            if (size < 12 || array[11] != (byte) 0xDD) {
-//                // invalidMsg();
-//            } else {
-//                for (int i = 2; i < 10; i++) {
-//                    if (array[i] != (byte) 0x00) {
-//                        // checkFailed();
-//                        writeOption("A0 ", "FF ");
-//                        return;
-//                    }
-//                }
-//                byte check = cmd;
-//                for (int i = 2; i < 10; i++) {
-//                    check ^= array[i];
-//                }
-//                if (check == array[10]) {
-//                    if (handShake) {
-//                        // messageEt.append("断开连接。\n");
-//                        // messageEt.setSelection(messageEt.getText().length(),
-//                        // messageEt.getText().length());
-//                        writeOption("A0 ", "00 ");
-//                        handShake = false;
-//                    } else {
-//                        // messageEt.append("未握手，断开连接失败。\n");
-//                        // messageEt.setSelection(messageEt.getText().length(),
-//                        // messageEt.getText().length());
-//                        writeOption("A0 ", "FF ");
-//                    }
-//                } else {
-//                    // checkFailed();
-//                    writeOption("A0 ", "FF ");
-//                }
-//            }
-//            break;
-//        default:
-//            // messageEt.append("INVALID REQUEST/RESPONSE.");
-//            // messageEt.setSelection(messageEt.getText().length(),
-//            // messageEt.getText().length());
-//            break;
+        // case Constants.HAND_SHAKE:
+        // if (size < 5 || array[4] != (byte) 0xDD) {
+        // // invalidMsg();
+        // } else {
+        // if ((cmd ^ array[2]) == array[3]) {
+        // if (array[2] == (byte) 0x00) {
+        // handShake = true;
+        // // messageEt.append("握手成功。\n");
+        // // messageEt.setSelection(messageEt.getText().length(),
+        // // messageEt.getText().length());
+        // } else {
+        // // messageEt.append("握手失败。\n");
+        // // messageEt.setSelection(messageEt.getText().length(),
+        // // messageEt.getText().length());
+        // }
+        // } else {
+        // // checkFailed();
+        // }
+        // }
+        // break;
+        // case Constants.READ_CARD:
+        // if (size < 12 || array[11] != (byte) 0xDD) {
+        // // invalidMsg();
+        // } else {
+        // for (int i = 2; i < 10; i++) {
+        // if (array[i] != (byte) 0x00) {
+        // // checkFailed();
+        // writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
+        // return;
+        // }
+        // }
+        // byte check = cmd;
+        // for (int i = 2; i < 10; i++) {
+        // check ^= array[i];
+        // }
+        // if (check == array[10]) {
+        // if (handShake) {
+        // // messageEt.append("读卡号。\n");
+        // // messageEt.setSelection(messageEt.getText().length(),
+        // // messageEt.getText().length());
+        // writeOption("90 ", "00 00 00 00 00 " +
+        // MyApplication.instance.getCardNum());
+        // } else {
+        // // messageEt.append("未握手，读卡失败。\n");
+        // // messageEt.setSelection(messageEt.getText().length(),
+        // // messageEt.getText().length());
+        // writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
+        // }
+        // } else {
+        // // checkFailed();
+        // writeOption("90 ", "FF 00 00 00 00 00 00 00 00 ");
+        // }
+        // }
+        // break;
+        // case Constants.WRITE_CARD:
+        // if (size < 12 || array[11] != (byte) 0xDD) {
+        // // invalidMsg();
+        // } else {
+        // for (int i = 2; i < 6; i++) {
+        // if (array[i] != (byte) 0x00) {
+        // // checkFailed();
+        // writeOption("91 ", "FF 00 00 00 00 00 00 00 00 ");
+        // return;
+        // }
+        // }
+        // byte check = cmd;
+        // for (int i = 2; i < 10; i++) {
+        // check ^= array[i];
+        // }
+        // if (check == array[10]) {
+        // if (handShake) {
+        // byte[] cn = new byte[4];
+        // for (int i = 0; i < 4; i++) {
+        // cn[i] = array[i + 6];
+        // }
+        // MyApplication.instance.setCardNum(Utils.ByteArraytoHex(cn));
+        // MyApplication.instance.setCsn(MyApplication.instance.getCardNum());
+        // // messageEt.append("写卡号。新卡号：" + cardNum + "\n");
+        // // messageEt.setSelection(messageEt.getText().length(),
+        // // messageEt.getText().length());
+        // writeOption("91 ", "00 ");
+        // } else {
+        // // messageEt.append("未握手，写卡失败。\n");
+        // // messageEt.setSelection(messageEt.getText().length(),
+        // // messageEt.getText().length());
+        // writeOption("91 ", "FF ");
+        // }
+        // } else {
+        // // checkFailed();
+        // writeOption("91 ", "FF ");
+        // }
+        // }
+        // break;
+        // case Constants.DISCONNECT:
+        // if (size < 12 || array[11] != (byte) 0xDD) {
+        // // invalidMsg();
+        // } else {
+        // for (int i = 2; i < 10; i++) {
+        // if (array[i] != (byte) 0x00) {
+        // // checkFailed();
+        // writeOption("A0 ", "FF ");
+        // return;
+        // }
+        // }
+        // byte check = cmd;
+        // for (int i = 2; i < 10; i++) {
+        // check ^= array[i];
+        // }
+        // if (check == array[10]) {
+        // if (handShake) {
+        // // messageEt.append("断开连接。\n");
+        // // messageEt.setSelection(messageEt.getText().length(),
+        // // messageEt.getText().length());
+        // writeOption("A0 ", "00 ");
+        // handShake = false;
+        // } else {
+        // // messageEt.append("未握手，断开连接失败。\n");
+        // // messageEt.setSelection(messageEt.getText().length(),
+        // // messageEt.getText().length());
+        // writeOption("A0 ", "FF ");
+        // }
+        // } else {
+        // // checkFailed();
+        // writeOption("A0 ", "FF ");
+        // }
+        // }
+        // break;
+        // default:
+        // // messageEt.append("INVALID REQUEST/RESPONSE.");
+        // // messageEt.setSelection(messageEt.getText().length(),
+        // // messageEt.getText().length());
+        // break;
         }
     }
-    
+
     private void doUnlock() {
         writeOption("30 ", "06 00 00 " + MyApplication.instance.getCsn());
     }
@@ -539,7 +573,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void writeOption(String hexStr) {
-        writeCharacteristic(writeCharacteristic, Utils.getCmdDataByteArray(hexStr));
+        writeCharacteristic(writeCharacteristic,
+                Utils.getCmdDataByteArray(hexStr));
     }
 
     private void writeCharacteristic(
@@ -574,7 +609,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         if (BluetoothLeService.getConnectionState() != BluetoothLeService.STATE_DISCONNECTED)
             BluetoothLeService.disconnect();
 
-//        statusTv.setText("正在连接门禁…");
+        // statusTv.setText("正在连接门禁…");
         BluetoothLeService.connect(currentDevAddress, currentDevName, context);
     }
 
@@ -827,6 +862,10 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         case R.id.titlebar_select_key_btn:
             MyKeysActivity.start(context);
             break;
+
+        case R.id.unlock_giv:
+            preUnlock();
+            break;
         }
     }
 
@@ -854,25 +893,30 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 LogUtil.d("============ values[2] = " + values[2]);
                 // 摇动手机后，再伴随震动提示~~
                 vibrator.vibrate(500);
-                RadixLock lock = MyApplication.instance.getSelectedLock();
-                if (lock != null) {
-                    String lockPaternStr = PrefUtil.getString(context, Constants.PREF_LOCK_KEY, null);
-                    if (!TextUtils.isEmpty(lockPaternStr)) {
-                        // 如果有手势密码，则验证手势密码
-                        LockValidateActivity.startForResult(this, Constants.LOCK_CHECK);
-                    } else {
-                        // 没有手势密码，则直接开锁
-                        unlock();
-                    }
-                } else {
-                    // 提示请先选择钥匙
-                    ToastUtil.showLong(context, "请先选择钥匙！");
-                }
+                preUnlock();
             }
 
         }
     }
-    
+
+    private void preUnlock() {
+        RadixLock lock = MyApplication.instance.getSelectedLock();
+        if (lock != null) {
+            String lockPaternStr = PrefUtil.getString(context,
+                    Constants.PREF_LOCK_KEY, null);
+            if (!TextUtils.isEmpty(lockPaternStr)) {
+                // 如果有手势密码，则验证手势密码
+                LockValidateActivity.startForResult(this, Constants.LOCK_CHECK);
+            } else {
+                // 没有手势密码，则直接开锁
+                unlock();
+            }
+        } else {
+            // 提示请先选择钥匙
+            ToastUtil.showLong(context, "请先选择钥匙！");
+        }
+    }
+
     private void unlock() {
         RadixLock lock = MyApplication.instance.getSelectedLock();
         String bleName = lock.getBleName1();
@@ -883,6 +927,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             if (device.getDevice().getName().equalsIgnoreCase(bleName)) {
                 isUnlocking = true;
                 retryCount = 0;
+                ToastUtil.showLong(context, "正在开门…");
                 connectDevice(device.getDevice());
                 break;
             }
@@ -912,7 +957,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void getBluetoothAdapter() {
-        final BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
+        final BluetoothManager bluetoothManager = (BluetoothManager) context
+                .getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
     }
 
@@ -987,9 +1033,10 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 if (bleScanner != null) {
                     bleScanner.stopScan(new ScanCallback() {
                         @Override
-                        public void onScanResult(int callbackType, ScanResult result) {
+                        public void onScanResult(int callbackType,
+                                ScanResult result) {
                             super.onScanResult(callbackType, result);
-    
+
                         }
                     });
                 }
@@ -1010,7 +1057,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 @Override
                 public void onScanResult(int callbackType, ScanResult result) {
                     super.onScanResult(callbackType, result);
-                    MDevice mDev = new MDevice(result.getDevice(), result.getRssi());
+                    MDevice mDev = new MDevice(result.getDevice(), result
+                            .getRssi());
                     String name = result.getDevice().getName();
                     if (name.length() < 5
                             || !name.substring(0, 5).equalsIgnoreCase("radix")) {
