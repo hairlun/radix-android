@@ -43,7 +43,7 @@ public class MyApplication extends Application {
     /**
      * 打包发布要改为false
      */
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     
     public static final boolean TEST = false;
 
