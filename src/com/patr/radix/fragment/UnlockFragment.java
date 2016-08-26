@@ -200,9 +200,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 // connect break (连接断开)
                 // statusTv.setText("连接已断开。");
                 BluetoothLeService.close();
-                if (isUnlocking) {
-                    isUnlocking = false;
-                }
             }
 
             // There are four basic operations for moving data in BLE: read,
@@ -385,6 +382,9 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                         // 命令执行成功，断开蓝牙连接
                         ToastUtil.showLong(context, "开门成功");
                         disconnectDevice();
+                        if (isUnlocking) {
+                            isUnlocking = false;
+                        }
                     } else {
                         // 命令执行失败或命令数据错误
                         if (isUnlocking) {

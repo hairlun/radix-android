@@ -135,6 +135,7 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         lock.setId("99");
         lock.setName("RADIX");
         lock.setBleName1("RADIX");
+        lock.setBleName2("RADIX2");
         lock.setKey("123456");
         lock.setStart("2016-06-24 12:00");
         lock.setEnd("2016-06-30 12:00");
@@ -144,6 +145,7 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
             lock.setId("" + i);
             lock.setName("Radix" + i);
             lock.setBleName1("Radix" + i);
+            lock.setBleName2("Radix" + i);
             lock.setKey("123456");
             lock.setStart("2016-06-24 12:00");
             lock.setEnd("2016-06-30 12:00");

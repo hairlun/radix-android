@@ -45,7 +45,7 @@ public class MyApplication extends Application {
      */
     public static final boolean DEBUG = false;
     
-    public static final boolean TEST = false;
+    public static final boolean TEST = true;
 
     private final List<MService> services = new ArrayList<MService>();
     private final List<BluetoothGattCharacteristic> characteristics = new ArrayList<BluetoothGattCharacteristic>();
