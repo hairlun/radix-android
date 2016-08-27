@@ -1,11 +1,13 @@
 package com.patr.radix;
 
 
+import com.patr.radix.ble.BluetoothLeService;
 import com.patr.radix.utils.TabDb;
 import com.yuntongxun.ecdemo.common.ECContentObservers;
 import com.yuntongxun.ecdemo.common.utils.CrashHandler;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -96,6 +98,7 @@ public class MainActivity extends FragmentActivity implements
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter
                 .getDefaultAdapter();
 
+        BluetoothLeService.close();
         if (bluetoothAdapter != null) {
             bluetoothAdapter.disable();
         }

@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:singleLine="true"
+                android:lines="2"
                 android:text="TITLE"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
@@ -47,6 +47,7 @@
                 android:lines="2"
                 android:text="content"
                 android:textSize="16sp"
+                android:visibility="gone"
                 android:textColor="@color/gray_text" />
 
             <RelativeLayout

@@ -37,7 +37,7 @@ package com.patr.radix.utils;
  */
 public class Constants {
 	
-	public static final byte ENCRYPT = (byte) 0x42;
+//	public static final byte ENCRYPT = (byte) 0x42;
 	public static final byte HAND_SHAKE = (byte) 0x80;
 	public static final byte READ_CARD = (byte) 0x90;
 	public static final byte WRITE_CARD = (byte) 0x91;

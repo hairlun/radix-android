@@ -2,6 +2,8 @@ package com.patr.radix.adapter;
 
 import java.util.List;
 
+import org.xutils.x;
+
 import com.patr.radix.R;
 import com.patr.radix.bean.Notice;
 
@@ -39,6 +41,9 @@ public class NoticeListAdapter extends AbsListAdapter<Notice> {
         String imgUrl = notice.getImgUrl();
         if (!TextUtils.isEmpty(imgUrl)) {
             holder.pic.setVisibility(View.VISIBLE);
+            x.image().bind(holder.pic, imgUrl);
+        } else {
+            holder.pic.setVisibility(View.GONE);
         }
         holder.title.setText(notice.getTitle());
         holder.content.setText(notice.getContent());

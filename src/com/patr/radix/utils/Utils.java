@@ -735,14 +735,14 @@ public class Utils {
         return array;
     }
 
-    public static byte[] getEncryptedCmdDataByteArray(String cmdData) {
-        String text = cmdData.replace(" ", "");
-        byte[] array = Utils.hexStringToByteArray(text);
-        int size = array.length;
-        for (int i = 0; i < size; i++) {
-            array[i] ^= Constants.ENCRYPT;
-        }
-        return array;
-    }
+//    public static byte[] getEncryptedCmdDataByteArray(String cmdData) {
+//        String text = cmdData.replace(" ", "");
+//        byte[] array = Utils.hexStringToByteArray(text);
+//        int size = array.length;
+//        for (int i = 0; i < size; i++) {
+//            array[i] ^= Constants.ENCRYPT;
+//        }
+//        return array;
+//    }
 
 }

@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.patr.radix.MyApplication;
+import com.patr.radix.bean.Community;
 import com.patr.radix.bean.GetNoticeListResult;
 import com.patr.radix.bean.Notice;
 import com.patr.radix.bean.RequestResult;
@@ -52,6 +54,10 @@ public class GetNoticeListParser extends AbsBaseParser<GetNoticeListResult> {
                                 notice.setSentDate(sentDate);
                                 notice.setContent(content);
                                 notice.setReadTime(readTime);
+                                if (!imgUrl.startsWith("http")) {
+                                    Community community = MyApplication.instance.getSelectedCommunity();
+                                    imgUrl = String.format("%s:%s/%s", community.getHost(), community.getPort(), imgUrl);
+                                }
                                 notice.setImgUrl(imgUrl);
                                 notice.setVideo(video == 1 ? true : false);
                                 result.getNotices().add(notice);
