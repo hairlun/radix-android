@@ -166,9 +166,8 @@ public class VisitorFragment extends Fragment implements OnClickListener,
         String mobile = null;
         switch (v.getId()) {
         case R.id.visitor_contact_btn:
-            startActivityForResult(
-                    new Intent(Intent.ACTION_PICK,
-                            ContactsContract.Contacts.CONTENT_URI), 0);
+            startActivityForResult(new Intent(Intent.ACTION_PICK,
+                    ContactsContract.Contacts.CONTENT_URI), 0);
             // if
             // (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getAccount()))
             // {
@@ -205,18 +204,6 @@ public class VisitorFragment extends Fragment implements OnClickListener,
                 ToastUtil.showLong(context, "未登录！");
             } else {
                 // 如果登录了，直接呼叫
-                String appKey = FileAccessor.getAppKey();
-                String token = FileAccessor.getAppToken();
-                String myMobile = MyApplication.instance.getUserInfo()
-                        .getMobile();
-                String pass = "";
-                ClientUser clientUser = new ClientUser(myMobile);
-                clientUser.setAppKey(appKey);
-                clientUser.setAppToken(token);
-                clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
-                clientUser.setPassword(pass);
-                CCPAppManager.setClientUser(clientUser);
-                SDKCoreHelper.init(context, LoginMode.FORCE_LOGIN);
                 CCPAppManager.callVoIPAction(getActivity(), CallType.VIDEO, "",
                         mobile, false);
             }
@@ -265,7 +252,7 @@ public class VisitorFragment extends Fragment implements OnClickListener,
                 String usernumber = phone
                         .getString(phone
                                 .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                mobileEt.setText(usernumber + " (" + username + ")");
+                mobileEt.setText(usernumber);
                 break;
             }
         }
