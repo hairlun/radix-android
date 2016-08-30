@@ -393,7 +393,6 @@ public class SJVideoActivity extends ECVoIPBaseActivity implements View.OnClickL
 		sendDTMF(mDmfInput.getText().toString().toCharArray()[0]);
 	}
 
-	
     protected void doHandUpReleaseCall() {
 
         // Hang up the video call...
@@ -401,7 +400,7 @@ public class SJVideoActivity extends ECVoIPBaseActivity implements View.OnClickL
                 "[VideoActivity] onClick: Voip talk hand up, CurrentCallId " + mCallId);
         try {
             if (mCallId != null) {
-            	
+
             	if(mIncomingCall&&!isConnect){
             		VoIPCallHelper.rejectCall(mCallId);
             	}else {
@@ -413,31 +412,15 @@ public class SJVideoActivity extends ECVoIPBaseActivity implements View.OnClickL
         }
         // 挂断通话后，询问是否发送钥匙
         if (mIncomingCall) {
-            MsgDialog.show(this, "确认", "是否发送钥匙？", "是",
-                    new OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-                            MyKeysActivity.startAfterIM(SJVideoActivity.this, mCallNumber);
-                            if (!isConnect) {
-                                finish();
-                            }
-                        }
-                    }, "否",
-                    new OnClickListener() {
-                        
-                        @Override
-                        public void onClick(View v) {
-                            if (!isConnect) {
-                                finish();
-                            }
-                        }
-                    });
+            Intent intent = new Intent();
+            intent.putExtra("isSendKey", true);
+            setResult(RESULT_OK, intent);
+            finish();
         } else if (!isConnect) {
             finish();
         }
     }
-    
+
     private void setupKeypad() {
 		/** Setup the listeners for the buttons */
 		findViewById(R.id.zero).setOnClickListener(this);

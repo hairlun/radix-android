@@ -3,6 +3,7 @@ package com.patr.radix.fragment;
 import org.xutils.common.util.LogUtil;
 
 import com.patr.radix.MyApplication;
+import com.patr.radix.MyKeysActivity;
 import com.patr.radix.R;
 import com.patr.radix.adapter.UserListAdapter;
 import com.patr.radix.bean.GetUserListResult;
@@ -14,10 +15,15 @@ import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.view.ListSelectDialog;
 import com.patr.radix.view.TitleBarView;
+import com.patr.radix.view.dialog.MsgDialog;
 import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.common.utils.FileAccessor;
 import com.yuntongxun.ecdemo.core.ClientUser;
 import com.yuntongxun.ecdemo.ui.SDKCoreHelper;
+import com.yuntongxun.ecdemo.ui.voip.SJVideoActivity;
+import com.yuntongxun.ecdemo.ui.voip.VoIPCallActivity;
+import com.yuntongxun.ecdemo.ui.voip.VoIPCallHelper;
+import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECInitParams.LoginAuthType;
 import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
 import com.yuntongxun.ecsdk.ECVoIPCallManager.CallType;
@@ -204,8 +210,15 @@ public class VisitorFragment extends Fragment implements OnClickListener,
                 ToastUtil.showLong(context, "未登录！");
             } else {
                 // 如果登录了，直接呼叫
-                CCPAppManager.callVoIPAction(getActivity(), CallType.VIDEO, "",
+                CCPAppManager.callVoIPAction(context, CallType.VIDEO, "",
                         mobile, false);
+                Intent callAction = new Intent(context , SJVideoActivity.class);
+                VoIPCallHelper.mHandlerVideoCall = true;
+                callAction.putExtra(VoIPCallActivity.EXTRA_CALL_NAME , "");
+                callAction.putExtra(VoIPCallActivity.EXTRA_CALL_NUMBER , mobile);
+                callAction.putExtra(ECDevice.CALLTYPE , CallType.VIDEO);
+                callAction.putExtra(VoIPCallActivity.EXTRA_OUTGOING_CALL , true);
+                startActivityForResult(callAction, 1);
             }
             break;
         }
@@ -227,34 +240,63 @@ public class VisitorFragment extends Fragment implements OnClickListener,
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            // ContentProvider展示数据类似一个单个数据库表
-            // ContentResolver实例带的方法可实现找到指定的ContentProvider并获取到ContentProvider的数据
-            ContentResolver reContentResolverol = context.getContentResolver();
-            // URI,每个ContentProvider定义一个唯一的公开的URI,用于指定到它的数据集
-            Uri contactData = data.getData();
-            // 查询就是输入URI等参数,其中URI是必须的,其他是可选的,如果系统能找到URI对应的ContentProvider将返回一个Cursor对象.
-            Cursor cursor = getActivity().managedQuery(contactData, null, null,
-                    null, null);
-            cursor.moveToFirst();
-            // 获得DATA表中的名字
-            String username = cursor.getString(cursor
-                    .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-            // 条件为联系人ID
-            String contactId = cursor.getString(cursor
-                    .getColumnIndex(ContactsContract.Contacts._ID));
-            // 获得DATA表中的电话号码，条件为联系人ID,因为手机号码可能会有多个
-            Cursor phone = reContentResolverol.query(
-                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = "
-                            + contactId, null, null);
-            while (phone.moveToNext()) {
-                String usernumber = phone
-                        .getString(phone
-                                .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                mobileEt.setText(usernumber);
-                break;
+        switch (requestCode) {
+        case 0:
+            if (resultCode == Activity.RESULT_OK) {
+                // ContentProvider展示数据类似一个单个数据库表
+                // ContentResolver实例带的方法可实现找到指定的ContentProvider并获取到ContentProvider的数据
+                ContentResolver reContentResolverol = context.getContentResolver();
+                // URI,每个ContentProvider定义一个唯一的公开的URI,用于指定到它的数据集
+                Uri contactData = data.getData();
+                // 查询就是输入URI等参数,其中URI是必须的,其他是可选的,如果系统能找到URI对应的ContentProvider将返回一个Cursor对象.
+                Cursor cursor = getActivity().managedQuery(contactData, null, null,
+                        null, null);
+                cursor.moveToFirst();
+                // 获得DATA表中的名字
+                String username = cursor.getString(cursor
+                        .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                // 条件为联系人ID
+                String contactId = cursor.getString(cursor
+                        .getColumnIndex(ContactsContract.Contacts._ID));
+                // 获得DATA表中的电话号码，条件为联系人ID,因为手机号码可能会有多个
+                Cursor phone = reContentResolverol.query(
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = "
+                                + contactId, null, null);
+                while (phone.moveToNext()) {
+                    String usernumber = phone
+                            .getString(phone
+                                    .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    mobileEt.setText(usernumber);
+                    break;
+                }
             }
+            break;
+            
+        case 1:
+            if (resultCode == Activity.RESULT_OK) {
+//                MsgDialog.show(this, "确认", "是否发送钥匙？", "是",
+//                        new OnClickListener() {
+//
+//                            @Override
+//                            public void onClick(View v) {
+//                                MyKeysActivity.startAfterIM(this, mCallNumber);
+//                                if (!isConnect) {
+//                                    finish();
+//                                }
+//                            }
+//                        }, "否",
+//                        new OnClickListener() {
+//                            
+//                            @Override
+//                            public void onClick(View v) {
+//                                if (!isConnect) {
+//                                    finish();
+//                                }
+//                            }
+//                        });
+            }
+            break;
         }
     }
 }
