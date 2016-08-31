@@ -9,6 +9,12 @@ import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.view.LoadingDialog;
 import com.patr.radix.view.TitleBarView;
+import com.yuntongxun.ecdemo.common.CCPAppManager;
+import com.yuntongxun.ecdemo.common.utils.FileAccessor;
+import com.yuntongxun.ecdemo.core.ClientUser;
+import com.yuntongxun.ecdemo.ui.SDKCoreHelper;
+import com.yuntongxun.ecsdk.ECInitParams.LoginAuthType;
+import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
 
 import android.app.Activity;
 import android.content.Context;
@@ -58,14 +64,14 @@ public class LoginActivity extends Activity implements OnClickListener {
         loginBtn = (Button) findViewById(R.id.login_btn);
         titleBarView.setTitle(R.string.titlebar_login);
         loginBtn.setOnClickListener(this);
-        int width = View.MeasureSpec.makeMeasureSpec(0,
-                View.MeasureSpec.UNSPECIFIED);
-        int height = View.MeasureSpec.makeMeasureSpec(0,
-                View.MeasureSpec.UNSPECIFIED);
-        logoIv.measure(width, height);
-        height = logoIv.getMeasuredHeight();
-        width = logoIv.getMeasuredWidth();
-        logoIv.setPadding((int)(height * 1.2), (int)(height * 1.2), (int)(height * 1.2), (int)(height * 1.2));
+//        int width = View.MeasureSpec.makeMeasureSpec(0,
+//                View.MeasureSpec.UNSPECIFIED);
+//        int height = View.MeasureSpec.makeMeasureSpec(0,
+//                View.MeasureSpec.UNSPECIFIED);
+//        logoIv.measure(width, height);
+//        height = logoIv.getMeasuredHeight();
+//        width = logoIv.getMeasuredWidth();
+//        logoIv.setPadding((int)(height * 1.2), (int)(height * 1.2), (int)(height * 1.2), (int)(height * 1.2));
         loadingDialog = new LoadingDialog(context);
     }
 
@@ -134,7 +140,20 @@ public class LoginActivity extends Activity implements OnClickListener {
                     if (result.isSuccesses()) {
                         MyApplication.instance.setUserInfo(result.getUserInfo());
                         PrefUtil.saveUserInfo(context, result.getUserInfo());
-//                        MainActivity.startAfterLogin(context);
+                        // 初始化和登录云通讯账号
+                        String appKey = FileAccessor.getAppKey();
+                        String token = FileAccessor.getAppToken();
+                        String myMobile = MyApplication.instance.getUserInfo()
+                                .getMobile();
+                        String pass = "";
+                        ClientUser clientUser = new ClientUser(myMobile);
+                        clientUser.setAppKey(appKey);
+                        clientUser.setAppToken(token);
+                        clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
+                        clientUser.setPassword(pass);
+                        CCPAppManager.setClientUser(clientUser);
+                        SDKCoreHelper.init(context, LoginMode.FORCE_LOGIN);
+
                         finish();
                     } else {
                         ToastUtil.showLong(context, result.getRetinfo());
