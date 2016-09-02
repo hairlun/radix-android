@@ -39,7 +39,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 public class RGBParser {
     /**
      * Parsing the RGB value from the characteristic
-     *
+     * 
      * @param characteristics
      * @return {@link String}
      */

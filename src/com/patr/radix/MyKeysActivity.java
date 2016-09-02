@@ -33,26 +33,27 @@ import android.widget.ListView;
 
 /**
  * @author zhoushujie
- *
+ * 
  */
-public class MyKeysActivity extends Activity implements OnClickListener, OnItemClickListener, OnRefreshListener {
-    
-	private TitleBarView titleBarView;
-	
-	private ListView keysLv;
-	
-	private Button okBtn;
-	
-	private KeyListAdapter adapter;
+public class MyKeysActivity extends Activity implements OnClickListener,
+        OnItemClickListener, OnRefreshListener {
 
-	private SwipeRefreshLayout swipe;
-	
-	private Context context;
-	
-	private boolean isAfterIM;
-	
-	private String callNumber;
-	
+    private TitleBarView titleBarView;
+
+    private ListView keysLv;
+
+    private Button okBtn;
+
+    private KeyListAdapter adapter;
+
+    private SwipeRefreshLayout swipe;
+
+    private Context context;
+
+    private boolean isAfterIM;
+
+    private String callNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +70,15 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
             loadData();
         }
     }
-    
+
     private void initView() {
-    	titleBarView = (TitleBarView) findViewById(R.id.my_keys_titlebar);
+        titleBarView = (TitleBarView) findViewById(R.id.my_keys_titlebar);
         keysLv = (ListView) findViewById(R.id.my_keys_lv);
         okBtn = (Button) findViewById(R.id.ok_btn);
         swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
-        titleBarView.setTitle(R.string.titlebar_my_keys).showSendKeyBtn().setOnSendKeyClickListener(this).setOnCancelClickListener(this).setOnCheckAllClickListener(this);
+        titleBarView.setTitle(R.string.titlebar_my_keys).showSendKeyBtn()
+                .setOnSendKeyClickListener(this).setOnCancelClickListener(this)
+                .setOnCheckAllClickListener(this);
         adapter = new KeyListAdapter(this, MyApplication.instance.getLocks());
         keysLv.setAdapter(adapter);
         okBtn.setOnClickListener(this);
@@ -83,16 +86,16 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         swipe.setOnRefreshListener(this);
         swipe.setDirection(SwipeRefreshLayoutDirection.TOP);
     }
-    
+
     private void loadData() {
-        
+
         // 从服务器获取门禁钥匙列表
         ServiceManager.getLockList(new RequestListener<GetLockListResult>() {
 
             @Override
             public void onStart() {
                 swipe.post(new Runnable() {
-                    
+
                     @Override
                     public void run() {
                         swipe.setRefreshing(true);
@@ -118,16 +121,16 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
             public void onFailure(Exception error, String content) {
                 ToastUtil.showShort(context, R.string.connect_exception);
             }
-            
+
             @Override
             public void onStopped() {
                 swipe.setRefreshing(false);
             }
-            
+
         });
-        
+
     }
-    
+
     private void testData() {
         List<RadixLock> locks = new ArrayList<RadixLock>();
         RadixLock lock;
@@ -154,7 +157,9 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         MyApplication.instance.setLocks(locks);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see android.view.View.OnClickListener#onClick(android.view.View)
      */
     @Override
@@ -186,11 +191,15 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
                 ToastUtil.showShort(context, "请至少选择一个钥匙！");
             } else {
                 if (isAfterIM) {
-                    MyApplication.instance.setSelectedLocks(new ArrayList<RadixLock>(adapter.selectedSet));
+                    MyApplication.instance
+                            .setSelectedLocks(new ArrayList<RadixLock>(
+                                    adapter.selectedSet));
                     ActiveTimeActivity.startAfterIM(context, callNumber);
                 } else {
                     if (adapter.selectedSet.size() <= 5) {
-                        MyApplication.instance.setSelectedLocks(new ArrayList<RadixLock>(adapter.selectedSet));
+                        MyApplication.instance
+                                .setSelectedLocks(new ArrayList<RadixLock>(
+                                        adapter.selectedSet));
                         // 设置有效时间，生成二维码
                         ActiveTimeActivity.start(context);
                     } else {
@@ -202,8 +211,12 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         }
     }
 
-    /* (non-Javadoc)
-     * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget
+     * .AdapterView, android.view.View, int, long)
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -228,7 +241,7 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         intent.putExtra("IM", false);
         context.startActivity(intent);
     }
-    
+
     public static void startAfterIM(Context context, String callNumber) {
         Intent intent = new Intent(context, MyKeysActivity.class);
         intent.putExtra("IM", true);
@@ -236,8 +249,12 @@ public class MyKeysActivity extends Activity implements OnClickListener, OnItemC
         context.startActivity(intent);
     }
 
-    /* (non-Javadoc)
-     * @see com.patr.radix.view.swipe.SwipeRefreshLayout.OnRefreshListener#onRefresh(com.patr.radix.view.swipe.SwipeRefreshLayoutDirection)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.patr.radix.view.swipe.SwipeRefreshLayout.OnRefreshListener#onRefresh
+     * (com.patr.radix.view.swipe.SwipeRefreshLayoutDirection)
      */
     @Override
     public void onRefresh(SwipeRefreshLayoutDirection direction) {

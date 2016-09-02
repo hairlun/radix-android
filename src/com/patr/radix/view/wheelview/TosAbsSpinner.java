@@ -33,7 +33,8 @@ import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 
 /**
- * An abstract base class for spinner widgets. SDK users will probably not need to use this class.
+ * An abstract base class for spinner widgets. SDK users will probably not need
+ * to use this class.
  * 
  * @attr ref android.R.styleable#AbsSpinner_entries
  */
@@ -75,12 +76,13 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
         super(context, attrs, defStyle);
         initAbsSpinner();
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AbsSpinner, defStyle, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.AbsSpinner, defStyle, 0);
 
         CharSequence[] entries = a.getTextArray(R.styleable.AbsSpinner_entries);
         if (entries != null) {
-            ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(context,
-                    android.R.layout.simple_spinner_item, entries);
+            ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
+                    context, android.R.layout.simple_spinner_item, entries);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             setAdapter(adapter);
         }
@@ -97,10 +99,12 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
     }
 
     /**
-     * The Adapter is used to provide the data which backs this Spinner. It also provides methods to
-     * transform spinner items based on their position relative to the selected item.
+     * The Adapter is used to provide the data which backs this Spinner. It also
+     * provides methods to transform spinner items based on their position
+     * relative to the selected item.
      * 
-     * @param adapter The SpinnerAdapter to use for this Spinner
+     * @param adapter
+     *            The SpinnerAdapter to use for this Spinner
      */
     @Override
     public void setAdapter(SpinnerAdapter adapter) {
@@ -161,9 +165,10 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
     /**
      * @see android.view.View#measure(int, int)
      * 
-     *      Figure out the dimensions of this Spinner. The width comes from the widthMeasureSpec as
-     *      Spinnners can't have their width set to UNSPECIFIED. The height is based on the height
-     *      of the selected item plus padding.
+     *      Figure out the dimensions of this Spinner. The width comes from the
+     *      widthMeasureSpec as Spinnners can't have their width set to
+     *      UNSPECIFIED. The height is based on the height of the selected item
+     *      plus padding.
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -171,32 +176,45 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
         int widthSize;
         int heightSize;
 
-        // Delete by Li Hong at 2011/08/05 begin ========================================
+        // Delete by Li Hong at 2011/08/05 begin
+        // ========================================
         //
-        // Note: mPaddingLeft, mPaddingTop, mPaddingRight and mPaddingBottom is the
-        // members of View class, they are hide for its subclasses, so we should use
+        // Note: mPaddingLeft, mPaddingTop, mPaddingRight and mPaddingBottom is
+        // the
+        // members of View class, they are hide for its subclasses, so we should
+        // use
         // the methods instead of members.
 
-        // mSpinnerPadding.left = mPaddingLeft > mSelectionLeftPadding ? mPaddingLeft
+        // mSpinnerPadding.left = mPaddingLeft > mSelectionLeftPadding ?
+        // mPaddingLeft
         // : mSelectionLeftPadding;
-        // mSpinnerPadding.top = mPaddingTop > mSelectionTopPadding ? mPaddingTop
+        // mSpinnerPadding.top = mPaddingTop > mSelectionTopPadding ?
+        // mPaddingTop
         // : mSelectionTopPadding;
-        // mSpinnerPadding.right = mPaddingRight > mSelectionRightPadding ? mPaddingRight
+        // mSpinnerPadding.right = mPaddingRight > mSelectionRightPadding ?
+        // mPaddingRight
         // : mSelectionRightPadding;
-        // mSpinnerPadding.bottom = mPaddingBottom > mSelectionBottomPadding ? mPaddingBottom
+        // mSpinnerPadding.bottom = mPaddingBottom > mSelectionBottomPadding ?
+        // mPaddingBottom
         // : mSelectionBottomPadding;
 
-        // Delete by Li Hong at 2011/08/05 end ========================================
+        // Delete by Li Hong at 2011/08/05 end
+        // ========================================
 
-        // Added by Li Hong at 2011/08/05 begin =======================================
+        // Added by Li Hong at 2011/08/05 begin
+        // =======================================
 
-        mSpinnerPadding.left = getPaddingLeft() > mSelectionLeftPadding ? getPaddingLeft() : mSelectionLeftPadding;
-        mSpinnerPadding.top = getPaddingTop() > mSelectionTopPadding ? getPaddingTop() : mSelectionTopPadding;
-        mSpinnerPadding.right = getPaddingRight() > mSelectionRightPadding ? getPaddingRight() : mSelectionRightPadding;
+        mSpinnerPadding.left = getPaddingLeft() > mSelectionLeftPadding ? getPaddingLeft()
+                : mSelectionLeftPadding;
+        mSpinnerPadding.top = getPaddingTop() > mSelectionTopPadding ? getPaddingTop()
+                : mSelectionTopPadding;
+        mSpinnerPadding.right = getPaddingRight() > mSelectionRightPadding ? getPaddingRight()
+                : mSelectionRightPadding;
         mSpinnerPadding.bottom = getPaddingBottom() > mSelectionBottomPadding ? getPaddingBottom()
                 : mSelectionBottomPadding;
 
-        // Added by Li Hong at 2011/08/05 end =========================================
+        // Added by Li Hong at 2011/08/05 end
+        // =========================================
 
         if (mDataChanged) {
             handleDataChanged();
@@ -208,7 +226,8 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
 
         int selectedPosition = getSelectedItemPosition();
         if (selectedPosition >= 0 && mAdapter != null) {
-            // Try looking in the recycler. (Maybe we were measured once already)
+            // Try looking in the recycler. (Maybe we were measured once
+            // already)
             View view = mRecycler.get(selectedPosition);
             if (view == null) {
                 // Make a new one
@@ -228,8 +247,10 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
                 }
                 measureChild(view, widthMeasureSpec, heightMeasureSpec);
 
-                preferredHeight = getChildHeight(view) + mSpinnerPadding.top + mSpinnerPadding.bottom;
-                preferredWidth = getChildWidth(view) + mSpinnerPadding.left + mSpinnerPadding.right;
+                preferredHeight = getChildHeight(view) + mSpinnerPadding.top
+                        + mSpinnerPadding.bottom;
+                preferredWidth = getChildWidth(view) + mSpinnerPadding.left
+                        + mSpinnerPadding.right;
 
                 needsMeasuring = false;
             }
@@ -243,7 +264,8 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
             }
         }
 
-        preferredHeight = Math.max(preferredHeight, getSuggestedMinimumHeight());
+        preferredHeight = Math
+                .max(preferredHeight, getSuggestedMinimumHeight());
         preferredWidth = Math.max(preferredWidth, getSuggestedMinimumWidth());
 
         heightSize = resolveSize(preferredHeight, heightMeasureSpec);
@@ -264,7 +286,8 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
 
     @Override
     protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
-        return new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        return new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     void recycleAllViews() {
@@ -298,7 +321,8 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
 
         // Modified by LiHong at 2012/11/18 begin ========
         //
-        // NOTE: If called call setSelection(int) method, it will NOT invoke the onItemSelected()
+        // NOTE: If called call setSelection(int) method, it will NOT invoke the
+        // onItemSelected()
         // method,
         // so, we call the checkSelectionChanged method at here.
         checkSelectionChanged();
@@ -313,7 +337,8 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
 
         // Modified by LiHong at 2012/11/18 begin ========
         //
-        // NOTE: If called call setSelection(int) method, it will NOT invoke the onItemSelected()
+        // NOTE: If called call setSelection(int) method, it will NOT invoke the
+        // onItemSelected()
         // method,
         // so, we call the checkSelectionChanged method at here.
         checkSelectionChanged();
@@ -323,8 +348,10 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
     /**
      * Makes the item at the supplied position selected.
      * 
-     * @param position Position to select
-     * @param animate Should the transition be animated
+     * @param position
+     *            Position to select
+     * @param animate
+     *            Should the transition be animated
      * 
      */
     void setSelectionInt(int position, boolean animate) {
@@ -349,7 +376,8 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
     }
 
     /**
-     * Override to prevent spamming ourselves with layout requests as we place views
+     * Override to prevent spamming ourselves with layout requests as we place
+     * views
      * 
      * @see android.view.View#requestLayout()
      */
@@ -373,10 +401,13 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
     /**
      * Maps a point to a position in the list.
      * 
-     * @param x X in local coordinate
-     * @param y Y in local coordinate
+     * @param x
+     *            X in local coordinate
+     * @param y
+     *            Y in local coordinate
      * @return The position of the item which contains the specified point, or
-     *         {@link #INVALID_POSITION} if the point does not intersect an item.
+     *         {@link #INVALID_POSITION} if the point does not intersect an
+     *         item.
      */
     public int pointToPosition(int x, int y) {
         Rect frame = mTouchFrame;
@@ -427,8 +458,10 @@ public abstract class TosAbsSpinner extends TosAdapterView<SpinnerAdapter> {
 
         @Override
         public String toString() {
-            return "AbsSpinner.SavedState{" + Integer.toHexString(System.identityHashCode(this)) + " selectedId="
-                    + selectedId + " position=" + position + "}";
+            return "AbsSpinner.SavedState{"
+                    + Integer.toHexString(System.identityHashCode(this))
+                    + " selectedId=" + selectedId + " position=" + position
+                    + "}";
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {

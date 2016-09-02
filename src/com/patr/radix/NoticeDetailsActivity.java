@@ -22,16 +22,17 @@ import android.view.ViewGroup.LayoutParams;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 
-public class NoticeDetailsActivity extends Activity implements OnRefreshListener, NewsWebViewClient {
-    
+public class NoticeDetailsActivity extends Activity implements
+        OnRefreshListener, NewsWebViewClient {
+
     private TitleBarView titleBarView;
 
     private NewsShowUrlWebView webView;
-    
+
     private SwipeRefreshLayout swipe;
-    
+
     private Context context;
-    
+
     private String noticeId;
 
     @Override
@@ -42,7 +43,7 @@ public class NoticeDetailsActivity extends Activity implements OnRefreshListener
         noticeId = getIntent().getStringExtra("noticeId");
         initView();
     }
-    
+
     private void initView() {
         titleBarView = (TitleBarView) findViewById(R.id.notice_details_titlebar);
         swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
@@ -50,47 +51,50 @@ public class NoticeDetailsActivity extends Activity implements OnRefreshListener
         swipe.setOnRefreshListener(this);
         loadData();
     }
-    
+
     private void loadData() {
-        String url = WebService.URL + Url.NOTICE_DETAILS + "token=" + MyApplication.instance.getUserInfo().getToken() + "&id=" + noticeId;
+        String url = WebService.URL + Url.NOTICE_DETAILS + "token="
+                + MyApplication.instance.getUserInfo().getToken() + "&id="
+                + noticeId;
         initWebView(url);
-//        // 从服务器获取公告详情
-//        ServiceManager.getNoticeDetails(noticeId, new RequestListener<GetNoticeDetailsResult>() {
-//
-//            @Override
-//            public void onStart() {
-//                swipe.post(new Runnable() {
-//                    
-//                    @Override
-//                    public void run() {
-//                        swipe.setRefreshing(true);
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onSuccess(int stateCode, GetNoticeDetailsResult result) {
-//                if (result != null) {
-//                    if (result.isSuccesses()) {
-//                        String url = result.getUrl();
-//                        initWebView(url);
-//                    } else {
-//                        ToastUtil.showShort(context, result.getRetinfo());
-//                    }
-//                } else {
-//                    ToastUtil.showShort(context, R.string.connect_exception);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Exception error, String content) {
-//                ToastUtil.showShort(context, R.string.connect_exception);
-//                swipe.setRefreshing(false);
-//            }
-//            
-//        });
+        // // 从服务器获取公告详情
+        // ServiceManager.getNoticeDetails(noticeId, new
+        // RequestListener<GetNoticeDetailsResult>() {
+        //
+        // @Override
+        // public void onStart() {
+        // swipe.post(new Runnable() {
+        //
+        // @Override
+        // public void run() {
+        // swipe.setRefreshing(true);
+        // }
+        // });
+        // }
+        //
+        // @Override
+        // public void onSuccess(int stateCode, GetNoticeDetailsResult result) {
+        // if (result != null) {
+        // if (result.isSuccesses()) {
+        // String url = result.getUrl();
+        // initWebView(url);
+        // } else {
+        // ToastUtil.showShort(context, result.getRetinfo());
+        // }
+        // } else {
+        // ToastUtil.showShort(context, R.string.connect_exception);
+        // }
+        // }
+        //
+        // @Override
+        // public void onFailure(Exception error, String content) {
+        // ToastUtil.showShort(context, R.string.connect_exception);
+        // swipe.setRefreshing(false);
+        // }
+        //
+        // });
     }
-    
+
     private void initWebView(String url) {
         if (webView != null) {
             swipe.removeView(webView);
@@ -104,7 +108,7 @@ public class NoticeDetailsActivity extends Activity implements OnRefreshListener
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         swipe.post(new Runnable() {
-            
+
             @Override
             public void run() {
                 swipe.setRefreshing(true);
@@ -137,13 +141,13 @@ public class NoticeDetailsActivity extends Activity implements OnRefreshListener
 
     @Override
     public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-        
+
     }
 
     @Override
     public void onDownloadStart(String url, String userAgent,
             String contentDisposition, String mimetype, long contentLength) {
-        
+
     }
 
     @Override

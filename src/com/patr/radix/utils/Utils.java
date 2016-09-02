@@ -77,7 +77,7 @@ public class Utils {
 
     /**
      * Returns the manufacture name from the given characteristic
-     *
+     * 
      * @param characteristic
      * @return manfacture_name_string
      */
@@ -90,7 +90,7 @@ public class Utils {
 
     /**
      * Returns the model number from the given characteristic
-     *
+     * 
      * @param characteristic
      * @return model_name_string
      */
@@ -105,7 +105,7 @@ public class Utils {
 
     /**
      * Returns the serial number from the given characteristic
-     *
+     * 
      * @param characteristic
      * @return serial_number_string
      */
@@ -119,7 +119,7 @@ public class Utils {
 
     /**
      * Returns the hardware number from the given characteristic
-     *
+     * 
      * @param characteristic
      * @return hardware_revision_name_string
      */
@@ -130,9 +130,10 @@ public class Utils {
 
         return hardware_revision_name_string;
     }
+
     /**
      * Returns the Firmware number from the given characteristic
-     *
+     * 
      * @param characteristic
      * @return hardware_revision_name_string
      */
@@ -143,9 +144,10 @@ public class Utils {
 
         return firmware_revision_name_string;
     }
+
     /**
      * Returns the software revision number from the given characteristic
-     *
+     * 
      * @param characteristic
      * @return hardware_revision_name_string
      */
@@ -159,7 +161,7 @@ public class Utils {
 
     /**
      * Returns the PNP ID from the given characteristic
-     *
+     * 
      * @param characteristic
      * @return {@link String}
      */
@@ -177,7 +179,7 @@ public class Utils {
 
     /**
      * Returns the SystemID from the given characteristic
-     *
+     * 
      * @param characteristic
      * @return {@link String}
      */
@@ -195,23 +197,27 @@ public class Utils {
 
     /**
      * Adding the necessary INtent filters for Broadcast receivers
-     *
+     * 
      * @return {@link IntentFilter}
      */
     public static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED_CAROUSEL);
+        intentFilter
+                .addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED_CAROUSEL);
         intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         intentFilter
                 .addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         intentFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CHARACTERISTIC_ERROR);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DESCRIPTORWRITE_RESULT);
+        intentFilter
+                .addAction(BluetoothLeService.ACTION_GATT_CHARACTERISTIC_ERROR);
+        intentFilter
+                .addAction(BluetoothLeService.ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS);
+        intentFilter
+                .addAction(BluetoothLeService.ACTION_GATT_DESCRIPTORWRITE_RESULT);
         return intentFilter;
     }
 
@@ -227,27 +233,23 @@ public class Utils {
     public static byte[] hexStringToByteArray(String s) {
         if (s.length() % 2 != 0) {
             StringBuilder stringBuilder = new StringBuilder(s);
-            stringBuilder.insert(s.length()-1,"0");
+            stringBuilder.insert(s.length() - 1, "0");
             s = stringBuilder.toString();
         }
-
 
         int len = s.length();
         byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
-            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i + 1), 16));
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4) + Character
+                    .digit(s.charAt(i + 1), 16));
         }
         return data;
     }
 
-
-    public static boolean isRightHexStr(String str){
+    public static boolean isRightHexStr(String str) {
         String reg = "^[0-9a-fA-F]+$";
         return str.matches(reg);
     }
-
-
 
     public static String getMSB(String string) {
         StringBuilder msbString = new StringBuilder();
@@ -261,7 +263,7 @@ public class Utils {
 
     /**
      * Converting the Byte to binary
-     *
+     * 
      * @param bytes
      * @return {@link String}
      */
@@ -291,7 +293,7 @@ public class Utils {
 
     /**
      * Returns the battery level information from the characteristics
-     *
+     * 
      * @param characteristics
      * @return {@link String}
      */
@@ -305,7 +307,7 @@ public class Utils {
 
     /**
      * Returns the Alert level information from the characteristics
-     *
+     * 
      * @param characteristics
      * @return {@link String}
      */
@@ -319,7 +321,7 @@ public class Utils {
 
     /**
      * Returns the Transmission power information from the characteristic
-     *
+     * 
      * @param characteristics
      * @return {@link integer}
      */
@@ -333,26 +335,28 @@ public class Utils {
 
     /**
      * Returns the Date from the long milliseconds
-     *
-     * @param date in millis
+     * 
+     * @param date
+     *            in millis
      * @return {@link String}
      */
     public static String GetDateFromLong(long date) {
         Date currentDate = new Date(date);
         DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-        //formatted value of current Date
-        // System.out.println("Milliseconds to Date: " + formatter.format(currentDate));
+        // formatted value of current Date
+        // System.out.println("Milliseconds to Date: " +
+        // formatter.format(currentDate));
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(date);
-        //System.out.println("Milliseconds to Date using Calendar:"
-        //        + formatter.format(cal.getTime()));
+        // System.out.println("Milliseconds to Date using Calendar:"
+        // + formatter.format(cal.getTime()));
         return currentDate.toString();
 
     }
 
     /**
      * Get the data from milliseconds
-     *
+     * 
      * @return {@link String}
      */
     public static String GetDateFromMilliseconds() {
@@ -364,7 +368,7 @@ public class Utils {
 
     /**
      * Get the date
-     *
+     * 
      * @return {@link String}
      */
     public static String GetDate() {
@@ -373,18 +377,20 @@ public class Utils {
         return formatter.format(calendar.getTime());
 
     }
+
     /**
      * Get the time in seconds
-     *
+     * 
      * @return {@link String}
      */
     public static int getTimeInSeconds() {
         int seconds = (int) System.currentTimeMillis();
         return seconds;
     }
+
     /**
      * Get the seven days before date
-     *
+     * 
      * @return {@link String}
      */
 
@@ -398,7 +404,7 @@ public class Utils {
 
     /**
      * Get the time from milliseconds
-     *
+     * 
      * @return {@link String}
      */
     public static String GetTimeFromMilliseconds() {
@@ -410,7 +416,7 @@ public class Utils {
 
     /**
      * Get time and date
-     *
+     * 
      * @return {@link String}
      */
 
@@ -420,9 +426,10 @@ public class Utils {
         return formatter.format(calendar.getTime());
 
     }
+
     /**
      * Get time and date without datalogger format
-     *
+     * 
      * @return {@link String}
      */
 
@@ -432,15 +439,16 @@ public class Utils {
         return formatter.format(calendar.getTime());
 
     }
+
     /**
      * Setting the shared preference with values provided as parameters
-     *
+     * 
      * @param context
      * @param key
      * @param value
      */
     public static final void setStringSharedPreference(Context context,
-                                                       String key, String value) {
+            String key, String value) {
         SharedPreferences goaPref = context.getSharedPreferences(
                 SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = goaPref.edit();
@@ -451,13 +459,13 @@ public class Utils {
     /**
      * Returning the stored values in the shared preference with values provided
      * as parameters
-     *
+     * 
      * @param context
      * @param key
      * @return
      */
     public static final String getStringSharedPreference(Context context,
-                                                         String key) {
+            String key) {
         if (context != null) {
 
             SharedPreferences Pref = context.getSharedPreferences(
@@ -472,13 +480,13 @@ public class Utils {
 
     /**
      * Setting the shared preference with values provided as parameters
-     *
+     * 
      * @param context
      * @param key
      * @param value
      */
     public static final void setIntSharedPreference(Context context,
-                                                    String key, int value) {
+            String key, int value) {
         SharedPreferences goaPref = context.getSharedPreferences(
                 SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = goaPref.edit();
@@ -489,13 +497,12 @@ public class Utils {
     /**
      * Returning the stored values in the shared preference with values provided
      * as parameters
-     *
+     * 
      * @param context
      * @param key
      * @return
      */
-    public static final int getIntSharedPreference(Context context,
-                                                   String key) {
+    public static final int getIntSharedPreference(Context context, String key) {
         if (context != null) {
 
             SharedPreferences Pref = context.getSharedPreferences(
@@ -510,7 +517,7 @@ public class Utils {
 
     /**
      * Take the screen shot of the device
-     *
+     * 
      * @param view
      */
     public static void screenShotMethod(View view) {
@@ -524,8 +531,11 @@ public class Utils {
 
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                    + File.separator + "CySmart" + File.separator + "file.jpg");
+            File f = new File(Environment.getExternalStorageDirectory()
+                    .getAbsolutePath()
+                    + File.separator
+                    + "CySmart"
+                    + File.separator + "file.jpg");
             try {
                 FileOutputStream fo = new FileOutputStream(f);
                 fo.write(bytes.toByteArray());
@@ -545,10 +555,9 @@ public class Utils {
         return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
-
     /**
      * Check whether Internet connection is enabled on the device
-     *
+     * 
      * @param context
      * @return
      */
@@ -572,10 +581,9 @@ public class Utils {
         Toast.makeText(context, text.toString(), Toast.LENGTH_LONG).show();
     }
 
-
-
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public static String getPorperties(Context context,BluetoothGattCharacteristic item){
+    public static String getPorperties(Context context,
+            BluetoothGattCharacteristic item) {
         String proprties;
         String read = null, write = null, notify = null;
 
@@ -589,7 +597,7 @@ public class Utils {
         if (getGattCharacteristicsPropertices(item.getProperties(),
                 BluetoothGattCharacteristic.PROPERTY_WRITE)
                 | getGattCharacteristicsPropertices(item.getProperties(),
-                BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE)) {
+                        BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE)) {
             write = context.getString(R.string.gatt_services_write);
         }
         if (getGattCharacteristicsPropertices(item.getProperties(),
@@ -624,9 +632,9 @@ public class Utils {
         return proprties;
     }
 
-
     // Return the properties of mGattCharacteristics
-    public static boolean getGattCharacteristicsPropertices(int characteristics,int characteristicsSearch) {
+    public static boolean getGattCharacteristicsPropertices(
+            int characteristics, int characteristicsSearch) {
 
         if ((characteristics & characteristicsSearch) == characteristicsSearch) {
             return true;
@@ -634,16 +642,17 @@ public class Utils {
         return false;
     }
 
-    public static int dpToPx(int dp){
-        return  (int)(dp* Resources.getSystem().getDisplayMetrics().density);
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
-    
+
     public static String getImsi(Context context) {
-        TelephonyManager mTelephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager mTelephonyMgr = (TelephonyManager) context
+                .getSystemService(Context.TELEPHONY_SERVICE);
         String imsi = mTelephonyMgr.getSubscriberId();
         return imsi;
     }
-    
+
     public static String getCsn(Context context) {
         String imsi = getImsi(context);
         String csn = Constants.DEFAULT_CSN;
@@ -684,9 +693,8 @@ public class Utils {
     }
 
     /**
-     * 时间算法
-     *     Byte3       Byte2       Byte1     Byte0
-     *  [yyyyyydd] [dddmmmms] [ssssssss][ssssssss]
+     * 时间算法 Byte3 Byte2 Byte1 Byte0 [yyyyyydd] [dddmmmms] [ssssssss][ssssssss]
+     * 
      * @param time
      * @return
      */
@@ -694,26 +702,27 @@ public class Utils {
         byte[] data = new byte[4];
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(time.getTime());
-        
-        int y = cal.get(Calendar.YEAR)-2000;
+
+        int y = cal.get(Calendar.YEAR) - 2000;
         int d = cal.get(Calendar.DATE);
-        int m = cal.get(Calendar.MONTH)+1;
-        int s = cal.get(Calendar.HOUR_OF_DAY)*3600 + cal.get(Calendar.MINUTE)*60 + cal.get(Calendar.SECOND);
+        int m = cal.get(Calendar.MONTH) + 1;
+        int s = cal.get(Calendar.HOUR_OF_DAY) * 3600 + cal.get(Calendar.MINUTE)
+                * 60 + cal.get(Calendar.SECOND);
 
         int i = 0;
-        i = (y << 26);  //32-6=26 左移26位表示 日的长度+月的长度+秒的长度
+        i = (y << 26); // 32-6=26 左移26位表示 日的长度+月的长度+秒的长度
         i |= (d << 21);
         i |= (m << 17);
         i |= s;
 
-        data[3] = (byte)(i & 0xff);
-        data[2] = (byte)((i >> 8) & 0xff);
-        data[1] = (byte)((i >> 16) & 0xff);
-        data[0] = (byte)((i >> 24) & 0xff);
-        
+        data[3] = (byte) (i & 0xff);
+        data[2] = (byte) ((i >> 8) & 0xff);
+        data[1] = (byte) ((i >> 16) & 0xff);
+        data[0] = (byte) ((i >> 24) & 0xff);
+
         return data;
     }
-    
+
     public static String getCmdData(String rnd, String cmd, String data) {
         String dataText = data.replace(" ", "");
         String cmdText = cmd.replace(" ", "");
@@ -735,14 +744,14 @@ public class Utils {
         return array;
     }
 
-//    public static byte[] getEncryptedCmdDataByteArray(String cmdData) {
-//        String text = cmdData.replace(" ", "");
-//        byte[] array = Utils.hexStringToByteArray(text);
-//        int size = array.length;
-//        for (int i = 0; i < size; i++) {
-//            array[i] ^= Constants.ENCRYPT;
-//        }
-//        return array;
-//    }
+    // public static byte[] getEncryptedCmdDataByteArray(String cmdData) {
+    // String text = cmdData.replace(" ", "");
+    // byte[] array = Utils.hexStringToByteArray(text);
+    // int size = array.length;
+    // for (int i = 0; i < size; i++) {
+    // array[i] ^= Constants.ENCRYPT;
+    // }
+    // return array;
+    // }
 
 }

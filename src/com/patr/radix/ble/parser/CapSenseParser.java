@@ -42,7 +42,7 @@ import java.util.ArrayList;
 public class CapSenseParser {
     /**
      * Parse the CapSense proximity value from the characteristic
-     *
+     * 
      * @param characteristic
      * @return {@link integer}
      */
@@ -55,7 +55,7 @@ public class CapSenseParser {
 
     /**
      * Parse the CapSense slider value from the characteristic
-     *
+     * 
      * @param characteristic
      * @return {@link integer}
      */
@@ -69,7 +69,7 @@ public class CapSenseParser {
 
     /**
      * Parse the CapSense buttons value from the characteristic
-     *
+     * 
      * @param characteristic
      * @return {@link ArrayList}
      */

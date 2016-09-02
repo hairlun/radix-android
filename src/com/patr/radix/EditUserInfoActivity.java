@@ -19,23 +19,23 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 public class EditUserInfoActivity extends Activity implements OnClickListener {
-    
+
     private Context context;
-    
+
     private TitleBarView titleBarView;
-    
+
     private LinearLayout nameLl;
-    
+
     private EditText nameEt;
-    
+
     private LinearLayout pwdLl;
-    
+
     private EditText pwdEt;
-    
+
     private LinearLayout mobileLl;
-    
+
     private EditText mobileEt;
-    
+
     private Button okBtn;
 
     @Override
@@ -61,9 +61,11 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
         mobileLl.setOnClickListener(this);
         okBtn.setOnClickListener(this);
     }
-    
+
     private void editUserInfo() {
-        if (TextUtils.isEmpty(nameEt.getText()) && TextUtils.isEmpty(pwdEt.getText()) && TextUtils.isEmpty(mobileEt.getText())) {
+        if (TextUtils.isEmpty(nameEt.getText())
+                && TextUtils.isEmpty(pwdEt.getText())
+                && TextUtils.isEmpty(mobileEt.getText())) {
             ToastUtil.showShort(context, "请至少修改一项！");
             return;
         }
@@ -73,28 +75,31 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
             pwd = MD5.md5(pwd);
         }
         String mobile = mobileEt.getText().toString().trim();
-        ServiceManager.updateUserInfo(name, mobile, pwd, new RequestListener<RequestResult>() {
+        ServiceManager.updateUserInfo(name, mobile, pwd,
+                new RequestListener<RequestResult>() {
 
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                    }
 
-            @Override
-            public void onSuccess(int stateCode, RequestResult result) {
-                if (result != null) {
-                    ToastUtil.showShort(context, result.getRetinfo());
-                } else {
-                    ToastUtil.showShort(context, R.string.connect_exception);
-                }
-            }
+                    @Override
+                    public void onSuccess(int stateCode, RequestResult result) {
+                        if (result != null) {
+                            ToastUtil.showShort(context, result.getRetinfo());
+                        } else {
+                            ToastUtil.showShort(context,
+                                    R.string.connect_exception);
+                        }
+                    }
 
-            @Override
-            public void onFailure(Exception error, String content) {
-                ToastUtil.showShort(context, R.string.connect_exception);
-            }
-            
-        });
+                    @Override
+                    public void onFailure(Exception error, String content) {
+                        ToastUtil
+                                .showShort(context, R.string.connect_exception);
+                    }
+
+                });
     }
 
     @Override

@@ -20,7 +20,7 @@ import com.patr.radix.network.IAsyncListener;
 
 /**
  * @author zhoushujie
- *
+ * 
  */
 public class GetUserListParser extends AbsBaseParser<GetUserListResult> {
 
@@ -38,8 +38,12 @@ public class GetUserListParser extends AbsBaseParser<GetUserListResult> {
         super(listener);
     }
 
-    /* (non-Javadoc)
-     * @see com.patr.radix.network.IAsyncListener.ResultParser#parse(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.patr.radix.network.IAsyncListener.ResultParser#parse(java.lang.String
+     * )
      */
     @Override
     public GetUserListResult parse(String response) {
@@ -59,13 +63,18 @@ public class GetUserListParser extends AbsBaseParser<GetUserListResult> {
                             JSONObject obj = arr.optJSONObject(i);
                             if (obj != null) {
                                 String id = obj.optString(ResponseKey.ID);
-                                String account = obj.optString(ResponseKey.USER_ID);
-                                String areaId = obj.optString(ResponseKey.AREA_ID);
-                                String areaName = obj.optString(ResponseKey.AREA_NAME);
+                                String account = obj
+                                        .optString(ResponseKey.USER_ID);
+                                String areaId = obj
+                                        .optString(ResponseKey.AREA_ID);
+                                String areaName = obj
+                                        .optString(ResponseKey.AREA_NAME);
                                 String name = obj.optString(ResponseKey.NAME);
-                                String mobile = obj.optString(ResponseKey.MOBILE);
+                                String mobile = obj
+                                        .optString(ResponseKey.MOBILE);
                                 String home = obj.optString(ResponseKey.HOME);
-                                String areaPic = obj.optString(ResponseKey.AREA_PIC);
+                                String areaPic = obj
+                                        .optString(ResponseKey.AREA_PIC);
                                 UserInfo userInfo = new UserInfo();
                                 userInfo.setId(id);
                                 userInfo.setAccount(account);
@@ -75,8 +84,11 @@ public class GetUserListParser extends AbsBaseParser<GetUserListResult> {
                                 userInfo.setMobile(mobile);
                                 userInfo.setHome(home);
                                 if (!areaPic.startsWith("http")) {
-                                    Community community = MyApplication.instance.getSelectedCommunity();
-                                    areaPic = String.format("%s:%s%s", community.getHost(), community.getPort(), areaPic);
+                                    Community community = MyApplication.instance
+                                            .getSelectedCommunity();
+                                    areaPic = String.format("%s:%s%s",
+                                            community.getHost(),
+                                            community.getPort(), areaPic);
                                 }
                                 userInfo.setAreaPic(areaPic);
                                 result.getUsers().add(userInfo);

@@ -20,10 +20,10 @@ import com.patr.radix.bean.UserInfo;
 
 /**
  * @author zhoushujie
- *
+ * 
  */
 public class UserListAdapter extends AbsListAdapter<UserInfo> {
-    
+
     /** 已选择的集合 */
     public HashSet<UserInfo> selectedSet = new HashSet<UserInfo>();
 
@@ -66,8 +66,11 @@ public class UserListAdapter extends AbsListAdapter<UserInfo> {
         notifyDataSetChanged();
     }
 
-    /* (non-Javadoc)
-     * @see com.patr.radix.adapter.AbsListAdapter#getView(int, android.view.View, android.view.ViewGroup)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.patr.radix.adapter.AbsListAdapter#getView(int,
+     * android.view.View, android.view.ViewGroup)
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -82,10 +85,11 @@ public class UserListAdapter extends AbsListAdapter<UserInfo> {
             holder = (ViewHolder) convertView.getTag();
         }
         UserInfo userInfo = getItem(position);
-        holder.tv.setText(userInfo.getName() + "(" + userInfo.getMobile() + ")");
+        holder.tv
+                .setText(userInfo.getName() + "(" + userInfo.getMobile() + ")");
         return convertView;
     }
-    
+
     class ViewHolder {
         TextView tv;
     }

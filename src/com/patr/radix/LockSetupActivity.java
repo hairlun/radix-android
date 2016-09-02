@@ -24,9 +24,9 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 public class LockSetupActivity extends Activity implements OnPatternListener {
-    
+
     Context context;
-    
+
     private TitleBarView titleBarView;
 
     /** 手势密码界面 */
@@ -65,7 +65,7 @@ public class LockSetupActivity extends Activity implements OnPatternListener {
         context = this;
         initView();
     }
-    
+
     private void initView() {
         titleBarView = (TitleBarView) findViewById(R.id.lock_settings_titlebar);
         titleBarView.setTitle(R.string.titlebar_lock_setup);
@@ -159,8 +159,7 @@ public class LockSetupActivity extends Activity implements OnPatternListener {
         // [(row=1,clmn=0), (row=2,clmn=0), (row=1,clmn=1), (row=0,clmn=2)]
         // [(row=1,clmn=0), (row=2,clmn=0), (row=1,clmn=1), (row=0,clmn=2)]
 
-        LogUtil.d("choosePattern = "
-                + Arrays.toString(choosePattern.toArray()));
+        LogUtil.d("choosePattern = " + Arrays.toString(choosePattern.toArray()));
         LogUtil.d("pattern = " + Arrays.toString(pattern.toArray()));
 
         if (choosePattern.equals(pattern)) {

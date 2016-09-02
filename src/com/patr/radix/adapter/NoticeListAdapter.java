@@ -28,11 +28,16 @@ public class NoticeListAdapter extends AbsListAdapter<Notice> {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(
                     R.layout.item_notice, null);
-            holder.pic = (ImageView) convertView.findViewById(R.id.item_notice_iv);
-            holder.title = (TextView) convertView.findViewById(R.id.item_notice_title_tv);
-            holder.content = (TextView) convertView.findViewById(R.id.item_notice_content_tv);
-            holder.from = (TextView) convertView.findViewById(R.id.item_notice_from_tv);
-            holder.sentDate = (TextView) convertView.findViewById(R.id.item_notice_datetime_tv);
+            holder.pic = (ImageView) convertView
+                    .findViewById(R.id.item_notice_iv);
+            holder.title = (TextView) convertView
+                    .findViewById(R.id.item_notice_title_tv);
+            holder.content = (TextView) convertView
+                    .findViewById(R.id.item_notice_content_tv);
+            holder.from = (TextView) convertView
+                    .findViewById(R.id.item_notice_from_tv);
+            holder.sentDate = (TextView) convertView
+                    .findViewById(R.id.item_notice_datetime_tv);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -50,9 +55,9 @@ public class NoticeListAdapter extends AbsListAdapter<Notice> {
         holder.from.setText(notice.getFrom());
         holder.sentDate.setText(notice.getSentDate());
         return convertView;
-        
+
     }
-    
+
     class ViewHolder {
         ImageView pic;
         TextView title;

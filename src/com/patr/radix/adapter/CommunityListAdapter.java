@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class CommunityListAdapter extends AbsListAdapter<Community> {
-    
+
     /** 已选择的集合 */
     public HashSet<Community> selectedSet = new HashSet<Community>();
-    
+
     public CommunityListAdapter(Context context, List<Community> mList) {
         super(context, mList);
         notifyDataSetChanged();
@@ -71,7 +71,7 @@ public class CommunityListAdapter extends AbsListAdapter<Community> {
         holder.tv.setSelected(selectedSet.contains(text));
         return convertView;
     }
-    
+
     class ViewHolder {
         TextView tv;
     }

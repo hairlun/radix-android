@@ -30,7 +30,6 @@
  * 
  */
 
-
 package com.patr.radix.ble.datamodel;
 
 class ProfileScanningListModel {

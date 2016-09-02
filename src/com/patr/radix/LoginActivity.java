@@ -64,14 +64,15 @@ public class LoginActivity extends Activity implements OnClickListener {
         loginBtn = (Button) findViewById(R.id.login_btn);
         titleBarView.setTitle(R.string.titlebar_login);
         loginBtn.setOnClickListener(this);
-//        int width = View.MeasureSpec.makeMeasureSpec(0,
-//                View.MeasureSpec.UNSPECIFIED);
-//        int height = View.MeasureSpec.makeMeasureSpec(0,
-//                View.MeasureSpec.UNSPECIFIED);
-//        logoIv.measure(width, height);
-//        height = logoIv.getMeasuredHeight();
-//        width = logoIv.getMeasuredWidth();
-//        logoIv.setPadding((int)(height * 1.2), (int)(height * 1.2), (int)(height * 1.2), (int)(height * 1.2));
+        // int width = View.MeasureSpec.makeMeasureSpec(0,
+        // View.MeasureSpec.UNSPECIFIED);
+        // int height = View.MeasureSpec.makeMeasureSpec(0,
+        // View.MeasureSpec.UNSPECIFIED);
+        // logoIv.measure(width, height);
+        // height = logoIv.getMeasuredHeight();
+        // width = logoIv.getMeasuredWidth();
+        // logoIv.setPadding((int)(height * 1.2), (int)(height * 1.2),
+        // (int)(height * 1.2), (int)(height * 1.2));
         loadingDialog = new LoadingDialog(context);
     }
 
@@ -91,16 +92,16 @@ public class LoginActivity extends Activity implements OnClickListener {
             } else if (TextUtils.isEmpty(pwd)) {
                 ToastUtil.showLong(context, "密码不能为空，请重新输入!");
             } else {
-//                if (MyApplication.DEBUG) {
-//                    testLogin();
-//                } else {
-                    login();
-//                }
+                // if (MyApplication.DEBUG) {
+                // testLogin();
+                // } else {
+                login();
+                // }
             }
             break;
         }
     }
-    
+
     private void testLogin() {
         UserInfo userInfo = new UserInfo();
         userInfo.setAccount("admin");
@@ -112,7 +113,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         userInfo.setMobile("88888888");
         MyApplication.instance.setUserInfo(userInfo);
         PrefUtil.saveUserInfo(context, userInfo);
-//        MainActivity.startAfterLogin(context);
+        // MainActivity.startAfterLogin(context);
         finish();
     }
 
@@ -138,7 +139,8 @@ public class LoginActivity extends Activity implements OnClickListener {
             public void onSuccess(int statusCode, LoginResult result) {
                 if (result != null) {
                     if (result.isSuccesses()) {
-                        MyApplication.instance.setUserInfo(result.getUserInfo());
+                        MyApplication.instance
+                                .setUserInfo(result.getUserInfo());
                         PrefUtil.saveUserInfo(context, result.getUserInfo());
                         // 初始化和登录云通讯账号
                         String appKey = FileAccessor.getAppKey();

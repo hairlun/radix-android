@@ -33,7 +33,6 @@ package com.patr.radix.ble.parser;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 
-
 /**
  * Class used for parsing Sensor hub related information
  */

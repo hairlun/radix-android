@@ -55,7 +55,8 @@ public class CacheDAOImpl implements CacheDAO {
     }
 
     public CacheDAOImpl(Context context) {
-        helper = DatabaseHelper.getInstance(context, DatabaseHelper.DATABASE_NAME);
+        helper = DatabaseHelper.getInstance(context,
+                DatabaseHelper.DATABASE_NAME);
     }
 
     /**
@@ -174,15 +175,11 @@ public class CacheDAOImpl implements CacheDAO {
         }
         LogUtil.i(url);
         String[] keys = { Key.URL, Key.M_TIME };
-        String[] values = {
-                url,
-                String.valueOf(System.currentTimeMillis()) };
+        String[] values = { url, String.valueOf(System.currentTimeMillis()) };
         if (!TextUtils.isEmpty(content)) {
             LogUtil.i(content);
             keys = new String[] { Key.URL, Key.CONTENT, Key.M_TIME };
-            values = new String[] {
-                    url,
-                    content,
+            values = new String[] { url, content,
                     String.valueOf(System.currentTimeMillis()) };
         }
         ContentValues cv = createContentValues(keys, values);

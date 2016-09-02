@@ -9,11 +9,11 @@ public class MDevice {
     private BluetoothDevice device;
     private int rssi;
 
-    public MDevice(){
+    public MDevice() {
 
     }
 
-    public MDevice(BluetoothDevice dev,int rssi){
+    public MDevice(BluetoothDevice dev, int rssi) {
         this.device = dev;
         this.rssi = rssi;
     }

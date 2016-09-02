@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 /**
  * @author zhoushujie
- *
+ * 
  */
 public class Community implements Serializable {
 
@@ -20,13 +20,13 @@ public class Community implements Serializable {
     private static final long serialVersionUID = 6034701254410729269L;
 
     private String id;
-    
+
     private String name;
-    
+
     private String host;
-    
+
     private String port;
-    
+
     private String url;
 
     public String getId() {

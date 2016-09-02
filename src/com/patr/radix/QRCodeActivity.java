@@ -20,23 +20,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class QRCodeActivity extends Activity implements OnClickListener {
-   
+
     private Context context;
-    
+
     private TitleBarView titleBarView;
-    
+
     private ImageView qrcodeIv;
-    
+
     private Button shareBtn;
-    
+
     private TextView areaPicTv;
-    
+
     private ImageView areaPicIv;
-    
+
     private Button share2Btn;
-    
+
     private Bitmap bitmap;
-    
+
     private Uri qrcodeUri;
 
     @Override
@@ -47,7 +47,7 @@ public class QRCodeActivity extends Activity implements OnClickListener {
         bitmap = getIntent().getParcelableExtra("bitmap");
         initView();
     }
-    
+
     private void initView() {
         titleBarView = (TitleBarView) findViewById(R.id.unlock_qrcode_titlebar);
         qrcodeIv = (ImageView) findViewById(R.id.unlock_qrcode_iv);
@@ -67,7 +67,8 @@ public class QRCodeActivity extends Activity implements OnClickListener {
         try {
             if (bitmap != null) {
                 qrcodeIv.setImageBitmap(bitmap);
-                qrcodeUri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null));
+                qrcodeUri = Uri.parse(MediaStore.Images.Media.insertImage(
+                        getContentResolver(), bitmap, null, null));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,7 +91,8 @@ public class QRCodeActivity extends Activity implements OnClickListener {
      * @param imgPath
      *            图片路径，不分享图片则传null
      */
-    public void shareMsg(String activityTitle, String msgTitle, String msgText, Uri uri) {
+    public void shareMsg(String activityTitle, String msgTitle, String msgText,
+            Uri uri) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         if (bitmap == null) {
             intent.setType("text/plain"); // 纯文本
@@ -112,15 +114,16 @@ public class QRCodeActivity extends Activity implements OnClickListener {
         case R.id.unlock_share_btn:
             shareMsg("请选择", "", "", qrcodeUri);
             break;
-            
+
         case R.id.unlock_share2_btn:
-            Bitmap bm = ((BitmapDrawable)areaPicIv.getDrawable()).getBitmap();
-            Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bm, null, null));
+            Bitmap bm = ((BitmapDrawable) areaPicIv.getDrawable()).getBitmap();
+            Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(
+                    getContentResolver(), bm, null, null));
             shareMsg("请选择", "", "", uri);
             break;
         }
     }
-    
+
     public static void start(Context context, Bitmap bitmap) {
         Intent intent = new Intent(context, QRCodeActivity.class);
         intent.putExtra("bitmap", bitmap);

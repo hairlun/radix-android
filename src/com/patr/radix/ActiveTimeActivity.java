@@ -38,38 +38,39 @@ import android.widget.TextView;
 
 /**
  * @author zhoushujie
- *
+ * 
  */
-public class ActiveTimeActivity extends Activity implements OnClickListener, OnConfirmListener {
-    
+public class ActiveTimeActivity extends Activity implements OnClickListener,
+        OnConfirmListener {
+
     private final static String DATE_FORMAT = "yyyy-MM-dd HH:mm";
-    
+
     private Context context;
-    
+
     private TitleBarView titleBarView;
-    
+
     private RelativeLayout keyStartTimeRl;
-    
+
     private TextView keyStartTimeTv;
-    
+
     private RelativeLayout keyEndTimeRl;
-    
+
     private TextView keyEndTimeTv;
-    
-//    private LinearLayout keyActiveTimeLl;
-//    
-//    private EditText keyActiveTimeEt;
-    
+
+    // private LinearLayout keyActiveTimeLl;
+    //
+    // private EditText keyActiveTimeEt;
+
     private Button generateQrcodeBtn;
-    
+
     private Calendar startCal;
-    
+
     private Calendar endCal;
-    
+
     private int timeType;
-    
+
     private boolean isAfterIM;
-    
+
     private String callNumber;
 
     @Override
@@ -81,20 +82,22 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
         callNumber = getIntent().getStringExtra("callNumber");
         initView();
     }
-    
+
     private void initView() {
         titleBarView = (TitleBarView) findViewById(R.id.unlock_active_time_titlebar);
         keyStartTimeRl = (RelativeLayout) findViewById(R.id.unlock_start_rl);
         keyStartTimeTv = (TextView) findViewById(R.id.unlock_start_tv);
         keyEndTimeRl = (RelativeLayout) findViewById(R.id.unlock_end_rl);
         keyEndTimeTv = (TextView) findViewById(R.id.unlock_end_tv);
-//        keyActiveTimeLl = (LinearLayout) findViewById(R.id.unlock_active_time_ll);
-//        keyActiveTimeEt = (EditText) findViewById(R.id.unlock_active_time_et);
+        // keyActiveTimeLl = (LinearLayout)
+        // findViewById(R.id.unlock_active_time_ll);
+        // keyActiveTimeEt = (EditText)
+        // findViewById(R.id.unlock_active_time_et);
         generateQrcodeBtn = (Button) findViewById(R.id.unlock_generate_qrcode_btn);
         titleBarView.setTitle(R.string.titlebar_key_active_time);
         keyStartTimeRl.setOnClickListener(this);
         keyEndTimeRl.setOnClickListener(this);
-//        keyActiveTimeLl.setOnClickListener(this);
+        // keyActiveTimeLl.setOnClickListener(this);
         generateQrcodeBtn.setOnClickListener(this);
         startCal = Calendar.getInstance();
         endCal = Calendar.getInstance();
@@ -110,16 +113,14 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
             if (TextUtils.isEmpty(keyStartTimeTv.getText().toString().trim())) {
                 startCal.setTimeInMillis(System.currentTimeMillis());
             }
-            picker = new DatetimeDialog(context, startCal.getTime(),
-                    type);
+            picker = new DatetimeDialog(context, startCal.getTime(), type);
             picker.setOnConfirmListener(this);
             picker.show();
         } else {
             if (TextUtils.isEmpty(keyEndTimeTv.getText().toString().trim())) {
                 endCal.setTimeInMillis(System.currentTimeMillis());
             }
-            picker = new DatetimeDialog(context, endCal.getTime(),
-                    type);
+            picker = new DatetimeDialog(context, endCal.getTime(), type);
             picker.setOnConfirmListener(this);
             picker.show();
         }
@@ -148,20 +149,23 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
         }
         if (timeType == 0) {
             startCal.setTime(date);
-            keyStartTimeTv.setText(TimeUtil.getDateStr(startCal.getTime(), DATE_FORMAT));
+            keyStartTimeTv.setText(TimeUtil.getDateStr(startCal.getTime(),
+                    DATE_FORMAT));
         } else {
             endCal.setTime(date);
-            keyEndTimeTv.setText(TimeUtil.getDateStr(endCal.getTime(), DATE_FORMAT));
+            keyEndTimeTv.setText(TimeUtil.getDateStr(endCal.getTime(),
+                    DATE_FORMAT));
         }
     }
 
     /**
      * 处理文本发送方法事件通知
+     * 
      * @param text
      */
     private void handleSendTextMessage(CharSequence text) {
-        if(text == null || text.toString().trim().length() <= 0) {
-            return ;
+        if (text == null || text.toString().trim().length() <= 0) {
+            return;
         }
         // 组建一个待发送的ECMessage
         ECMessage msg = ECMessage.createECMessage(ECMessage.Type.TXT);
@@ -173,24 +177,26 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
         try {
             // 发送消息，该函数见上
             long rowId = -1;
-//            if(mCustomerService) {
-//                rowId = CustomerServiceHelper.sendMCMessage(msg);
-//            } else {
-                rowId = IMChattingHelper.sendECMessage(msg);
-//            }
+            // if(mCustomerService) {
+            // rowId = CustomerServiceHelper.sendMCMessage(msg);
+            // } else {
+            rowId = IMChattingHelper.sendECMessage(msg);
+            // }
             // 通知列表刷新
             msg.setId(rowId);
-//            notifyIMessageListView(msg);
+            // notifyIMessageListView(msg);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     private void sendKey() {
         List<RadixLock> list = MyApplication.instance.getSelectedLocks();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see android.view.View.OnClickListener#onClick(android.view.View)
      */
     @Override
@@ -199,11 +205,11 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
         case R.id.unlock_start_rl:
             showDatePickerDialog(0);
             break;
-//        case R.id.unlock_active_time_ll:
-//            keyActiveTimeEt.setFocusable(true);
-//            keyActiveTimeEt.setFocusableInTouchMode(true);
-//            keyActiveTimeEt.requestFocus();
-//            break;
+        // case R.id.unlock_active_time_ll:
+        // keyActiveTimeEt.setFocusable(true);
+        // keyActiveTimeEt.setFocusableInTouchMode(true);
+        // keyActiveTimeEt.requestFocus();
+        // break;
         case R.id.unlock_end_rl:
             showDatePickerDialog(1);
             break;
@@ -216,20 +222,26 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
                 ToastUtil.showShort(context, "请选择截止时间！");
                 break;
             }
-//            if (TextUtils.isEmpty(keyActiveTimeEt.getText())) {
-//                ToastUtil.showShort(context, "请选择有效时间！");
-//                break;
-//            }
+            // if (TextUtils.isEmpty(keyActiveTimeEt.getText())) {
+            // ToastUtil.showShort(context, "请选择有效时间！");
+            // break;
+            // }
             // 生成二维码
             try {
                 String cmd = "71 ";
-                String data = "00 00 00 00 " + MyApplication.instance.getCsn()
-                        + Utils.ByteArraytoHex(Utils.dateTime2Bytes(startCal.getTime()))
-                        + Utils.ByteArraytoHex(Utils.dateTime2Bytes(endCal.getTime()));
-                byte len = (byte) MyApplication.instance.getSelectedLocks().size();
-                data += Utils.ByteArraytoHex(new byte[]{ len });
+                String data = "00 00 00 00 "
+                        + MyApplication.instance.getCsn()
+                        + Utils.ByteArraytoHex(Utils.dateTime2Bytes(startCal
+                                .getTime()))
+                        + Utils.ByteArraytoHex(Utils.dateTime2Bytes(endCal
+                                .getTime()));
+                byte len = (byte) MyApplication.instance.getSelectedLocks()
+                        .size();
+                data += Utils.ByteArraytoHex(new byte[] { len });
                 for (RadixLock lock : MyApplication.instance.getSelectedLocks()) {
-                    data += Utils.ByteArraytoHex(new byte[]{ (byte) (lock.getCtrId() & 0xFF), (byte) ((lock.getCtrId()>>8) & 0xFF) });
+                    data += Utils.ByteArraytoHex(new byte[] {
+                            (byte) (lock.getCtrId() & 0xFF),
+                            (byte) ((lock.getCtrId() >> 8) & 0xFF) });
                 }
                 String cmdData = Utils.getCmdData("00 ", cmd, data);
                 byte[] array = Utils.getCmdDataByteArray(cmdData);
@@ -247,13 +259,13 @@ public class ActiveTimeActivity extends Activity implements OnClickListener, OnC
     public void OnConfirm(Date date, String dateStr) {
         setDateTime(date);
     }
-    
+
     public static void start(Context context) {
         Intent intent = new Intent(context, ActiveTimeActivity.class);
         intent.putExtra("IM", false);
         context.startActivity(intent);
     }
-    
+
     public static void startAfterIM(Context context, String callNumber) {
         Intent intent = new Intent(context, ActiveTimeActivity.class);
         context.startActivity(intent);

@@ -44,7 +44,7 @@ public class HTMParser {
 
     /**
      * Get the thermometer reading
-     *
+     * 
      * @param characteristic
      * @return
      */
@@ -64,8 +64,8 @@ public class HTMParser {
             for (byte byteChar : data)
                 stringBuilder.append(String.format("%02X ", byteChar));
         }
-        final float temperature = characteristic.getFloatValue(BluetoothGattCharacteristic.FORMAT_FLOAT, 1);
-
+        final float temperature = characteristic.getFloatValue(
+                BluetoothGattCharacteristic.FORMAT_FLOAT, 1);
 
         tempInfo.add(0, "" + temperature);
         tempInfo.add(1, tempUnit);
@@ -74,7 +74,7 @@ public class HTMParser {
 
     /**
      * Get the thermometer sensor location
-     *
+     * 
      * @param characteristic
      * @return
      */
@@ -90,39 +90,39 @@ public class HTMParser {
                     .trim());
 
             switch (health_body_sensor) {
-                case 1:
-                    health_thermo_sensor_location = "Armpit";
-                    break;
-                case 2:
-                    health_thermo_sensor_location = "Body (general)";
-                    break;
-                case 3:
-                    health_thermo_sensor_location = "Ear (usually ear lobe)";
-                    break;
-                case 4:
-                    health_thermo_sensor_location = "Finger";
-                    break;
-                case 5:
-                    health_thermo_sensor_location = "Gastro-intestinal Tract";
-                    break;
-                case 6:
-                    health_thermo_sensor_location = "Mouth";
-                    break;
-                case 7:
-                    health_thermo_sensor_location = "Rectum";
-                    break;
-                case 8:
-                    health_thermo_sensor_location = "Tympanum (ear drum)";
-                    break;
-                case 9:
-                    health_thermo_sensor_location = "Toe";
-                    break;
-                case 10:
-                    health_thermo_sensor_location = "Toe";
-                    break;
-                default:
-                    health_thermo_sensor_location = "Reserved for future use";
-                    break;
+            case 1:
+                health_thermo_sensor_location = "Armpit";
+                break;
+            case 2:
+                health_thermo_sensor_location = "Body (general)";
+                break;
+            case 3:
+                health_thermo_sensor_location = "Ear (usually ear lobe)";
+                break;
+            case 4:
+                health_thermo_sensor_location = "Finger";
+                break;
+            case 5:
+                health_thermo_sensor_location = "Gastro-intestinal Tract";
+                break;
+            case 6:
+                health_thermo_sensor_location = "Mouth";
+                break;
+            case 7:
+                health_thermo_sensor_location = "Rectum";
+                break;
+            case 8:
+                health_thermo_sensor_location = "Tympanum (ear drum)";
+                break;
+            case 9:
+                health_thermo_sensor_location = "Toe";
+                break;
+            case 10:
+                health_thermo_sensor_location = "Toe";
+                break;
+            default:
+                health_thermo_sensor_location = "Reserved for future use";
+                break;
             }
 
         }

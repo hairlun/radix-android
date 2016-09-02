@@ -5,22 +5,22 @@ package com.patr.radix.view.swipe;
  */
 public enum SwipeRefreshLayoutDirection {
 
-	TOP(0), BOTTOM(1), BOTH(2);
+    TOP(0), BOTTOM(1), BOTH(2);
 
-	private int mValue;
+    private int mValue;
 
-	SwipeRefreshLayoutDirection(int value) {
-		this.mValue = value;
-	}
+    SwipeRefreshLayoutDirection(int value) {
+        this.mValue = value;
+    }
 
-	public static SwipeRefreshLayoutDirection getFromInt(int value) {
-		for (SwipeRefreshLayoutDirection direction : SwipeRefreshLayoutDirection
-				.values()) {
-			if (direction.mValue == value) {
-				return direction;
-			}
-		}
-		return BOTH;
-	}
+    public static SwipeRefreshLayoutDirection getFromInt(int value) {
+        for (SwipeRefreshLayoutDirection direction : SwipeRefreshLayoutDirection
+                .values()) {
+            if (direction.mValue == value) {
+                return direction;
+            }
+        }
+        return BOTH;
+    }
 
 }

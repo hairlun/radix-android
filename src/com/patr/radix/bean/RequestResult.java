@@ -20,7 +20,7 @@ public class RequestResult implements Serializable {
      * 返回状态码
      */
     protected String retcode;
-    
+
     /**
      * 返回信息描述
      */

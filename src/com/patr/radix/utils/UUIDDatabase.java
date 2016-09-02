@@ -68,8 +68,7 @@ public class UUIDDatabase {
             .fromString(GattAttributes.SOFTWARE_REVISION_STRING);
     public static final UUID UUID_PNP_ID = UUID
             .fromString(GattAttributes.PNP_ID);
-    public static final UUID UUID_IEEE = UUID
-            .fromString(GattAttributes.IEEE);
+    public static final UUID UUID_IEEE = UUID.fromString(GattAttributes.IEEE);
 
     /**
      * Health thermometer related UUID
@@ -184,7 +183,7 @@ public class UUIDDatabase {
     public final static UUID UUID_ACCELEROMETER_SENSOR_SCAN_INTERVAL = UUID
             .fromString(GattAttributes.ACCELEROMETER_SENSOR_SCAN_INTERVAL);
     /**
-     * Analog temperature  related uuid
+     * Analog temperature related uuid
      */
     public final static UUID UUID_ANALOG_TEMPERATURE_SERVICE = UUID
             .fromString(GattAttributes.ANALOG_TEMPERATURE_SERVICE);
@@ -224,6 +223,5 @@ public class UUIDDatabase {
             .fromString(GattAttributes.REPORT_REFERENCE);
     public final static UUID UUID_CHARACTERISTIC_PRESENTATION_FORMAT = UUID
             .fromString(GattAttributes.CHARACTERISTIC_PRESENTATION_FORMAT);
-
 
 }

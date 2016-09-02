@@ -10,15 +10,16 @@ import com.google.zxing.common.BitMatrix;
 import android.graphics.Bitmap;
 
 public class QRCodeUtil {
-    
+
     private static final int BLACK = 0xFF000000;
     private static final int WHITE = 0xFFFFFFFF;
 
     /**
      * 二维码的生成
-     *
+     * 
      */
-    public static final Bitmap createQRCodeBitmap(String text, int width, int height) {
+    public static final Bitmap createQRCodeBitmap(String text, int width,
+            int height) {
         try {
             /**
              * 设置二维码的参数
@@ -26,7 +27,8 @@ public class QRCodeUtil {
             HashMap<EncodeHintType, String> hints = new HashMap<EncodeHintType, String>();
             // 内容所使用编码
             hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
-            BitMatrix bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height, hints);
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
+                    BarcodeFormat.QR_CODE, width, height, hints);
             // 生成二维码
             int[] pixels = new int[width * height];
             for (int y = 0; y < height; y++) {

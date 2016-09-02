@@ -40,55 +40,64 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class SettingsFragment extends Fragment implements OnClickListener, OnItemClickListener {
-    
+public class SettingsFragment extends Fragment implements OnClickListener,
+        OnItemClickListener {
+
     private Context context;
-    
+
     private TitleBarView titleBarView;
-    
+
     private LinearLayout userInfoLl;
-    
+
     private TextView usernameTv;
-    
+
     private LinearLayout permissionLl;
-    
+
     private LinearLayout feedbackLl;
-    
+
     private LinearLayout lockLl;
-    
+
     private TextView lockStatusTv;
-    
+
     private LinearLayout currentCommunityLl;
-    
+
     private TextView currentCommunityTv;
-    
+
     private LinearLayout checkUpdateLl;
-    
+
     private Button logoutBtn;
-    
+
     private CommunityListAdapter adapter;
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		this.context = activity;
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.context = activity;
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-	    View view = inflater.inflate(R.layout.fragment_settings, container, false);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_settings, container,
+                false);
         titleBarView = (TitleBarView) view.findViewById(R.id.settings_titlebar);
         titleBarView.hideBackBtn().setTitle(R.string.titlebar_my_settings);
-        userInfoLl = (LinearLayout) view.findViewById(R.id.settings_user_info_ll);
+        userInfoLl = (LinearLayout) view
+                .findViewById(R.id.settings_user_info_ll);
         usernameTv = (TextView) view.findViewById(R.id.settings_username_tv);
-        permissionLl = (LinearLayout) view.findViewById(R.id.settings_user_permission_ll);
-        feedbackLl = (LinearLayout) view.findViewById(R.id.settings_feedback_ll);
+        permissionLl = (LinearLayout) view
+                .findViewById(R.id.settings_user_permission_ll);
+        feedbackLl = (LinearLayout) view
+                .findViewById(R.id.settings_feedback_ll);
         lockLl = (LinearLayout) view.findViewById(R.id.settings_lock_ll);
-        lockStatusTv = (TextView) view.findViewById(R.id.settings_lock_status_tv);
-        currentCommunityLl = (LinearLayout) view.findViewById(R.id.settings_current_community_ll);
-        currentCommunityTv = (TextView) view.findViewById(R.id.settings_current_community_tv);
-        checkUpdateLl = (LinearLayout) view.findViewById(R.id.settings_check_update_ll);
+        lockStatusTv = (TextView) view
+                .findViewById(R.id.settings_lock_status_tv);
+        currentCommunityLl = (LinearLayout) view
+                .findViewById(R.id.settings_current_community_ll);
+        currentCommunityTv = (TextView) view
+                .findViewById(R.id.settings_current_community_tv);
+        checkUpdateLl = (LinearLayout) view
+                .findViewById(R.id.settings_check_update_ll);
         logoutBtn = (Button) view.findViewById(R.id.settings_logout_btn);
         userInfoLl.setOnClickListener(this);
         permissionLl.setOnClickListener(this);
@@ -97,8 +106,10 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
         currentCommunityLl.setOnClickListener(this);
         checkUpdateLl.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
-        adapter = new CommunityListAdapter(context, MyApplication.instance.getCommunities());
-        Community selectedCommunity = MyApplication.instance.getSelectedCommunity();
+        adapter = new CommunityListAdapter(context,
+                MyApplication.instance.getCommunities());
+        Community selectedCommunity = MyApplication.instance
+                .getSelectedCommunity();
         int size = adapter.getCount();
         for (int i = 0; i < size; i++) {
             if (selectedCommunity.equals(adapter.getList().get(i))) {
@@ -107,16 +118,17 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
             }
         }
         return view;
-	}
+    }
 
-	@Override
+    @Override
     public void onResume() {
         super.onResume();
         refresh();
     }
-	
-	private void refresh() {
-	    if (!TextUtils.isEmpty(PrefUtil.getString(context, Constants.PREF_LOCK_KEY, null))) {
+
+    private void refresh() {
+        if (!TextUtils.isEmpty(PrefUtil.getString(context,
+                Constants.PREF_LOCK_KEY, null))) {
             lockStatusTv.setText("(已开启)");
         } else {
             lockStatusTv.setText("(已关闭)");
@@ -133,20 +145,21 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
             permissionLl.setVisibility(View.VISIBLE);
             logoutBtn.setText(R.string.settings_logout);
             usernameTv.setText(name);
-            
+
         }
-        Community selectedCommunity = MyApplication.instance.getSelectedCommunity();
+        Community selectedCommunity = MyApplication.instance
+                .getSelectedCommunity();
         if (selectedCommunity != null) {
             currentCommunityTv.setText("(" + selectedCommunity.getName() + ")");
         } else {
             currentCommunityTv.setText("");
         }
-	}
+    }
 
     @Override
-	public void setArguments(Bundle args) {
-		super.setArguments(args);
-	}
+    public void setArguments(Bundle args) {
+        super.setArguments(args);
+    }
 
     @Override
     public void onClick(View v) {
@@ -162,7 +175,8 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
             break;
         case R.id.settings_lock_ll:
             // 手势密码
-            if (TextUtils.isEmpty(PrefUtil.getString(context, Constants.PREF_LOCK_KEY, null))) {
+            if (TextUtils.isEmpty(PrefUtil.getString(context,
+                    Constants.PREF_LOCK_KEY, null))) {
                 // 打开密码锁
                 LockSetupActivity.start(context);
             } else {
@@ -178,7 +192,8 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
             // 版本检查及更新
             break;
         case R.id.settings_logout_btn:
-            if (TextUtils.isEmpty(MyApplication.instance.getUserInfo().getAccount())) {
+            if (TextUtils.isEmpty(MyApplication.instance.getUserInfo()
+                    .getAccount())) {
                 login();
             } else {
                 logout();
@@ -186,7 +201,7 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
             break;
         }
     }
-    
+
     private void getCommunityList() {
         switch (NetUtils.getConnectedType(context)) {
         case NONE:
@@ -200,53 +215,61 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
             break;
         }
     }
-    
+
     private void getCommunityListFromCache() {
-        CacheManager.getCacheContent(context, CacheManager.getCommunityListUrl(),
+        CacheManager.getCacheContent(context,
+                CacheManager.getCommunityListUrl(),
                 new RequestListener<GetCommunityListResult>() {
 
                     @Override
                     public void onSuccess(int stateCode,
                             GetCommunityListResult result) {
                         if (result != null) {
-                            MyApplication.instance.setCommunities(result.getCommunities());
+                            MyApplication.instance.setCommunities(result
+                                    .getCommunities());
                             adapter.notifyDataSetChanged();
-                            ListSelectDialog.show(context, "请选择小区", adapter, SettingsFragment.this);
+                            ListSelectDialog.show(context, "请选择小区", adapter,
+                                    SettingsFragment.this);
                         }
                     }
 
                 }, new GetCommunityListParser());
     }
-    
+
     private void getCommunityListFromServer() {
         // 从服务器获取小区列表
-        ServiceManager.getCommunityList(new RequestListener<GetCommunityListResult>() {
+        ServiceManager
+                .getCommunityList(new RequestListener<GetCommunityListResult>() {
 
-            @Override
-            public void onSuccess(int stateCode, GetCommunityListResult result) {
-                if (result != null) {
-                    if (result.isSuccesses()) {
-                        MyApplication.instance.setCommunities(result.getCommunities());
-                        saveCommunityListToDb(result.getResponse());
-                        adapter.notifyDataSetChanged();
-                        ListSelectDialog.show(context, "请选择小区", adapter, SettingsFragment.this);
-                    } else {
-                        ToastUtil.showShort(context, result.getRetinfo());
+                    @Override
+                    public void onSuccess(int stateCode,
+                            GetCommunityListResult result) {
+                        if (result != null) {
+                            if (result.isSuccesses()) {
+                                MyApplication.instance.setCommunities(result
+                                        .getCommunities());
+                                saveCommunityListToDb(result.getResponse());
+                                adapter.notifyDataSetChanged();
+                                ListSelectDialog.show(context, "请选择小区",
+                                        adapter, SettingsFragment.this);
+                            } else {
+                                ToastUtil.showShort(context,
+                                        result.getRetinfo());
+                                getCommunityListFromCache();
+                            }
+                        } else {
+                            ToastUtil.showShort(context, "网络请求失败！");
+                            getCommunityListFromCache();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, String content) {
+                        ToastUtil.showShort(context, content);
                         getCommunityListFromCache();
                     }
-                } else {
-                    ToastUtil.showShort(context, "网络请求失败！");
-                    getCommunityListFromCache();
-                }
-            }
 
-            @Override
-            public void onFailure(Exception error, String content) {
-                ToastUtil.showShort(context, content);
-                getCommunityListFromCache();
-            }
-            
-        });
+                });
     }
 
     /**
@@ -255,19 +278,21 @@ public class SettingsFragment extends Fragment implements OnClickListener, OnIte
      * @param content
      */
     protected void saveCommunityListToDb(String content) {
-        CacheManager.saveCacheContent(context, CacheManager.getCommunityListUrl(), content,
+        CacheManager.saveCacheContent(context,
+                CacheManager.getCommunityListUrl(), content,
                 new RequestListener<Boolean>() {
                     @Override
                     public void onSuccess(Boolean result) {
-                        LogUtil.i("save " + CacheManager.getCommunityListUrl() + "=" + result);
+                        LogUtil.i("save " + CacheManager.getCommunityListUrl()
+                                + "=" + result);
                     }
                 });
     }
-    
+
     private void login() {
         LoginActivity.start(context);
     }
-    
+
     private void logout() {
         MsgDialog.show(context, "确认", "确定要退出当前账号吗？", "确定",
                 new OnClickListener() {

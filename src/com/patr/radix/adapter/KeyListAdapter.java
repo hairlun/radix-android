@@ -27,9 +27,9 @@ import com.patr.radix.bean.RadixLock;
  * 
  */
 public class KeyListAdapter extends AbsListAdapter<RadixLock> {
-    
+
     public HashSet<RadixLock> selectedSet = new HashSet<RadixLock>();
-    
+
     private boolean isEdit = false;
 
     /**
@@ -57,28 +57,32 @@ public class KeyListAdapter extends AbsListAdapter<RadixLock> {
                     R.layout.item_key, null);
             holder.iv = (ImageView) convertView.findViewById(R.id.key_iv);
             holder.name = (TextView) convertView.findViewById(R.id.key_tv);
-            holder.chooseIv = (ImageView) convertView.findViewById(R.id.key_arrow_iv);
+            holder.chooseIv = (ImageView) convertView
+                    .findViewById(R.id.key_arrow_iv);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         RadixLock lock = getItem(position);
         holder.name.setText(lock.getName());
-//        if (MyApplication.DEBUG) {
-//            holder.name.append("(" + lock.getBleName1() + "," + lock.getBleName2() + ")");
-//        }
+        // if (MyApplication.DEBUG) {
+        // holder.name.append("(" + lock.getBleName1() + "," +
+        // lock.getBleName2() + ")");
+        // }
         if (lock.equals(MyApplication.instance.getSelectedLock())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 holder.name.setTextColor(mContext.getColor(R.color.blue));
             } else {
-                holder.name.setTextColor(mContext.getResources().getColor(R.color.blue));
+                holder.name.setTextColor(mContext.getResources().getColor(
+                        R.color.blue));
             }
             holder.name.setText(holder.name.getText() + "-默认");
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 holder.name.setTextColor(mContext.getColor(R.color.black));
             } else {
-                holder.name.setTextColor(mContext.getResources().getColor(R.color.black));
+                holder.name.setTextColor(mContext.getResources().getColor(
+                        R.color.black));
             }
         }
         if (isEdit) {
@@ -86,16 +90,20 @@ public class KeyListAdapter extends AbsListAdapter<RadixLock> {
             if (selectedSet.contains(lock)) {
                 // 选中
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    holder.chooseIv.setImageDrawable(mContext.getDrawable(R.drawable.checkbox_yes));
+                    holder.chooseIv.setImageDrawable(mContext
+                            .getDrawable(R.drawable.checkbox_yes));
                 } else {
-                    holder.chooseIv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.checkbox_yes));
+                    holder.chooseIv.setImageDrawable(mContext.getResources()
+                            .getDrawable(R.drawable.checkbox_yes));
                 }
             } else {
                 // 没选中
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    holder.chooseIv.setImageDrawable(mContext.getDrawable(R.drawable.checkbox_no));
+                    holder.chooseIv.setImageDrawable(mContext
+                            .getDrawable(R.drawable.checkbox_no));
                 } else {
-                    holder.chooseIv.setImageDrawable(mContext.getResources().getDrawable(R.drawable.checkbox_no));
+                    holder.chooseIv.setImageDrawable(mContext.getResources()
+                            .getDrawable(R.drawable.checkbox_no));
                 }
             }
         } else {
@@ -111,15 +119,15 @@ public class KeyListAdapter extends AbsListAdapter<RadixLock> {
     public void setEdit(boolean isEdit) {
         this.isEdit = isEdit;
     }
-    
+
     public void selectAll() {
         selectedSet.addAll(mList);
     }
-    
+
     public void deselectAll() {
         selectedSet.clear();
     }
-    
+
     public boolean isSelectAll() {
         return selectedSet.containsAll(mList);
     }

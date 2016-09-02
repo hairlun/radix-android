@@ -3,26 +3,26 @@ package com.patr.radix.bean;
 import java.io.Serializable;
 
 public class Notice implements Serializable {
-    
+
     /**
      * 
      */
     private static final long serialVersionUID = 3812703509997465049L;
 
     private String id;
-    
+
     private String title;
-    
+
     private String content;
-    
+
     private String sentDate;
-    
+
     private String readTime;
-    
+
     private String imgUrl;
-    
+
     private String from;
-    
+
     private boolean isVideo;
 
     public String getId() {

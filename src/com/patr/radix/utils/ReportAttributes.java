@@ -31,7 +31,6 @@
  */
 package com.patr.radix.utils;
 
-
 import java.util.HashMap;
 
 /**
@@ -39,7 +38,7 @@ import java.util.HashMap;
  */
 public class ReportAttributes {
 
-    //Report References id
+    // Report References id
     public static String MOUSE_REPORT_REFERENCE = "1";
     public static final String MOUSE_REPORT_REFERENCE_STRING = "Report ID: MOUSE_REPORT_REFERENCE";
     public static String KEYBOARD_REPORT_REFERENCE = "2";
@@ -53,7 +52,7 @@ public class ReportAttributes {
     public static String AUDIO_REPORT_REFERENCE_DATA = "30";
     public static final String AUDIO_REPORT_REFERENCE_DATA_STRING = "Report ID: AUDIO_REPORT_REFERENCE_DATA";
 
-    //Report Reference Types
+    // Report Reference Types
     public static String INPUT_REPORT_TYPE = "1";
     public static final String INPUT_REPORT_TYPE_STRING = "Report Type: Input Report";
     public static String OUTPUT_REPORT_TYPE = "2";
@@ -61,7 +60,7 @@ public class ReportAttributes {
     public static String FEATURE_REPORT_TYPE = "3";
     public static final String FEATURE_REPORT_TYPE_STRING = "Report Type: Feature Report";
 
-    //Report Values String Compare
+    // Report Values String Compare
     public static String POWER = "3000";
     public static String VOLUME_PLUS = "e900";
     public static String VOLUME_MINUS = "ea00";
@@ -78,23 +77,31 @@ public class ReportAttributes {
     public static String RIGHT_CLICK_DOWN = "0200000000";
     public static String GESTURE_ON = "0000FF0000";
 
-
     private static HashMap<String, String> referenceAttributes = new HashMap<String, String>();
     private static HashMap<String, String> referenceAttributesType = new HashMap<String, String>();
     private static HashMap<String, Integer> reportvalues = new HashMap<String, Integer>();
 
     static {
 
-        referenceAttributes.put(MOUSE_REPORT_REFERENCE, MOUSE_REPORT_REFERENCE_STRING);
-        referenceAttributes.put(KEYBOARD_REPORT_REFERENCE, KEYBOARD_REPORT_REFERENCE_STRING);
-        referenceAttributes.put(MULTIMEDIA_REPORT_REFERENCE, MULTIMEDIA_REPORT_REFERENCE_STRING);
-        referenceAttributes.put(POWER_REPORT_REFERENCE, POWER_REPORT_REFERENCE_STRING);
-        referenceAttributes.put(AUDIO_REPORT_REFERENCE_CONTROL, AUDIO_REPORT_REFERENCE_CONTROL_STRING);
-        referenceAttributes.put(AUDIO_REPORT_REFERENCE_DATA, AUDIO_REPORT_REFERENCE_DATA_STRING);
+        referenceAttributes.put(MOUSE_REPORT_REFERENCE,
+                MOUSE_REPORT_REFERENCE_STRING);
+        referenceAttributes.put(KEYBOARD_REPORT_REFERENCE,
+                KEYBOARD_REPORT_REFERENCE_STRING);
+        referenceAttributes.put(MULTIMEDIA_REPORT_REFERENCE,
+                MULTIMEDIA_REPORT_REFERENCE_STRING);
+        referenceAttributes.put(POWER_REPORT_REFERENCE,
+                POWER_REPORT_REFERENCE_STRING);
+        referenceAttributes.put(AUDIO_REPORT_REFERENCE_CONTROL,
+                AUDIO_REPORT_REFERENCE_CONTROL_STRING);
+        referenceAttributes.put(AUDIO_REPORT_REFERENCE_DATA,
+                AUDIO_REPORT_REFERENCE_DATA_STRING);
 
-        referenceAttributesType.put(INPUT_REPORT_TYPE, INPUT_REPORT_TYPE_STRING);
-        referenceAttributesType.put(OUTPUT_REPORT_TYPE, OUTPUT_REPORT_TYPE_STRING);
-        referenceAttributesType.put(FEATURE_REPORT_TYPE, FEATURE_REPORT_TYPE_STRING);
+        referenceAttributesType
+                .put(INPUT_REPORT_TYPE, INPUT_REPORT_TYPE_STRING);
+        referenceAttributesType.put(OUTPUT_REPORT_TYPE,
+                OUTPUT_REPORT_TYPE_STRING);
+        referenceAttributesType.put(FEATURE_REPORT_TYPE,
+                FEATURE_REPORT_TYPE_STRING);
 
         reportvalues.put(POWER, 101);
         reportvalues.put(VOLUME_PLUS, 102);

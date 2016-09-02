@@ -3,20 +3,19 @@ package com.patr.radix.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class GetNoticeListResult extends RequestResult {
 
     /**
      * 
      */
     private static final long serialVersionUID = -2802166331101655269L;
-    
+
     private List<Notice> notices = new ArrayList<Notice>();
-    
+
     private int curPage;
-    
+
     private int totalCount;
-    
+
     private int totalPage;
 
     public GetNoticeListResult(String retcode, String retinfo) {

@@ -31,34 +31,36 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class NoticeFragment extends Fragment implements OnItemClickListener, OnRefreshListener {
-    
+public class NoticeFragment extends Fragment implements OnItemClickListener,
+        OnRefreshListener {
+
     Context context;
-    
+
     TitleBarView titleBarView;
-    
+
     private ListView lv;
-    
+
     private NoticeListAdapter adapter;
-    
+
     private SwipeRefreshLayout swipe;
-    
+
     private int pageNum;
-    
+
     private int totalCount;
-    
+
     private int totalPage;
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		context = activity;
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        context = activity;
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-	    View view = inflater.inflate(R.layout.fragment_notice, container, false);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        View view = inflater
+                .inflate(R.layout.fragment_notice, container, false);
         titleBarView = (TitleBarView) view.findViewById(R.id.notice_titlebar);
         lv = (ListView) view.findViewById(R.id.message_lv);
         swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
@@ -72,61 +74,70 @@ public class NoticeFragment extends Fragment implements OnItemClickListener, OnR
         totalPage = 0;
         loadData();
         return view;
-	}
-	
-	private void loadData() {
-	    // 从服务器获取公告列表
-        ServiceManager.getNoticeList(pageNum, new RequestListener<GetNoticeListResult>() {
+    }
 
-            @Override
-            public void onStart() {
-                swipe.post(new Runnable() {
-                    
+    private void loadData() {
+        // 从服务器获取公告列表
+        ServiceManager.getNoticeList(pageNum,
+                new RequestListener<GetNoticeListResult>() {
+
                     @Override
-                    public void run() {
-                        swipe.setRefreshing(true);
+                    public void onStart() {
+                        swipe.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                swipe.setRefreshing(true);
+                            }
+                        });
                     }
+
+                    @Override
+                    public void onSuccess(int stateCode,
+                            GetNoticeListResult result) {
+                        if (result != null) {
+                            if (result.isSuccesses()) {
+                                List<Notice> notices = result.getNotices();
+                                totalCount = result.getTotalCount();
+                                totalPage = result.getTotalPage();
+                                adapter.set(notices);
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                ToastUtil.showShort(context,
+                                        result.getRetinfo());
+                            }
+                        } else {
+                            // ToastUtil.showShort(context,
+                            // R.string.connect_exception);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, String content) {
+                        // ToastUtil.showShort(context,
+                        // R.string.connect_exception);
+                    }
+
+                    @Override
+                    public void onStopped() {
+                        swipe.setRefreshing(false);
+                    }
+
                 });
-            }
+    }
 
-            @Override
-            public void onSuccess(int stateCode, GetNoticeListResult result) {
-                if (result != null) {
-                    if (result.isSuccesses()) {
-                        List<Notice> notices = result.getNotices();
-                        totalCount = result.getTotalCount();
-                        totalPage = result.getTotalPage();
-                        adapter.set(notices);
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        ToastUtil.showShort(context, result.getRetinfo());
-                    }
-                } else {
-//                    ToastUtil.showShort(context, R.string.connect_exception);
-                }
-            }
+    @Override
+    public void setArguments(Bundle args) {
+        // TODO Auto-generated method stub
+        super.setArguments(args);
+    }
 
-            @Override
-            public void onFailure(Exception error, String content) {
-//                ToastUtil.showShort(context, R.string.connect_exception);
-            }
-            
-            @Override
-            public void onStopped() {
-                swipe.setRefreshing(false);
-            }
-            
-        });
-	}
-
-	@Override
-	public void setArguments(Bundle args) {
-		// TODO Auto-generated method stub
-		super.setArguments(args);
-	}
-
-    /* (non-Javadoc)
-     * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget
+     * .AdapterView, android.view.View, int, long)
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -135,8 +146,12 @@ public class NoticeFragment extends Fragment implements OnItemClickListener, OnR
         NoticeDetailsActivity.start(context, notice.getId());
     }
 
-    /* (non-Javadoc)
-     * @see com.patr.radix.view.swipe.SwipeRefreshLayout.OnRefreshListener#onRefresh(com.patr.radix.view.swipe.SwipeRefreshLayoutDirection)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.patr.radix.view.swipe.SwipeRefreshLayout.OnRefreshListener#onRefresh
+     * (com.patr.radix.view.swipe.SwipeRefreshLayoutDirection)
      */
     @Override
     public void onRefresh(SwipeRefreshLayoutDirection direction) {

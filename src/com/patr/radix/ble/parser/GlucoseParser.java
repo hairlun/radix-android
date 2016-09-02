@@ -56,7 +56,7 @@ public class GlucoseParser {
 
     /**
      * Get the Health Glucose
-     *
+     * 
      * @param characteristic
      * @return ArrayList<String>
      */
@@ -145,83 +145,83 @@ public class GlucoseParser {
 
     /**
      * Get the glucose type
-     *
+     * 
      * @param lowNibbleTtype
      * @return
      */
     private static String glucoseType(int lowNibbleTtype) {
         String glucoseType;
         switch (lowNibbleTtype) {
-            case 0:
-                glucoseType = "Reserved for future use";
-                break;
-            case 1:
-                glucoseType = "Capillary Whole blood";
-                break;
-            case 2:
-                glucoseType = "Capillary Plasma";
-                break;
-            case 3:
-                glucoseType = "Venous Whole blood";
-                break;
-            case 4:
-                glucoseType = "Venous Plasma";
-                break;
-            case 5:
-                glucoseType = "Arterial Whole blood";
-                break;
-            case 6:
-                glucoseType = "Arterial Plasma";
-                break;
-            case 7:
-                glucoseType = "Undetermined Whole blood";
-                break;
-            case 8:
-                glucoseType = "Undetermined Plasma";
-                break;
-            case 9:
-                glucoseType = "Interstitial Fluid (ISF)";
-                break;
-            case 10:
-                glucoseType = "Control Solution";
-                break;
-            default:
-                glucoseType = "Reserved for future use";
-                break;
+        case 0:
+            glucoseType = "Reserved for future use";
+            break;
+        case 1:
+            glucoseType = "Capillary Whole blood";
+            break;
+        case 2:
+            glucoseType = "Capillary Plasma";
+            break;
+        case 3:
+            glucoseType = "Venous Whole blood";
+            break;
+        case 4:
+            glucoseType = "Venous Plasma";
+            break;
+        case 5:
+            glucoseType = "Arterial Whole blood";
+            break;
+        case 6:
+            glucoseType = "Arterial Plasma";
+            break;
+        case 7:
+            glucoseType = "Undetermined Whole blood";
+            break;
+        case 8:
+            glucoseType = "Undetermined Plasma";
+            break;
+        case 9:
+            glucoseType = "Interstitial Fluid (ISF)";
+            break;
+        case 10:
+            glucoseType = "Control Solution";
+            break;
+        default:
+            glucoseType = "Reserved for future use";
+            break;
         }
         return glucoseType;
     }
 
     /**
      * Get the glucose sample location
-     *
+     * 
      * @param highNibbleSampleLocation
      * @return
      */
     private static String glucoseSampleLocation(int highNibbleSampleLocation) {
         String glucoseSampleLocation;
         switch (highNibbleSampleLocation) {
-            case 0:
-                glucoseSampleLocation = "Reserved for future use";
-                break;
-            case 1:
-                glucoseSampleLocation = "Finger";
-                break;
-            case 2:
-                glucoseSampleLocation = "Alternate Site Test (AST)";
-                break;
-            case 3:
-                glucoseSampleLocation = "Earlobe";
-                break;
-            case 4:
-                glucoseSampleLocation = "Control solution";
-                break;
-            case 15:
-                glucoseSampleLocation = "Sample Location value not available";
-                break;
-            default:
-                glucoseSampleLocation = "Reserved for future use";
-                break;
+        case 0:
+            glucoseSampleLocation = "Reserved for future use";
+            break;
+        case 1:
+            glucoseSampleLocation = "Finger";
+            break;
+        case 2:
+            glucoseSampleLocation = "Alternate Site Test (AST)";
+            break;
+        case 3:
+            glucoseSampleLocation = "Earlobe";
+            break;
+        case 4:
+            glucoseSampleLocation = "Control solution";
+            break;
+        case 15:
+            glucoseSampleLocation = "Sample Location value not available";
+            break;
+        default:
+            glucoseSampleLocation = "Reserved for future use";
+            break;
 
         }
         return glucoseSampleLocation;

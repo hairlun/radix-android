@@ -54,7 +54,7 @@ public class RSCParser {
 
     /**
      * Get the Running Speed and Cadence
-     *
+     * 
      * @param characteristic
      * @return ArrayList<String>
      */
@@ -91,9 +91,11 @@ public class RSCParser {
             flag2 = false;
         }
 
-        int receivedVal = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT16, i);
+        int receivedVal = characteristic.getIntValue(
+                BluetoothGattCharacteristic.FORMAT_UINT16, i);
 
-        float value = characteristic.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT16, i).floatValue();
+        float value = characteristic.getIntValue(
+                BluetoothGattCharacteristic.FORMAT_UINT16, i).floatValue();
         f = 3.6F * (value / 256F);
 
         runningSpeed = "" + f;

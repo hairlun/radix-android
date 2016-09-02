@@ -18,7 +18,7 @@ import com.patr.radix.network.IAsyncListener;
 
 /**
  * @author zhoushujie
- *
+ * 
  */
 public class GetLockListParser extends AbsBaseParser<GetLockListResult> {
 
@@ -36,8 +36,12 @@ public class GetLockListParser extends AbsBaseParser<GetLockListResult> {
         super(listener);
     }
 
-    /* (non-Javadoc)
-     * @see com.patr.radix.network.IAsyncListener.ResultParser#parse(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.patr.radix.network.IAsyncListener.ResultParser#parse(java.lang.String
+     * )
      */
     @Override
     public GetLockListResult parse(String response) {
@@ -56,8 +60,10 @@ public class GetLockListParser extends AbsBaseParser<GetLockListResult> {
                         if (obj != null) {
                             String id = obj.optString(ResponseKey.ID);
                             String name = obj.optString(ResponseKey.NAME);
-                            String bleName1 = obj.optString(ResponseKey.BLE_NAME1);
-                            String bleName2 = obj.optString(ResponseKey.BLE_NAME2);
+                            String bleName1 = obj
+                                    .optString(ResponseKey.BLE_NAME1);
+                            String bleName2 = obj
+                                    .optString(ResponseKey.BLE_NAME2);
                             String key = obj.optString(ResponseKey.KEY);
                             String start = obj.optString(ResponseKey.START);
                             String end = obj.optString(ResponseKey.END);

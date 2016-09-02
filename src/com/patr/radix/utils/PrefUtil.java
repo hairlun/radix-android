@@ -15,7 +15,7 @@ import android.content.SharedPreferences;
  * SharedPreferences工具类
  * 
  * @author zhoushujie
- *
+ * 
  */
 public class PrefUtil {
 
@@ -73,7 +73,7 @@ public class PrefUtil {
         save(context, Constants.PREF_TOKEN, userInfo.getToken());
         save(context, Constants.PREF_AREA_PIC, userInfo.getAreaPic());
     }
-    
+
     public static UserInfo getUserInfo(Context context) {
         String account = getString(context, Constants.PREF_ACCOUNT);
         String name = getString(context, Constants.PREF_NAME);
@@ -120,7 +120,7 @@ public class PrefUtil {
     public static String getString(Context context, String key) {
         return getString(PREF_FILE, context, key, "");
     }
-    
+
     /**
      * @param context
      * @param key

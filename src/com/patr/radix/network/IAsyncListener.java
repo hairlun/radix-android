@@ -41,7 +41,7 @@ public interface IAsyncListener<T> {
      * 请求停止
      */
     void onStopped();
-    
+
     /**
      * 请求停止
      */

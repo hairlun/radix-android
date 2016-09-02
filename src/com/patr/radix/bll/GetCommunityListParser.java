@@ -18,7 +18,7 @@ import com.patr.radix.network.IAsyncListener;
 
 /**
  * @author zhoushujie
- *
+ * 
  */
 public class GetCommunityListParser extends
         AbsBaseParser<GetCommunityListResult> {
@@ -35,8 +35,12 @@ public class GetCommunityListParser extends
         super(listener);
     }
 
-    /* (non-Javadoc)
-     * @see com.patr.radix.network.IAsyncListener.ResultParser#parse(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.patr.radix.network.IAsyncListener.ResultParser#parse(java.lang.String
+     * )
      */
     @Override
     public GetCommunityListResult parse(String response) {

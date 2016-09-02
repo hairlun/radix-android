@@ -43,7 +43,7 @@ public class GattAttributes {
     /**
      * Services
      */
-    //有人服务
+    // 有人服务
     public final static String USR_SERVICE = "0003cdd0-0000-1000-8000-00805f9b0131";
 
     public static final String HEART_RATE_SERVICE = "0000180d-0000-1000-8000-00805f9b34fb";
@@ -66,7 +66,8 @@ public class GattAttributes {
     public static final String CSC_SERVICE = "00001816-0000-1000-8000-00805f9b34fb";
     public static final String HUMAN_INTERFACE_DEVICE_SERVICE = "00001812-0000-1000-8000-00805f9b34fb";
     public static final String SCAN_PARAMETERS_SERVICE = "00001813-0000-1000-8000-00805f9b34fb";
-    // public static final String OTA_UPDATE_SERVICE = "00060000-0000-1000-8000-00805f9b34fb";
+    // public static final String OTA_UPDATE_SERVICE =
+    // "00060000-0000-1000-8000-00805f9b34fb";
     public static final String OTA_UPDATE_SERVICE = "00060000-f8ce-11e4-abf4-0002a5d5c51b";
     /**
      * Unused service UUIDS
@@ -187,7 +188,8 @@ public class GattAttributes {
     /**
      * OTA Characteristic
      */
-    //public static final String OTA_CHARACTERISTIC = "00060001-0000-1000-8000-00805F9B34fb";
+    // public static final String OTA_CHARACTERISTIC =
+    // "00060001-0000-1000-8000-00805F9B34fb";
     public static final String OTA_CHARACTERISTIC = "00060001-f8ce-11e4-abf4-0002a5d5c51b";
     /**
      * Descriptor UUID's
@@ -306,7 +308,7 @@ public class GattAttributes {
     static {
 
         // Services.
-        attributes.put(USR_SERVICE,"USR Service");
+        attributes.put(USR_SERVICE, "USR Service");
         attributes.put(HEART_RATE_SERVICE, "Heart Rate Service");
         attributes.put(HEALTH_THERMO_SERVICE, "Health Thermometer Service");
         attributes.put(GENERIC_ACCESS_SERVICE, "Generic Access Service");
@@ -437,17 +439,19 @@ public class GattAttributes {
         attributes.put(TEMPERATURE_SENSOR_SCAN_INTERVAL,
                 "Temperature Sensor Scan Interval");
 
-        //HID Characteristics
+        // HID Characteristics
         attributes.put(PROTOCOL_MODE, "Protocol Mode");
         attributes.put(REP0RT, "Report");
         attributes.put(REPORT_MAP, "Report Map");
-        attributes.put(BOOT_KEYBOARD_INPUT_REPORT, "Boot Keyboard Input Report");
-        attributes.put(BOOT_KEYBOARD_OUTPUT_REPORT, "Boot Keyboard Output Report");
+        attributes
+                .put(BOOT_KEYBOARD_INPUT_REPORT, "Boot Keyboard Input Report");
+        attributes.put(BOOT_KEYBOARD_OUTPUT_REPORT,
+                "Boot Keyboard Output Report");
         attributes.put(BOOT_MOUSE_INPUT_REPORT, "Boot Mouse Input Report");
         attributes.put(HID_CONTROL_POINT, "HID Control Point");
         attributes.put(HID_INFORMATION, "HID Information");
 
-        //OTA Characteristics
+        // OTA Characteristics
         attributes.put(OTA_UPDATE_SERVICE, "Bootloader Service");
         attributes.put(OTA_CHARACTERISTIC, "Bootloader Data Characteristic");
 
@@ -470,27 +474,34 @@ public class GattAttributes {
         attributes.put(APPARENT_WIND_SPEED, "Apparent Wind Speed");
         attributes.put(APPEARANCE, "Appearance");
         attributes.put(BAROMETRIC_PRESSURE_TREND, "Barometric pressure Trend");
-        attributes.put(BLOOD_PRESSURE_MEASUREMENT, "Blood Pressure Measurement");
+        attributes
+                .put(BLOOD_PRESSURE_MEASUREMENT, "Blood Pressure Measurement");
         attributes.put(BODY_COMPOSITION_FEATURE, "Body Composition Feature");
-        attributes.put(BODY_COMPOSITION_MEASUREMENT, "Body Composition Measurement");
-        attributes.put(BOND_MANAGEMENT_CONTROL_POINT, "Bond Management Control Point");
+        attributes.put(BODY_COMPOSITION_MEASUREMENT,
+                "Body Composition Measurement");
+        attributes.put(BOND_MANAGEMENT_CONTROL_POINT,
+                "Bond Management Control Point");
         attributes.put(BOND_MANAGEMENT_FEATURE, "Bond Management feature");
         attributes.put(CGM_FEATURE, "CGM Feature");
-        attributes.put(CENTRAL_ADDRESS_RESOLUTION, "Central Address Resolution");
+        attributes
+                .put(CENTRAL_ADDRESS_RESOLUTION, "Central Address Resolution");
         attributes.put(FIRSTNAME, "First Name");
         attributes.put(GUST_FACTOR, "Gust Factor");
         attributes.put(CGM_MEASUREMENT, "CGM Measurement");
         attributes.put(CGM_SESSION_RUN_TIME, "CGM Session Run Time");
         attributes.put(CGM_SESSION_START_TIME, "CGM Session Start Time");
-        attributes.put(CGM_SPECIFIC_OPS_CONTROL_POINT, "CGM Specific Ops Control Point");
+        attributes.put(CGM_SPECIFIC_OPS_CONTROL_POINT,
+                "CGM Specific Ops Control Point");
         attributes.put(CGM_STATUS, "CGM Status");
-        attributes.put(CYCLING_POWER_CONTROL_POINT, "Cycling Power Control Point");
+        attributes.put(CYCLING_POWER_CONTROL_POINT,
+                "Cycling Power Control Point");
         attributes.put(CYCLING_POWER_VECTOR, "Cycling Power Vector");
         attributes.put(CYCLING_POWER_FEATURE, "Cycling Power Feature");
         attributes.put(CYCLING_POWER_MEASUREMENT, "Cycling Power Measurement");
         attributes.put(DATABASE_CHANGE_INCREMENT, "Database Change Increment");
         attributes.put(DATE_OF_BIRTH, "Date Of Birth");
-        attributes.put(DATE_OF_THRESHOLD_ASSESSMENT, "Date Of Threshold Assessment");
+        attributes.put(DATE_OF_THRESHOLD_ASSESSMENT,
+                "Date Of Threshold Assessment");
         attributes.put(DATE_TIME, "Date Time");
         attributes.put(DAY_DATE_TIME, "Day Date Time");
         attributes.put(DAY_OF_WEEK, "Day Of Week");
@@ -501,10 +512,13 @@ public class GattAttributes {
         attributes.put(ELEVATION, "Elevation");
         attributes.put(EMAIL_ADDRESS, "Email Address");
         attributes.put(EXACT_TIME_256, "Exact Time 256");
-        attributes.put(FAT_BURN_HEART_RATE_LOWER_LIMIT, "Fat Burn Heart Rate lower Limit");
-        attributes.put(FAT_BURN_HEART_RATE_UPPER_LIMIT, "Fat Burn Heart Rate Upper Limit");
+        attributes.put(FAT_BURN_HEART_RATE_LOWER_LIMIT,
+                "Fat Burn Heart Rate lower Limit");
+        attributes.put(FAT_BURN_HEART_RATE_UPPER_LIMIT,
+                "Fat Burn Heart Rate Upper Limit");
         attributes.put(FIRMWARE_REVISION_STRING, "Firmware Revision String");
-        attributes.put(FIVE_ZONE_HEART_RATE_LIMITS, "Five Zone Heart Rate Limits");
+        attributes.put(FIVE_ZONE_HEART_RATE_LIMITS,
+                "Five Zone Heart Rate Limits");
         attributes.put(MANUFACTURE_NAME_STRING, "Manufacturer Name String");
         attributes.put(GENDER, "Gender");
         attributes.put(GLUCOSE_FEATURE, "Glucose Feature");
@@ -514,7 +528,8 @@ public class GattAttributes {
         attributes.put(HEIGHT, "Height");
         attributes.put(HIP_CIRCUMFERENCE, "Hip Circumference");
         attributes.put(HUMIDITY, "Humidity");
-        attributes.put(INTERMEDIATE_CUFF_PRESSURE, "Intermediate Cuff Pressure");
+        attributes
+                .put(INTERMEDIATE_CUFF_PRESSURE, "Intermediate Cuff Pressure");
         attributes.put(INTERMEDIATE_TEMPERATURE, "Intermediate Temperature");
         attributes.put(IRRADIANCE, "Irradiance");
         attributes.put(LANGUAGE, "Language");
@@ -526,43 +541,53 @@ public class GattAttributes {
         attributes.put(MAGNETIC_DECLINATION, "Magenetic Declination");
         attributes.put(MAGNETIC_FLUX_DENSITY_2D, "Magentic Flux Density 2D");
         attributes.put(MAGNETIC_FLUX_DENSITY_3D, "Magentic Flux Density 3D");
-        attributes.put(MAXIMUM_RECOMMENDED_HEART_RATE, "Maximum Recommended Heart Rate");
+        attributes.put(MAXIMUM_RECOMMENDED_HEART_RATE,
+                "Maximum Recommended Heart Rate");
         attributes.put(MEASUREMENT_INTERVAL, "Measurement Interval");
         attributes.put(MODEL_NUMBER_STRING, "Model Number String");
         attributes.put(NEW_ALERT, "New Alert");
         attributes.put(NAVIGATION, "Navigation");
-        attributes.put(PERIPHERAL_PREFERRED_CONNECTION_PARAMETERS, "Peripheral Preferred Connection Parameters");
+        attributes.put(PERIPHERAL_PREFERRED_CONNECTION_PARAMETERS,
+                "Peripheral Preferred Connection Parameters");
         attributes.put(PERIPHERAL_PRIVACY_FLAG, "Peripheral Privacy Flag");
         attributes.put(POLLEN_CONCENTRATION, "Pollen Concentration");
         attributes.put(POSITION_QUALITY, "Position Quality");
         attributes.put(PRESSURE, "Pressure");
 
-
         // Descriptors
-        attributes.put(CHARACTERISTIC_EXTENDED_PROPERTIES, "Characteristic Extended Properties");
-        attributes.put(CHARACTERISTIC_USER_DESCRIPTION, "Characteristic User Description");
-        attributes.put(CLIENT_CHARACTERISTIC_CONFIG, "Client Characteristic Configuration");
-        attributes.put(SERVER_CHARACTERISTIC_CONFIGURATION, "Server Characteristic Configuration");
-        attributes.put(CHARACTERISTIC_PRESENTATION_FORMAT, "Characteristic Presentation Format");
-        attributes.put(CHARACTERISTIC_AGGREGATE_FORMAT, "Characteristic Aggregate Format");
+        attributes.put(CHARACTERISTIC_EXTENDED_PROPERTIES,
+                "Characteristic Extended Properties");
+        attributes.put(CHARACTERISTIC_USER_DESCRIPTION,
+                "Characteristic User Description");
+        attributes.put(CLIENT_CHARACTERISTIC_CONFIG,
+                "Client Characteristic Configuration");
+        attributes.put(SERVER_CHARACTERISTIC_CONFIGURATION,
+                "Server Characteristic Configuration");
+        attributes.put(CHARACTERISTIC_PRESENTATION_FORMAT,
+                "Characteristic Presentation Format");
+        attributes.put(CHARACTERISTIC_AGGREGATE_FORMAT,
+                "Characteristic Aggregate Format");
         attributes.put(VALID_RANGE, "Valid Range");
         attributes.put(EXTERNAL_REPORT_REFERENCE, "External Report Reference");
         attributes.put(REPORT_REFERENCE, "Report Reference");
-        attributes.put(ENVIRONMENTAL_SENSING_CONFIGURATION, "Environmental Sensing Configuration");
-        attributes.put(ENVIRONMENTAL_SENSING_MEASUREMENT, "Environmental Sensing Measurement");
-        attributes.put(ENVIRONMENTAL_SENSING_TRIGGER_SETTING, "Environmental Sensing Trigger Setting");
+        attributes.put(ENVIRONMENTAL_SENSING_CONFIGURATION,
+                "Environmental Sensing Configuration");
+        attributes.put(ENVIRONMENTAL_SENSING_MEASUREMENT,
+                "Environmental Sensing Measurement");
+        attributes.put(ENVIRONMENTAL_SENSING_TRIGGER_SETTING,
+                "Environmental Sensing Trigger Setting");
 
         // Running Speed Characteristics
-        attributes.put(RSC_MEASUREMENT, "Running Speed and Cadence Measurement");
+        attributes
+                .put(RSC_MEASUREMENT, "Running Speed and Cadence Measurement");
         attributes.put(RSC_FEATURE, "Running Speed and Cadence Feature");
         attributes.put(SC_CONTROL_POINT, "Speed and Cadence Control Point");
         attributes.put(SC_SENSOR_LOCATION, "Speed and Cadence Sensor Location");
 
         // Cycling Speed Characteristics
-        attributes.put(CSC_MEASUREMENT, "Cycling Speed and Cadence Measurement");
+        attributes
+                .put(CSC_MEASUREMENT, "Cycling Speed and Cadence Measurement");
         attributes.put(CSC_FEATURE, "Cycling Speed and Cadence Feature");
-
-
 
         // Capsense Characteristics
         attributesCapSense.put(CAPSENSE_SERVICE, "CapSense Services");
@@ -609,26 +634,20 @@ public class GattAttributes {
 
     }
 
-
     public static String lookup(String uuid, String defaultName) {
         String name = attributes.get(uuid);
         return name == null ? defaultName : name;
     }
-
-
 
     public static String lookupNameCapSense(String uuid, String defaultName) {
         String name = attributesCapSense.get(uuid);
         return name == null ? defaultName : name;
     }
 
-
-
     public static String lookCharacteristicPresentationFormat(String key) {
         String value = descriptorAttributes.get(key);
         return value == null ? "Reserved" : value;
     }
-
 
     public static boolean lookupreqHRMCharacateristics(String uuid) {
         String name = attributes.get(uuid);

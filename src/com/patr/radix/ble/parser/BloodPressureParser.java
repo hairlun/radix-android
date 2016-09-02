@@ -40,7 +40,6 @@ import java.util.logging.Logger;
 import com.patr.radix.R;
 import com.patr.radix.utils.Constants;
 
-
 /**
  * Class used for parsing Blood pressure related information
  */
@@ -48,7 +47,7 @@ public class BloodPressureParser {
 
     /**
      * Get the Blood Pressure
-     *
+     * 
      * @param characteristic
      * @return string
      */
@@ -64,6 +63,7 @@ public class BloodPressureParser {
 
     /**
      * Returns the Systolic pressure
+     * 
      * @param characteristic
      * @return
      */
@@ -82,7 +82,8 @@ public class BloodPressureParser {
     }
 
     /**
-     * Returns the  Diastolic pressure
+     * Returns the Diastolic pressure
+     * 
      * @param characteristic
      * @return
      */
@@ -108,17 +109,16 @@ public class BloodPressureParser {
         return unit;
     }
 
-
     /**
      * Checking the unitsFlag of blood Pressure
-     *
+     * 
      * @param flags
      * @return
      */
     private static boolean BloodPressureUnitsFlagSet(byte flags) {
-        if ((flags & Constants.FIRST_BITMASK) != 0){
+        if ((flags & Constants.FIRST_BITMASK) != 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
 

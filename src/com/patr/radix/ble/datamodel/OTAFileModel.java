@@ -37,11 +37,11 @@ package com.patr.radix.ble.datamodel;
  */
 public class OTAFileModel {
     /**
-     *File name
+     * File name
      */
     private String mFileName = null;
     /**
-     *File path
+     * File path
      */
     private String mFilePath = null;
     /**
@@ -49,14 +49,14 @@ public class OTAFileModel {
      */
     private String mFileParent = null;
     /**
-     *Selection Flag
-     *
+     * Selection Flag
+     * 
      */
     private boolean selected = false;
 
-
     // Constructor
-    public OTAFileModel(String fileName, String filePath, boolean selected, String fileParent) {
+    public OTAFileModel(String fileName, String filePath, boolean selected,
+            String fileParent) {
         super();
         this.mFileName = fileName;
         this.mFilePath = filePath;

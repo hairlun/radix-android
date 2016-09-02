@@ -58,7 +58,7 @@ public class CSCParser {
 
     /**
      * Get the Running Speed and Cadence
-     *
+     * 
      * @param characteristic
      * @return ArrayList<String>
      */

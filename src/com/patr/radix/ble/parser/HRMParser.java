@@ -1,4 +1,5 @@
 package com.patr.radix.ble.parser;
+
 /*
  * Copyright Cypress Semiconductor Corporation, 2014-2015 All rights reserved.
  * 
@@ -42,15 +43,16 @@ public class HRMParser {
     private static final int FIRST_BITMASK = 0x01;
     private static final int FOURTH_BITMASK = FIRST_BITMASK << 3;
     private static final int FIFTH_BITMASK = FIRST_BITMASK << 4;
+
     /**
      * Getting the heart rate
-     *
+     * 
      * @param characteristic
      * @return String
      */
     public static String getHeartRate(BluetoothGattCharacteristic characteristic) {
 
-          int format = -1;
+        int format = -1;
         if (isHeartRateInUINT16(characteristic.getValue()[0])) {
             format = BluetoothGattCharacteristic.FORMAT_UINT16;
         } else {
@@ -59,9 +61,10 @@ public class HRMParser {
         final int heartRate = characteristic.getIntValue(format, 1);
         return String.valueOf(heartRate);
     }
+
     /**
      * Getting the Energy Expended
-     *
+     * 
      * @param characteristic
      * @return String
      */
@@ -85,7 +88,7 @@ public class HRMParser {
 
     /**
      * Getting the RR-Interval
-     *
+     * 
      * @param characteristic
      * @return ArrayList
      */
@@ -137,7 +140,7 @@ public class HRMParser {
 
     /**
      * Checking the RR-Interval Flag
-     *
+     * 
      * @param flags
      * @return boolean
      */
@@ -149,7 +152,7 @@ public class HRMParser {
 
     /**
      * Checking the Energy Expended Flag
-     *
+     * 
      * @param flags
      * @return boolean
      */
@@ -161,7 +164,7 @@ public class HRMParser {
 
     /**
      * Checking the Heart rate value format Flag
-     *
+     * 
      * @param flags
      * @return boolean
      */
@@ -179,31 +182,31 @@ public class HRMParser {
                 stringBuilder.append(String.format("%02X ", byteChar));
             int body_sensor = Integer.valueOf(stringBuilder.toString().trim());
             switch (body_sensor) {
-                case 0:
-                    body_sensor_location = "Other";
-                    break;
-                case 1:
-                    body_sensor_location = "Chest";
-                    break;
-                case 2:
-                    body_sensor_location = "Wrist";
-                    break;
-                case 3:
-                    body_sensor_location = "Finger";
-                    break;
-                case 4:
-                    body_sensor_location = "Hand";
-                    break;
-                case 5:
-                    body_sensor_location = "Ear Lobe";
-                    break;
-                case 6:
-                    body_sensor_location = "Foot";
-                    break;
+            case 0:
+                body_sensor_location = "Other";
+                break;
+            case 1:
+                body_sensor_location = "Chest";
+                break;
+            case 2:
+                body_sensor_location = "Wrist";
+                break;
+            case 3:
+                body_sensor_location = "Finger";
+                break;
+            case 4:
+                body_sensor_location = "Hand";
+                break;
+            case 5:
+                body_sensor_location = "Ear Lobe";
+                break;
+            case 6:
+                body_sensor_location = "Foot";
+                break;
 
-                default:
-                    body_sensor_location = "Reserved for future use";
-                    break;
+            default:
+                body_sensor_location = "Reserved for future use";
+                break;
             }
 
         }

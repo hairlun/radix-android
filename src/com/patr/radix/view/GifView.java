@@ -16,7 +16,7 @@ import android.view.View;
 
 /**
  * @author zhoushujie
- *
+ * 
  */
 public class GifView extends View {
 

@@ -12,7 +12,7 @@ public abstract class RequestListener<T> implements IAsyncListener<T> {
     public void onSuccess(T result) {
 
     }
-    
+
     @Override
     public void onSuccess(int stateCode, T result) {
 

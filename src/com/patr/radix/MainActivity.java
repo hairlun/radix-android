@@ -1,6 +1,5 @@
 package com.patr.radix;
 
-
 import com.patr.radix.ble.BluetoothLeService;
 import com.patr.radix.utils.TabDb;
 import com.yuntongxun.ecdemo.common.ECContentObservers;

@@ -51,8 +51,11 @@ public class LoginParser extends AbsBaseParser<LoginResult> {
                         userInfo.setHome(home);
                         userInfo.setToken(token);
                         if (!areaPic.startsWith("http")) {
-                            Community community = MyApplication.instance.getSelectedCommunity();
-                            areaPic = String.format("%s:%s%s", community.getHost(), community.getPort(), areaPic);
+                            Community community = MyApplication.instance
+                                    .getSelectedCommunity();
+                            areaPic = String.format("%s:%s%s",
+                                    community.getHost(), community.getPort(),
+                                    areaPic);
                         }
                         userInfo.setAreaPic(areaPic);
                         result.setUserInfo(userInfo);

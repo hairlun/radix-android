@@ -32,12 +32,12 @@ import android.widget.TextView;
  * 手势密码设置验证界面
  * 
  * @author zhoushujie
- *
+ * 
  */
 public class LockValidateActivity extends Activity implements OnPatternListener {
 
     Context context;
-    
+
     private TitleBarView titleBarView;
 
     /** 手势密码界面 */
@@ -48,12 +48,12 @@ public class LockValidateActivity extends Activity implements OnPatternListener 
 
     /** 密码数据 */
     private List<Cell> lockPattern;
-    
+
     private int requestCode;
 
     /** 手势密码错误的次数 */
     private int wrongCount;
-    
+
     private static final int LOCK_WRONG_MAX = 5;
 
     @Override
@@ -61,8 +61,10 @@ public class LockValidateActivity extends Activity implements OnPatternListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lock_setup);
         context = this;
-        requestCode = getIntent().getIntExtra("requestCode", Constants.LOCK_CHECK);
-        String patternString = PrefUtil.getString(context, Constants.PREF_LOCK_KEY, null);
+        requestCode = getIntent().getIntExtra("requestCode",
+                Constants.LOCK_CHECK);
+        String patternString = PrefUtil.getString(context,
+                Constants.PREF_LOCK_KEY, null);
         if (TextUtils.isEmpty(patternString)) {
             finish();
             return;
@@ -71,7 +73,7 @@ public class LockValidateActivity extends Activity implements OnPatternListener 
 
         initView();
     }
-    
+
     private void initView() {
         titleBarView = (TitleBarView) findViewById(R.id.lock_settings_titlebar);
         if (requestCode == Constants.LOCK_CLEAR) {
@@ -140,7 +142,8 @@ public class LockValidateActivity extends Activity implements OnPatternListener 
      * @param requestCode
      */
     public static void startForResult(Fragment fragment, int requestCode) {
-        Intent intent = new Intent(fragment.getActivity(), LockValidateActivity.class);
+        Intent intent = new Intent(fragment.getActivity(),
+                LockValidateActivity.class);
         intent.putExtra("requestCode", requestCode);
         fragment.startActivityForResult(intent, requestCode);
     }

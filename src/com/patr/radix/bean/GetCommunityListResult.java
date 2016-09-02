@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @author zhoushujie
- *
+ * 
  */
 public class GetCommunityListResult extends RequestResult {
 
@@ -19,7 +19,7 @@ public class GetCommunityListResult extends RequestResult {
      * 
      */
     private static final long serialVersionUID = 7359233401956300144L;
-    
+
     private List<Community> communities = new ArrayList<Community>();
 
     /**

@@ -61,8 +61,8 @@ public class DescriptorParser {
     private static String broadcastEnabled = "Broadcasts enabled";
     private static String broadcastDisabled = "Broadcasts disabled";
 
-
-    public static String getClientCharacteristicConfiguration(BluetoothGattDescriptor descriptor) {
+    public static String getClientCharacteristicConfiguration(
+            BluetoothGattDescriptor descriptor) {
         String valueConverted = "";
         byte[] array = descriptor.getValue();
         StringBuffer sb = new StringBuffer();
@@ -79,7 +79,8 @@ public class DescriptorParser {
         return valueConverted;
     }
 
-    public static HashMap<String, String> getCharacteristicExtendedProperties(BluetoothGattDescriptor descriptor) {
+    public static HashMap<String, String> getCharacteristicExtendedProperties(
+            BluetoothGattDescriptor descriptor) {
         HashMap<String, String> valuesMap = new HashMap<String, String>();
 
         String reliableWriteStatus;
@@ -102,13 +103,15 @@ public class DescriptorParser {
         return valuesMap;
     }
 
-    public static String getCharacteristicUserDescription(BluetoothGattDescriptor descriptor) {
+    public static String getCharacteristicUserDescription(
+            BluetoothGattDescriptor descriptor) {
         Charset UTF8_CHARSET = Charset.forName("UTF-8");
         byte[] valueEncoded = descriptor.getValue();
         return new String(valueEncoded, UTF8_CHARSET);
     }
 
-    public static String getServerCharacteristicConfiguration(BluetoothGattDescriptor descriptor) {
+    public static String getServerCharacteristicConfiguration(
+            BluetoothGattDescriptor descriptor) {
         byte firstBit = descriptor.getValue()[0];
         String broadcastStatus;
         if ((firstBit & 0x01) != 0) {
@@ -119,24 +122,29 @@ public class DescriptorParser {
         return broadcastStatus;
     }
 
-    public static ArrayList<String> getReportReference(BluetoothGattDescriptor descriptor) {
+    public static ArrayList<String> getReportReference(
+            BluetoothGattDescriptor descriptor) {
         ArrayList<String> reportReferencevalues = new ArrayList<String>(2);
         byte[] array = descriptor.getValue();
         String reportReferenceID = "";
         String reportTYpe = "";
         if (array != null && array.length == 2) {
-            reportReferenceID = ReportAttributes.lookupReportReferenceID("" + array[0]);
-            reportTYpe = ReportAttributes.lookupReportReferenceType("" + array[1]);
+            reportReferenceID = ReportAttributes.lookupReportReferenceID(""
+                    + array[0]);
+            reportTYpe = ReportAttributes.lookupReportReferenceType(""
+                    + array[1]);
             reportReferencevalues.add(reportReferenceID);
             reportReferencevalues.add(reportTYpe);
         }
         return reportReferencevalues;
     }
 
-    public static String getCharacteristicPresentationFormat(BluetoothGattDescriptor descriptor) {
+    public static String getCharacteristicPresentationFormat(
+            BluetoothGattDescriptor descriptor) {
         String value = "";
         String formatKey = String.valueOf(descriptor.getValue()[0]);
-        String formatValue = GattAttributes.lookCharacteristicPresentationFormat(formatKey);
+        String formatValue = GattAttributes
+                .lookCharacteristicPresentationFormat(formatKey);
         String exponentValue = String.valueOf(descriptor.getValue()[1]);
         byte unit1 = descriptor.getValue()[2];
         byte unit2 = descriptor.getValue()[3];
@@ -148,11 +156,10 @@ public class DescriptorParser {
             namespaceValue = "Reserved for future use";
         }
         String descriptionValue = String.valueOf(descriptor.getValue()[5]);
-        value = "Format : " + formatValue + "\n" +
-                "Exponent : " + exponentValue + "\n" +
-                "Unit : " + unitValue + "\n" +
-                "Namespace : " + namespaceValue + "\n" +
-                "Description : " + descriptionValue;
+        value = "Format : " + formatValue + "\n" + "Exponent : "
+                + exponentValue + "\n" + "Unit : " + unitValue + "\n"
+                + "Namespace : " + namespaceValue + "\n" + "Description : "
+                + descriptionValue;
         return value;
     }
 

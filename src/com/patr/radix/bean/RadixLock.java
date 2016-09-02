@@ -10,29 +10,29 @@ import java.io.Serializable;
 
 /**
  * @author zhoushujie
- *
+ * 
  */
 public class RadixLock implements Serializable {
-    
+
     /**
      * 
      */
     private static final long serialVersionUID = -4531879147539004767L;
-    
+
     private String id;
 
     private String name;
-    
+
     private String bleName1;
-    
+
     private String bleName2;
-    
+
     private String key;
-    
+
     private String start;
-    
+
     private String end;
-    
+
     private int ctrId;
 
     public String getId() {

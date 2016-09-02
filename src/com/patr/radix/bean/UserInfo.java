@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 /**
  * @author zhoushujie
- *
+ * 
  */
 public class UserInfo implements Serializable {
 
@@ -18,23 +18,23 @@ public class UserInfo implements Serializable {
      * 
      */
     private static final long serialVersionUID = -5351676968034757995L;
-    
+
     private String id;
 
     private String account;
-    
+
     private String areaId;
-    
+
     private String areaName;
-    
+
     private String name;
-    
+
     private String home;
-    
+
     private String mobile;
-    
+
     private String areaPic;
-    
+
     private String token;
 
     public String getId() {
@@ -108,5 +108,5 @@ public class UserInfo implements Serializable {
     public void setToken(String token) {
         this.token = token;
     }
-    
+
 }

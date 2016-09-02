@@ -78,47 +78,37 @@ public class BluetoothLeService extends Service {
     /**
      * GATT Status constants
      */
-    public final static String ACTION_GATT_CONNECTED =
-            "com.usr.bluetooth.le.ACTION_GATT_CONNECTED";
-    public final static String ACTION_GATT_DISCONNECTED =
-            "com.usr.bluetooth.le.ACTION_GATT_DISCONNECTED";
-    public final static String ACTION_GATT_DISCONNECTED_CAROUSEL =
-            "com.usr.bluetooth.le.ACTION_GATT_DISCONNECTED_CAROUSEL";
-    public final static String ACTION_GATT_SERVICES_DISCOVERED =
-            "com.usr.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED";
-    public final static String ACTION_DATA_AVAILABLE =
-            "com.usr.bluetooth.le.ACTION_DATA_AVAILABLE";
+    public final static String ACTION_GATT_CONNECTED = "com.usr.bluetooth.le.ACTION_GATT_CONNECTED";
+    public final static String ACTION_GATT_DISCONNECTED = "com.usr.bluetooth.le.ACTION_GATT_DISCONNECTED";
+    public final static String ACTION_GATT_DISCONNECTED_CAROUSEL = "com.usr.bluetooth.le.ACTION_GATT_DISCONNECTED_CAROUSEL";
+    public final static String ACTION_GATT_SERVICES_DISCOVERED = "com.usr.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED";
+    public final static String ACTION_DATA_AVAILABLE = "com.usr.bluetooth.le.ACTION_DATA_AVAILABLE";
 
-    public final static String ACTION_GATT_CHARACTERISTIC_ERROR =
-            "com.usr.bluetooth.le.ACTION_GATT_CHARACTERISTIC_ERROR";
+    public final static String ACTION_GATT_CHARACTERISTIC_ERROR = "com.usr.bluetooth.le.ACTION_GATT_CHARACTERISTIC_ERROR";
 
     /**
      * add by usr_ljq
      */
-    public final static String ACTION_GATT_DESCRIPTORWRITE_RESULT =
-            "com.usr.bluetooth.le.ACTION_GATT_DESCRIPTORWRITE_RESULT";
-    public final static String ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS =
-            "com.usr.bluetooth.le.ACTION_GATT_CHARACTERISTIC_SUCCESS";
+    public final static String ACTION_GATT_DESCRIPTORWRITE_RESULT = "com.usr.bluetooth.le.ACTION_GATT_DESCRIPTORWRITE_RESULT";
+    public final static String ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS = "com.usr.bluetooth.le.ACTION_GATT_CHARACTERISTIC_SUCCESS";
 
     /**
      * Connection status Constants
      */
     public static final int STATE_DISCONNECTED = 0;
-    private final static String ACTION_GATT_DISCONNECTING =
-            "com.usr.bluetooth.le.ACTION_GATT_DISCONNECTING";
+    private final static String ACTION_GATT_DISCONNECTING = "com.usr.bluetooth.le.ACTION_GATT_DISCONNECTING";
     private static final int STATE_CONNECTING = 1;
     private static final int STATE_CONNECTED = 2;
     private static final int STATE_DISCONNECTING = 4;
 
     /**
-     * BluetoothAdapter for handling connections
-     * 连接蓝牙都需要，用来管理手机上的蓝牙
+     * BluetoothAdapter for handling connections 连接蓝牙都需要，用来管理手机上的蓝牙
      */
     public static BluetoothAdapter mBluetoothAdapter;
 
     /**
-     * a) BluetoothGattServer作为周边来提供数据；BluetoothGattServerCallback返回周边的状态。
-     * b) BluetoothGatt作为中央来使用和处理数据；BluetoothGattCallback返回中央的状态和周边提供的数据
+     * a) BluetoothGattServer作为周边来提供数据；BluetoothGattServerCallback返回周边的状态。 b)
+     * BluetoothGatt作为中央来使用和处理数据；BluetoothGattCallback返回中央的状态和周边提供的数据
      */
     public static BluetoothGatt mBluetoothGatt;
     private static int mConnectionState = STATE_DISCONNECTED;
@@ -130,13 +120,12 @@ public class BluetoothLeService extends Service {
     private static Context mContext;
     /**
      * Implements callback methods for GATT events that the app cares about. For
-     * example,connection change and services discovered.
-     * 连接状态  已连接、断开等等
+     * example,connection change and services discovered. 连接状态 已连接、断开等等
      */
     private final static BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status,
-                                            int newState) {
+                int newState) {
 
             String intentAction;
             // GATT Server connected
@@ -158,16 +147,16 @@ public class BluetoothLeService extends Service {
             // GATT Server disconnected
             else if (newState == BluetoothProfile.STATE_DISCONNECTING) {
                 System.out.println("---------------------------->正在连接");
-//                intentAction = ACTION_GATT_DISCONNECTING;
-//                mConnectionState = STATE_DISCONNECTING;
-//                broadcastConnectionUpdate(intentAction);
+                // intentAction = ACTION_GATT_DISCONNECTING;
+                // mConnectionState = STATE_DISCONNECTING;
+                // broadcastConnectionUpdate(intentAction);
             }
         }
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             // GATT Services discovered
-            //发现新的服务
+            // 发现新的服务
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 System.out.println("---------------------------->发现服务");
                 broadcastConnectionUpdate(ACTION_GATT_SERVICES_DISCOVERED);
@@ -177,14 +166,15 @@ public class BluetoothLeService extends Service {
         }
 
         @Override
-        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
-                                      int status) {
-
+        public void onDescriptorWrite(BluetoothGatt gatt,
+                BluetoothGattDescriptor descriptor, int status) {
 
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                System.out.println("onDescriptorWrite GATT_SUCCESS------------------->SUCCESS");
-            } else if (status == BluetoothGatt.GATT_FAILURE){
-                System.out.println("onDescriptorWrite GATT_FAIL------------------->FAIL");
+                System.out
+                        .println("onDescriptorWrite GATT_SUCCESS------------------->SUCCESS");
+            } else if (status == BluetoothGatt.GATT_FAILURE) {
+                System.out
+                        .println("onDescriptorWrite GATT_FAIL------------------->FAIL");
                 Intent intent = new Intent(ACTION_GATT_DESCRIPTORWRITE_RESULT);
                 intent.putExtra(Constants.EXTRA_DESCRIPTOR_WRITE_RESULT, status);
                 mContext.sendBroadcast(intent);
@@ -193,11 +183,11 @@ public class BluetoothLeService extends Service {
         }
 
         @Override
-        public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
-                                     int status) {
+        public void onDescriptorRead(BluetoothGatt gatt,
+                BluetoothGattDescriptor descriptor, int status) {
 
-
-            System.out.println("onDescriptorRead ------------------->GATT_SUCC");
+            System.out
+                    .println("onDescriptorRead ------------------->GATT_SUCC");
 
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 UUID descriptorUUID = descriptor.getUuid();
@@ -207,52 +197,67 @@ public class BluetoothLeService extends Service {
                 mBundle.putByteArray(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE,
                         descriptor.getValue());
 
-
                 mBundle.putString(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE_UUID,
                         descriptor.getUuid().toString());
-                mBundle.putString(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE_CHARACTERISTIC_UUID,
+                mBundle.putString(
+                        Constants.EXTRA_DESCRIPTOR_BYTE_VALUE_CHARACTERISTIC_UUID,
                         descriptor.getCharacteristic().getUuid().toString());
-                if (descriptorUUID.equals(UUIDDatabase.UUID_CLIENT_CHARACTERISTIC_CONFIG)) {
+                if (descriptorUUID
+                        .equals(UUIDDatabase.UUID_CLIENT_CHARACTERISTIC_CONFIG)) {
                     String valueReceived = DescriptorParser
                             .getClientCharacteristicConfiguration(descriptor);
-                    mBundle.putString(Constants.EXTRA_DESCRIPTOR_VALUE, valueReceived);
+                    mBundle.putString(Constants.EXTRA_DESCRIPTOR_VALUE,
+                            valueReceived);
                 }
-                if (descriptorUUID.equals(UUIDDatabase.UUID_CHARACTERISTIC_EXTENDED_PROPERTIES)) {
+                if (descriptorUUID
+                        .equals(UUIDDatabase.UUID_CHARACTERISTIC_EXTENDED_PROPERTIES)) {
                     HashMap<String, String> receivedValuesMap = DescriptorParser
                             .getCharacteristicExtendedProperties(descriptor);
-                    String reliableWriteStatus = receivedValuesMap.get(Constants.firstBitValueKey);
-                    String writeAuxillaryStatus = receivedValuesMap.get(Constants.secondBitValueKey);
-                    mBundle.putString(Constants.EXTRA_DESCRIPTOR_VALUE, reliableWriteStatus + "\n"
-                            + writeAuxillaryStatus);
+                    String reliableWriteStatus = receivedValuesMap
+                            .get(Constants.firstBitValueKey);
+                    String writeAuxillaryStatus = receivedValuesMap
+                            .get(Constants.secondBitValueKey);
+                    mBundle.putString(Constants.EXTRA_DESCRIPTOR_VALUE,
+                            reliableWriteStatus + "\n" + writeAuxillaryStatus);
                 }
-                if (descriptorUUID.equals(UUIDDatabase.UUID_CHARACTERISTIC_USER_DESCRIPTION)) {
+                if (descriptorUUID
+                        .equals(UUIDDatabase.UUID_CHARACTERISTIC_USER_DESCRIPTION)) {
                     String description = DescriptorParser
                             .getCharacteristicUserDescription(descriptor);
-                    mBundle.putString(Constants.EXTRA_DESCRIPTOR_VALUE, description);
+                    mBundle.putString(Constants.EXTRA_DESCRIPTOR_VALUE,
+                            description);
                 }
-                if (descriptorUUID.equals(UUIDDatabase.UUID_SERVER_CHARACTERISTIC_CONFIGURATION)) {
-                    String broadcastStatus = DescriptorParser.
-                            getServerCharacteristicConfiguration(descriptor);
-                    mBundle.putString(Constants.EXTRA_DESCRIPTOR_VALUE, broadcastStatus);
+                if (descriptorUUID
+                        .equals(UUIDDatabase.UUID_SERVER_CHARACTERISTIC_CONFIGURATION)) {
+                    String broadcastStatus = DescriptorParser
+                            .getServerCharacteristicConfiguration(descriptor);
+                    mBundle.putString(Constants.EXTRA_DESCRIPTOR_VALUE,
+                            broadcastStatus);
                 }
                 if (descriptorUUID.equals(UUIDDatabase.UUID_REPORT_REFERENCE)) {
-                    ArrayList<String> reportReferencealues = DescriptorParser.getReportReference(descriptor);
+                    ArrayList<String> reportReferencealues = DescriptorParser
+                            .getReportReference(descriptor);
                     String reportReference;
                     String reportReferenceType;
                     if (reportReferencealues.size() == 2) {
                         reportReference = reportReferencealues.get(0);
                         reportReferenceType = reportReferencealues.get(1);
-                        mBundle.putString(Constants.EXTRA_DESCRIPTOR_REPORT_REFERENCE_ID, reportReference);
-                        mBundle.putString(Constants.EXTRA_DESCRIPTOR_REPORT_REFERENCE_TYPE, reportReferenceType);
-                        mBundle.putString(Constants.EXTRA_DESCRIPTOR_VALUE, reportReference + "\n" +
+                        mBundle.putString(
+                                Constants.EXTRA_DESCRIPTOR_REPORT_REFERENCE_ID,
+                                reportReference);
+                        mBundle.putString(
+                                Constants.EXTRA_DESCRIPTOR_REPORT_REFERENCE_TYPE,
                                 reportReferenceType);
+                        mBundle.putString(Constants.EXTRA_DESCRIPTOR_VALUE,
+                                reportReference + "\n" + reportReferenceType);
                     }
 
                 }
-                if (descriptorUUID.equals(UUIDDatabase.UUID_CHARACTERISTIC_PRESENTATION_FORMAT)) {
-                    String value = DescriptorParser.getCharacteristicPresentationFormat(descriptor);
-                    mBundle.putString(Constants.EXTRA_DESCRIPTOR_VALUE,
-                            value);
+                if (descriptorUUID
+                        .equals(UUIDDatabase.UUID_CHARACTERISTIC_PRESENTATION_FORMAT)) {
+                    String value = DescriptorParser
+                            .getCharacteristicPresentationFormat(descriptor);
+                    mBundle.putString(Constants.EXTRA_DESCRIPTOR_VALUE, value);
                 }
                 intent.putExtras(mBundle);
                 /**
@@ -261,31 +266,36 @@ public class BluetoothLeService extends Service {
                  */
                 mContext.sendBroadcast(intent);
             } else {
-                System.out.println("onDescriptorRead ------------------->GATT_FAIL");
+                System.out
+                        .println("onDescriptorRead ------------------->GATT_FAIL");
             }
 
         }
 
         @Override
-        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic
-                characteristic, int status) {
-            //write操作会调用此方法
+        public void onCharacteristicWrite(BluetoothGatt gatt,
+                BluetoothGattCharacteristic characteristic, int status) {
+            // write操作会调用此方法
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                System.out.println("onCharacteristicWrite ------------------->write success");
-                Intent intent = new Intent(ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS);
+                System.out
+                        .println("onCharacteristicWrite ------------------->write success");
+                Intent intent = new Intent(
+                        ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS);
                 mContext.sendBroadcast(intent);
             } else {
                 Intent intent = new Intent(ACTION_GATT_CHARACTERISTIC_ERROR);
-                intent.putExtra(Constants.EXTRA_CHARACTERISTIC_ERROR_MESSAGE, "" + status);
+                intent.putExtra(Constants.EXTRA_CHARACTERISTIC_ERROR_MESSAGE,
+                        "" + status);
                 mContext.sendBroadcast(intent);
             }
         }
 
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt,
-                                         BluetoothGattCharacteristic characteristic, int status) {
+                BluetoothGattCharacteristic characteristic, int status) {
 
-            System.out.println("onCharacteristicWrite ------------------->read");
+            System.out
+                    .println("onCharacteristicWrite ------------------->read");
             // GATT Characteristic read (读操作会调用该方法)
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 UUID charUuid = characteristic.getUuid();
@@ -297,7 +307,8 @@ public class BluetoothLeService extends Service {
                 mBundle.putString(Constants.EXTRA_BYTE_UUID_VALUE,
                         characteristic.getUuid().toString());
 
-                System.out.println("onCharacteristicRead------------------->GATT_SUCC");
+                System.out
+                        .println("onCharacteristicRead------------------->GATT_SUCC");
 
                 // Body sensor location read value
                 if (charUuid.equals(UUIDDatabase.UUID_BODY_SENSOR_LOCATION)) {
@@ -366,20 +377,23 @@ public class BluetoothLeService extends Service {
                             .getHealthThermoSensorLocation(characteristic));
                 }
                 // CapSense proximity read value
-                else if (charUuid.equals(UUIDDatabase.UUID_CAPSENSE_PROXIMITY) ||
-                        charUuid.equals(UUIDDatabase.UUID_CAPSENSE_PROXIMITY_CUSTOM)) {
+                else if (charUuid.equals(UUIDDatabase.UUID_CAPSENSE_PROXIMITY)
+                        || charUuid
+                                .equals(UUIDDatabase.UUID_CAPSENSE_PROXIMITY_CUSTOM)) {
                     mBundle.putInt(Constants.EXTRA_CAPPROX_VALUE,
                             CapSenseParser.getCapSenseProximity(characteristic));
                 }
                 // CapSense slider read value
-                else if (charUuid.equals(UUIDDatabase.UUID_CAPSENSE_SLIDER) ||
-                        charUuid.equals(UUIDDatabase.UUID_CAPSENSE_SLIDER_CUSTOM)) {
+                else if (charUuid.equals(UUIDDatabase.UUID_CAPSENSE_SLIDER)
+                        || charUuid
+                                .equals(UUIDDatabase.UUID_CAPSENSE_SLIDER_CUSTOM)) {
                     mBundle.putInt(Constants.EXTRA_CAPSLIDER_VALUE,
                             CapSenseParser.getCapSenseSlider(characteristic));
                 }
                 // CapSense buttons read value
-                else if (charUuid.equals(UUIDDatabase.UUID_CAPSENSE_BUTTONS) ||
-                        charUuid.equals(UUIDDatabase.UUID_CAPSENSE_BUTTONS_CUSTOM)) {
+                else if (charUuid.equals(UUIDDatabase.UUID_CAPSENSE_BUTTONS)
+                        || charUuid
+                                .equals(UUIDDatabase.UUID_CAPSENSE_BUTTONS_CUSTOM)) {
                     mBundle.putIntegerArrayList(
                             Constants.EXTRA_CAPBUTTONS_VALUE,
                             CapSenseParser.getCapSenseButtons(characteristic));
@@ -396,8 +410,8 @@ public class BluetoothLeService extends Service {
                             Utils.getTransmissionPower(characteristic));
                 }
                 // RGB Led read value
-                else if (charUuid.equals(UUIDDatabase.UUID_RGB_LED) ||
-                        charUuid.equals(UUIDDatabase.UUID_RGB_LED_CUSTOM)) {
+                else if (charUuid.equals(UUIDDatabase.UUID_RGB_LED)
+                        || charUuid.equals(UUIDDatabase.UUID_RGB_LED_CUSTOM)) {
                     mBundle.putString(Constants.EXTRA_RGB_VALUE,
                             RGBParser.getRGBValue(characteristic));
                 }
@@ -513,18 +527,21 @@ public class BluetoothLeService extends Service {
         }
 
         @Override
-        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+        public void onCharacteristicChanged(BluetoothGatt gatt,
+                BluetoothGattCharacteristic characteristic) {
             /**
-             * Android 底层貌似做了限制只能接受20个字节
-             * There are four basic operations for moving data in BLE: read, write, notify, and indicate.
-             * The BLE protocol specification requires that the maximum data payload size for these
-             * operations is 20 bytes, or in the case of read operations, 22 bytes.
-             * BLE is built for low power consumption, for infrequent short-burst data transmissions.
-             * Sending lots of data is possible, but usually ends up being less efficient than classic
-             * Bluetooth when trying to achieve maximum throughput.
+             * Android 底层貌似做了限制只能接受20个字节 There are four basic operations for
+             * moving data in BLE: read, write, notify, and indicate. The BLE
+             * protocol specification requires that the maximum data payload
+             * size for these operations is 20 bytes, or in the case of read
+             * operations, 22 bytes. BLE is built for low power consumption, for
+             * infrequent short-burst data transmissions. Sending lots of data
+             * is possible, but usually ends up being less efficient than
+             * classic Bluetooth when trying to achieve maximum throughput.
              */
-            System.out.println("onCharacteristicChanged -------------------> changed");
-            //notify 会回调用此方法
+            System.out
+                    .println("onCharacteristicChanged -------------------> changed");
+            // notify 会回调用此方法
             broadcastNotifyUpdate(characteristic);
         }
     };
@@ -551,12 +568,15 @@ public class BluetoothLeService extends Service {
         mContext.sendBroadcast(intent);
     }
 
-    private static void broadcastNotifyUpdate(final BluetoothGattCharacteristic characteristic) {
-        final Intent intent = new Intent(BluetoothLeService.ACTION_DATA_AVAILABLE);
+    private static void broadcastNotifyUpdate(
+            final BluetoothGattCharacteristic characteristic) {
+        final Intent intent = new Intent(
+                BluetoothLeService.ACTION_DATA_AVAILABLE);
         Bundle mBundle = new Bundle();
         mBundle.putByteArray(Constants.EXTRA_BYTE_VALUE,
                 characteristic.getValue());
-        mBundle.putString(Constants.EXTRA_BYTE_UUID_VALUE, characteristic.getUuid().toString());
+        mBundle.putString(Constants.EXTRA_BYTE_UUID_VALUE, characteristic
+                .getUuid().toString());
         // Heart rate Measurement notify value
         if (UUIDDatabase.UUID_HEART_RATE_MEASUREMENT.equals(characteristic
                 .getUuid())) {
@@ -572,28 +592,33 @@ public class BluetoothLeService extends Service {
         // Health thermometer notify value
         if (UUIDDatabase.UUID_HEALTH_THERMOMETER.equals(characteristic
                 .getUuid())) {
-            ArrayList<String> health_temp = HTMParser.getHealthThermo(characteristic);
+            ArrayList<String> health_temp = HTMParser
+                    .getHealthThermo(characteristic);
             mBundle.putStringArrayList(Constants.EXTRA_HTM_VALUE, health_temp);
         }
 
         // CapSense Proximity notify value
-        if (UUIDDatabase.UUID_CAPSENSE_PROXIMITY.equals(characteristic.getUuid()) ||
-                UUIDDatabase.UUID_CAPSENSE_PROXIMITY_CUSTOM.equals(characteristic.getUuid())) {
+        if (UUIDDatabase.UUID_CAPSENSE_PROXIMITY.equals(characteristic
+                .getUuid())
+                || UUIDDatabase.UUID_CAPSENSE_PROXIMITY_CUSTOM
+                        .equals(characteristic.getUuid())) {
             int capsense_proximity = CapSenseParser
                     .getCapSenseProximity(characteristic);
             mBundle.putInt(Constants.EXTRA_CAPPROX_VALUE, capsense_proximity);
         }
         // CapSense slider notify value
-        if (UUIDDatabase.UUID_CAPSENSE_SLIDER.equals(characteristic.getUuid()) ||
-                UUIDDatabase.UUID_CAPSENSE_SLIDER_CUSTOM.equals(characteristic.getUuid())) {
+        if (UUIDDatabase.UUID_CAPSENSE_SLIDER.equals(characteristic.getUuid())
+                || UUIDDatabase.UUID_CAPSENSE_SLIDER_CUSTOM
+                        .equals(characteristic.getUuid())) {
             int capsense_slider = CapSenseParser
                     .getCapSenseSlider(characteristic);
             mBundle.putInt(Constants.EXTRA_CAPSLIDER_VALUE, capsense_slider);
 
         }
         // CapSense buttons notify value
-        if (UUIDDatabase.UUID_CAPSENSE_BUTTONS.equals(characteristic.getUuid()) ||
-                UUIDDatabase.UUID_CAPSENSE_BUTTONS_CUSTOM.equals(characteristic.getUuid())) {
+        if (UUIDDatabase.UUID_CAPSENSE_BUTTONS.equals(characteristic.getUuid())
+                || UUIDDatabase.UUID_CAPSENSE_BUTTONS_CUSTOM
+                        .equals(characteristic.getUuid())) {
             ArrayList<Integer> capsense_buttons = CapSenseParser
                     .getCapSenseButtons(characteristic);
             mBundle.putIntegerArrayList(Constants.EXTRA_CAPBUTTONS_VALUE,
@@ -619,17 +644,13 @@ public class BluetoothLeService extends Service {
                     .getSystolicBloodPressureUnit(characteristic, mContext);
             String blood_pressure_diastolic_unit = BloodPressureParser
                     .getDiaStolicBloodPressureUnit(characteristic, mContext);
-            mBundle.putString(
-                    Constants.EXTRA_PRESURE_SYSTOLIC_UNIT_VALUE,
+            mBundle.putString(Constants.EXTRA_PRESURE_SYSTOLIC_UNIT_VALUE,
                     blood_pressure_systolic_unit);
-            mBundle.putString(
-                    Constants.EXTRA_PRESURE_DIASTOLIC_UNIT_VALUE,
+            mBundle.putString(Constants.EXTRA_PRESURE_DIASTOLIC_UNIT_VALUE,
                     blood_pressure_diastolic_unit);
-            mBundle.putString(
-                    Constants.EXTRA_PRESURE_SYSTOLIC_VALUE,
+            mBundle.putString(Constants.EXTRA_PRESURE_SYSTOLIC_VALUE,
                     blood_pressure_systolic);
-            mBundle.putString(
-                    Constants.EXTRA_PRESURE_DIASTOLIC_VALUE,
+            mBundle.putString(Constants.EXTRA_PRESURE_DIASTOLIC_VALUE,
                     blood_pressure_diastolic);
 
         }
@@ -681,37 +702,37 @@ public class BluetoothLeService extends Service {
                     SensorHubParser.getBarometerReading(characteristic));
         }
         // Battery level read value
-        if (UUIDDatabase.UUID_BATTERY_LEVEL
-                .equals(characteristic.getUuid())) {
+        if (UUIDDatabase.UUID_BATTERY_LEVEL.equals(characteristic.getUuid())) {
             mBundle.putString(Constants.EXTRA_BTL_VALUE,
                     Utils.getBatteryLevel(characteristic));
         }
-        //RDK characteristic
+        // RDK characteristic
         if (UUIDDatabase.UUID_REP0RT.equals(characteristic.getUuid())) {
-            BluetoothGattDescriptor descriptor = characteristic.getDescriptor
-                    (UUIDDatabase.UUID_REPORT_REFERENCE);
+            BluetoothGattDescriptor descriptor = characteristic
+                    .getDescriptor(UUIDDatabase.UUID_REPORT_REFERENCE);
             if (descriptor != null) {
-                BluetoothLeService.readDescriptor(characteristic.getDescriptor(
-                        UUIDDatabase.UUID_REPORT_REFERENCE));
-                ArrayList<String> reportReferenceValues = DescriptorParser.getReportReference(characteristic.
-                        getDescriptor(UUIDDatabase.UUID_REPORT_REFERENCE));
+                BluetoothLeService.readDescriptor(characteristic
+                        .getDescriptor(UUIDDatabase.UUID_REPORT_REFERENCE));
+                ArrayList<String> reportReferenceValues = DescriptorParser
+                        .getReportReference(characteristic
+                                .getDescriptor(UUIDDatabase.UUID_REPORT_REFERENCE));
                 if (reportReferenceValues.size() == 2) {
-                    mBundle.putString(Constants.EXTRA_DESCRIPTOR_REPORT_REFERENCE_ID,
+                    mBundle.putString(
+                            Constants.EXTRA_DESCRIPTOR_REPORT_REFERENCE_ID,
                             reportReferenceValues.get(0));
-                    mBundle.putString(Constants.EXTRA_DESCRIPTOR_REPORT_REFERENCE_TYPE,
+                    mBundle.putString(
+                            Constants.EXTRA_DESCRIPTOR_REPORT_REFERENCE_TYPE,
                             reportReferenceValues.get(1));
                 }
-
 
             }
 
         }
-        //case for OTA characteristic received
-        if (UUIDDatabase.UUID_OTA_UPDATE_CHARACTERISTIC
-                .equals(characteristic.getUuid())) {
-            //do noting now
+        // case for OTA characteristic received
+        if (UUIDDatabase.UUID_OTA_UPDATE_CHARACTERISTIC.equals(characteristic
+                .getUuid())) {
+            // do noting now
         }
-
 
         intent.putExtras(mBundle);
         /**
@@ -722,25 +743,24 @@ public class BluetoothLeService extends Service {
         mContext.sendBroadcast(intent);
     }
 
-
-
     /**
      * Connects to the GATT server hosted on the BlueTooth LE device.
-     *
-     * @param address The device address of the destination device.
+     * 
+     * @param address
+     *            The device address of the destination device.
      * @return Return true if the connection is initiated successfully. The
-     * connection result is reported asynchronously through the
-     * {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
-     * callback.
+     *         connection result is reported asynchronously through the
+     *         {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
+     *         callback.
      */
-    public static void connect(final String address, final String devicename, Context context) {
+    public static void connect(final String address, final String devicename,
+            Context context) {
         mContext = context;
         if (mBluetoothAdapter == null || address == null) {
             return;
         }
 
-        BluetoothDevice device = mBluetoothAdapter
-                .getRemoteDevice(address);
+        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         if (device == null) {
             return;
         }
@@ -748,7 +768,7 @@ public class BluetoothLeService extends Service {
         // autoConnect
         // parameter to false.
         mBluetoothGatt = device.connectGatt(context, false, mGattCallback);
-        //  refreshDeviceCache(mBluetoothGatt);
+        // refreshDeviceCache(mBluetoothGatt);
         mBluetoothDeviceAddress = address;
         mBluetoothDeviceName = devicename;
 
@@ -758,7 +778,8 @@ public class BluetoothLeService extends Service {
     public static boolean refreshDeviceCache(BluetoothGatt gatt) {
         try {
             BluetoothGatt localBluetoothGatt = gatt;
-            Method localMethod = localBluetoothGatt.getClass().getMethod("refresh");
+            Method localMethod = localBluetoothGatt.getClass().getMethod(
+                    "refresh");
             if (localMethod != null) {
                 return (Boolean) localMethod.invoke(localBluetoothGatt);
             }
@@ -779,8 +800,8 @@ public class BluetoothLeService extends Service {
             return;
         }
 
-        if (mConnectionState == STATE_CONNECTED){
-            //  Logger.datalog(mContext.getResources().getString(R.string.dl_device_connecting));
+        if (mConnectionState == STATE_CONNECTED) {
+            // Logger.datalog(mContext.getResources().getString(R.string.dl_device_connecting));
             mBluetoothGatt.disconnect();
             // 注释掉这句，因为disconnect()后直接调用close()会收不到STATE_DISCONNECTED的状态，
             // 在收到STATE_DISCONNECTED之后再调用close()
@@ -803,10 +824,12 @@ public class BluetoothLeService extends Service {
      * result is reported asynchronously through the
      * {@code BluetoothGattCallback#onCharacteristicRead(android.bluetooth.BluetoothGatt, android.bluetooth.BluetoothGattCharacteristic, int)}
      * callback.
-     *
-     * @param characteristic The characteristic to read from.
+     * 
+     * @param characteristic
+     *            The characteristic to read from.
      */
-    public static void readCharacteristic( BluetoothGattCharacteristic characteristic) {
+    public static void readCharacteristic(
+            BluetoothGattCharacteristic characteristic) {
 
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             return;
@@ -816,20 +839,18 @@ public class BluetoothLeService extends Service {
 
     /**
      * Request a read on a given {@code BluetoothGattDescriptor }.
-     *
-     * @param descriptor The descriptor to read from.
+     * 
+     * @param descriptor
+     *            The descriptor to read from.
      */
-    public static void readDescriptor(
-            BluetoothGattDescriptor descriptor) {
+    public static void readDescriptor(BluetoothGattDescriptor descriptor) {
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             return;
         }
-        //Logger.datalog(mContext.getResources().getString(R.string.dl_descriptor_read_request));
+        // Logger.datalog(mContext.getResources().getString(R.string.dl_descriptor_read_request));
         mBluetoothGatt.readDescriptor(descriptor);
 
     }
-
-
 
     private static String getHexValue(byte[] array) {
         StringBuffer sb = new StringBuffer();
@@ -841,7 +862,7 @@ public class BluetoothLeService extends Service {
 
     /**
      * Request a write on a given {@code BluetoothGattCharacteristic}.
-     *
+     * 
      * @param characteristic
      * @param byteArray
      */
@@ -858,44 +879,51 @@ public class BluetoothLeService extends Service {
         }
     }
 
-
-
     /**
      * Enables or disables notification on a give characteristic.
-     *
-     * @param characteristic Characteristic to act on.
-     * @param enabled        If true, enable notification. False otherwise.
+     * 
+     * @param characteristic
+     *            Characteristic to act on.
+     * @param enabled
+     *            If true, enable notification. False otherwise.
      */
-    public static void setCharacteristicNotification(BluetoothGattCharacteristic characteristic, boolean enabled) {
+    public static void setCharacteristicNotification(
+            BluetoothGattCharacteristic characteristic, boolean enabled) {
 
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             return;
         }
-        if (characteristic.getDescriptor(UUID.fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG)) != null) {
+        if (characteristic.getDescriptor(UUID
+                .fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG)) != null) {
             if (enabled == true) {
                 BluetoothGattDescriptor descriptor = characteristic
-                        .getDescriptor(UUID.fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
-                descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                        .getDescriptor(UUID
+                                .fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
+                descriptor
+                        .setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                 mBluetoothGatt.writeDescriptor(descriptor);
             } else {
                 BluetoothGattDescriptor descriptor = characteristic
-                        .getDescriptor(UUID.fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
-                descriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+                        .getDescriptor(UUID
+                                .fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
+                descriptor
+                        .setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
                 mBluetoothGatt.writeDescriptor(descriptor);
             }
         }
         mBluetoothGatt.setCharacteristicNotification(characteristic, enabled);
     }
 
-
-
     /**
      * Enables or disables indications on a give characteristic.
-     *
-     * @param characteristic Characteristic to act on.
-     * @param enabled        If true, enable indications. False otherwise.
+     * 
+     * @param characteristic
+     *            Characteristic to act on.
+     * @param enabled
+     *            If true, enable indications. False otherwise.
      */
-    public static void setCharacteristicIndication(BluetoothGattCharacteristic characteristic, boolean enabled) {
+    public static void setCharacteristicIndication(
+            BluetoothGattCharacteristic characteristic, boolean enabled) {
 
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             return;
@@ -904,14 +932,18 @@ public class BluetoothLeService extends Service {
         if (characteristic.getDescriptor(UUID
                 .fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG)) != null) {
             if (enabled == true) {
-                BluetoothGattDescriptor descriptor = characteristic.getDescriptor(UUID
-                        .fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
-                descriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
+                BluetoothGattDescriptor descriptor = characteristic
+                        .getDescriptor(UUID
+                                .fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
+                descriptor
+                        .setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
                 mBluetoothGatt.writeDescriptor(descriptor);
             } else {
                 BluetoothGattDescriptor descriptor = characteristic
-                        .getDescriptor(UUID.fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
-                descriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+                        .getDescriptor(UUID
+                                .fromString(GattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
+                descriptor
+                        .setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
                 mBluetoothGatt.writeDescriptor(descriptor);
             }
         }
@@ -922,7 +954,7 @@ public class BluetoothLeService extends Service {
      * Retrieves a list of supported GATT services on the connected device. This
      * should be invoked only after {@code BluetoothGatt#discoverServices()}
      * completes successfully.
-     *
+     * 
      * @return A {@code List} of supported services.
      */
     public static List<BluetoothGattService> getSupportedGattServices() {
@@ -960,7 +992,7 @@ public class BluetoothLeService extends Service {
 
     /**
      * Initializes a reference to the local BlueTooth adapter.
-     *
+     * 
      * @return Return true if the initialization is successful.
      */
     public boolean initialize() {

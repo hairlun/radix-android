@@ -27,7 +27,8 @@ public class GetNoticeListParser extends AbsBaseParser<GetNoticeListResult> {
                 String retcode = json.optString(RequestResult.RET_CODE_KEY);
                 String retinfo = json.optString(RequestResult.RET_INFO_KEY);
                 result = new GetNoticeListResult(retcode, retinfo);
-                JSONObject pageModel = json.optJSONObject(ResponseKey.PAGE_MODEL);
+                JSONObject pageModel = json
+                        .optJSONObject(ResponseKey.PAGE_MODEL);
                 if (pageModel != null) {
                     int curPage = pageModel.optInt(ResponseKey.CURRENT_PAGE);
                     int totalCount = pageModel.optInt(ResponseKey.TOTAL_COUNT);
@@ -43,9 +44,12 @@ public class GetNoticeListParser extends AbsBaseParser<GetNoticeListResult> {
                             if (obj != null) {
                                 String id = obj.optString(ResponseKey.ID);
                                 String title = obj.optString(ResponseKey.TITLE);
-                                String sentDate = obj.optString(ResponseKey.SENT_DATE);
-                                String content = obj.optString(ResponseKey.CONTENT);
-                                String readTime = obj.optString(ResponseKey.READ_TIME);
+                                String sentDate = obj
+                                        .optString(ResponseKey.SENT_DATE);
+                                String content = obj
+                                        .optString(ResponseKey.CONTENT);
+                                String readTime = obj
+                                        .optString(ResponseKey.READ_TIME);
                                 String imgUrl = obj.optString(ResponseKey.PIC);
                                 int video = obj.optInt(ResponseKey.VIDEO);
                                 Notice notice = new Notice();
@@ -55,8 +59,11 @@ public class GetNoticeListParser extends AbsBaseParser<GetNoticeListResult> {
                                 notice.setContent(content);
                                 notice.setReadTime(readTime);
                                 if (!imgUrl.startsWith("http")) {
-                                    Community community = MyApplication.instance.getSelectedCommunity();
-                                    imgUrl = String.format("%s:%s/%s", community.getHost(), community.getPort(), imgUrl);
+                                    Community community = MyApplication.instance
+                                            .getSelectedCommunity();
+                                    imgUrl = String.format("%s:%s/%s",
+                                            community.getHost(),
+                                            community.getPort(), imgUrl);
                                 }
                                 notice.setImgUrl(imgUrl);
                                 notice.setVideo(video == 1 ? true : false);
