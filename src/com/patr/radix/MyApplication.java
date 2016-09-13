@@ -4,21 +4,11 @@ import android.app.Application;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.text.TextUtils;
 
-import java.io.File;
-import java.io.InvalidClassException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.xutils.x;
 
-import com.baidu.mapapi.SDKInitializer;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
@@ -32,11 +22,6 @@ import com.patr.radix.network.RequestListener;
 import com.patr.radix.network.WebService;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.PrefUtil;
-import com.yuntongxun.ecdemo.common.CCPAppManager;
-import com.yuntongxun.ecdemo.common.utils.CrashHandler;
-import com.yuntongxun.ecdemo.common.utils.ECPreferenceSettings;
-import com.yuntongxun.ecdemo.common.utils.ECPreferences;
-import com.yuntongxun.ecdemo.common.utils.FileAccessor;
 
 public class MyApplication extends Application {
 
@@ -82,25 +67,10 @@ public class MyApplication extends Application {
         instance = this;
         // 从缓存读取用户信息
         userInfo = PrefUtil.getUserInfo(instance);
-        // if (DEBUG) {
-        // if (TextUtils.isEmpty(userInfo.getAccount())) {
-        // userInfo = new UserInfo();
-        // userInfo.setAccount("admin");
-        // userInfo.setName("admin");
-        // userInfo.setId("0");
-        // }
-        // }
         // 从缓存读取小区列表和当前选择小区
         getCommunityListFromCache();
         // 从缓存读取门禁钥匙列表和当前选择门禁钥匙
         getLockListFromCache();
-
-        CCPAppManager.setContext(instance);
-        FileAccessor.initFileAccess();
-        setChattingContactId();
-        initImageLoader();
-        CrashHandler.getInstance().init(this);
-        SDKInitializer.initialize(instance);
     }
 
     private void getCommunityListFromCache() {
@@ -152,39 +122,6 @@ public class MyApplication extends Application {
 
                     }, new GetLockListParser());
         }
-    }
-
-    /**
-     * 保存当前的聊天界面所对应的联系人、方便来消息屏蔽通知
-     */
-    private void setChattingContactId() {
-        try {
-            ECPreferences.savePreference(
-                    ECPreferenceSettings.SETTING_CHATTING_CONTACTID, "", true);
-        } catch (InvalidClassException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void initImageLoader() {
-        File cacheDir = StorageUtils.getOwnCacheDirectory(
-                getApplicationContext(), "ECSDK_Demo/image");
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-                this).threadPoolSize(1)
-                // 线程池内加载的数量
-                .threadPriority(Thread.NORM_PRIORITY - 2)
-                .memoryCache(new WeakMemoryCache())
-                // .denyCacheImageMultipleSizesInMemory()
-                .diskCacheFileNameGenerator(CCPAppManager.md5FileNameGenerator)
-                // 将保存的时候的URI名称用MD5 加密
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .diskCache(
-                        new UnlimitedDiscCache(cacheDir, null,
-                                CCPAppManager.md5FileNameGenerator))// 自定义缓存路径
-                .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-                // .writeDebugLogs() // Remove for release app
-                .build();// 开始构建
-        ImageLoader.getInstance().init(config);
     }
 
     public List<MService> getServices() {
