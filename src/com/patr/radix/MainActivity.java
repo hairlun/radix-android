@@ -11,40 +11,91 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.patr.radix.adapter.KeyListAdapter2;
 import com.patr.radix.ble.BluetoothLeService;
+import com.patr.radix.fragment.UnlockFragment;
+import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.TabDb;
+import com.patr.radix.view.ListSelectDialog;
+import com.patr.radix.view.dialog.MsgDialog;
 import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.common.ECContentObservers;
 import com.yuntongxun.ecdemo.common.utils.CrashHandler;
 import com.yuntongxun.ecdemo.common.utils.ECPreferenceSettings;
 import com.yuntongxun.ecdemo.common.utils.ECPreferences;
 import com.yuntongxun.ecdemo.common.utils.FileAccessor;
+import com.yuntongxun.ecdemo.ui.voip.SJVideoActivity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TabWidget;
 
 public class MainActivity extends FragmentActivity implements
-        OnTabChangeListener {
+        OnTabChangeListener, OnItemClickListener {
+
+    private Context mContext;
 
     private FragmentTabHost tabHost;
 
     private boolean isAfterLogin;
 
+    private KeyListAdapter2 adapter;
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            Log.i("MainActivity", action);
+            if (Constants.ACTION_RELEASE_CALL.equals(action)) {
+                final String callNumber = intent.getStringExtra("callNumber");
+                MsgDialog.show(mContext, "提示", "您收到开门申请，请选择", "立即开门", "发送钥匙",
+                        "取消", new OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                // 立即开门
+                                ListSelectDialog.show(mContext, "请选择门禁",
+                                        adapter, MainActivity.this);
+                            }
+                        }, new OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                MyKeysActivity.startAfterIM(MainActivity.this,
+                                        callNumber);
+                            }
+                        }, new OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                            }
+                        });
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = this;
         isAfterLogin = getIntent().getBooleanExtra("login", false);
         tabHost = (FragmentTabHost) super.findViewById(android.R.id.tabhost);
         tabHost.setup(this, super.getSupportFragmentManager(),
@@ -52,6 +103,8 @@ public class MainActivity extends FragmentActivity implements
         tabHost.getTabWidget().setDividerDrawable(null);
         tabHost.setOnTabChangedListener(this);
         initTab();
+        registerReceiver();
+        adapter = new KeyListAdapter2(this, MyApplication.instance.getLocks());
 
         // 云通讯初始化
         CCPAppManager.setContext(MyApplication.instance);
@@ -112,6 +165,12 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
+    private void registerReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.ACTION_RELEASE_CALL);
+        registerReceiver(receiver, filter);
+    }
+
     /**
      * 保存当前的聊天界面所对应的联系人、方便来消息屏蔽通知
      */
@@ -148,6 +207,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(receiver);
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter
                 .getDefaultAdapter();
 
@@ -173,6 +233,19 @@ public class MainActivity extends FragmentActivity implements
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra("login", false);
         context.startActivity(intent);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget
+     * .AdapterView, android.view.View, int, long)
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,
+            long id) {
+        MyApplication.instance.setSelectedLock(adapter.getItem(position));
     }
 
 }

@@ -571,7 +571,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                         ToastUtil.showShort(context, "开门失败，断开连接！");
                         disconnectDevice();
                     }
-                } catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

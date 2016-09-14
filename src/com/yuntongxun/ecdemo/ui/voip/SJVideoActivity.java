@@ -21,6 +21,7 @@ import com.patr.radix.MyApplication;
 import com.patr.radix.MyKeysActivity;
 import com.patr.radix.R;
 import com.patr.radix.bean.UserInfo;
+import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.view.dialog.MsgDialog;
 import com.patr.radix.view.dialog.MsgDialog.BtnType;
@@ -295,6 +296,11 @@ public class SJVideoActivity extends ECVoIPBaseActivity implements View.OnClickL
 
     @Override
     public void onCallReleased(String callId) {
+        if (mIncomingCall) {
+            Intent intent = new Intent(Constants.ACTION_RELEASE_CALL);
+            intent.putExtra("callNumber", mCallNumber);
+            sendBroadcast(new Intent(Constants.ACTION_RELEASE_CALL));
+        }
         if (callId != null && callId.equals(mCallId)) {
         	VoIPCallHelper.releaseMuteAndHandFree();
             finishCalling();
@@ -411,29 +417,7 @@ public class SJVideoActivity extends ECVoIPBaseActivity implements View.OnClickL
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // 挂断通话后，询问是否发送钥匙
-        if (mIncomingCall) {
-            MsgDialog.show(this, "确认", "是否发送钥匙？", "是",
-                    new OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-                            MyKeysActivity.startAfterIM(SJVideoActivity.this, mCallNumber);
-                            if (!isConnect) {
-                                finish();
-                            }
-                        }
-                    }, "否",
-                    new OnClickListener() {
-                        
-                        @Override
-                        public void onClick(View v) {
-                            if (!isConnect) {
-                                finish();
-                            }
-                        }
-                    });
-        } else if (!isConnect) {
+        if (!isConnect) {
             finish();
         }
     }

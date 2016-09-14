@@ -64,6 +64,8 @@ public class Constants {
     public static final String PREF_COIN_1_YUAN_IN = "coin1yuanin";
     public static final String PREF_COIN_5_JIAO_IN = "coin5jiaoin";
 
+    public static final String ACTION_RELEASE_CALL = "actionReleaseCall";
+
     /**
      * 密钥，用于加密缓存
      */
