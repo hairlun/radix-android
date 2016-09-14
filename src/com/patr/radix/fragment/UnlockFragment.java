@@ -562,22 +562,20 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private void doUnlock() {
         writeOption("30 ", "06 00 00 " + MyApplication.instance.getCsn());
-        handler.postDelayed(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
-                if (isUnlocking) {
-                    retryCount++;
-                    if (retryCount <= 3) {
-                        // ToastUtil.showShort(context, "开门失败，第" + retryCount
-                        // + "次重试…");
-                        doUnlock();
-                    } else {
+                try {
+                    Thread.sleep(5000);
+                    if (isUnlocking) {
                         ToastUtil.showShort(context, "开门失败，断开连接！");
                         disconnectDevice();
                     }
+                } catch(Exception e) {
+                    e.printStackTrace();
                 }
             }
-        }, 1500);
+        });
     }
 
     private void writeOption(String cmd, String data) {

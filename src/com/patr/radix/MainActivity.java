@@ -1,9 +1,24 @@
 package com.patr.radix;
 
+import java.io.File;
+import java.io.InvalidClassException;
+
+import com.baidu.mapapi.SDKInitializer;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.patr.radix.ble.BluetoothLeService;
 import com.patr.radix.utils.TabDb;
+import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.common.ECContentObservers;
 import com.yuntongxun.ecdemo.common.utils.CrashHandler;
+import com.yuntongxun.ecdemo.common.utils.ECPreferenceSettings;
+import com.yuntongxun.ecdemo.common.utils.ECPreferences;
+import com.yuntongxun.ecdemo.common.utils.FileAccessor;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -39,6 +54,12 @@ public class MainActivity extends FragmentActivity implements
         initTab();
 
         // 云通讯初始化
+        CCPAppManager.setContext(MyApplication.instance);
+        FileAccessor.initFileAccess();
+        setChattingContactId();
+        initImageLoader();
+        CrashHandler.getInstance().init(MyApplication.instance);
+        SDKInitializer.initialize(MyApplication.instance);
         ECContentObservers.getInstance().initContentObserver();
         CrashHandler.getInstance().setContext(this);
     }
@@ -89,6 +110,39 @@ public class MainActivity extends FragmentActivity implements
             }
 
         }
+    }
+
+    /**
+     * 保存当前的聊天界面所对应的联系人、方便来消息屏蔽通知
+     */
+    private void setChattingContactId() {
+        try {
+            ECPreferences.savePreference(
+                    ECPreferenceSettings.SETTING_CHATTING_CONTACTID, "", true);
+        } catch (InvalidClassException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initImageLoader() {
+        File cacheDir = StorageUtils.getOwnCacheDirectory(
+                getApplicationContext(), "ECSDK_Demo/image");
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                this).threadPoolSize(1)
+                // 线程池内加载的数量
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .memoryCache(new WeakMemoryCache())
+                // .denyCacheImageMultipleSizesInMemory()
+                .diskCacheFileNameGenerator(CCPAppManager.md5FileNameGenerator)
+                // 将保存的时候的URI名称用MD5 加密
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .diskCache(
+                        new UnlimitedDiscCache(cacheDir, null,
+                                CCPAppManager.md5FileNameGenerator))// 自定义缓存路径
+                .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+                // .writeDebugLogs() // Remove for release app
+                .build();// 开始构建
+        ImageLoader.getInstance().init(config);
     }
 
     @Override
