@@ -29,6 +29,7 @@ import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.utils.Utils;
 import com.patr.radix.view.ListSelectDialog;
+import com.patr.radix.view.LoadingDialog;
 import com.patr.radix.view.TitleBarView;
 import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.common.utils.FileAccessor;
@@ -84,6 +85,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     private GifImageView gifView;
 
     private CommunityListAdapter adapter;
+
+    private LoadingDialog loadingDialog;
 
     SensorManager sensorManager = null;
 
@@ -145,9 +148,15 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         Intent gattServiceIntent = new Intent(context.getApplicationContext(),
                 BluetoothLeService.class);
         context.startService(gattServiceIntent);
-        if (!mScanning) {
-            startScan();
-        }
+        handler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                if (!mScanning) {
+                    startScan();
+                }
+            }
+        }, 2000);
     }
 
     @Override
@@ -160,6 +169,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         titleBarView.setOnSelectKeyClickListener(this);
         gifView = (GifImageView) view.findViewById(R.id.unlock_giv);
         gifView.setOnClickListener(this);
+        loadingDialog = new LoadingDialog(context);
         init();
         loadData();
         return view;
@@ -213,6 +223,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 if (isDisconnectForUnlock) {
                     // BluetoothLeService.close();
                     isUnlocking = false;
+                    loadingDialog.dismiss();
                 }
             }
 
@@ -289,14 +300,20 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             if (action
                     .equals(BluetoothLeService.ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS)) {
                 LogUtil.d("发送开门命令成功！");
-                // Toast.makeText(context, "发送开门命令成功！",
-                // Toast.LENGTH_SHORT).show();
-                // handler.postDelayed(new Runnable() {
+                // handler.post(new Runnable() {
                 // @Override
                 // public void run() {
+                // try {
+                // Thread.sleep(5000);
+                // if (isUnlocking) {
+                // ToastUtil.showShort(context, "开门失败，断开连接！");
                 // disconnectDevice();
                 // }
-                // }, 100);
+                // } catch (Exception e) {
+                // e.printStackTrace();
+                // }
+                // }
+                // });
             }
 
             if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
@@ -661,8 +678,10 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         LogUtil.d("connectDevice: DevName = " + currentDevName
                 + "; DevAddress = " + currentDevAddress);
         // 如果是连接状态，断开，重新连接
-        if (BluetoothLeService.getConnectionState() != BluetoothLeService.STATE_DISCONNECTED)
+        if (BluetoothLeService.getConnectionState() != BluetoothLeService.STATE_DISCONNECTED) {
+            isDisconnectForUnlock = false;
             BluetoothLeService.disconnect();
+        }
 
         // statusTv.setText("正在连接门禁…");
         BluetoothLeService.connect(currentDevAddress, currentDevName, context);
@@ -670,10 +689,12 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private void disconnectDevice() {
         notifyOption();
-        BluetoothLeService.disconnect();
         if (isUnlocking) {
             isDisconnectForUnlock = true;
+        } else {
+            isDisconnectForUnlock = false;
         }
+        BluetoothLeService.disconnect();
     }
 
     private void loadData() {
@@ -923,6 +944,9 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     public void onDestroy() {
         super.onDestroy();
         context.unregisterReceiver(mGattUpdateReceiver);
+        if (loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
     }
 
     /*
@@ -1002,7 +1026,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         if (list.size() == 0) {
             LogUtil.d("第一次扫描没找到门禁设备，开始第二次扫描！");
             isScanningForUnlock = true;
-            startScanForUnlock();
+            startScan();
             return;
         }
         for (MDevice device : list) {
@@ -1011,7 +1035,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 if (!isUnlocking) {
                     isUnlocking = true;
                     retryCount = 0;
-                    ToastUtil.showShort(context, "正在开门…");
+                    loadingDialog.show("正在开门…");
                     connectDevice(device.getDevice());
                     break;
                 }
@@ -1061,29 +1085,16 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 @Override
                 public void run() {
                     MDevice mDev = new MDevice(device, rssi);
-                    // String name = device.getName();
-                    // if (name.length() < 5
-                    // || !device.getName().substring(0, 5)
-                    // .equalsIgnoreCase("radix")) {
-                    // return;
-                    // }
                     if (list.contains(mDev))
                         return;
                     list.add(mDev);
+                    LogUtil.d("发现蓝牙设备：" + mDev.getDevice().getName());
                 }
             });
         }
     };
 
     private void startScan() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            scanPrevious21Version();
-        } else {
-            scanAfter21Version();
-        }
-    }
-
-    private void startScanForUnlock() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             scanPrevious21Version();
         } else {
@@ -1102,6 +1113,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 if (mBluetoothAdapter != null) {
                     mBluetoothAdapter.stopLeScan(mLeScanCallback);
                 }
+                LogUtil.d("蓝牙设备数量：" + list.size());
                 if (isScanningForUnlock) {
                     isScanningForUnlock = false;
                     if (list.size() <= 0) {
@@ -1112,7 +1124,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 }
                 mScanning = false;
             }
-        }, 2800);
+        }, 2000);
 
         if (mBluetoothAdapter == null) {
             getBluetoothAdapter();
@@ -1140,6 +1152,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                         }
                     });
                 }
+                LogUtil.d("蓝牙设备数量：" + list.size());
                 if (isScanningForUnlock) {
                     isScanningForUnlock = false;
                     if (list.size() <= 0) {
@@ -1150,7 +1163,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 }
                 mScanning = false;
             }
-        }, 2800);
+        }, 2000);
 
         if (bleScanner == null) {
             if (mBluetoothAdapter == null) {
@@ -1167,14 +1180,10 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     super.onScanResult(callbackType, result);
                     MDevice mDev = new MDevice(result.getDevice(), result
                             .getRssi());
-                    // String name = result.getDevice().getName();
-                    // if (name.length() < 5
-                    // || !name.substring(0, 5).equalsIgnoreCase("radix")) {
-                    // return;
-                    // }
                     if (list.contains(mDev))
                         return;
                     list.add(mDev);
+                    LogUtil.d("发现蓝牙设备：" + mDev.getDevice().getName());
                 }
             });
         }
