@@ -230,7 +230,7 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
             try {
                 String cmd = "71 ";
                 String data = "00 00 00 00 "
-                        + MyApplication.instance.getCsn()
+                        + MyApplication.instance.getUserInfo().getCardNo()
                         + Utils.ByteArraytoHex(Utils.dateTime2Bytes(startCal
                                 .getTime()))
                         + Utils.ByteArraytoHex(Utils.dateTime2Bytes(endCal

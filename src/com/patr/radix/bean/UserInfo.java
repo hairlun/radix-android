@@ -35,6 +35,10 @@ public class UserInfo implements Serializable {
 
     private String areaPic;
 
+    private String cardNo;
+
+    private String userPic;
+
     private String token;
 
     public String getId() {
@@ -107,6 +111,22 @@ public class UserInfo implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
+    }
+
+    public String getUserPic() {
+        return userPic;
+    }
+
+    public void setUserPic(String userPic) {
+        this.userPic = userPic;
     }
 
 }

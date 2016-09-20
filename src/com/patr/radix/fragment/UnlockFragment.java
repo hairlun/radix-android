@@ -139,7 +139,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         checkBleSupportAndInitialize();
 
         handler = new Handler();
-        MyApplication.instance.setCsn(Utils.getCsn(context));
         // 注册广播接收者，接收消息
         context.registerReceiver(mGattUpdateReceiver,
                 Utils.makeGattUpdateIntentFilter());
@@ -561,7 +560,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void doUnlock() {
-        writeOption("30 ", "06 00 00 " + MyApplication.instance.getCsn());
+        writeOption("30 ", "06 00 00 " + MyApplication.instance.getUserInfo().getCardNo());
         handler.post(new Runnable() {
             @Override
             public void run() {

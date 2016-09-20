@@ -55,8 +55,6 @@ public class MyApplication extends Application {
 
     private String cardNum = "FF FF FF FF ";
 
-    private String csn;
-
     public static MyApplication instance;
 
     @Override
@@ -231,14 +229,6 @@ public class MyApplication extends Application {
 
     public void setCardNum(String cardNum) {
         this.cardNum = cardNum;
-    }
-
-    public String getCsn() {
-        return csn;
-    }
-
-    public void setCsn(String csn) {
-        this.csn = csn;
     }
 
     public List<RadixLock> getSelectedLocks() {

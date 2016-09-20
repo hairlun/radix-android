@@ -82,6 +82,10 @@ public class ServiceManager {
 
         String HOME = "home";
 
+        String CARD_NO = "cardNo";
+
+        String USER_PIC = "userPic";
+
         String LOCK_LIST = "lockList";
 
         String BLE_NAME1 = "inBleName";
@@ -94,7 +98,7 @@ public class ServiceManager {
 
         String END = "end";
 
-        String CTR_ID = "ctrId";
+        String CTR_NO = "ctrNo";
 
         String HOUSE_NUMBER_LIST = "houseNumberList";
 
@@ -164,6 +168,9 @@ public class ServiceManager {
 
         /** 手机远程开门 */
         String MOBILE_OPEN_DOOR = "/mobileOpenDoor?";
+
+        /** 访客预约 */
+        String MOBILE_ADD_VISITOR = "/mobileAddVisitor";
     }
 
     /**
