@@ -49,4 +49,8 @@
     <color name="right_text">#FF333333</color>
     <color name="error_text">#FFEB3946</color>
     
+    <!-- 最新消息 -->
+    <color name="tab_normal">#FFFFFFFF</color>
+    <color name="tab_selected">#FF5E5E5E</color>
+    
 </resources>

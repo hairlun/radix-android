@@ -203,6 +203,10 @@
     <string name="visitor_mobile_hint">请输入要拜访的业主手机号码</string>
     <string name="visitor_request">申请钥匙</string>
     
+    <!-- 最新消息模块 -->
+    <string name="public_message">公共消息</string>
+    <string name="private_message">个人消息</string>
+    
     <!-- 个人设置模块 -->
     <string name="settings_community">当前小区</string>
     <string name="settings_permission">用户授权</string>
