@@ -49,6 +49,20 @@ public class ServiceManager {
         String MOBILE = "mobile";
 
         String DOOR_ID = "doorId";
+
+        String VISITOR_NAME = "visitorName";
+
+        String START_TIME = "startTime";
+
+        String END_TIME = "endTime";
+
+        String PHONE_NUM = "phoneNum";
+
+        String REMARK = "remark";
+
+        String FILENAME = "filename";
+
+        String USER_PIC = "userPic";
     }
 
     /**
@@ -136,6 +150,10 @@ public class ServiceManager {
 
         String TOKEN = "token";
 
+        String FILE_PATH = "filePath";
+
+        String VISITOR_ID = "visitorId";
+
     }
 
     /**
@@ -171,6 +189,12 @@ public class ServiceManager {
 
         /** 访客预约 */
         String MOBILE_ADD_VISITOR = "/mobileAddVisitor";
+
+        String UPDATE_USER_PORTRAIT = "/updateUserPortrait";
+
+        String UPDATE_USER_PHONE = "/updateUserPhone";
+
+        String UPDATE_USER_PWD = "/updateUserPWD";
     }
 
     /**
@@ -280,4 +304,92 @@ public class ServiceManager {
         return WebService.post(Url.MOBILE_OPEN_DOOR, keys, values, listener,
                 new RequestResultParser(listener));
     }
+
+    /**
+     * 访客预约
+     * 
+     * @param visitorName
+     * @param startTime
+     * @param endTime
+     * @param phoneNum
+     * @param remark
+     * @param listener
+     * @return
+     */
+    public static Cancelable mobileAddVisitor(String visitorName,
+            String startTime, String endTime, String phoneNum, String remark,
+            final RequestListener<RequestResult> listener) {
+        String[] keys = { RequestKey.TOKEN, RequestKey.VISITOR_NAME,
+                RequestKey.START_TIME, RequestKey.END_TIME,
+                RequestKey.PHONE_NUM, RequestKey.REMARK };
+        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+                visitorName, startTime, endTime, phoneNum, remark };
+        return WebService.post(Url.MOBILE_ADD_VISITOR, keys, values, listener,
+                new RequestResultParser(listener));
+    }
+
+    /**
+     * 修改用户头像
+     * 
+     * @param userPic
+     * @param listener
+     * @return
+     */
+    public static Cancelable mobileUpload(String filename,
+            final RequestListener<RequestResult> listener) {
+        String[] keys = { RequestKey.TOKEN, RequestKey.FILENAME, RequestKey.NAME };
+        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+                filename, "file" };
+        return WebService.post(Url.UPDATE_USER_PORTRAIT, keys, values,
+                listener, new RequestResultParser(listener));
+    }
+
+    /**
+     * 修改用户头像
+     * 
+     * @param userPic
+     * @param listener
+     * @return
+     */
+    public static Cancelable updateUserPortrait(String userPic,
+            final RequestListener<RequestResult> listener) {
+        String[] keys = { RequestKey.TOKEN, RequestKey.USER_PIC };
+        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+                userPic };
+        return WebService.post(Url.UPDATE_USER_PORTRAIT, keys, values,
+                listener, new RequestResultParser(listener));
+    }
+
+    /**
+     * 修改用户手机号
+     * 
+     * @param mobile
+     * @param listener
+     * @return
+     */
+    public static Cancelable updateUserPhone(String mobile,
+            final RequestListener<RequestResult> listener) {
+        String[] keys = { RequestKey.TOKEN, RequestKey.MOBILE };
+        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+                mobile };
+        return WebService.post(Url.UPDATE_USER_PHONE, keys, values, listener,
+                new RequestResultParser(listener));
+    }
+
+    /**
+     * 修改用户登录密码
+     * 
+     * @param pwd
+     * @param listener
+     * @return
+     */
+    public static Cancelable updateUserPwd(String pwd,
+            final RequestListener<RequestResult> listener) {
+        String[] keys = { RequestKey.TOKEN, RequestKey.PWD };
+        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+                pwd };
+        return WebService.post(Url.UPDATE_USER_PWD, keys, values, listener,
+                new RequestResultParser(listener));
+    }
+
 }
