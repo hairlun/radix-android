@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context=".QRCodeActivity" >
 
-    <com.patr.radix.view.TitleBarView
+    <com.patr.radix.ui.view.TitleBarView
         android:id="@+id/unlock_qrcode_titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

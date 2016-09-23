@@ -2,7 +2,7 @@ package com.patr.radix;
 
 import org.xutils.x;
 
-import com.patr.radix.view.TitleBarView;
+import com.patr.radix.ui.view.TitleBarView;
 
 import android.app.Activity;
 import android.content.Context;

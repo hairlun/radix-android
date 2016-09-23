@@ -4,7 +4,7 @@
  * zhoushujie
  * 2016-6-13 上午11:03:47
  */
-package com.patr.radix.view;
+package com.patr.radix.ui.view;
 
 import com.patr.radix.MyApplication;
 import com.patr.radix.R;

@@ -1,4 +1,4 @@
-package com.patr.radix.view;
+package com.patr.radix.ui.view;
 
 import java.io.BufferedReader;
 import java.io.IOException;

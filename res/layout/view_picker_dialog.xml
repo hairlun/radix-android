@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.patr.radix.view.picker.DatetimePickerView
+    <com.patr.radix.ui.view.picker.DatetimePickerView
         android:id="@+id/picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

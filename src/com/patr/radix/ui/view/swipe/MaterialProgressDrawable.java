@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.patr.radix.view.swipe;
+package com.patr.radix.ui.view.swipe;
 
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;

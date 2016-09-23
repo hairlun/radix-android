@@ -12,14 +12,14 @@ import java.util.Date;
 import java.util.List;
 
 import com.patr.radix.bean.RadixLock;
+import com.patr.radix.ui.view.TitleBarView;
+import com.patr.radix.ui.view.picker.DatetimeDialog;
+import com.patr.radix.ui.view.picker.DatetimeDialog.OnConfirmListener;
+import com.patr.radix.ui.view.picker.DatetimePickerView.Type;
 import com.patr.radix.utils.TimeUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.utils.Utils;
 import com.patr.radix.utils.qrcode.QRCodeUtil;
-import com.patr.radix.view.TitleBarView;
-import com.patr.radix.view.picker.DatetimeDialog;
-import com.patr.radix.view.picker.DatetimeDialog.OnConfirmListener;
-import com.patr.radix.view.picker.DatetimePickerView.Type;
 import com.yuntongxun.ecdemo.ui.chatting.IMChattingHelper;
 import com.yuntongxun.ecsdk.ECMessage;
 import com.yuntongxun.ecsdk.im.ECTextMessageBody;

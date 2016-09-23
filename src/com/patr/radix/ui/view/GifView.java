@@ -4,7 +4,7 @@
  * zhoushujie
  * 2016-6-20 上午11:14:51
  */
-package com.patr.radix.view;
+package com.patr.radix.ui.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

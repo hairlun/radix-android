@@ -5,7 +5,7 @@
     android:background="@color/gray_bg"
     tools:context=".LockSetupActivity" >
 
-    <com.patr.radix.view.TitleBarView
+    <com.patr.radix.ui.view.TitleBarView
         android:id="@+id/lock_settings_titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         android:textSize="16sp"
         android:textColor="@color/right_text" />
 
-    <com.patr.radix.view.LockPatternView
+    <com.patr.radix.ui.view.LockPatternView
         android:id="@+id/lock_pattern"
         android:layout_width="250dp"
         android:layout_height="250dp"

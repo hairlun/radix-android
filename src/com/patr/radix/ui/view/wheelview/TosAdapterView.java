@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.patr.radix.view.wheelview;
+package com.patr.radix.ui.view.wheelview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

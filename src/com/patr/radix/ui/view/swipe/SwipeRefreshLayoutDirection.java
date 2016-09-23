@@ -1,4 +1,4 @@
-package com.patr.radix.view.swipe;
+package com.patr.radix.ui.view.swipe;
 
 /**
  * Created by oliviergoutay on 1/23/15.

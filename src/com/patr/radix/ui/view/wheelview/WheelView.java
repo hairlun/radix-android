@@ -1,4 +1,4 @@
-package com.patr.radix.view.wheelview;
+package com.patr.radix.ui.view.wheelview;
 
 import com.patr.radix.R;
 

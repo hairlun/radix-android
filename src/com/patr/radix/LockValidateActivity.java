@@ -11,14 +11,14 @@ import java.util.List;
 import org.xutils.x;
 import org.xutils.common.util.LogUtil;
 
+import com.patr.radix.ui.view.LockPatternView;
+import com.patr.radix.ui.view.TitleBarView;
+import com.patr.radix.ui.view.LockPatternView.Cell;
+import com.patr.radix.ui.view.LockPatternView.DisplayMode;
+import com.patr.radix.ui.view.LockPatternView.OnPatternListener;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.lock.LockPatternUtils;
-import com.patr.radix.view.LockPatternView;
-import com.patr.radix.view.LockPatternView.Cell;
-import com.patr.radix.view.LockPatternView.DisplayMode;
-import com.patr.radix.view.LockPatternView.OnPatternListener;
-import com.patr.radix.view.TitleBarView;
 
 import android.app.Activity;
 import android.content.Context;

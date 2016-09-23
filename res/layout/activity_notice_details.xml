@@ -8,17 +8,17 @@
     android:orientation="vertical"
     tools:context=".NoticeDetailsActivity" >
 
-    <com.patr.radix.view.TitleBarView
+    <com.patr.radix.ui.view.TitleBarView
         android:id="@+id/notice_details_titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     
-    <com.patr.radix.view.swipe.SwipeRefreshLayout
+    <com.patr.radix.ui.view.swipe.SwipeRefreshLayoutout
         android:id="@+id/swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:direction="top" >
     
-    </com.patr.radix.view.swipe.SwipeRefreshLayout>
+    </com.patr.radix.ui.view.swipe.SwipeRefreshLayoutout>
 
 </LinearLayout>

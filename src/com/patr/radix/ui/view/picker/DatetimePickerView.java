@@ -1,4 +1,4 @@
-package com.patr.radix.view.picker;
+package com.patr.radix.ui.view.picker;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -6,10 +6,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.patr.radix.R;
+import com.patr.radix.ui.view.wheelview.TosGallery;
+import com.patr.radix.ui.view.wheelview.WheelView;
+import com.patr.radix.ui.view.wheelview.TosGallery.OnEndFlingListener;
 import com.patr.radix.utils.Utils;
-import com.patr.radix.view.wheelview.TosGallery;
-import com.patr.radix.view.wheelview.TosGallery.OnEndFlingListener;
-import com.patr.radix.view.wheelview.WheelView;
 
 import android.content.Context;
 import android.graphics.Color;

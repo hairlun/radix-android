@@ -1,4 +1,4 @@
-package com.patr.radix.fragment;
+package com.patr.radix.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,15 +22,15 @@ import com.patr.radix.bll.GetCommunityListParser;
 import com.patr.radix.bll.GetLockListParser;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.ui.view.ListSelectDialog;
+import com.patr.radix.ui.view.LoadingDialog;
+import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.GattAttributes;
 import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.utils.Utils;
-import com.patr.radix.view.ListSelectDialog;
-import com.patr.radix.view.LoadingDialog;
-import com.patr.radix.view.TitleBarView;
 import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.common.utils.FileAccessor;
 import com.yuntongxun.ecdemo.core.ClientUser;

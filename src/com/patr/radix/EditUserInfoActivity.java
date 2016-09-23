@@ -5,8 +5,8 @@ import org.xutils.common.util.MD5;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.utils.ToastUtil;
-import com.patr.radix.view.TitleBarView;
 
 import android.app.Activity;
 import android.content.Context;

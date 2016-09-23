@@ -1,11 +1,11 @@
-package com.patr.radix.view.picker;
+package com.patr.radix.ui.view.picker;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import com.patr.radix.R;
-import com.patr.radix.view.dialog.AbsCustomDialog;
-import com.patr.radix.view.picker.DatetimePickerView.Type;
+import com.patr.radix.ui.view.dialog.AbsCustomDialog;
+import com.patr.radix.ui.view.picker.DatetimePickerView.Type;
 
 import android.content.Context;
 import android.os.Bundle;

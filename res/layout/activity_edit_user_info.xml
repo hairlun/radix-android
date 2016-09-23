@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".EditUserInfoActivity" >
 
-    <com.patr.radix.view.TitleBarView
+    <com.patr.radix.ui.view.TitleBarView
         android:id="@+id/user_info_titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

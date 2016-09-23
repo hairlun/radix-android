@@ -7,12 +7,12 @@
     android:background="@color/gray_bg"
     tools:context=".MyKeysActivity" >
     
-    <com.patr.radix.view.TitleBarView
+    <com.patr.radix.ui.view.TitleBarView
         android:id="@+id/my_keys_titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.patr.radix.view.swipe.SwipeRefreshLayout
+    <com.patr.radix.ui.view.swipe.SwipeRefreshLayoutout
         android:id="@+id/swipe"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:divider="@color/gray_line"
             android:dividerHeight="1px" />
-    </com.patr.radix.view.swipe.SwipeRefreshLayout>
+    </com.patr.radix.ui.view.swipe.SwipeRefreshLayoutout>
     
     <Button
         android:id="@+id/ok_btn"

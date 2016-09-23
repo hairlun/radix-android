@@ -30,7 +30,7 @@
             android:layout_gravity="center_vertical"
             android:background="@color/gray_line" />
 
-        <com.patr.radix.view.wheelview.WheelView
+        <com.patr.radix.ui.view.wheelview.WheelView
             android:id="@+id/picker_year"
             android:layout_width="0dp"
             android:layout_height="180dp"
@@ -43,7 +43,7 @@
             android:layout_gravity="center_vertical"
             android:background="@color/gray_line" />
 
-        <com.patr.radix.view.wheelview.WheelView
+        <com.patr.radix.ui.view.wheelview.WheelView
             android:id="@+id/picker_month"
             android:layout_width="0dp"
             android:layout_height="180dp"
@@ -56,7 +56,7 @@
             android:layout_gravity="center_vertical"
             android:background="@color/gray_line" />
 
-        <com.patr.radix.view.wheelview.WheelView
+        <com.patr.radix.ui.view.wheelview.WheelView
             android:id="@+id/picker_day"
             android:layout_width="0dp"
             android:layout_height="180dp"
@@ -69,7 +69,7 @@
             android:layout_gravity="center_vertical"
             android:background="@color/gray_line" />
 
-        <com.patr.radix.view.wheelview.WheelView
+        <com.patr.radix.ui.view.wheelview.WheelView
             android:id="@+id/picker_hour"
             android:layout_width="0dp"
             android:layout_height="180dp"
@@ -82,7 +82,7 @@
             android:layout_gravity="center_vertical"
             android:background="@color/gray_line" />
 
-        <com.patr.radix.view.wheelview.WheelView
+        <com.patr.radix.ui.view.wheelview.WheelView
             android:id="@+id/picker_mins"
             android:layout_width="0dp"
             android:layout_height="180dp"

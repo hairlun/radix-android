@@ -1,26 +1,31 @@
-package com.patr.radix.fragment;
+package com.patr.radix.ui.message;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.xutils.view.annotation.ViewInject;
 
 import com.patr.radix.MyApplication;
 import com.patr.radix.NoticeDetailsActivity;
 import com.patr.radix.R;
+import com.patr.radix.adapter.MessagePagerAdapter;
 import com.patr.radix.adapter.NoticeListAdapter;
 import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.GetNoticeListResult;
 import com.patr.radix.bean.Notice;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.ui.view.TitleBarView;
+import com.patr.radix.ui.view.swipe.SwipeRefreshLayout;
+import com.patr.radix.ui.view.swipe.SwipeRefreshLayoutDirection;
+import com.patr.radix.ui.view.swipe.SwipeRefreshLayout.OnRefreshListener;
 import com.patr.radix.utils.ToastUtil;
-import com.patr.radix.view.TitleBarView;
-import com.patr.radix.view.swipe.SwipeRefreshLayout;
-import com.patr.radix.view.swipe.SwipeRefreshLayout.OnRefreshListener;
-import com.patr.radix.view.swipe.SwipeRefreshLayoutDirection;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,26 +34,25 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class NoticeFragment extends Fragment implements OnItemClickListener,
+public class MessageFragment extends Fragment implements OnItemClickListener,
         OnRefreshListener {
 
     Context context;
 
-    TitleBarView titleBarView;
+    /** Tab栏 */
+    RadioGroup mRadioGroup;
 
-    private ListView lv;
-
-    private NoticeListAdapter adapter;
-
-    private SwipeRefreshLayout swipe;
-
-    private int pageNum;
-
-    private int totalCount;
-
-    private int totalPage;
+    /** 界面切换 */
+    ViewPager mPager;
+    
+    /** 界面切换适配器 */
+    MessagePagerAdapter mPagerAdapter;
+    
+    /** View集合 */
+    List<MessageView> mViews = new ArrayList<MessageView>();
 
     @Override
     public void onAttach(Activity activity) {
@@ -61,18 +65,6 @@ public class NoticeFragment extends Fragment implements OnItemClickListener,
             Bundle savedInstanceState) {
         View view = inflater
                 .inflate(R.layout.fragment_notice, container, false);
-        titleBarView = (TitleBarView) view.findViewById(R.id.notice_titlebar);
-        lv = (ListView) view.findViewById(R.id.message_lv);
-        swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
-        titleBarView.hideBackBtn().setTitle(R.string.titlebar_latest_msg);
-        adapter = new NoticeListAdapter(context, null);
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener(this);
-        swipe.setOnRefreshListener(this);
-        pageNum = 1;
-        totalCount = 0;
-        totalPage = 0;
-        loadData();
         return view;
     }
 

@@ -1,4 +1,4 @@
-package com.patr.radix.fragment;
+package com.patr.radix.ui;
 
 import org.xutils.common.util.LogUtil;
 
@@ -10,10 +10,10 @@ import com.patr.radix.bll.CacheManager;
 import com.patr.radix.bll.GetUserListParser;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.ui.view.ListSelectDialog;
+import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.ToastUtil;
-import com.patr.radix.view.ListSelectDialog;
-import com.patr.radix.view.TitleBarView;
 import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.common.utils.FileAccessor;
 import com.yuntongxun.ecdemo.core.ClientUser;

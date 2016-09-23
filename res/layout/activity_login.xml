@@ -7,7 +7,7 @@
     android:background="@color/gray_bg"
     tools:context=".LoginActivity" >
     
-    <com.patr.radix.view.TitleBarView
+    <com.patr.radix.ui.view.TitleBarView
         android:id="@+id/login_titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

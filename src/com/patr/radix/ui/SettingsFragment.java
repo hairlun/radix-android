@@ -1,4 +1,4 @@
-package com.patr.radix.fragment;
+package com.patr.radix.ui;
 
 import org.xutils.common.util.LogUtil;
 
@@ -15,14 +15,14 @@ import com.patr.radix.bll.CacheManager;
 import com.patr.radix.bll.GetCommunityListParser;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.ui.view.ListSelectDialog;
+import com.patr.radix.ui.view.TitleBarView;
+import com.patr.radix.ui.view.dialog.MsgDialog;
+import com.patr.radix.ui.view.dialog.MsgDialog.BtnType;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
-import com.patr.radix.view.ListSelectDialog;
-import com.patr.radix.view.TitleBarView;
-import com.patr.radix.view.dialog.MsgDialog;
-import com.patr.radix.view.dialog.MsgDialog.BtnType;
 
 import android.app.Activity;
 import android.content.Context;

@@ -14,11 +14,11 @@ import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.RadixLock;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.ui.view.TitleBarView;
+import com.patr.radix.ui.view.swipe.SwipeRefreshLayout;
+import com.patr.radix.ui.view.swipe.SwipeRefreshLayoutDirection;
+import com.patr.radix.ui.view.swipe.SwipeRefreshLayout.OnRefreshListener;
 import com.patr.radix.utils.ToastUtil;
-import com.patr.radix.view.TitleBarView;
-import com.patr.radix.view.swipe.SwipeRefreshLayout;
-import com.patr.radix.view.swipe.SwipeRefreshLayout.OnRefreshListener;
-import com.patr.radix.view.swipe.SwipeRefreshLayoutDirection;
 
 import android.app.Activity;
 import android.content.Context;

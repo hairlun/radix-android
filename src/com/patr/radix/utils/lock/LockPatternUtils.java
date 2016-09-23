@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.xutils.common.util.LogUtil;
 
-import com.patr.radix.view.LockPatternView;
+import com.patr.radix.ui.view.LockPatternView;
 
 import android.content.Context;
 import android.os.FileObserver;

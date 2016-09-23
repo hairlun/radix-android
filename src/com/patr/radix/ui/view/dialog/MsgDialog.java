@@ -1,4 +1,4 @@
-package com.patr.radix.view.dialog;
+package com.patr.radix.ui.view.dialog;
 
 import com.patr.radix.R;
 
