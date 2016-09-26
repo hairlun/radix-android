@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import com.patr.radix.MyApplication;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.GetNoticeListResult;
-import com.patr.radix.bean.Notice;
+import com.patr.radix.bean.Message;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.bll.ServiceManager.ResponseKey;
 import com.patr.radix.network.IAsyncListener;
@@ -52,7 +52,7 @@ public class GetNoticeListParser extends AbsBaseParser<GetNoticeListResult> {
                                         .optString(ResponseKey.READ_TIME);
                                 String imgUrl = obj.optString(ResponseKey.PIC);
                                 int video = obj.optInt(ResponseKey.VIDEO);
-                                Notice notice = new Notice();
+                                Message notice = new Message();
                                 notice.setId(id);
                                 notice.setTitle(title);
                                 notice.setSentDate(sentDate);

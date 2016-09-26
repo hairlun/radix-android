@@ -111,7 +111,7 @@ public class MainActivity extends FragmentActivity implements
         FileAccessor.initFileAccess();
         setChattingContactId();
         initImageLoader();
-        CrashHandler.getInstance().init(MyApplication.instance);
+//        CrashHandler.getInstance().init(MyApplication.instance);
         SDKInitializer.initialize(MyApplication.instance);
         ECContentObservers.getInstance().initContentObserver();
         CrashHandler.getInstance().setContext(this);

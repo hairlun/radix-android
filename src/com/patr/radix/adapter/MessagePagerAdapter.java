@@ -3,6 +3,8 @@ package com.patr.radix.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.patr.radix.ui.message.MessageView;
+
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
@@ -20,11 +22,11 @@ public class MessagePagerAdapter extends PagerAdapter {
     Context mContext;
 
     /** View集合 */
-    private List<LinearLayout> views = new ArrayList<LinearLayout>();
+    private List<MessageView> views = new ArrayList<MessageView>();
 
-    public MessagePagerAdapter(Context context, List<LinearLayout> views) {
+    public MessagePagerAdapter(Context context, List<MessageView> mViews) {
         mContext = context;
-        this.views = views;
+        this.views = mViews;
     }
 
     @Override

@@ -22,7 +22,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 
-public class NoticeDetailsActivity extends Activity implements
+public class MessageDetailsActivity extends Activity implements
         OnRefreshListener, NewsWebViewClient {
 
     private TitleBarView titleBarView;
@@ -38,7 +38,7 @@ public class NoticeDetailsActivity extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notice_details);
+        setContentView(R.layout.activity_message_details);
         context = this;
         noticeId = getIntent().getStringExtra("noticeId");
         initView();
@@ -156,7 +156,7 @@ public class NoticeDetailsActivity extends Activity implements
     }
 
     public static void start(Context context, String id) {
-        Intent intent = new Intent(context, NoticeDetailsActivity.class);
+        Intent intent = new Intent(context, MessageDetailsActivity.class);
         intent.putExtra("noticeId", id);
         context.startActivity(intent);
     }

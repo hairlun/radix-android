@@ -6,19 +6,19 @@
     android:background="@color/gray_bg"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".NoticeDetailsActivity" >
+    tools:context=".MessageDetailsActivity" >
 
     <com.patr.radix.ui.view.TitleBarView
         android:id="@+id/notice_details_titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     
-    <com.patr.radix.ui.view.swipe.SwipeRefreshLayoutout
+    <com.patr.radix.ui.view.swipe.SwipeRefreshLayout
         android:id="@+id/swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:direction="top" >
     
-    </com.patr.radix.ui.view.swipe.SwipeRefreshLayoutout>
+    </com.patr.radix.ui.view.swipe.SwipeRefreshLayout>
 
 </LinearLayout>

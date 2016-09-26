@@ -2,7 +2,7 @@ package com.patr.radix.bean;
 
 import java.io.Serializable;
 
-public class Notice implements Serializable {
+public class Message implements Serializable {
 
     /**
      * 
@@ -105,7 +105,7 @@ public class Notice implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Notice other = (Notice) obj;
+        Message other = (Message) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

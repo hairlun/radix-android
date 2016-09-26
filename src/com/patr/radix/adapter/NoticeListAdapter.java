@@ -5,7 +5,7 @@ import java.util.List;
 import org.xutils.x;
 
 import com.patr.radix.R;
-import com.patr.radix.bean.Notice;
+import com.patr.radix.bean.Message;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class NoticeListAdapter extends AbsListAdapter<Notice> {
+public class NoticeListAdapter extends AbsListAdapter<Message> {
 
-    public NoticeListAdapter(Context context, List<Notice> list) {
+    public NoticeListAdapter(Context context, List<Message> list) {
         super(context, list);
     }
 
@@ -42,7 +42,7 @@ public class NoticeListAdapter extends AbsListAdapter<Notice> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Notice notice = getItem(position);
+        Message notice = getItem(position);
         String imgUrl = notice.getImgUrl();
         if (!TextUtils.isEmpty(imgUrl)) {
             holder.pic.setVisibility(View.VISIBLE);

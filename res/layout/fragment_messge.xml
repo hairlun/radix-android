@@ -12,13 +12,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="fitCenter"
-        android:src="@drawable/latest_news_pic" />
+        android:src="@drawable/latest_news_pic"
+        android:layout_margin="30dp" />
 
     <RadioGroup
         android:id="@+id/message_rg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_marginBottom="1px" >
 
         <RadioButton
             android:id="@+id/public_message_rb"
@@ -45,7 +47,7 @@
     </RadioGroup>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/incoming_pager"
+        android:id="@+id/message_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

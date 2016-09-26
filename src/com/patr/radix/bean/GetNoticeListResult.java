@@ -10,7 +10,7 @@ public class GetNoticeListResult extends RequestResult {
      */
     private static final long serialVersionUID = -2802166331101655269L;
 
-    private List<Notice> notices = new ArrayList<Notice>();
+    private List<Message> notices = new ArrayList<Message>();
 
     private int curPage;
 
@@ -22,11 +22,11 @@ public class GetNoticeListResult extends RequestResult {
         super(retcode, retinfo);
     }
 
-    public List<Notice> getNotices() {
+    public List<Message> getNotices() {
         return notices;
     }
 
-    public void setNotices(List<Notice> notices) {
+    public void setNotices(List<Message> notices) {
         this.notices = notices;
     }
 
