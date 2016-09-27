@@ -45,6 +45,7 @@ import android.widget.ImageView;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TabWidget;
+import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity implements
         OnTabChangeListener, OnItemClickListener {
@@ -52,8 +53,6 @@ public class MainActivity extends FragmentActivity implements
     private Context mContext;
 
     private FragmentTabHost tabHost;
-
-    private boolean isAfterLogin;
 
     private KeyListAdapter2 adapter;
 
@@ -96,7 +95,6 @@ public class MainActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = this;
-        isAfterLogin = getIntent().getBooleanExtra("login", false);
         tabHost = (FragmentTabHost) super.findViewById(android.R.id.tabhost);
         tabHost.setup(this, super.getSupportFragmentManager(),
                 R.id.contentLayout);
@@ -132,15 +130,22 @@ public class MainActivity extends FragmentActivity implements
         View view = LayoutInflater.from(this).inflate(R.layout.footer_tabs,
                 null);
         int defaultTab = 0;
-        if (isAfterLogin) {
-            defaultTab = 3;
+        ImageView iv = (ImageView) view.findViewById(R.id.iv);
+        TextView tv = (TextView) view.findViewById(R.id.tv);
+        TextView badge = (TextView) view.findViewById(R.id.badge);
+        tv.setText(TabDb.getTabsTxt()[idx]);
+        // TODO 设置badge
+        if (idx == 2) {
+            badge.setText("99");
+        } else {
+            badge.setVisibility(View.GONE);
         }
         if (idx == defaultTab) {
-            ((ImageView) view.findViewById(R.id.ivImg)).setImageResource(TabDb
-                    .getTabsImgLight()[idx]);
+            iv.setImageResource(TabDb.getTabsImgLight()[idx]);
+            tv.setTextColor(getResources().getColor(R.color.buttombar_text_selected));
         } else {
-            ((ImageView) view.findViewById(R.id.ivImg)).setImageResource(TabDb
-                    .getTabsImg()[idx]);
+            iv.setImageResource(TabDb.getTabsImg()[idx]);
+            tv.setTextColor(getResources().getColor(R.color.buttombar_text));
         }
         return view;
     }
@@ -155,11 +160,14 @@ public class MainActivity extends FragmentActivity implements
         TabWidget tabw = tabHost.getTabWidget();
         for (int i = 0; i < tabw.getChildCount(); i++) {
             View view = tabw.getChildAt(i);
-            ImageView iv = (ImageView) view.findViewById(R.id.ivImg);
+            ImageView iv = (ImageView) view.findViewById(R.id.iv);
+            TextView tv = (TextView) view.findViewById(R.id.tv);
             if (i == tabHost.getCurrentTab()) {
                 iv.setImageResource(TabDb.getTabsImgLight()[i]);
+                tv.setTextColor(getResources().getColor(R.color.buttombar_text_selected));
             } else {
                 iv.setImageResource(TabDb.getTabsImg()[i]);
+                tv.setTextColor(getResources().getColor(R.color.buttombar_text));
             }
 
         }
@@ -221,18 +229,6 @@ public class MainActivity extends FragmentActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-    }
-
-    public static void startAfterLogin(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("login", true);
-        context.startActivity(intent);
-    }
-
-    public static void start(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("login", false);
-        context.startActivity(intent);
     }
 
     /*

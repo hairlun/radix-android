@@ -14,8 +14,8 @@
  	<android.support.v4.app.FragmentTabHost
  	    android:id="@android:id/tabhost"
  	    android:layout_width="match_parent"
- 	    android:layout_height="52dp"
- 	    android:background="#F6F6F6" >
+ 	    android:layout_height="66dp"
+ 	    android:background="@color/buttombar_bg" >
 
  	    <FrameLayout
             android:id="@android:id/tabcontent"

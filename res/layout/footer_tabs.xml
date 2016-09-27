@@ -1,16 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content" 
     android:gravity="center"
     android:background="#F6F6F6"
-    android:padding="6dp" >
-
-    <ImageView
-        android:id="@+id/ivImg"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp" >
+    
+    <LinearLayout
+        android:id="@+id/tab_ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
         android:layout_centerInParent="true"
-        android:scaleType="fitCenter" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter" />
+        
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp" />
+        
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tab_ll"
+        android:layout_alignRight="@id/tab_ll"
+        android:layout_marginTop="-6dp"
+        android:layout_marginRight="-6dp"
+        android:singleLine="true"
+        android:gravity="center"
+        android:ems="2"
+        android:background="@drawable/sign_prompt"
+        android:textSize="10sp"
+        android:textColor="@color/white" />
+        
 
 </RelativeLayout>

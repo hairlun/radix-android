@@ -16,15 +16,15 @@ public class TabDb {
     }
 
     public static int[] getTabsImg() {
-        int[] ids = { R.drawable.foot_icon_01, R.drawable.foot_icon_02,
-                R.drawable.foot_icon_03, R.drawable.foot_icon_04 };
+        int[] ids = { R.drawable.bar_icon_open_the_door, R.drawable.bar_icon_visitor,
+                R.drawable.bar_icon_news, R.drawable.bar_icon_set_up };
         return ids;
     }
 
     public static int[] getTabsImgLight() {
-        int[] ids = { R.drawable.foot_icon_hover_01,
-                R.drawable.foot_icon_hover_02, R.drawable.foot_icon_hover_03,
-                R.drawable.foot_icon_hover_04 };
+        int[] ids = { R.drawable.bar_icon_open_the_door_n,
+                R.drawable.bar_icon_visitor_n, R.drawable.bar_icon_news_n,
+                R.drawable.bar_icon_set_up_n };
         return ids;
     }
 
