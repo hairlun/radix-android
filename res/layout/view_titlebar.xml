@@ -1,141 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="52dp"
-    android:background="@drawable/titlebar_btn_bg_selector"
+    android:background="@null"
     android:gravity="center_vertical" >
 
-    <LinearLayout
+    <!-- 标题 -->
+
+    <TextView
+        android:id="@+id/title_tv"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:orientation="vertical" >
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <!-- 返回 -->
+
+    <LinearLayout
+        android:id="@+id/titlebar_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:background="@null"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="2dp"
+        android:paddingRight="5dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/homepage_key_left" />
 
         <TextView
-            android:id="@+id/title_tv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:paddingLeft="70dp"
-            android:paddingRight="70dp"
-            android:singleLine="true"
-            android:text=""
-            android:textSize="20sp"
-            android:textColor="@color/white" />
+            android:id="@+id/titlebar_back_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/titlebar_back"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="52dp" >
-
-        <!-- 标题栏返回按钮 -->
-        <ImageButton
-            android:id="@+id/titlebar_back_btn"
-            android:layout_width="52dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/titlebar_btn_bg_selector"
-            android:contentDescription="@string/titlebar_back"
-            android:src="@drawable/arrow_left"
-            android:padding="4dp"
-            android:visibility="visible" />
-
-        <!-- 取消 -->
-        <LinearLayout
-            android:id="@+id/titlebar_cancel_ll"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:orientation="horizontal"
-            android:background="@drawable/titlebar_btn_bg_selector"
-            android:clickable="true"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/titlebar_cancel_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/titlebar_btn_bg_shape_selector"
-                android:padding="2dp"
-                android:gravity="center"
-                android:text="@string/titlebar_cancel"
-                android:textSize="18sp"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
-
-        <!-- 全选 -->
-        <LinearLayout
-            android:id="@+id/titlebar_check_all_ll"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:orientation="horizontal"
-            android:background="@drawable/titlebar_btn_bg_selector"
-            android:clickable="true"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/titlebar_check_all_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/titlebar_btn_bg_shape_selector"
-                android:padding="2dp"
-                android:gravity="center"
-                android:text="@string/titlebar_check_all"
-                android:textSize="18sp"
-                android:textColor="@color/white" />
-            
-        </LinearLayout>
-
-        <!-- 发送钥匙 -->
-        <LinearLayout
-            android:id="@+id/titlebar_send_key_ll"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:orientation="horizontal"
-            android:background="@drawable/titlebar_btn_bg_selector"
-            android:clickable="true"
-            android:visibility="gone" >
-
-            <TextView
-                android:id="@+id/titlebar_send_key_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/titlebar_btn_bg_shape_selector"
-                android:padding="2dp"
-                android:gravity="center"
-                android:text="@string/titlebar_send_key"
-                android:textSize="16sp"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
-
-        <!-- 选择钥匙 -->
-        <ImageButton
-            android:id="@+id/titlebar_select_key_btn"
-            android:layout_width="52dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/titlebar_btn_bg_selector"
-            android:contentDescription="@string/titlebar_select_key"
-            android:padding="4dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/choose_key_btn"
-            android:visibility="gone" />
-    </RelativeLayout>
-
-</FrameLayout>
+</RelativeLayout>
