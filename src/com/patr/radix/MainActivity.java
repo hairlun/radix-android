@@ -13,7 +13,6 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.patr.radix.adapter.KeyListAdapter2;
 import com.patr.radix.ble.BluetoothLeService;
-import com.patr.radix.ui.UnlockFragment;
 import com.patr.radix.ui.view.ListSelectDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog;
 import com.patr.radix.utils.Constants;
@@ -24,10 +23,8 @@ import com.yuntongxun.ecdemo.common.utils.CrashHandler;
 import com.yuntongxun.ecdemo.common.utils.ECPreferenceSettings;
 import com.yuntongxun.ecdemo.common.utils.ECPreferences;
 import com.yuntongxun.ecdemo.common.utils.FileAccessor;
-import com.yuntongxun.ecdemo.ui.voip.SJVideoActivity;
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -109,7 +106,7 @@ public class MainActivity extends FragmentActivity implements
         FileAccessor.initFileAccess();
         setChattingContactId();
         initImageLoader();
-//        CrashHandler.getInstance().init(MyApplication.instance);
+        // CrashHandler.getInstance().init(MyApplication.instance);
         SDKInitializer.initialize(MyApplication.instance);
         ECContentObservers.getInstance().initContentObserver();
         CrashHandler.getInstance().setContext(this);
@@ -142,7 +139,8 @@ public class MainActivity extends FragmentActivity implements
         }
         if (idx == defaultTab) {
             iv.setImageResource(TabDb.getTabsImgLight()[idx]);
-            tv.setTextColor(getResources().getColor(R.color.buttombar_text_selected));
+            tv.setTextColor(getResources().getColor(
+                    R.color.buttombar_text_selected));
         } else {
             iv.setImageResource(TabDb.getTabsImg()[idx]);
             tv.setTextColor(getResources().getColor(R.color.buttombar_text));
@@ -164,7 +162,8 @@ public class MainActivity extends FragmentActivity implements
             TextView tv = (TextView) view.findViewById(R.id.tv);
             if (i == tabHost.getCurrentTab()) {
                 iv.setImageResource(TabDb.getTabsImgLight()[i]);
-                tv.setTextColor(getResources().getColor(R.color.buttombar_text_selected));
+                tv.setTextColor(getResources().getColor(
+                        R.color.buttombar_text_selected));
             } else {
                 iv.setImageResource(TabDb.getTabsImg()[i]);
                 tv.setTextColor(getResources().getColor(R.color.buttombar_text));
