@@ -76,9 +76,8 @@ public class MyKeysActivity extends Activity implements OnClickListener,
         keysLv = (ListView) findViewById(R.id.my_keys_lv);
         okBtn = (Button) findViewById(R.id.ok_btn);
         swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
-        titleBarView.setTitle(R.string.titlebar_my_keys).showSendKeyBtn()
-                .setOnSendKeyClickListener(this).setOnCancelClickListener(this)
-                .setOnCheckAllClickListener(this);
+        titleBarView.setTitle(R.string.titlebar_my_keys)
+                .setOnCloseClickListener(this);
         adapter = new KeyListAdapter(this, MyApplication.instance.getLocks());
         keysLv.setAdapter(adapter);
         okBtn.setOnClickListener(this);
@@ -164,51 +163,51 @@ public class MyKeysActivity extends Activity implements OnClickListener,
      */
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-        case R.id.titlebar_send_key_ll:
-            adapter.setEdit(true);
-            adapter.notifyDataSetChanged();
-            titleBarView.showCancelBtn().showCheckAllBtn();
-            okBtn.setVisibility(View.VISIBLE);
-            break;
-        case R.id.titlebar_cancel_ll:
-            adapter.deselectAll();
-            adapter.setEdit(false);
-            adapter.notifyDataSetChanged();
-            titleBarView.showBackBtn().showSendKeyBtn();
-            okBtn.setVisibility(View.GONE);
-            break;
-        case R.id.titlebar_check_all_ll:
-            if (!adapter.isSelectAll()) {
-                adapter.selectAll();
-            } else {
-                adapter.deselectAll();
-            }
-            adapter.notifyDataSetChanged();
-            break;
-        case R.id.ok_btn:
-            if (adapter.selectedSet.isEmpty()) {
-                ToastUtil.showShort(context, "请至少选择一个钥匙！");
-            } else {
-                if (isAfterIM) {
-                    MyApplication.instance
-                            .setSelectedLocks(new ArrayList<RadixLock>(
-                                    adapter.selectedSet));
-                    ActiveTimeActivity.startAfterIM(context, callNumber);
-                } else {
-                    if (adapter.selectedSet.size() <= 5) {
-                        MyApplication.instance
-                                .setSelectedLocks(new ArrayList<RadixLock>(
-                                        adapter.selectedSet));
-                        // 设置有效时间，生成二维码
-                        ActiveTimeActivity.start(context);
-                    } else {
-                        ToastUtil.showShort(context, "最多选择5个钥匙！");
-                    }
-                }
-            }
-            break;
-        }
+//        switch (v.getId()) {
+//        case R.id.titlebar_send_key_ll:
+//            adapter.setEdit(true);
+//            adapter.notifyDataSetChanged();
+//            titleBarView.showCancelBtn().showCheckAllBtn();
+//            okBtn.setVisibility(View.VISIBLE);
+//            break;
+//        case R.id.titlebar_close_btn:
+//            adapter.deselectAll();
+//            adapter.setEdit(false);
+//            adapter.notifyDataSetChanged();
+//            titleBarView.showBackBtn().showSendKeyBtn();
+//            okBtn.setVisibility(View.GONE);
+//            break;
+//        case R.id.titlebar_check_all_ll:
+//            if (!adapter.isSelectAll()) {
+//                adapter.selectAll();
+//            } else {
+//                adapter.deselectAll();
+//            }
+//            adapter.notifyDataSetChanged();
+//            break;
+//        case R.id.ok_btn:
+//            if (adapter.selectedSet.isEmpty()) {
+//                ToastUtil.showShort(context, "请至少选择一个钥匙！");
+//            } else {
+//                if (isAfterIM) {
+//                    MyApplication.instance
+//                            .setSelectedLocks(new ArrayList<RadixLock>(
+//                                    adapter.selectedSet));
+//                    ActiveTimeActivity.startAfterIM(context, callNumber);
+//                } else {
+//                    if (adapter.selectedSet.size() <= 5) {
+//                        MyApplication.instance
+//                                .setSelectedLocks(new ArrayList<RadixLock>(
+//                                        adapter.selectedSet));
+//                        // 设置有效时间，生成二维码
+//                        ActiveTimeActivity.start(context);
+//                    } else {
+//                        ToastUtil.showShort(context, "最多选择5个钥匙！");
+//                    }
+//                }
+//            }
+//            break;
+//        }
     }
 
     /*

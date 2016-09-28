@@ -6,25 +6,18 @@
  */
 package com.patr.radix.ui.view;
 
-import com.patr.radix.MyApplication;
 import com.patr.radix.R;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * @author zhoushujie
@@ -39,20 +32,11 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
     /** 返回按钮 */
     private ImageButton mBackBtn;
 
-    /** 取消按钮 */
-    private LinearLayout mCancelBtn;
+    /** 关闭按钮 */
+    private Button mCloseBtn;
 
     /** 标题 */
     private TextView mTitleTv;
-
-    /** 全选按钮 */
-    private LinearLayout mCheckAllBtn;
-
-    /** 发送钥匙按钮 */
-    private LinearLayout mSendKeyBtn;
-
-    /** 选择钥匙按钮 */
-    private ImageButton mSelectKeyBtn;
 
     private String title;
 
@@ -76,15 +60,9 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
         mTitleTv.setClickable(true);
         mTitleTv.setText(title);
         mBackBtn = (ImageButton) findViewById(R.id.titlebar_back_btn);
-        mCancelBtn = (LinearLayout) findViewById(R.id.titlebar_cancel_ll);
-        mCheckAllBtn = (LinearLayout) findViewById(R.id.titlebar_check_all_ll);
-        mSendKeyBtn = (LinearLayout) findViewById(R.id.titlebar_send_key_ll);
-        mSelectKeyBtn = (ImageButton) findViewById(R.id.titlebar_select_key_btn);
+        mCloseBtn = (Button) findViewById(R.id.titlebar_close_btn);
 
-        hideCancelBtn();
-        hideCheckAllBtn();
-        hideSendKeyBtn();
-        hideSelectKeyBtn();
+        hideCloseBtn();
     }
 
     /**
@@ -93,10 +71,7 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
     private void initListener() {
         mTitleTv.setOnClickListener(this);
         mBackBtn.setOnClickListener(this);
-        mCancelBtn.setOnClickListener(this);
-        mCheckAllBtn.setOnClickListener(this);
-        mSendKeyBtn.setOnClickListener(this);
-        mSelectKeyBtn.setOnClickListener(this);
+        mCloseBtn.setOnClickListener(this);
     }
 
     /**
@@ -153,41 +128,8 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
      * @param listener
      * @return
      */
-    public TitleBarView setOnCancelClickListener(OnClickListener listener) {
-        mCancelBtn.setOnClickListener(listener);
-        return this;
-    }
-
-    /**
-     * 全选按钮点击监听
-     * 
-     * @param listener
-     * @return
-     */
-    public TitleBarView setOnCheckAllClickListener(OnClickListener listener) {
-        mCheckAllBtn.setOnClickListener(listener);
-        return this;
-    }
-
-    /**
-     * 发送钥匙按钮点击监听
-     * 
-     * @param listener
-     * @return
-     */
-    public TitleBarView setOnSendKeyClickListener(OnClickListener listener) {
-        mSendKeyBtn.setOnClickListener(listener);
-        return this;
-    }
-
-    /**
-     * 选择钥匙按钮点击监听
-     * 
-     * @param listener
-     * @return
-     */
-    public TitleBarView setOnSelectKeyClickListener(OnClickListener listener) {
-        mSelectKeyBtn.setOnClickListener(listener);
+    public TitleBarView setOnCloseClickListener(OnClickListener listener) {
+        mCloseBtn.setOnClickListener(listener);
         return this;
     }
 
@@ -196,7 +138,7 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
      */
     public TitleBarView showBackBtn() {
         mBackBtn.setVisibility(VISIBLE);
-        mCancelBtn.setVisibility(GONE);
+        mCloseBtn.setVisibility(GONE);
         return this;
     }
 
@@ -209,73 +151,19 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
     }
 
     /**
-     * 显示取消按钮
+     * 显示关闭按钮
      */
     public TitleBarView showCancelBtn() {
         mBackBtn.setVisibility(GONE);
-        mCancelBtn.setVisibility(VISIBLE);
+        mCloseBtn.setVisibility(VISIBLE);
         return this;
     }
 
     /**
-     * 不显示取消按钮
+     * 不显示关闭按钮
      */
-    public TitleBarView hideCancelBtn() {
-        mCancelBtn.setVisibility(GONE);
-        return this;
-    }
-
-    /**
-     * 显示全选按钮
-     */
-    public TitleBarView showCheckAllBtn() {
-        mCheckAllBtn.setVisibility(VISIBLE);
-        mSendKeyBtn.setVisibility(GONE);
-        mSelectKeyBtn.setVisibility(GONE);
-        return this;
-    }
-
-    /**
-     * 不显示全选按钮
-     */
-    public TitleBarView hideCheckAllBtn() {
-        mCheckAllBtn.setVisibility(GONE);
-        return this;
-    }
-
-    /**
-     * 显示发送钥匙按钮
-     */
-    public TitleBarView showSendKeyBtn() {
-        mSendKeyBtn.setVisibility(VISIBLE);
-        mCheckAllBtn.setVisibility(GONE);
-        mSelectKeyBtn.setVisibility(GONE);
-        return this;
-    }
-
-    /**
-     * 不显示发送钥匙按钮
-     */
-    public TitleBarView hideSendKeyBtn() {
-        mSendKeyBtn.setVisibility(GONE);
-        return this;
-    }
-
-    /**
-     * 显示选择钥匙按钮
-     */
-    public TitleBarView showSelectKeyBtn() {
-        mSelectKeyBtn.setVisibility(VISIBLE);
-        mCheckAllBtn.setVisibility(GONE);
-        mSendKeyBtn.setVisibility(GONE);
-        return this;
-    }
-
-    /**
-     * 不显示选择钥匙按钮
-     */
-    public TitleBarView hideSelectKeyBtn() {
-        mSelectKeyBtn.setVisibility(GONE);
+    public TitleBarView hideCloseBtn() {
+        mCloseBtn.setVisibility(GONE);
         return this;
     }
 
@@ -289,29 +177,8 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
     /**
      * 执行取消按钮的点击
      */
-    public void cancelPerformClick() {
-        mCancelBtn.performClick();
-    }
-
-    /**
-     * 执行全选按钮的点击
-     */
-    public void checkAllPerformClick() {
-        mCheckAllBtn.performClick();
-    }
-
-    /**
-     * 执行发送钥匙按钮的点击
-     */
-    public void sendKeyPerformClick() {
-        mSendKeyBtn.performClick();
-    }
-
-    /**
-     * 执行选择钥匙按钮的点击
-     */
-    public void selectKeyPerformClick() {
-        mSelectKeyBtn.performClick();
+    public void closePerformClick() {
+        mCloseBtn.performClick();
     }
 
     @Override
@@ -320,13 +187,8 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
         case R.id.titlebar_back_btn:
             ((Activity) getContext()).onBackPressed();
             break;
-        case R.id.titlebar_cancel_ll:
-            break;
-        case R.id.titlebar_check_all_ll:
-            break;
-        case R.id.titlebar_send_key_ll:
-            break;
-        case R.id.titlebar_select_key_btn:
+        case R.id.titlebar_close_btn:
+            ((Activity) getContext()).onBackPressed();
             break;
         default:
             break;

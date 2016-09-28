@@ -165,8 +165,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         View view = inflater
                 .inflate(R.layout.fragment_unlock, container, false);
         titleBarView = (TitleBarView) view.findViewById(R.id.unlock_titlebar);
-        titleBarView.hideBackBtn().showSelectKeyBtn();
-        titleBarView.setOnSelectKeyClickListener(this);
+        titleBarView.hideBackBtn();
         gifView = (GifImageView) view.findViewById(R.id.unlock_giv);
         gifView.setOnClickListener(this);
         loadingDialog = new LoadingDialog(context);
@@ -956,15 +955,15 @@ public class UnlockFragment extends Fragment implements OnClickListener,
      */
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-        case R.id.titlebar_select_key_btn:
-            MyKeysActivity.start(context);
-            break;
-
-        case R.id.unlock_giv:
-            preUnlock();
-            break;
-        }
+//        switch (v.getId()) {
+//        case R.id.titlebar_select_key_btn:
+//            MyKeysActivity.start(context);
+//            break;
+//
+//        case R.id.unlock_giv:
+//            preUnlock();
+//            break;
+//        }
     }
 
     @Override
