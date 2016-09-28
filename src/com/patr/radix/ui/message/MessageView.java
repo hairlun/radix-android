@@ -8,7 +8,6 @@ package com.patr.radix.ui.message;
 
 import java.util.List;
 
-import com.patr.radix.MessageDetailsActivity;
 import com.patr.radix.R;
 import com.patr.radix.adapter.NoticeListAdapter;
 import com.patr.radix.bean.GetNoticeListResult;

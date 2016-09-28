@@ -3,10 +3,10 @@ package com.patr.radix.utils;
 import com.patr.radix.R;
 import com.patr.radix.R.drawable;
 import com.patr.radix.R.string;
-import com.patr.radix.ui.SettingsFragment;
 import com.patr.radix.ui.UnlockFragment;
 import com.patr.radix.ui.VisitorFragment;
 import com.patr.radix.ui.message.MessageFragment;
+import com.patr.radix.ui.settings.SettingsFragment;
 
 public class TabDb {
     public static int[] getTabsTxt() {

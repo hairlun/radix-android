@@ -111,7 +111,7 @@
         <activity android:name="com.patr.radix.MyKeysActivity" android:screenOrientation="portrait" />
         <activity android:name="com.patr.radix.ActiveTimeActivity" android:screenOrientation="portrait" />
         <activity android:name="com.patr.radix.QRCodeActivity" android:screenOrientation="portrait" />
-        <activity android:name="com.patr.radix.MessageDetailsActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.patr.radix.ui.message.MessageDetailsActivity" android:screenOrientation="portrait" />
         <activity android:name="com.patr.radix.EditUserInfoActivity" android:screenOrientation="portrait" />
         <activity android:name="com.patr.radix.LockSetupActivity" android:screenOrientation="portrait" />
         <activity android:name="com.patr.radix.LockValidateActivity" android:screenOrientation="portrait" />

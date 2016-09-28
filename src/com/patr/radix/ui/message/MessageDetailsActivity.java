@@ -1,5 +1,10 @@
-package com.patr.radix;
+package com.patr.radix.ui.message;
 
+import com.patr.radix.MyApplication;
+import com.patr.radix.R;
+import com.patr.radix.R.id;
+import com.patr.radix.R.layout;
+import com.patr.radix.R.string;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.bll.ServiceManager.Url;
 import com.patr.radix.network.RequestListener;

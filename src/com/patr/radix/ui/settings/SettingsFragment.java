@@ -1,4 +1,4 @@
-package com.patr.radix.ui;
+package com.patr.radix.ui.settings;
 
 import org.xutils.common.util.LogUtil;
 
@@ -16,7 +16,6 @@ import com.patr.radix.bll.GetCommunityListParser;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.ui.view.ListSelectDialog;
-import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.ui.view.dialog.MsgDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog.BtnType;
 import com.patr.radix.utils.Constants;
@@ -44,8 +43,6 @@ public class SettingsFragment extends Fragment implements OnClickListener,
         OnItemClickListener {
 
     private Context context;
-
-    private TitleBarView titleBarView;
 
     private LinearLayout userInfoLl;
 
@@ -80,8 +77,6 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container,
                 false);
-        titleBarView = (TitleBarView) view.findViewById(R.id.settings_titlebar);
-        titleBarView.hideBackBtn().setTitle(R.string.titlebar_my_settings);
         userInfoLl = (LinearLayout) view
                 .findViewById(R.id.settings_user_info_ll);
         usernameTv = (TextView) view.findViewById(R.id.settings_username_tv);
