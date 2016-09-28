@@ -2,16 +2,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_bg"
+    android:background="@drawable/login_bg"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
-    <com.patr.radix.ui.view.TitleBarView
-        android:id="@+id/settings_titlebar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp" />
+        android:layout_height="35dp" >
+        
+        <ImageButton
+            android:id="@+id/setting_btn"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:src="@drawable/bar_icon_set_up"
+            android:background="@drawable/titlebar_btn_bg_selector" />
+        
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/settings_user_info_ll"
