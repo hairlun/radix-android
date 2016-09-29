@@ -59,16 +59,18 @@ public class CommunityListAdapter extends AbsListAdapter<Community> {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(
-                    R.layout.item_server_addr, null);
+                    R.layout.item_community, null);
             holder.tv = (TextView) convertView.findViewById(R.id.choose_tv);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         if (position == 0) {
-            convertView.setBackgroundResource(R.drawable.listitem_community_bg_top_selector);
+            convertView
+                    .setBackgroundResource(R.drawable.listitem_community_bg_top_selector);
         } else {
-            convertView.setBackgroundResource(R.drawable.listitem_community_bg_middle_selector);
+            convertView
+                    .setBackgroundResource(R.drawable.listitem_community_bg_middle_selector);
         }
         Community community = getItem(position);
         String text = community.getName();

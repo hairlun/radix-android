@@ -23,9 +23,7 @@ public class ListSelectDialog extends AbsCustomDialog {
 
     private Button cancelBtn;
     private ListView selectLv;
-    private TextView titleTv;
 
-    private CharSequence title = "";
     private ListAdapter adapter;
 
     private OnItemClickListener onItemClickListener;
@@ -44,7 +42,6 @@ public class ListSelectDialog extends AbsCustomDialog {
      */
     @Override
     public void initView() {
-        titleTv = (TextView) findViewById(R.id.dialog_title_tv);
         selectLv = (ListView) findViewById(R.id.select_lv);
         cancelBtn = (Button) findViewById(R.id.dialog_cancel);
     }
@@ -54,7 +51,6 @@ public class ListSelectDialog extends AbsCustomDialog {
      */
     @Override
     public void initData() {
-        titleTv.setText(title);
         selectLv.setAdapter(adapter);
     }
 
@@ -106,16 +102,6 @@ public class ListSelectDialog extends AbsCustomDialog {
     }
 
     /**
-     * 设置标题
-     * 
-     * @param title
-     */
-    @Override
-    public void setTitle(CharSequence title) {
-        this.title = title == null ? "" : title;
-    }
-
-    /**
      * 设置适配器
      * 
      * @param adapter
@@ -145,7 +131,6 @@ public class ListSelectDialog extends AbsCustomDialog {
     public static void show(Context context, CharSequence title,
             ListAdapter adapter, OnItemClickListener l) {
         ListSelectDialog dialog = new ListSelectDialog(context);
-        dialog.setTitle(title);
         dialog.setAdapter(adapter);
         dialog.setOnItemClickListener(l);
         dialog.show();

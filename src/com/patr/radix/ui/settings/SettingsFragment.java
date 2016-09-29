@@ -44,7 +44,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
         OnItemClickListener {
 
     private Context context;
-    
+
     private RelativeLayout currentCommunityRl;
 
     private CommunityListAdapter adapter;
@@ -60,10 +60,11 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container,
                 false);
-        currentCommunityRl = (RelativeLayout) view.findViewById(R.id.current_community_ll);
+        currentCommunityRl = (RelativeLayout) view
+                .findViewById(R.id.current_community_ll);
         currentCommunityRl.setOnClickListener(this);
-//        logoutBtn = (Button) view.findViewById(R.id.settings_logout_btn);
-//        logoutBtn.setOnClickListener(this);
+        // logoutBtn = (Button) view.findViewById(R.id.settings_logout_btn);
+        // logoutBtn.setOnClickListener(this);
         adapter = new CommunityListAdapter(context,
                 MyApplication.instance.getCommunities());
         Community selectedCommunity = MyApplication.instance
@@ -98,14 +99,14 @@ public class SettingsFragment extends Fragment implements OnClickListener,
         case R.id.current_community_ll:
             getCommunityList();
             break;
-//        case R.id.settings_logout_btn:
-//            if (TextUtils.isEmpty(MyApplication.instance.getUserInfo()
-//                    .getAccount())) {
-//                login();
-//            } else {
-//                logout();
-//            }
-//            break;
+        // case R.id.settings_logout_btn:
+        // if (TextUtils.isEmpty(MyApplication.instance.getUserInfo()
+        // .getAccount())) {
+        // login();
+        // } else {
+        // logout();
+        // }
+        // break;
         }
     }
 

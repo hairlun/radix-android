@@ -8,18 +8,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="15dp" >
+        android:paddingRight="15dp" >
 
         <TextView
             android:id="@+id/choose_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
+            android:paddingBottom="23dp"
+            android:paddingLeft="33dp"
+            android:paddingTop="26dp"
             android:textColor="@color/white"
             android:textSize="16sp" />
-
     </LinearLayout>
 
 </LinearLayout>
