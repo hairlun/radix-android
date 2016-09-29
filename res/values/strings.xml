@@ -209,9 +209,13 @@
     
     <!-- 个人设置模块 -->
     <string name="settings_community">当前小区</string>
+    <string name="settings_my_key">我的钥匙</string>
+    <string name="settings_modify_userinfo">修改用户信息</string>
+    <string name="settings_share">分享给好友</string>
     <string name="settings_permission">用户授权</string>
     <string name="settings_lock">手势密码</string>
     <string name="settings_feedback">意见反馈</string>
+    <string name="settings_clear">清除缓存</string>
     <string name="settings_check_update">版本检查及更新</string>
     <string name="settings_name">用户姓名</string>
     <string name="settings_pwd">密    码</string>

@@ -44,26 +44,6 @@ public class SettingsFragment extends Fragment implements OnClickListener,
 
     private Context context;
 
-    private LinearLayout userInfoLl;
-
-    private TextView usernameTv;
-
-    private LinearLayout permissionLl;
-
-    private LinearLayout feedbackLl;
-
-    private LinearLayout lockLl;
-
-    private TextView lockStatusTv;
-
-    private LinearLayout currentCommunityLl;
-
-    private TextView currentCommunityTv;
-
-    private LinearLayout checkUpdateLl;
-
-    private Button logoutBtn;
-
     private CommunityListAdapter adapter;
 
     @Override
@@ -77,30 +57,8 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container,
                 false);
-        userInfoLl = (LinearLayout) view
-                .findViewById(R.id.settings_user_info_ll);
-        usernameTv = (TextView) view.findViewById(R.id.settings_username_tv);
-        permissionLl = (LinearLayout) view
-                .findViewById(R.id.settings_user_permission_ll);
-        feedbackLl = (LinearLayout) view
-                .findViewById(R.id.settings_feedback_ll);
-        lockLl = (LinearLayout) view.findViewById(R.id.settings_lock_ll);
-        lockStatusTv = (TextView) view
-                .findViewById(R.id.settings_lock_status_tv);
-        currentCommunityLl = (LinearLayout) view
-                .findViewById(R.id.settings_current_community_ll);
-        currentCommunityTv = (TextView) view
-                .findViewById(R.id.settings_current_community_tv);
-        checkUpdateLl = (LinearLayout) view
-                .findViewById(R.id.settings_check_update_ll);
-        logoutBtn = (Button) view.findViewById(R.id.settings_logout_btn);
-        userInfoLl.setOnClickListener(this);
-        permissionLl.setOnClickListener(this);
-        feedbackLl.setOnClickListener(this);
-        lockLl.setOnClickListener(this);
-        currentCommunityLl.setOnClickListener(this);
-        checkUpdateLl.setOnClickListener(this);
-        logoutBtn.setOnClickListener(this);
+//        logoutBtn = (Button) view.findViewById(R.id.settings_logout_btn);
+//        logoutBtn.setOnClickListener(this);
         adapter = new CommunityListAdapter(context,
                 MyApplication.instance.getCommunities());
         Community selectedCommunity = MyApplication.instance
@@ -122,33 +80,6 @@ public class SettingsFragment extends Fragment implements OnClickListener,
     }
 
     private void refresh() {
-        if (!TextUtils.isEmpty(PrefUtil.getString(context,
-                Constants.PREF_LOCK_KEY, null))) {
-            lockStatusTv.setText("(已开启)");
-        } else {
-            lockStatusTv.setText("(已关闭)");
-        }
-        String name = MyApplication.instance.getUserInfo().getName();
-        if (TextUtils.isEmpty(name)) {
-            // 未登录
-            userInfoLl.setVisibility(View.GONE);
-            permissionLl.setVisibility(View.GONE);
-            logoutBtn.setText(R.string.login);
-        } else {
-            // 已登录
-            userInfoLl.setVisibility(View.VISIBLE);
-            permissionLl.setVisibility(View.VISIBLE);
-            logoutBtn.setText(R.string.settings_logout);
-            usernameTv.setText(name);
-
-        }
-        Community selectedCommunity = MyApplication.instance
-                .getSelectedCommunity();
-        if (selectedCommunity != null) {
-            currentCommunityTv.setText("(" + selectedCommunity.getName() + ")");
-        } else {
-            currentCommunityTv.setText("");
-        }
     }
 
     @Override
@@ -158,43 +89,16 @@ public class SettingsFragment extends Fragment implements OnClickListener,
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-        case R.id.settings_user_info_ll:
-            // 修改用户信息
-            break;
-        case R.id.settings_user_permission_ll:
-            ToastUtil.showShort(context, "暂无用户授权功能");
-            break;
-        case R.id.settings_feedback_ll:
-            // 意见反馈
-            break;
-        case R.id.settings_lock_ll:
-            // 手势密码
-            if (TextUtils.isEmpty(PrefUtil.getString(context,
-                    Constants.PREF_LOCK_KEY, null))) {
-                // 打开密码锁
-                LockSetupActivity.start(context);
-            } else {
-                // 关闭密码锁
-                LockValidateActivity.startForResult(this, Constants.LOCK_CLEAR);
-            }
-            break;
-        case R.id.settings_current_community_ll:
-            // 选择小区
-            getCommunityList();
-            break;
-        case R.id.settings_check_update_ll:
-            // 版本检查及更新
-            break;
-        case R.id.settings_logout_btn:
-            if (TextUtils.isEmpty(MyApplication.instance.getUserInfo()
-                    .getAccount())) {
-                login();
-            } else {
-                logout();
-            }
-            break;
-        }
+//        switch (v.getId()) {
+//        case R.id.settings_logout_btn:
+//            if (TextUtils.isEmpty(MyApplication.instance.getUserInfo()
+//                    .getAccount())) {
+//                login();
+//            } else {
+//                logout();
+//            }
+//            break;
+//        }
     }
 
     private void getCommunityList() {
