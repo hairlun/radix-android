@@ -65,6 +65,11 @@ public class CommunityListAdapter extends AbsListAdapter<Community> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        if (position == 0) {
+            convertView.setBackgroundResource(R.drawable.listitem_community_bg_top_selector);
+        } else {
+            convertView.setBackgroundResource(R.drawable.listitem_community_bg_middle_selector);
+        }
         Community community = getItem(position);
         String text = community.getName();
         holder.tv.setText(text);
