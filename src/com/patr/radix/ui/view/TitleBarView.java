@@ -123,7 +123,7 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
     }
 
     /**
-     * 取消按钮点击监听
+     * 关闭按钮点击监听
      * 
      * @param listener
      * @return
@@ -175,7 +175,7 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
     }
 
     /**
-     * 执行取消按钮的点击
+     * 执行关闭按钮的点击
      */
     public void closePerformClick() {
         mCloseBtn.performClick();

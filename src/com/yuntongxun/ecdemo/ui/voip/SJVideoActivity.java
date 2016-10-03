@@ -18,9 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.patr.radix.MyApplication;
-import com.patr.radix.MyKeysActivity;
 import com.patr.radix.R;
 import com.patr.radix.bean.UserInfo;
+import com.patr.radix.ui.unlock.MyKeysActivity;
 import com.patr.radix.ui.view.dialog.MsgDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog.BtnType;
 import com.patr.radix.utils.Constants;

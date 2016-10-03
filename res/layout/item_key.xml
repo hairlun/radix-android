@@ -12,21 +12,38 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/key_icon"
+        android:src="@drawable/icon_key"
         android:visibility="visible" />
 
-    <TextView
-        android:id="@+id/key_tv"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"
         android:layout_weight="1.0"
-        android:text="@string/app_name"
-        android:textSize="16sp"
-        android:textColor="@drawable/choose_item_text_selector" />
+        android:orientation="vertical" >
+        
+        <TextView
+            android:id="@+id/key_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:text=""
+            android:textSize="13sp"
+            android:textColor="@color/gray_text" />
+        
+        <TextView
+            android:id="@+id/key_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="20dp"
+            android:text=""
+            android:textSize="15sp"
+            android:textColor="@color/black_text" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/key_arrow_iv"
@@ -35,7 +52,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="15dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/checkbox_no"
-        android:visibility="gone" />
+        android:src="@drawable/icon_go_to" />
 
 </LinearLayout>

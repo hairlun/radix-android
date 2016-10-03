@@ -78,6 +78,7 @@
                 android:scaleType="center" />
             
             <TextView
+                android:id="@+id/community_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -90,6 +91,18 @@
                 android:textSize="15sp"
                 android:textColor="@color/black_text" />
             
+            <TextView
+                android:id="@+id/community_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/community_label"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:background="@null"
+                android:textSize="13sp"
+                android:textColor="@color/gray_text" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -296,8 +309,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btn_bg_selector"
-            android:clickable="true" >
+            android:background="@drawable/btn_bg_selector" >
             
             <ImageView
                 android:id="@+id/clear_iv"
@@ -313,6 +325,7 @@
                 android:scaleType="center" />
             
             <TextView
+                android:id="@+id/clear_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -325,6 +338,18 @@
                 android:textSize="15sp"
                 android:textColor="@color/black_text" />
             
+            <TextView
+                android:id="@+id/clear_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/clear_label"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:background="@null"
+                android:textSize="13sp"
+                android:textColor="@color/gray_text" />
+
             <Button
                 android:id="@+id/clear_btn"
                 android:layout_width="wrap_content"

@@ -75,31 +75,6 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
             pwd = MD5.md5(pwd);
         }
         String mobile = mobileEt.getText().toString().trim();
-        ServiceManager.updateUserInfo(name, mobile, pwd,
-                new RequestListener<RequestResult>() {
-
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                    }
-
-                    @Override
-                    public void onSuccess(int stateCode, RequestResult result) {
-                        if (result != null) {
-                            ToastUtil.showShort(context, result.getRetinfo());
-                        } else {
-                            ToastUtil.showShort(context,
-                                    R.string.connect_exception);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Exception error, String content) {
-                        ToastUtil
-                                .showShort(context, R.string.connect_exception);
-                    }
-
-                });
     }
 
     @Override

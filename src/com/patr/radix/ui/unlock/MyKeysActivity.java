@@ -4,16 +4,24 @@
  * zhoushujie
  * 2016-6-21 下午3:33:34
  */
-package com.patr.radix;
+package com.patr.radix.ui.unlock;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.patr.radix.ActiveTimeActivity;
+import com.patr.radix.MyApplication;
+import com.patr.radix.R;
+import com.patr.radix.R.id;
+import com.patr.radix.R.layout;
+import com.patr.radix.R.string;
 import com.patr.radix.adapter.KeyListAdapter;
 import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.RadixLock;
+import com.patr.radix.bean.RequestResult;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.ui.view.LoadingDialog;
 import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.ui.view.swipe.SwipeRefreshLayout;
 import com.patr.radix.ui.view.swipe.SwipeRefreshLayoutDirection;
@@ -50,7 +58,9 @@ public class MyKeysActivity extends Activity implements OnClickListener,
 
     private Context context;
 
-    private boolean isAfterIM;
+    private boolean remoteOpenDoor;
+
+    private LoadingDialog loadingDialog;
 
     private String callNumber;
 
@@ -58,7 +68,7 @@ public class MyKeysActivity extends Activity implements OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-        isAfterIM = getIntent().getBooleanExtra("IM", false);
+        remoteOpenDoor = getIntent().getBooleanExtra("remoteOpenDoor", false);
         callNumber = getIntent().getStringExtra("callNumber");
         setContentView(R.layout.activity_my_keys);
         initView();
@@ -76,14 +86,22 @@ public class MyKeysActivity extends Activity implements OnClickListener,
         keysLv = (ListView) findViewById(R.id.my_keys_lv);
         okBtn = (Button) findViewById(R.id.ok_btn);
         swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
-        titleBarView.setTitle(R.string.titlebar_my_keys)
-                .setOnCloseClickListener(this);
-        adapter = new KeyListAdapter(this, MyApplication.instance.getLocks());
-        keysLv.setAdapter(adapter);
+
         okBtn.setOnClickListener(this);
         keysLv.setOnItemClickListener(this);
         swipe.setOnRefreshListener(this);
+
+        titleBarView.setTitle(R.string.titlebar_my_keys);
+        if (remoteOpenDoor) {
+            okBtn.setVisibility(View.GONE);
+        } else {
+            okBtn.setVisibility(View.VISIBLE);
+        }
+        adapter = new KeyListAdapter(this, MyApplication.instance.getLocks(),
+                !remoteOpenDoor);
+        keysLv.setAdapter(adapter);
         swipe.setDirection(SwipeRefreshLayoutDirection.TOP);
+        loadingDialog = new LoadingDialog(context);
     }
 
     private void loadData() {
@@ -163,51 +181,68 @@ public class MyKeysActivity extends Activity implements OnClickListener,
      */
     @Override
     public void onClick(View v) {
-//        switch (v.getId()) {
-//        case R.id.titlebar_send_key_ll:
-//            adapter.setEdit(true);
-//            adapter.notifyDataSetChanged();
-//            titleBarView.showCancelBtn().showCheckAllBtn();
-//            okBtn.setVisibility(View.VISIBLE);
-//            break;
-//        case R.id.titlebar_close_btn:
-//            adapter.deselectAll();
-//            adapter.setEdit(false);
-//            adapter.notifyDataSetChanged();
-//            titleBarView.showBackBtn().showSendKeyBtn();
-//            okBtn.setVisibility(View.GONE);
-//            break;
-//        case R.id.titlebar_check_all_ll:
-//            if (!adapter.isSelectAll()) {
-//                adapter.selectAll();
-//            } else {
-//                adapter.deselectAll();
-//            }
-//            adapter.notifyDataSetChanged();
-//            break;
-//        case R.id.ok_btn:
-//            if (adapter.selectedSet.isEmpty()) {
-//                ToastUtil.showShort(context, "请至少选择一个钥匙！");
-//            } else {
-//                if (isAfterIM) {
-//                    MyApplication.instance
-//                            .setSelectedLocks(new ArrayList<RadixLock>(
-//                                    adapter.selectedSet));
-//                    ActiveTimeActivity.startAfterIM(context, callNumber);
-//                } else {
-//                    if (adapter.selectedSet.size() <= 5) {
-//                        MyApplication.instance
-//                                .setSelectedLocks(new ArrayList<RadixLock>(
-//                                        adapter.selectedSet));
-//                        // 设置有效时间，生成二维码
-//                        ActiveTimeActivity.start(context);
-//                    } else {
-//                        ToastUtil.showShort(context, "最多选择5个钥匙！");
-//                    }
-//                }
-//            }
-//            break;
-//        }
+        switch (v.getId()) {
+        case R.id.ok_btn:
+            if (adapter.selectedSet.isEmpty()) {
+                ToastUtil.showShort(context, "请至少选择一个钥匙！");
+            } else {
+                if (adapter.selectedSet.size() <= 5) {
+                    MyApplication.instance
+                            .setSelectedLocks(new ArrayList<RadixLock>(
+                                    adapter.selectedSet));
+                    // 设置有效时间，生成二维码
+                    ActiveTimeActivity.start(context);
+                } else {
+                    ToastUtil.showShort(context, "最多选择5个钥匙！");
+                }
+            }
+            break;
+        }
+        // switch (v.getId()) {
+        // case R.id.titlebar_send_key_ll:
+        // adapter.setEdit(true);
+        // adapter.notifyDataSetChanged();
+        // titleBarView.showCancelBtn().showCheckAllBtn();
+        // okBtn.setVisibility(View.VISIBLE);
+        // break;
+        // case R.id.titlebar_close_btn:
+        // adapter.deselectAll();
+        // adapter.setEdit(false);
+        // adapter.notifyDataSetChanged();
+        // titleBarView.showBackBtn().showSendKeyBtn();
+        // okBtn.setVisibility(View.GONE);
+        // break;
+        // case R.id.titlebar_check_all_ll:
+        // if (!adapter.isSelectAll()) {
+        // adapter.selectAll();
+        // } else {
+        // adapter.deselectAll();
+        // }
+        // adapter.notifyDataSetChanged();
+        // break;
+        // case R.id.ok_btn:
+        // if (adapter.selectedSet.isEmpty()) {
+        // ToastUtil.showShort(context, "请至少选择一个钥匙！");
+        // } else {
+        // if (isAfterIM) {
+        // MyApplication.instance
+        // .setSelectedLocks(new ArrayList<RadixLock>(
+        // adapter.selectedSet));
+        // ActiveTimeActivity.startAfterIM(context, callNumber);
+        // } else {
+        // if (adapter.selectedSet.size() <= 5) {
+        // MyApplication.instance
+        // .setSelectedLocks(new ArrayList<RadixLock>(
+        // adapter.selectedSet));
+        // // 设置有效时间，生成二维码
+        // ActiveTimeActivity.start(context);
+        // } else {
+        // ToastUtil.showShort(context, "最多选择5个钥匙！");
+        // }
+        // }
+        // }
+        // break;
+        // }
     }
 
     /*
@@ -229,23 +264,40 @@ public class MyKeysActivity extends Activity implements OnClickListener,
             }
             adapter.notifyDataSetChanged();
         } else {
-            MyApplication.instance.setSelectedLock(lock);
-            adapter.notifyDataSetChanged();
-            finish();
+            // 远程开门
+            ServiceManager.mobileOpenDoor(lock.getId(),
+                    new RequestListener<RequestResult>() {
+
+                        @Override
+                        public void onStart() {
+                            loadingDialog.show("正在远程开门…");
+                        }
+
+                        @Override
+                        public void onSuccess(int stateCode,
+                                RequestResult result) {
+                            if (result != null) {
+                                ToastUtil.showShort(context,
+                                        result.getRetinfo());
+                            } else {
+                                ToastUtil.showShort(context,
+                                        R.string.connect_exception);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Exception error, String content) {
+                            ToastUtil.showShort(context,
+                                    R.string.connect_exception);
+                        }
+
+                        @Override
+                        public void onStopped() {
+                            loadingDialog.dismiss();
+                        }
+
+                    });
         }
-    }
-
-    public static void start(Context context) {
-        Intent intent = new Intent(context, MyKeysActivity.class);
-        intent.putExtra("IM", false);
-        context.startActivity(intent);
-    }
-
-    public static void startAfterIM(Context context, String callNumber) {
-        Intent intent = new Intent(context, MyKeysActivity.class);
-        intent.putExtra("IM", true);
-        intent.putExtra("callNumber", callNumber);
-        context.startActivity(intent);
     }
 
     /*
@@ -260,6 +312,27 @@ public class MyKeysActivity extends Activity implements OnClickListener,
         if (SwipeRefreshLayoutDirection.TOP == direction) {
             loadData();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
+        super.onDestroy();
+    }
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, MyKeysActivity.class);
+        intent.putExtra("IM", false);
+        context.startActivity(intent);
+    }
+
+    public static void startAfterIM(Context context, String callNumber) {
+        Intent intent = new Intent(context, MyKeysActivity.class);
+        intent.putExtra("IM", true);
+        intent.putExtra("callNumber", callNumber);
+        context.startActivity(intent);
     }
 
 }

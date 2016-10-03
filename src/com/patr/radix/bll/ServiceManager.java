@@ -181,19 +181,22 @@ public class ServiceManager {
         /** 公告详情 */
         String NOTICE_DETAILS = "/notice.html?";
 
-        /** 修改用户信息 */
-        String EDIT_USER_INFO = "/updateMobileUserInfo?";
-
         /** 手机远程开门 */
         String MOBILE_OPEN_DOOR = "/mobileOpenDoor?";
 
         /** 访客预约 */
         String MOBILE_ADD_VISITOR = "/mobileAddVisitor";
 
+        /** 文件上传 */
+        String MOBILE_UPLOAD = "/mobileUpload";
+
+        /** 修改用户头像 */
         String UPDATE_USER_PORTRAIT = "/updateUserPortrait";
 
+        /** 修改用户手机号 */
         String UPDATE_USER_PHONE = "/updateUserPhone";
 
+        /** 修改用户登录密码 */
         String UPDATE_USER_PWD = "/updateUserPWD";
     }
 
@@ -271,25 +274,6 @@ public class ServiceManager {
     }
 
     /**
-     * 修改用户信息
-     * 
-     * @param name
-     * @param mobile
-     * @param pwd
-     * @param listener
-     * @return
-     */
-    public static Cancelable updateUserInfo(String name, String mobile,
-            String pwd, final RequestListener<RequestResult> listener) {
-        String[] keys = { RequestKey.TOKEN, RequestKey.NAME, RequestKey.MOBILE,
-                RequestKey.PWD };
-        String[] values = { MyApplication.instance.getUserInfo().getToken(),
-                name, mobile, pwd };
-        return WebService.post(Url.EDIT_USER_INFO, keys, values, listener,
-                new RequestResultParser(listener));
-    }
-
-    /**
      * 手机远程开门
      * 
      * @param doorId
@@ -337,11 +321,12 @@ public class ServiceManager {
      */
     public static Cancelable mobileUpload(String filename,
             final RequestListener<RequestResult> listener) {
-        String[] keys = { RequestKey.TOKEN, RequestKey.FILENAME, RequestKey.NAME };
+        String[] keys = { RequestKey.TOKEN, RequestKey.FILENAME,
+                RequestKey.NAME };
         String[] values = { MyApplication.instance.getUserInfo().getToken(),
                 filename, "file" };
-        return WebService.post(Url.UPDATE_USER_PORTRAIT, keys, values,
-                listener, new RequestResultParser(listener));
+        return WebService.post(Url.MOBILE_UPLOAD, keys, values, listener,
+                new RequestResultParser(listener));
     }
 
     /**

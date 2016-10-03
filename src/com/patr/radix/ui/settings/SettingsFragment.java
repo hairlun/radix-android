@@ -15,6 +15,7 @@ import com.patr.radix.bll.CacheManager;
 import com.patr.radix.bll.GetCommunityListParser;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.ui.unlock.MyKeysActivity;
 import com.patr.radix.ui.view.ListSelectDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog.BtnType;
@@ -46,8 +47,20 @@ public class SettingsFragment extends Fragment implements OnClickListener,
     private Context context;
 
     private RelativeLayout currentCommunityRl;
+    
+    private TextView communityName;
 
-    private RelativeLayout currentCommunityRl;
+    private RelativeLayout remoteOpenDoorRl;
+    
+    private RelativeLayout modifyUserinfoRl;
+    
+    private RelativeLayout shareRl;
+    
+    private RelativeLayout feedbackRl;
+    
+    private TextView clearValue;
+    
+    private Button clearBtn;
 
     private CommunityListAdapter adapter;
 
@@ -64,9 +77,21 @@ public class SettingsFragment extends Fragment implements OnClickListener,
                 false);
         currentCommunityRl = (RelativeLayout) view
                 .findViewById(R.id.current_community_ll);
+        communityName = (TextView) view.findViewById(R.id.community_name);
+        remoteOpenDoorRl = (RelativeLayout) view.findViewById(R.id.my_key_ll);
+        modifyUserinfoRl = (RelativeLayout) view.findViewById(R.id.modify_userinfo_ll);
+        shareRl = (RelativeLayout) view.findViewById(R.id.share_ll);
+        feedbackRl = (RelativeLayout) view.findViewById(R.id.feedback_ll);
+        clearValue = (TextView) view.findViewById(R.id.clear_value);
+        clearBtn = (Button) view.findViewById(R.id.clear_btn);
+
         currentCommunityRl.setOnClickListener(this);
-        // logoutBtn = (Button) view.findViewById(R.id.settings_logout_btn);
-        // logoutBtn.setOnClickListener(this);
+        remoteOpenDoorRl.setOnClickListener(this);
+        modifyUserinfoRl.setOnClickListener(this);
+        shareRl.setOnClickListener(this);
+        feedbackRl.setOnClickListener(this);
+        clearBtn.setOnClickListener(this);
+
         adapter = new CommunityListAdapter(context,
                 MyApplication.instance.getCommunities());
         Community selectedCommunity = MyApplication.instance
@@ -97,9 +122,16 @@ public class SettingsFragment extends Fragment implements OnClickListener,
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
         case R.id.current_community_ll:
             getCommunityList();
+            break;
+            
+        case R.id.my_key_ll:
+            intent = new Intent(context, MyKeysActivity.class);
+            intent.putExtra("remoteOpenDoor", true);
+            context.startActivity(intent);
             break;
         // case R.id.settings_logout_btn:
         // if (TextUtils.isEmpty(MyApplication.instance.getUserInfo()

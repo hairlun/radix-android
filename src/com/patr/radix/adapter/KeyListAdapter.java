@@ -36,9 +36,9 @@ public class KeyListAdapter extends AbsListAdapter<RadixLock> {
      * @param context
      * @param mList
      */
-    public KeyListAdapter(Context context, List<RadixLock> mList) {
+    public KeyListAdapter(Context context, List<RadixLock> mList, boolean isEdit) {
         super(context, mList);
-        isEdit = false;
+        this.isEdit = isEdit;
     }
 
     /*
@@ -56,7 +56,8 @@ public class KeyListAdapter extends AbsListAdapter<RadixLock> {
             convertView = LayoutInflater.from(mContext).inflate(
                     R.layout.item_key, null);
             holder.iv = (ImageView) convertView.findViewById(R.id.key_iv);
-            holder.name = (TextView) convertView.findViewById(R.id.key_tv);
+            holder.name = (TextView) convertView.findViewById(R.id.key_name);
+            holder.desc = (TextView) convertView.findViewById(R.id.key_desc);
             holder.chooseIv = (ImageView) convertView
                     .findViewById(R.id.key_arrow_iv);
             convertView.setTag(holder);
@@ -64,50 +65,19 @@ public class KeyListAdapter extends AbsListAdapter<RadixLock> {
             holder = (ViewHolder) convertView.getTag();
         }
         RadixLock lock = getItem(position);
-        holder.name.setText(lock.getName());
-        // if (MyApplication.DEBUG) {
-        // holder.name.append("(" + lock.getBleName1() + "," +
-        // lock.getBleName2() + ")");
-        // }
-        if (lock.equals(MyApplication.instance.getSelectedLock())) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                holder.name.setTextColor(mContext.getColor(R.color.blue));
-            } else {
-                holder.name.setTextColor(mContext.getResources().getColor(
-                        R.color.blue));
-            }
-            holder.name.setText(holder.name.getText() + "-默认");
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                holder.name.setTextColor(mContext.getColor(R.color.black));
-            } else {
-                holder.name.setTextColor(mContext.getResources().getColor(
-                        R.color.black));
-            }
-        }
+        String idx = String.format("%02d", position);
+        holder.name.setText("Gate" + idx);
+        holder.desc.setText(lock.getName());
         if (isEdit) {
-            holder.chooseIv.setVisibility(View.VISIBLE);
             if (selectedSet.contains(lock)) {
                 // 选中
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    holder.chooseIv.setImageDrawable(mContext
-                            .getDrawable(R.drawable.checkbox_yes));
-                } else {
-                    holder.chooseIv.setImageDrawable(mContext.getResources()
-                            .getDrawable(R.drawable.checkbox_yes));
-                }
+                holder.chooseIv.setImageResource(R.drawable.btn_check_s);
             } else {
                 // 没选中
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    holder.chooseIv.setImageDrawable(mContext
-                            .getDrawable(R.drawable.checkbox_no));
-                } else {
-                    holder.chooseIv.setImageDrawable(mContext.getResources()
-                            .getDrawable(R.drawable.checkbox_no));
-                }
+                holder.chooseIv.setImageResource(R.drawable.btn_check);
             }
         } else {
-            holder.chooseIv.setVisibility(View.GONE);
+            holder.chooseIv.setImageResource(R.drawable.icon_go_to); 
         }
         return convertView;
     }
@@ -135,6 +105,7 @@ public class KeyListAdapter extends AbsListAdapter<RadixLock> {
     class ViewHolder {
         ImageView iv;
         TextView name;
+        TextView desc;
         ImageView chooseIv;
     }
 

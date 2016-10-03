@@ -108,7 +108,7 @@
         </activity>
         
         <activity android:name="com.patr.radix.LoginActivity" android:screenOrientation="portrait" />
-        <activity android:name="com.patr.radix.MyKeysActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.patr.radix.ui.unlock.MyKeysActivity" android:screenOrientation="portrait" />
         <activity android:name="com.patr.radix.ActiveTimeActivity" android:screenOrientation="portrait" />
         <activity android:name="com.patr.radix.QRCodeActivity" android:screenOrientation="portrait" />
         <activity android:name="com.patr.radix.ui.message.MessageDetailsActivity" android:screenOrientation="portrait" />

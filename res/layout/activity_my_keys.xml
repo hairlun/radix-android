@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/gray_bg"
+    android:background="@drawable/login_bg"
     tools:context=".MyKeysActivity" >
     
     <com.patr.radix.ui.view.TitleBarView
@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.0"
+        android:background="@color/gray_bg"
         app:direction="both" >
     
         <ListView

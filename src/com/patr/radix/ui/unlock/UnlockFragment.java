@@ -1,4 +1,4 @@
-package com.patr.radix.ui;
+package com.patr.radix.ui.unlock;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,7 +9,6 @@ import org.xutils.common.util.LogUtil;
 import com.felipecsl.gifimageview.library.GifImageView;
 import com.patr.radix.LockValidateActivity;
 import com.patr.radix.MyApplication;
-import com.patr.radix.MyKeysActivity;
 import com.patr.radix.R;
 import com.patr.radix.adapter.CommunityListAdapter;
 import com.patr.radix.bean.GetCommunityListResult;
