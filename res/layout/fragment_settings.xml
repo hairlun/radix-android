@@ -133,7 +133,7 @@
                 android:paddingBottom="12dp"
                 android:layout_marginLeft="12dp"
                 android:background="@null"
-                android:text="@string/settings_my_key"
+                android:text="@string/settings_remote_open_door"
                 android:textSize="15sp"
                 android:textColor="@color/black_text" />
             

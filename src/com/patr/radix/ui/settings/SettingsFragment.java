@@ -47,6 +47,8 @@ public class SettingsFragment extends Fragment implements OnClickListener,
 
     private RelativeLayout currentCommunityRl;
 
+    private RelativeLayout currentCommunityRl;
+
     private CommunityListAdapter adapter;
 
     @Override

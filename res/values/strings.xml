@@ -210,6 +210,7 @@
     <!-- 个人设置模块 -->
     <string name="settings_community">当前小区</string>
     <string name="settings_my_key">我的钥匙</string>
+    <string name="settings_remote_open_door">远程开门</string>
     <string name="settings_modify_userinfo">修改用户信息</string>
     <string name="settings_share">分享给好友</string>
     <string name="settings_permission">用户授权</string>
