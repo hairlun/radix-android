@@ -1,7 +1,11 @@
-package com.patr.radix;
+package com.patr.radix.ui.settings;
 
 import org.xutils.common.util.MD5;
 
+import com.patr.radix.R;
+import com.patr.radix.R.id;
+import com.patr.radix.R.layout;
+import com.patr.radix.R.string;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;

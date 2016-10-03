@@ -133,6 +133,11 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             intent.putExtra("remoteOpenDoor", true);
             context.startActivity(intent);
             break;
+            
+        case R.id.modify_userinfo_ll:
+            intent = new Intent(context, EditUserInfoActivity.class);
+            context.startActivity(intent);
+            break;
         // case R.id.settings_logout_btn:
         // if (TextUtils.isEmpty(MyApplication.instance.getUserInfo()
         // .getAccount())) {
