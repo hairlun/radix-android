@@ -19,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="54dp"
             android:orientation="vertical" >
 
             <TextView
@@ -29,36 +29,121 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="1dp"
                 android:background="@color/gray_bg" />
 
             <RelativeLayout
+                android:id="@+id/phone_rl"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_gravity="center_vertical"
+                android:background="@drawable/btn_bg_selector"
                 android:clickable="true" >
 
                 <ImageView
+                    android:id="@+id/phone_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/icon_name" />
+                    android:src="@drawable/icon_tel" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/phone_iv"
+                    android:text="电话"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/goto_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_go_to" />
+
+                <TextView
+                    android:id="@+id/phone_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/goto_iv"
+                    android:textColor="@color/gray_text"
+                    android:textSize="15sp" />
             </RelativeLayout>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="1dp"
                 android:background="@color/gray_bg" />
 
             <RelativeLayout
+                android:id="@+id/pwd_rl"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_gravity="center_vertical"
+                android:background="@drawable/btn_bg_selector"
                 android:clickable="true" >
+
+                <ImageView
+                    android:id="@+id/pwd_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_password" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/pwd_iv"
+                    android:text="修改密码"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_go_to" />
             </RelativeLayout>
         </LinearLayout>
+        
+        <ImageView
+            android:id="@+id/avatar_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="18dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/modify_data_pic_head_portrait" />
+        
+        <Button
+            android:id="@+id/change_avatar_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="117dp"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/change_avatar_btn_bg_selector"
+            android:text="更换头像"
+            android:textColor="#FF23A257"
+            android:textSize="15sp" />
     </FrameLayout>
 
     <TextView
@@ -66,128 +151,5 @@
         android:layout_height="0dp"
         android:layout_weight="1.0"
         android:background="@color/gray_bg" />
-
-    <!--
-    <LinearLayout
-        android:id="@+id/user_info_name_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="1dp"
-        android:background="@color/white"
-        android:clickable="true"
-        android:orientation="horizontal" >
-        
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:text="@string/settings_name"
-            android:textSize="18sp"
-            android:textColor="@color/black" />
-        
-        <EditText
-            android:id="@+id/user_info_name_et"
-            style="?android:attr/textViewStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:padding="12dp"
-            android:gravity="right|center_vertical"
-            android:background="@null"
-            android:text=""
-            android:inputType="text"
-            android:textSize="18sp"
-            android:textColor="@color/black" />
-
-    </LinearLayout>
-    
-    <LinearLayout
-        android:id="@+id/user_info_pwd_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="1dp"
-        android:background="@color/white"
-        android:clickable="true"
-        android:orientation="horizontal" >
-        
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:text="@string/settings_pwd"
-            android:textSize="18sp"
-            android:textColor="@color/black" />
-        
-        <EditText
-            android:id="@+id/user_info_pwd_et"
-            style="?android:attr/textViewStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:padding="12dp"
-            android:gravity="right|center_vertical"
-            android:background="@null"
-            android:text=""
-            android:inputType="textPassword"
-            android:textSize="18sp"
-            android:textColor="@color/black" />
-
-    </LinearLayout>
-    
-    <LinearLayout
-        android:id="@+id/user_info_mobile_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="1dp"
-        android:background="@color/white"
-        android:clickable="true"
-        android:orientation="horizontal" >
-        
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:text="@string/settings_mobile"
-            android:textSize="18sp"
-            android:textColor="@color/black" />
-        
-        <EditText
-            android:id="@+id/user_info_mobile_et"
-            style="?android:attr/textViewStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:padding="12dp"
-            android:gravity="right|center_vertical"
-            android:background="@null"
-            android:text=""
-            android:inputType="phone"
-            android:textSize="18sp"
-            android:textColor="@color/black" />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/user_info_edit_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_bg_shape_selector"
-        android:padding="12dp"
-        android:text="@string/settings_ok"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
-    -->
 
 </LinearLayout>

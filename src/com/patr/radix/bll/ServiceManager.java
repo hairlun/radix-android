@@ -6,6 +6,8 @@
  */
 package com.patr.radix.bll;
 
+import java.io.File;
+
 import org.xutils.common.Callback.Cancelable;
 
 import com.patr.radix.MyApplication;
@@ -319,7 +321,7 @@ public class ServiceManager {
      * @param listener
      * @return
      */
-    public static Cancelable mobileUpload(String filename,
+    public static Cancelable mobileUpload(String filename, File file,
             final RequestListener<RequestResult> listener) {
         String[] keys = { RequestKey.TOKEN, RequestKey.FILENAME,
                 RequestKey.NAME };

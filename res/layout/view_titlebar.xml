@@ -19,7 +19,7 @@
         android:singleLine="true"
         android:text=""
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="17sp" />
 
     <!-- 返回 -->
 
@@ -31,7 +31,7 @@
         android:background="@drawable/titlebar_btn_bg_selector"
         android:contentDescription="@string/titlebar_back"
         android:padding="8dp"
-        android:src="@drawable/arrow_left"
+        android:src="@drawable/btn_back"
         android:visibility="visible" />
     
     <Button
