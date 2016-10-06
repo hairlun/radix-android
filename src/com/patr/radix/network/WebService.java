@@ -14,6 +14,7 @@ import org.xutils.ex.HttpException;
 import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
 
+import com.patr.radix.bll.ServiceManager.RequestKey;
 import com.patr.radix.network.IAsyncListener.ResultParser;
 
 /**
@@ -286,8 +287,18 @@ public class WebService {
      *            结果解析器
      * @return
      */
-    public static <T> Cancelable upload(final RequestParams params,
+    public static <T> Cancelable upload(String url, String[] keys,
+            String[] values, File file,
             final RequestListener<T> listener, final ResultParser<T> parser) {
+        String requestUrl;
+        if (!url.startsWith("http")) {
+            requestUrl = URL + url;
+        } else {
+            requestUrl = url;
+        }
+        RequestParams params = createParams(keys, values, requestUrl);
+        params.setMultipart(true);
+        params.addBodyParameter(RequestKey.FILE, file);
         return request(HttpMethod.POST, params, listener, parser);
     }
 

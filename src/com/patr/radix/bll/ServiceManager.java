@@ -9,6 +9,7 @@ package com.patr.radix.bll;
 import java.io.File;
 
 import org.xutils.common.Callback.Cancelable;
+import org.xutils.http.RequestParams;
 
 import com.patr.radix.MyApplication;
 import com.patr.radix.bean.GetCommunityListResult;
@@ -16,6 +17,7 @@ import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.GetNoticeListResult;
 import com.patr.radix.bean.GetUserListResult;
 import com.patr.radix.bean.LoginResult;
+import com.patr.radix.bean.MobileUploadResult;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.network.WebService;
@@ -65,6 +67,8 @@ public class ServiceManager {
         String FILENAME = "filename";
 
         String USER_PIC = "userPic";
+
+        String FILE = "file";
     }
 
     /**
@@ -315,20 +319,20 @@ public class ServiceManager {
     }
 
     /**
-     * 修改用户头像
+     * 上传文件
      * 
      * @param userPic
      * @param listener
      * @return
      */
     public static Cancelable mobileUpload(String filename, File file,
-            final RequestListener<RequestResult> listener) {
+            final RequestListener<MobileUploadResult> listener) {
         String[] keys = { RequestKey.TOKEN, RequestKey.FILENAME,
                 RequestKey.NAME };
         String[] values = { MyApplication.instance.getUserInfo().getToken(),
                 filename, "file" };
-        return WebService.post(Url.MOBILE_UPLOAD, keys, values, listener,
-                new RequestResultParser(listener));
+        return WebService.upload(Url.MOBILE_UPLOAD, keys, values, file,
+                listener, new MobileUploadParser(listener));
     }
 
     /**

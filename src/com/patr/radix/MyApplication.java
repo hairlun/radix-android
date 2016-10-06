@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.xutils.x;
 
+import cn.smssdk.SMSSDK;
+
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
@@ -69,6 +71,8 @@ public class MyApplication extends Application {
         getCommunityListFromCache();
         // 从缓存读取门禁钥匙列表和当前选择门禁钥匙
         getLockListFromCache();
+        SMSSDK.initSDK(this, "17805a217c862",
+                "4489d28f7383f6b9eb6b697b3998a42d");
     }
 
     private void getCommunityListFromCache() {

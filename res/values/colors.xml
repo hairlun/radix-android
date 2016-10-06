@@ -42,7 +42,7 @@
     <!-- 通用 -->
     <color name="gray_line">#FFCCCCCC</color>
     <color name="gray_bg">#FFEBEBEB</color>
-    <color name="gray_text">#FF898989</color>
+    <color name="gray_text">#FF999999</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="blue">#60AFF6</color>

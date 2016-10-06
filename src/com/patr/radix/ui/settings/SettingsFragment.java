@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -61,6 +62,8 @@ public class SettingsFragment extends Fragment implements OnClickListener,
     private TextView clearValue;
     
     private Button clearBtn;
+    
+    private ImageButton settingBtn;
 
     private CommunityListAdapter adapter;
 
@@ -84,6 +87,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
         feedbackRl = (RelativeLayout) view.findViewById(R.id.feedback_ll);
         clearValue = (TextView) view.findViewById(R.id.clear_value);
         clearBtn = (Button) view.findViewById(R.id.clear_btn);
+        settingBtn = (ImageButton) view.findViewById(R.id.setting_btn);
 
         currentCommunityRl.setOnClickListener(this);
         remoteOpenDoorRl.setOnClickListener(this);
@@ -91,16 +95,20 @@ public class SettingsFragment extends Fragment implements OnClickListener,
         shareRl.setOnClickListener(this);
         feedbackRl.setOnClickListener(this);
         clearBtn.setOnClickListener(this);
+        settingBtn.setOnClickListener(this);
 
         adapter = new CommunityListAdapter(context,
                 MyApplication.instance.getCommunities());
         Community selectedCommunity = MyApplication.instance
                 .getSelectedCommunity();
-        int size = adapter.getCount();
-        for (int i = 0; i < size; i++) {
-            if (selectedCommunity.equals(adapter.getList().get(i))) {
-                adapter.select(i);
-                break;
+        if (selectedCommunity != null) {
+            communityName.setText(selectedCommunity.getName());
+            int size = adapter.getCount();
+            for (int i = 0; i < size; i++) {
+                if (selectedCommunity.equals(adapter.getList().get(i))) {
+                    adapter.select(i);
+                    break;
+                }
             }
         }
         return view;
@@ -124,6 +132,10 @@ public class SettingsFragment extends Fragment implements OnClickListener,
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
+        case R.id.setting_btn:
+            context.startActivity(new Intent(context, PrefSettingActivity.class));
+            break;
+            
         case R.id.current_community_ll:
             getCommunityList();
             break;

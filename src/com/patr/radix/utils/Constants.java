@@ -57,12 +57,6 @@ public class Constants {
     public static final String PREF_SELECTED_KEY = "selectedKey";
     public static final String PREF_SELECTED_COMMUNITY = "selectedCommunity";
     public static final String PREF_LOCK_KEY = "lockKey";
-    public static final String PREF_BILL_1_IN = "bill1in";
-    public static final String PREF_BILL_5_IN = "bill5in";
-    public static final String PREF_BILL_10_IN = "bill10in";
-    public static final String PREF_BILL_20_IN = "bill20in";
-    public static final String PREF_COIN_1_YUAN_IN = "coin1yuanin";
-    public static final String PREF_COIN_5_JIAO_IN = "coin5jiaoin";
 
     public static final String ACTION_RELEASE_CALL = "actionReleaseCall";
 
@@ -85,6 +79,10 @@ public class Constants {
 
     /** 手势密码校验正确返回码 */
     public static final int LOCK_CHECK_OK = 202;
+    
+    public static final int CAMERA = 301;
+    
+    public static final int GALLERY = 302;
 
     /**
      * Extras Constants

@@ -2,18 +2,20 @@ package com.patr.radix.ui.settings;
 
 import java.io.File;
 
-import org.xutils.common.util.MD5;
+import org.xutils.x;
+import org.xutils.common.Callback.Cancelable;
 
 import com.patr.radix.MyApplication;
 import com.patr.radix.R;
-import com.patr.radix.R.id;
-import com.patr.radix.R.layout;
-import com.patr.radix.R.string;
+import com.patr.radix.bean.Community;
+import com.patr.radix.bean.MobileUploadResult;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.ui.view.LoadingDialog;
 import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.utils.BitmapUtil;
+import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.FileSystemManager;
 import com.patr.radix.utils.PicturePropertiesBean;
 import com.patr.radix.utils.ToastUtil;
@@ -34,9 +36,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,21 +46,25 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
     private Context context;
 
     private TitleBarView titleBarView;
-    
+
     private ImageView avatarIv;
-    
+
     private Button changeAvatarBtn;
-    
+
     private RelativeLayout phoneRl;
-    
+
     private RelativeLayout pwdRl;
-    
+
     private TextView phoneTv;
+    
+    private LoadingDialog loadingDialog;
 
     /**
      * 拍摄图片的url地址
      */
     private String photoPath;
+
+    private Cancelable submitHttpHandler;
 
     /**
      * 缩放尺寸
@@ -82,13 +86,18 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
         phoneRl = (RelativeLayout) findViewById(R.id.phone_rl);
         pwdRl = (RelativeLayout) findViewById(R.id.pwd_rl);
         phoneTv = (TextView) findViewById(R.id.phone_tv);
-        
+
         changeAvatarBtn.setOnClickListener(this);
         phoneRl.setOnClickListener(this);
         pwdRl.setOnClickListener(this);
-        
+
         titleBarView.setTitle(R.string.titlebar_edit_user_info);
         phoneTv.setText(MyApplication.instance.getUserInfo().getMobile());
+        loadingDialog = new LoadingDialog(context);
+        String pic = MyApplication.instance.getUserInfo().getUserPic();
+        if (!TextUtils.isEmpty(pic)) {
+            x.image().bind(avatarIv, pic);
+        }
     }
 
     private void showPhotoDiaLog() {
@@ -113,7 +122,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
                 Intent intent = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, 2);
+                startActivityForResult(intent, Constants.GALLERY);
             }
         });
         /**
@@ -127,8 +136,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
                 if (Environment.getExternalStorageState().equals(
                         Environment.MEDIA_MOUNTED)) {
                     try {
-                        photoPath = FileSystemManager
-                                .getTemporaryPath(context)
+                        photoPath = FileSystemManager.getTemporaryPath(context)
                                 + photoPath;
                         File picture = new File(photoPath);
                         Intent intent = new Intent(
@@ -137,14 +145,13 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
                         intent.putExtra(
                                 android.provider.MediaStore.EXTRA_OUTPUT,
                                 imageFileUri);
-                        startActivityForResult(intent, 1);
+                        startActivityForResult(intent, Constants.CAMERA);
                     } catch (ActivityNotFoundException e) {
-                        Toast.makeText(context, "没有找到储存目录", 1)
+                        Toast.makeText(context, "没有找到储存目录", Toast.LENGTH_SHORT)
                                 .show();
                     }
                 } else {
-                    Toast.makeText(context, "没有储存卡", 1)
-                            .show();
+                    Toast.makeText(context, "没有储存卡", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -161,19 +168,17 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String zoomPath = FileSystemManager
-                .getPostPath(context)
-                + System.currentTimeMillis() + ".jpg";
+        String filename = System.currentTimeMillis() + ".jpg";
+        String zoomPath = FileSystemManager.getPostPath(context) + filename;
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-            case 1:
+            case Constants.CAMERA:
                 BitmapUtil.getImageScaleByPath(new PicturePropertiesBean(
-                        photoPath, zoomPath, IMG_SCALE, IMG_SCALE),
-                        context);
-//                paths.add(zoomPath);
+                        photoPath, zoomPath, IMG_SCALE, IMG_SCALE), context);
+                uploadAvatar(filename, zoomPath);
                 break;
             // 直接从相册获取
-            case 2:
+            case Constants.GALLERY:
                 if (data != null) {
                     Uri originalUri = data.getData();
                     // 从媒体db中查询图片路径
@@ -186,14 +191,12 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
                         cursor.moveToFirst();
                         photoPath = cursor.getString(col);
                         cursor.close();
-                            BitmapUtil.getImageScaleByPath(
-                                    new PicturePropertiesBean(photoPath,
-                                            zoomPath, IMG_SCALE, IMG_SCALE),
-                                    context);
-//                            paths.add(zoomPath);
-//                            refreshImageView();
+                        BitmapUtil.getImageScaleByPath(
+                                new PicturePropertiesBean(photoPath, zoomPath,
+                                        IMG_SCALE, IMG_SCALE), context);
+                        uploadAvatar(filename, zoomPath);
                     } else {
-                        Toast.makeText(context, "获取图片失败", 1)
+                        Toast.makeText(context, "获取图片失败", Toast.LENGTH_SHORT)
                                 .show();
                     }
 
@@ -205,18 +208,84 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
         }
     }
 
+    private void uploadAvatar(String filename, String filepath) {
+        submitHttpHandler = ServiceManager.mobileUpload(filename, new File(
+                filepath), new RequestListener<MobileUploadResult>() {
+
+            @Override
+            public void onStart() {
+                loadingDialog.show("正在上传…");
+            }
+
+            @Override
+            public void onSuccess(int stateCode, MobileUploadResult result) {
+                if (result.isSuccesses()) {
+                    String userPic = result.getUserPic();
+                    updateAvatar(userPic);
+                }
+            }
+
+            @Override
+            public void onFailure(Exception error, String content) {
+                ToastUtil.showShort(context, "上传头像失败！");
+                loadingDialog.dismiss();
+            }
+
+        });
+    }
+    
+    private void updateAvatar(final String userPic) {
+        ServiceManager.updateUserPortrait(userPic, new RequestListener<RequestResult>() {
+
+            @Override
+            public void onSuccess(int stateCode, RequestResult result) {
+                String pic = userPic;
+                if (!userPic.startsWith("http")) {
+                    Community community = MyApplication.instance
+                            .getSelectedCommunity();
+                    pic = String.format("%s:%s/surpass/%s",
+                            community.getHost(), community.getPort(),
+                            userPic);
+                }
+                MyApplication.instance.getUserInfo().setUserPic(pic);
+                x.image().bind(avatarIv, pic);
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Exception error, String content) {
+                ToastUtil.showShort(context, "上传头像失败！");
+                loadingDialog.dismiss();
+            }
+            
+        });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.change_avatar_btn:
+            showPhotoDiaLog();
             break;
-            
+
         case R.id.phone_rl:
+            startActivity(new Intent(context, UpdateUserPhoneActivity.class));
             break;
-            
+
         case R.id.pwd_rl:
             break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (submitHttpHandler != null) {
+            submitHttpHandler.cancel();
+        }
+        if (loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
+        super.onDestroy();
     }
 
 }

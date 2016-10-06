@@ -1,0 +1,94 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+    
+    <com.patr.radix.ui.view.TitleBarView
+        android:id="@+id/update_phone_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/gray_bg" >
+        
+        <LinearLayout
+            android:id="@+id/push_ll"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/btn_bg_selector"
+            android:clickable="true" >
+            
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:layout_marginLeft="30dp"
+                android:text="消息推送开关"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+            
+            <ImageView
+                android:id="@+id/push_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="15dp"
+                android:scaleType="fitCenter" />
+            
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/shake_ll"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="1dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/btn_bg_selector"
+            android:clickable="true" >
+            
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:layout_marginLeft="30dp"
+                android:text="消息推送开关"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+            
+            <ImageView
+                android:id="@+id/shake_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="15dp"
+                android:scaleType="fitCenter" />
+            
+        </LinearLayout>
+        
+        <Button
+            android:id="@+id/logout_btn"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/submit_btn_bg_selector"
+            android:text="退出登录"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+        
+    </LinearLayout>
+    
+</LinearLayout>
