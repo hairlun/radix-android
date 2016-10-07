@@ -40,6 +40,8 @@ public class LoginActivity extends Activity implements OnClickListener {
     private EditText pwdEt;
 
     private Button loginBtn;
+    
+    private Button forgetPwdBtn;
 
     private String account;
 
@@ -62,17 +64,10 @@ public class LoginActivity extends Activity implements OnClickListener {
         accountEt = (EditText) findViewById(R.id.login_user_et);
         pwdEt = (EditText) findViewById(R.id.login_pwd_et);
         loginBtn = (Button) findViewById(R.id.login_btn);
+        forgetPwdBtn = (Button) findViewById(R.id.forget_pwd_btn);
         titleBarView.setTitle(R.string.titlebar_login);
         loginBtn.setOnClickListener(this);
-        // int width = View.MeasureSpec.makeMeasureSpec(0,
-        // View.MeasureSpec.UNSPECIFIED);
-        // int height = View.MeasureSpec.makeMeasureSpec(0,
-        // View.MeasureSpec.UNSPECIFIED);
-        // logoIv.measure(width, height);
-        // height = logoIv.getMeasuredHeight();
-        // width = logoIv.getMeasuredWidth();
-        // logoIv.setPadding((int)(height * 1.2), (int)(height * 1.2),
-        // (int)(height * 1.2), (int)(height * 1.2));
+        forgetPwdBtn.setOnClickListener(this);
         loadingDialog = new LoadingDialog(context);
     }
 

@@ -61,6 +61,42 @@ public class PrefUtil {
     }
 
     /**
+     * 存储字符串数据
+     * 
+     * @param context
+     *            上下文
+     * @param key
+     *            存储数据特定的键
+     * @param value
+     *            存储的数据 （boolean类型）
+     */
+    public static boolean save(Context context, String key, boolean value) {
+        return save(PREF_FILE, context, key, value);
+    }
+
+    /**
+     * 存储字符串数据
+     * 
+     * @param prefFile
+     *            记录文件名
+     * @param context
+     * @param key
+     *            键
+     * @param value
+     *            boolean值
+     * @return
+     */
+    public static boolean save(String prefFile, Context context, String key,
+            boolean value) {
+        // 读取文件,如果没有则会创建
+        SharedPreferences settings = context.getSharedPreferences(prefFile,
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(key, value);
+        return editor.commit();
+    }
+
+    /**
      * @param userInfo
      */
     public static void saveUserInfo(Context context, UserInfo userInfo) {
@@ -148,6 +184,35 @@ public class PrefUtil {
         SharedPreferences settings = context.getSharedPreferences(prefFile,
                 Context.MODE_PRIVATE);
         return settings.getString(key, defValue);
+    }
+
+    /**
+     * @param context
+     * @param key
+     * @param defValue
+     * @return
+     */
+    public static boolean getBoolean(Context context, String key, boolean defValue) {
+        return getBoolean(PREF_FILE, context, key, defValue);
+    }
+
+    /**
+     * 获取字符串数据，自定义默认值
+     * 
+     * @param prefFile
+     *            记录文件名
+     * @param context
+     * @param key
+     *            键
+     * @param defValue
+     *            默认值
+     * @return String
+     */
+    public static boolean getBoolean(String prefFile, Context context,
+            String key, boolean defValue) {
+        SharedPreferences settings = context.getSharedPreferences(prefFile,
+                Context.MODE_PRIVATE);
+        return settings.getBoolean(key, defValue);
     }
 
 }

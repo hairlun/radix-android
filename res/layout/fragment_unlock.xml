@@ -2,36 +2,189 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_bg"
+    android:background="@drawable/login_bg"
     tools:context=".MainActivity" >
 
-    <com.patr.radix.ui.view.TitleBarView
-        android:id="@+id/unlock_titlebar"
+    <RelativeLayout
+        android:id="@+id/weather_rl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+        android:layout_height="52dp"
+        android:layout_alignParentTop="true" >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:gravity="center_horizontal" >
-        
-        <com.felipecsl.gifimageview.library.GifImageView
-            android:id="@+id/unlock_giv"
-            android:layout_width="200dp"
-            android:layout_height="200dp" />
-        
         <TextView
+            android:id="@+id/area_label"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="所在地区："
+            android:textColor="@color/gray_line"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/area_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/area_label"
+            android:gravity="center_vertical"
+            android:text="中山"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/weather_detail_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:padding="15dp"
-            android:text="@string/unlock_shake_shake"
-            android:textSize="26sp"
-            android:textColor="@color/black_text" />"
-        
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/titlebar_btn_bg_selector"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/homepage_btn_weather" />
+
+        <TextView
+            android:id="@+id/temp_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/weather_detail_btn"
+            android:gravity="center_vertical"
+            android:text="20℃"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/weather_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/temp_tv"
+            android:gravity="center_vertical"
+            android:text="阵雨"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/weather_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/weather_tv"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:scaleType="fitCenter" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/shake_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weather_rl"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="摇一摇开门"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/shake_tv"
+        android:layout_marginTop="100dp"
+        android:background="@color/white"
+        android:gravity="center_horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/key_rl"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/homepage_pic_key_bg" >
+
+            <ImageView
+                android:id="@+id/left_arrow_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/homepage_key_left" />
+
+            <ImageView
+                android:id="@+id/right_arrow_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/homepage_key_right" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@id/left_arrow_iv"
+                android:layout_toRightOf="@id/right_arrow_iv" >
+
+                <LinearLayout
+                    android:id="@+id/key_ll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
+                </LinearLayout>
+            </HorizontalScrollView>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/line_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/key_rl"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/homepage_pic_title" />
+
+        <Button
+            android:id="@+id/send_key_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/line_iv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/homepage_btn_send_key"
+            android:gravity="left|center_vertical"
+            android:text="  发送钥匙"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/shake_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shake_tv"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/homepage_pic_state"
+        android:scaleType="fitCenter"
+        android:background="@drawable/shake_btn_bg_selector" />
+    
+    <TextView
+        android:id="@+id/key_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_below="@id/shake_btn"
+        android:layout_marginTop="5dp" />
 
 </RelativeLayout>

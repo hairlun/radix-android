@@ -19,7 +19,7 @@
         android:singleLine="true"
         android:text=""
         android:textColor="@color/white"
-        android:textSize="17sp" />
+        android:textSize="20sp" />
 
     <!-- 返回 -->
 
@@ -31,7 +31,7 @@
         android:background="@drawable/titlebar_btn_bg_selector"
         android:contentDescription="@string/titlebar_back"
         android:padding="8dp"
-        android:src="@drawable/btn_back"
+        android:src="@drawable/arrow_left"
         android:visibility="visible" />
     
     <Button
@@ -45,7 +45,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:text="关闭"
-        android:textSize="14sp"
+        android:textSize="18sp"
         android:textColor="@drawable/titlebar_close_btn_text_selector"
         android:visibility="gone" />
 

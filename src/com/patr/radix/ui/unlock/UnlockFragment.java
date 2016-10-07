@@ -55,6 +55,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources.NotFoundException;
+import android.graphics.drawable.GradientDrawable.Orientation;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -71,6 +72,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -78,10 +85,24 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         OnItemClickListener, SensorEventListener {
 
     private Context context;
-
-    private TitleBarView titleBarView;
-
-    private GifImageView gifView;
+    
+    private TextView areaTv;
+    
+    private ImageView weatherIv;
+    
+    private TextView weatherTv;
+    
+    private TextView tempTv;
+    
+    private ImageButton detailBtn;
+    
+    private ImageButton shakeBtn;
+    
+    private TextView keyTv;
+    
+    private Button sendKeyBtn;
+    
+    private LinearLayout keysLl;
 
     private CommunityListAdapter adapter;
 
@@ -130,8 +151,27 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        View view = inflater
+                .inflate(R.layout.fragment_unlock, container, false);
+        areaTv = (TextView) view.findViewById(R.id.area_tv);
+        weatherIv = (ImageView) view.findViewById(R.id.weather_iv);
+        weatherTv = (TextView) view.findViewById(R.id.weather_tv);
+        tempTv = (TextView) view.findViewById(R.id.temp_tv);
+        detailBtn = (ImageButton) view.findViewById(R.id.weather_detail_btn);
+        shakeBtn = (ImageButton) view.findViewById(R.id.shake_btn);
+        keyTv = (TextView) view.findViewById(R.id.key_tv);
+        sendKeyBtn = (Button) view.findViewById(R.id.send_key_btn);
+        keysLl = (LinearLayout) view.findViewById(R.id.key_ll);
+        
+        loadingDialog = new LoadingDialog(context);
+        init();
+        loadData();
+        return view;
+    }
+    
+    private void init() {
         sensorManager = (SensorManager) context
                 .getSystemService(Context.SENSOR_SERVICE);
         vibrator = (Vibrator) context
@@ -156,34 +196,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 }
             }
         }, 2000);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View view = inflater
-                .inflate(R.layout.fragment_unlock, container, false);
-        titleBarView = (TitleBarView) view.findViewById(R.id.unlock_titlebar);
-        titleBarView.hideBackBtn();
-        gifView = (GifImageView) view.findViewById(R.id.unlock_giv);
-        gifView.setOnClickListener(this);
-        loadingDialog = new LoadingDialog(context);
-        init();
-        loadData();
-        return view;
-    }
-
-    private void init() {
-        byte[] bytes;
-        try {
-            bytes = Utils.input2byte(getResources().openRawResource(
-                    R.raw.shake_shake));
-            gifView.setBytes(bytes);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -821,8 +833,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 break;
             }
         } else {
-            titleBarView.setTitle(MyApplication.instance.getLocks().get(0)
-                    .getName());
             MyApplication.instance.setSelectedLock(MyApplication.instance
                     .getLocks().get(0));
         }
@@ -841,7 +851,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                             if (result != null) {
                                 MyApplication.instance.setLocks(result
                                         .getLocks());
-                                setTitle();
+                                setSelectedKey();
                             }
                         }
 
@@ -859,7 +869,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     if (result.isSuccesses()) {
                         MyApplication.instance.setLocks(result.getLocks());
                         saveLockListToDb(result.getResponse());
-                        setTitle();
+                        setSelectedKey();
+                        refreshKey();
                     } else {
                         ToastUtil.showShort(context, result.getRetinfo());
                         getLockListFromCache();
@@ -892,21 +903,42 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     }
                 });
     }
+    
+    private void refreshKey() {
+        keysLl.removeAllViews();
+        final List<RadixLock> keys = MyApplication.instance.getLocks();
+        int size = keys.size();
+        RadixLock selectedKey = MyApplication.instance.getSelectedLock();
+        for (int i = 0; i < size; i++) {
+            KeyView keyView;
+            if (keys.get(i).equals(selectedKey)) {
+                keyView = new KeyView(context, keys.get(i), i, true);
+            } else {
+                keyView = new KeyView(context, keys.get(i), i, false);
+            }
+            keyView.setOnClickListener(new OnClickListener() {
+                
+                @Override
+                public void onClick(View v) {
+                    int idx = ((KeyView)v).getIdx();
+                    MyApplication.instance.setSelectedLock(keys.get(idx));
+                }
+            });
+            keysLl.addView(keyView);
+        }
+    }
 
-    private void setTitle() {
+    private void setSelectedKey() {
         String selectedKey = PrefUtil.getString(context,
                 Constants.PREF_SELECTED_KEY);
         for (RadixLock lock : MyApplication.instance.getLocks()) {
             if (selectedKey.equals(lock.getId())) {
-                titleBarView.setTitle(lock.getName());
                 MyApplication.instance.setSelectedLock(lock);
                 return;
             }
         }
         // 若没有选择钥匙，则默认选第一个
         if (MyApplication.instance.getLocks().size() > 0) {
-            titleBarView.setTitle(MyApplication.instance.getLocks().get(0)
-                    .getName());
             MyApplication.instance.setSelectedLock(MyApplication.instance
                     .getLocks().get(0));
         }
@@ -918,15 +950,9 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        gifView.startAnimation();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        setTitle();
+        setSelectedKey();
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);

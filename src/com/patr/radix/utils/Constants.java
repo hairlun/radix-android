@@ -57,6 +57,8 @@ public class Constants {
     public static final String PREF_SELECTED_KEY = "selectedKey";
     public static final String PREF_SELECTED_COMMUNITY = "selectedCommunity";
     public static final String PREF_LOCK_KEY = "lockKey";
+    public static final String PREF_PUSH_SWITCH = "pushSwitch";
+    public static final String PREF_SHAKE_SWITCH = "shakeSwitch";
 
     public static final String ACTION_RELEASE_CALL = "actionReleaseCall";
 
