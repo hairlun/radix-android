@@ -909,6 +909,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         final List<RadixLock> keys = MyApplication.instance.getLocks();
         int size = keys.size();
         RadixLock selectedKey = MyApplication.instance.getSelectedLock();
+        keyTv.setText(selectedKey.getName());
         for (int i = 0; i < size; i++) {
             KeyView keyView;
             if (keys.get(i).equals(selectedKey)) {
@@ -921,7 +922,10 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 @Override
                 public void onClick(View v) {
                     int idx = ((KeyView)v).getIdx();
-                    MyApplication.instance.setSelectedLock(keys.get(idx));
+                    if (!keys.get(idx).equals(MyApplication.instance.getSelectedLock())) {
+                        MyApplication.instance.setSelectedLock(keys.get(idx));
+                        refreshKey();
+                    }
                 }
             });
             keysLl.addView(keyView);
@@ -952,7 +956,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
-        setSelectedKey();
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
@@ -980,15 +983,18 @@ public class UnlockFragment extends Fragment implements OnClickListener,
      */
     @Override
     public void onClick(View v) {
-//        switch (v.getId()) {
-//        case R.id.titlebar_select_key_btn:
-//            MyKeysActivity.start(context);
-//            break;
-//
-//        case R.id.unlock_giv:
-//            preUnlock();
-//            break;
-//        }
+        switch (v.getId()) {
+        case R.id.weather_detail_btn:
+            break;
+            
+        case R.id.send_key_btn:
+            context.startActivity(new Intent(context, MyKeysActivity.class));
+            break;
+            
+        case R.id.shake_btn:
+            preUnlock();
+            break;
+        }
     }
 
     @Override
