@@ -64,7 +64,7 @@ public class WeatherListAdapter extends AbsListAdapter<HashMap<String, String>> 
         }
         HashMap<String, String> wmap = getItem(position);
         holder.date.setText(wmap.get("date"));
-        holder.week.setText(wmap.get("week"));
+        holder.week.setText("星期" + wmap.get("week"));
         holder.nongli.setText(wmap.get("nongli"));
         Field f;
         try {
@@ -80,7 +80,7 @@ public class WeatherListAdapter extends AbsListAdapter<HashMap<String, String>> 
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        holder.weatherDayTv.setText(wmap.get("dayWeather") + ":" + wmap.get("dayTemp"));
+        holder.weatherDayTv.setText(wmap.get("dayWeather") + ":" + wmap.get("dayTemp") + "℃");
         String dayWindDirect = wmap.get("dayWindDirect");
         if (!TextUtils.isEmpty(dayWindDirect)) {
             holder.windDay.setText(dayWindDirect + "-" + wmap.get("dayWindPower"));

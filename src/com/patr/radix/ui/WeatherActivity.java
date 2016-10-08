@@ -87,6 +87,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
         closeBtn.setOnClickListener(this);
         loadingDialog = new LoadingDialog(context);
         adapter = new WeatherListAdapter(context, null);
+        weatherLv.setAdapter(adapter);
     }
 
     private void initData() {
