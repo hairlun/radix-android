@@ -139,6 +139,9 @@
         <activity
             android:name="com.patr.radix.ui.settings.PrefSettingActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.patr.radix.ui.WeatherActivity"
+            android:screenOrientation="portrait" />
         
         <service
             android:name="com.patr.radix.ble.BluetoothLeService"

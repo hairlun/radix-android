@@ -16,6 +16,7 @@ import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.GetNoticeListResult;
 import com.patr.radix.bean.GetUserListResult;
+import com.patr.radix.bean.GetWeatherResult;
 import com.patr.radix.bean.LoginResult;
 import com.patr.radix.bean.MobileUploadResult;
 import com.patr.radix.bean.RequestResult;
@@ -166,6 +167,8 @@ public class ServiceManager {
      * 接口地址
      */
     public interface Url {
+        
+        String WEATHER = "http://op.juhe.cn/onebox/weather/query?cityname=中山&key=1a494fbdbdd0db6561e0f1aef69233d7";
 
         String COMMUNITY_LIST = "http://119.29.33.197:8080/surpass/mobile/getCommunityList";
 
@@ -204,6 +207,18 @@ public class ServiceManager {
 
         /** 修改用户登录密码 */
         String UPDATE_USER_PWD = "/updateUserPWD";
+    }
+
+    /**
+     * 获取天气信息
+     * 
+     * @param listener
+     * @return
+     */
+    public static Cancelable getWeather(
+            final RequestListener<GetWeatherResult> listener) {
+        return WebService.post(Url.WEATHER, null, null, listener,
+                new GetWeatherParser(listener));
     }
 
     /**

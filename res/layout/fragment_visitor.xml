@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/gray_bg"
+    android:background="@drawable/login_bg"
     android:gravity="center_horizontal"
+    android:layout_gravity="center_horizontal"
     tools:context=".MainActivity" >
 
     <com.patr.radix.ui.view.TitleBarView
@@ -13,18 +14,19 @@
         android:layout_height="wrap_content" />
     
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/knock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/visitor_application_pic"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="30dp" />
     
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:background="@color/white"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical" >
 
         <EditText
             android:id="@+id/visitor_user_mobile_et"
@@ -43,24 +45,32 @@
         <ImageButton
             android:id="@+id/visitor_contact_btn"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="14dp"
-            android:src="@drawable/user_icon"
-            android:background="@drawable/btn_bg_selector"
+            android:src="@drawable/icon_tel"
+            android:background="@drawable/titlebar_btn_bg_selector"
             android:scaleType="fitCenter" />
         
     </LinearLayout>
     
-    <Button
-        android:id="@+id/visitor_request_btn"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_bg_shape_selector"
-        android:text="@string/visitor_request"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:padding="12dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/gray_bg" >
+
+        <Button
+            android:id="@+id/visitor_btn"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/submit_btn_bg_selector"
+            android:text="视频通话"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </LinearLayout>
     
 </LinearLayout>

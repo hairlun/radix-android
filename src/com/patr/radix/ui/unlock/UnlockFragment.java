@@ -21,6 +21,7 @@ import com.patr.radix.bll.GetCommunityListParser;
 import com.patr.radix.bll.GetLockListParser;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.ui.WeatherActivity;
 import com.patr.radix.ui.view.ListSelectDialog;
 import com.patr.radix.ui.view.LoadingDialog;
 import com.patr.radix.ui.view.TitleBarView;
@@ -164,6 +165,10 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         keyTv = (TextView) view.findViewById(R.id.key_tv);
         sendKeyBtn = (Button) view.findViewById(R.id.send_key_btn);
         keysLl = (LinearLayout) view.findViewById(R.id.key_ll);
+        
+        detailBtn.setOnClickListener(this);
+        shakeBtn.setOnClickListener(this);
+        sendKeyBtn.setOnClickListener(this);
         
         loadingDialog = new LoadingDialog(context);
         init();
@@ -716,6 +721,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         // 若没有选钥匙，则获取钥匙列表
         if (MyApplication.instance.getSelectedLock() == null) {
             getLockList();
+        } else {
+            refreshKey();
         }
         // 若用户已登录，则初始化和登录云通讯账号
         if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo()
@@ -852,6 +859,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                                 MyApplication.instance.setLocks(result
                                         .getLocks());
                                 setSelectedKey();
+                                refreshKey();
                             }
                         }
 
@@ -905,11 +913,11 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
     
     private void refreshKey() {
+        RadixLock selectedKey = MyApplication.instance.getSelectedLock();
+        keyTv.setText(selectedKey.getName());
         keysLl.removeAllViews();
         final List<RadixLock> keys = MyApplication.instance.getLocks();
         int size = keys.size();
-        RadixLock selectedKey = MyApplication.instance.getSelectedLock();
-        keyTv.setText(selectedKey.getName());
         for (int i = 0; i < size; i++) {
             KeyView keyView;
             if (keys.get(i).equals(selectedKey)) {
@@ -921,7 +929,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 
                 @Override
                 public void onClick(View v) {
-                    int idx = ((KeyView)v).getIdx();
+                    int idx = (int) v.getTag();
                     if (!keys.get(idx).equals(MyApplication.instance.getSelectedLock())) {
                         MyApplication.instance.setSelectedLock(keys.get(idx));
                         refreshKey();
@@ -985,6 +993,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.weather_detail_btn:
+            context.startActivity(new Intent(context, WeatherActivity.class));
             break;
             
         case R.id.send_key_btn:

@@ -30,7 +30,7 @@
             android:gravity="center_vertical"
             android:text="中山"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <ImageButton
             android:id="@+id/weather_detail_btn"
@@ -54,7 +54,7 @@
             android:gravity="center_vertical"
             android:text="20℃"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/weather_tv"
@@ -65,17 +65,16 @@
             android:gravity="center_vertical"
             android:text="阵雨"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/weather_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/weather_tv"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:scaleType="fitCenter" />
+            android:src="@drawable/w3"
+            android:scaleType="fitXY" />
     </RelativeLayout>
 
     <TextView
@@ -84,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/weather_rl"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="35dp"
         android:text="摇一摇开门"
         android:textColor="@color/white"
         android:textSize="20sp" />
@@ -93,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/shake_tv"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="90dp"
         android:background="@color/white"
         android:gravity="center_horizontal" >
 
@@ -132,14 +131,17 @@
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toLeftOf="@id/left_arrow_iv"
-                android:layout_toRightOf="@id/right_arrow_iv" >
+                android:layout_toLeftOf="@id/right_arrow_iv"
+                android:layout_toRightOf="@id/left_arrow_iv"
+                android:overScrollMode="always" >
 
                 <LinearLayout
                     android:id="@+id/key_ll"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical" >
                 </LinearLayout>
             </HorizontalScrollView>
         </RelativeLayout>
@@ -150,6 +152,8 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/key_rl"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_marginBottom="5dp"
             android:scaleType="fitCenter"
             android:src="@drawable/homepage_pic_title" />
@@ -160,12 +164,12 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/line_iv"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="35dp"
             android:background="@drawable/homepage_btn_send_key"
             android:gravity="left|center_vertical"
             android:text="  发送钥匙"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="13sp" />
     </RelativeLayout>
 
     <ImageButton
@@ -173,9 +177,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/shake_tv"
-        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
         android:src="@drawable/homepage_pic_state"
-        android:scaleType="fitCenter"
+        android:scaleType="centerInside"
         android:background="@drawable/shake_btn_bg_selector" />
     
     <TextView
@@ -183,8 +188,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:layout_below="@id/shake_btn"
-        android:layout_marginTop="5dp" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

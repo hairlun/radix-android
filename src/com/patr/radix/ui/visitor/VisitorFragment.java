@@ -1,4 +1,4 @@
-package com.patr.radix.ui;
+package com.patr.radix.ui.visitor;
 
 import org.xutils.common.util.LogUtil;
 
@@ -72,7 +72,7 @@ public class VisitorFragment extends Fragment implements OnClickListener,
         titleBarView.hideBackBtn().setTitle(R.string.titlebar_visitor_request);
         mobileEt = (EditText) view.findViewById(R.id.visitor_user_mobile_et);
         contactBtn = (ImageButton) view.findViewById(R.id.visitor_contact_btn);
-        requestBtn = (Button) view.findViewById(R.id.visitor_request_btn);
+        requestBtn = (Button) view.findViewById(R.id.visitor_btn);
         contactBtn.setOnClickListener(this);
         requestBtn.setOnClickListener(this);
         adapter = new UserListAdapter(context, null);
@@ -176,7 +176,7 @@ public class VisitorFragment extends Fragment implements OnClickListener,
             // ToastUtil.showShort(context, "未登录！");
             // }
             break;
-        case R.id.visitor_request_btn:
+        case R.id.visitor_btn:
             mobile = mobileEt.getText().toString().trim();
             if (TextUtils.isEmpty(mobile)) {
                 ToastUtil.showShort(context, "请输入手机号码！");

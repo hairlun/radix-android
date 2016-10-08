@@ -58,4 +58,7 @@
     <color name="tab_normal">#FFFFFFFF</color>
     <color name="tab_selected">#FF5E5E5E</color>
     
+    <!-- 天气 -->
+    <color name="weather_spec">#FF127D41</color>
+    
 </resources>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/key_ll"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center_horizontal"
     android:gravity="center_horizontal"
-    android:layout_margin="15dp"
+    android:padding="10dp"
     android:clickable="true" >
     
     <ImageView
@@ -21,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="Gate01"
-        android:textSize="15sp"
+        android:textSize="13sp"
         android:textColor="@color/black" />
     
 </LinearLayout>

@@ -21,6 +21,8 @@ import android.widget.TextView;
  */
 public class KeyView extends LinearLayout {
     
+    private LinearLayout keyLl;
+    
     private ImageView keyIv;
     
     private TextView keyTv;
@@ -35,15 +37,17 @@ public class KeyView extends LinearLayout {
     public KeyView(Context context, RadixLock key, int idx, boolean selected) {
         super(context);
         this.key = key;
-        this.setIdx(idx);
+        this.idx = idx;
         initView(context, selected);
     }
     
     private void initView(Context context, boolean selected) {
         LayoutInflater.from(getContext()).inflate(R.layout.view_key, this);
+        keyLl = (LinearLayout) findViewById(R.id.key_ll);
         keyIv = (ImageView) findViewById(R.id.key_iv);
         keyTv = (TextView) findViewById(R.id.key_tv);
-        String name = String.format("Gate%02d", idx);
+        keyLl.setTag(idx);
+        String name = String.format("Gate%02d", idx + 1);
         keyTv.setText(name);
         if (!selected) {
             keyTv.setTextColor(getResources().getColor(R.color.black));
@@ -53,13 +57,9 @@ public class KeyView extends LinearLayout {
             keyIv.setImageResource(R.drawable.homepage_key_pre);
         }
     }
-
-    public int getIdx() {
-        return idx;
-    }
-
-    public void setIdx(int idx) {
-        this.idx = idx;
+    
+    public void setOnClickListener(OnClickListener onClickListener) {
+        keyLl.setOnClickListener(onClickListener);
     }
 
 }
