@@ -1,6 +1,7 @@
 package com.patr.radix.ui.unlock;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.patr.radix.R;
 import com.patr.radix.adapter.CommunityListAdapter;
 import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
+import com.patr.radix.bean.GetWeatherResult;
 import com.patr.radix.bean.MDevice;
 import com.patr.radix.bean.RadixLock;
 import com.patr.radix.ble.BluetoothLeService;
@@ -740,6 +742,49 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             SDKCoreHelper.init(context, LoginMode.FORCE_LOGIN);
         }
     }
+    
+    private void getWeather() {
+        ServiceManager.getWeather(new RequestListener<GetWeatherResult>() {
+
+            @Override
+            public void onStart() {
+                loadingDialog.show("正在加载…");
+            }
+
+            @Override
+            public void onSuccess(int stateCode, GetWeatherResult result) {
+                if (result.getErrorCode().equals("0")) {
+                    refreshWeather(result);
+                } else {
+                    ToastUtil.showShort(context, result.getReason());
+                }
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Exception error, String content) {
+                ToastUtil.showShort(context, "获取天气信息失败，请稍后再试。");
+                loadingDialog.dismiss();
+            }
+
+        });
+    }
+
+    private void refreshWeather(GetWeatherResult result) {
+        Field f;
+        try {
+            f = (Field) R.drawable.class
+                    .getDeclaredField("w" + result.getImg());
+            int id = f.getInt(R.drawable.class);
+            weatherIv.setImageResource(id);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        weatherTv.setText(result.getWeather());
+        tempTv.setText(result.getTemp() + "℃");
+        areaTv.setText(result.getCity());
+    }
 
     private void getCommunityList() {
         switch (NetUtils.getConnectedType(context)) {
@@ -967,6 +1012,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
+        getWeather();
     }
 
     @Override
