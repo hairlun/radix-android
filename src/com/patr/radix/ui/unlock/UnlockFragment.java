@@ -774,7 +774,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         Field f;
         try {
             f = (Field) R.drawable.class
-                    .getDeclaredField("w" + result.getImg());
+                    .getDeclaredField("ww" + result.getImg());
             int id = f.getInt(R.drawable.class);
             weatherIv.setImageResource(id);
         } catch (Exception e) {

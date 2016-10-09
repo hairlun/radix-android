@@ -12,6 +12,7 @@ import org.xutils.common.Callback.Cancelable;
 import org.xutils.http.RequestParams;
 
 import com.patr.radix.MyApplication;
+import com.patr.radix.bean.AddVisitorResult;
 import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
 import com.patr.radix.bean.GetNoticeListResult;
@@ -323,14 +324,14 @@ public class ServiceManager {
      */
     public static Cancelable mobileAddVisitor(String visitorName,
             String startTime, String endTime, String phoneNum, String remark,
-            final RequestListener<RequestResult> listener) {
+            final RequestListener<AddVisitorResult> listener) {
         String[] keys = { RequestKey.TOKEN, RequestKey.VISITOR_NAME,
                 RequestKey.START_TIME, RequestKey.END_TIME,
                 RequestKey.PHONE_NUM, RequestKey.REMARK };
         String[] values = { MyApplication.instance.getUserInfo().getToken(),
                 visitorName, startTime, endTime, phoneNum, remark };
         return WebService.post(Url.MOBILE_ADD_VISITOR, keys, values, listener,
-                new RequestResultParser(listener));
+                new AddVisitorParser(listener));
     }
 
     /**

@@ -26,7 +26,7 @@ public class QRCodeUtil {
              */
             HashMap<EncodeHintType, String> hints = new HashMap<EncodeHintType, String>();
             // 内容所使用编码
-            hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+            hints.put(EncodeHintType.CHARACTER_SET, "ISO8859-1");
             BitMatrix bitMatrix = new MultiFormatWriter().encode(text,
                     BarcodeFormat.QR_CODE, width, height, hints);
             // 生成二维码

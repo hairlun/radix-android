@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_bg"
+    android:background="@drawable/login_bg"
     android:orientation="vertical"
     tools:context=".QRCodeActivity" >
 
@@ -10,68 +10,82 @@
         android:id="@+id/unlock_qrcode_titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    
-    <ScrollView
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/img_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/pg1"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:background="@drawable/page_index_bg_selected_selector" />
+
+            <TextView
+                android:id="@+id/pg2"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginLeft="18dp"
+                android:background="@drawable/page_index_bg_selector" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray_bg"
-        android:fillViewport="true"
-        android:overScrollMode="never"
-        android:scrollbars="none" >
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/send_btn"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/submit_btn_bg_selector"
+            android:text="发送二维码"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
         
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical" >
-
-		    <ImageView
-		        android:id="@+id/unlock_qrcode_iv"
-		        android:layout_width="250dp"
-		        android:layout_height="250dp"
-		        android:layout_marginTop="10dp"
-		        android:contentDescription="@string/app_name" />
-		    
-		    <Button
-		        android:id="@+id/unlock_share_btn"
-		        android:layout_width="150dp"
-		        android:layout_height="150dp"
-		        android:layout_marginTop="10dp"
-		        android:background="@null"
-		        android:drawableTop="@drawable/share"
-		        android:contentDescription="@string/app_name"
-		        android:text="@string/unlock_share"
-		        android:textSize="20sp"
-		        android:textColor="@color/black" />
-		    
-		    <TextView
-		        android:id="@+id/unlock_area_pic_tv"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_marginTop="20dp"
-		        android:text="@string/unlock_area_pic"
-		        android:textSize="20sp"
-                android:textColor="@color/black" />
-
-            <ImageView
-                android:id="@+id/unlock_area_pic_iv"
-                android:layout_width="320dp"
-                android:layout_height="320dp"
-                android:layout_marginTop="10dp"
-                android:contentDescription="@string/app_name" />
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical" >
             
-            <Button
-                android:id="@+id/unlock_share2_btn"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="10dp"
-                android:background="@null"
-                android:drawableTop="@drawable/share"
-                android:contentDescription="@string/app_name"
-                android:text="@string/unlock_share"
-                android:textSize="20sp"
-                android:textColor="@color/black" />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发送成功后返回顶层"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+            
+            <CheckBox
+                android:id="@+id/gohome_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:checked="false"
+                android:background="@drawable/gohome_btn_bg_selector" />
+            
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
+
 </LinearLayout>

@@ -9,7 +9,6 @@ package com.patr.radix.ui.unlock;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.patr.radix.ActiveTimeActivity;
 import com.patr.radix.MyApplication;
 import com.patr.radix.R;
 import com.patr.radix.R.id;

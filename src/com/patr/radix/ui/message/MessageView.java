@@ -134,6 +134,7 @@ public class MessageView extends LinearLayout implements OnItemClickListener,
                 loadData();
             } else {
                 ToastUtil.showShort(getContext(), "已显示全部数据");
+                swipe.setRefreshing(false);
             }
         }
     }

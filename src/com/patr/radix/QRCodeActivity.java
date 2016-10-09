@@ -12,10 +12,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,15 +27,15 @@ public class QRCodeActivity extends Activity implements OnClickListener {
 
     private TitleBarView titleBarView;
 
-    private ImageView qrcodeIv;
-
-    private Button shareBtn;
-
-    private TextView areaPicTv;
-
-    private ImageView areaPicIv;
-
-    private Button share2Btn;
+    private ViewPager pager;
+    
+    private TextView pg1;
+    
+    private TextView pg2;
+    
+    private Button sendBtn;
+    
+    private CheckBox gohomeCb;
 
     private Bitmap bitmap;
 
@@ -50,31 +52,35 @@ public class QRCodeActivity extends Activity implements OnClickListener {
 
     private void initView() {
         titleBarView = (TitleBarView) findViewById(R.id.unlock_qrcode_titlebar);
-        qrcodeIv = (ImageView) findViewById(R.id.unlock_qrcode_iv);
-        shareBtn = (Button) findViewById(R.id.unlock_share_btn);
-        areaPicTv = (TextView) findViewById(R.id.unlock_area_pic_tv);
-        areaPicIv = (ImageView) findViewById(R.id.unlock_area_pic_iv);
-        share2Btn = (Button) findViewById(R.id.unlock_share2_btn);
-        titleBarView.setTitle(R.string.titlebar_send_to_friend);
-        String areaPic = MyApplication.instance.getUserInfo().getAreaPic();
-        if (TextUtils.isEmpty(areaPic)) {
-            areaPicTv.setVisibility(View.GONE);
-            areaPicIv.setVisibility(View.GONE);
-            share2Btn.setVisibility(View.GONE);
-        } else {
-            x.image().bind(areaPicIv, areaPic);
-        }
-        try {
-            if (bitmap != null) {
-                qrcodeIv.setImageBitmap(bitmap);
-                qrcodeUri = Uri.parse(MediaStore.Images.Media.insertImage(
-                        getContentResolver(), bitmap, null, null));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        shareBtn.setOnClickListener(this);
-        share2Btn.setOnClickListener(this);
+        pager = (ViewPager) findViewById(R.id.img_pager);
+        pg1 = (TextView) findViewById(R.id.pg1);
+        pg2 = (TextView) findViewById(R.id.pg2);
+        sendBtn = (Button) findViewById(R.id.send_btn);
+        gohomeCb = (CheckBox) findViewById(R.id.gohome_cb);
+        
+        titleBarView.setTitle("分享给好友");
+        titleBarView.showCloseBtn();
+        titleBarView.setOnCloseClickListener(this);
+        
+//        String areaPic = MyApplication.instance.getUserInfo().getAreaPic();
+//        if (TextUtils.isEmpty(areaPic)) {
+//            areaPicTv.setVisibility(View.GONE);
+//            areaPicIv.setVisibility(View.GONE);
+//            share2Btn.setVisibility(View.GONE);
+//        } else {
+//            x.image().bind(areaPicIv, areaPic);
+//        }
+//        try {
+//            if (bitmap != null) {
+//                qrcodeIv.setImageBitmap(bitmap);
+//                qrcodeUri = Uri.parse(MediaStore.Images.Media.insertImage(
+//                        getContentResolver(), bitmap, null, null));
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        shareBtn.setOnClickListener(this);
+//        share2Btn.setOnClickListener(this);
     }
 
     /**
@@ -111,15 +117,21 @@ public class QRCodeActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-        case R.id.unlock_share_btn:
-            shareMsg("请选择", "", "", qrcodeUri);
+        case R.id.titlebar_close_btn:
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
             break;
-
-        case R.id.unlock_share2_btn:
-            Bitmap bm = ((BitmapDrawable) areaPicIv.getDrawable()).getBitmap();
-            Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(
-                    getContentResolver(), bm, null, null));
-            shareMsg("请选择", "", "", uri);
+            
+        case R.id.send_btn:
+            if (pager.getCurrentItem() == 0) {
+                // 分享二维码
+                shareMsg("请选择", "", "", qrcodeUri);
+                break;
+            } else {
+                // 分享路线路
+                shareMsg("请选择", "", "", Uri.parse(MyApplication.instance.getUserInfo().getAreaPic()));
+            }
             break;
         }
     }

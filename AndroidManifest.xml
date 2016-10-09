@@ -116,7 +116,7 @@
             android:name="com.patr.radix.ui.unlock.MyKeysActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.patr.radix.ActiveTimeActivity"
+            android:name="com.patr.radix.ui.unlock.ActiveTimeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.patr.radix.QRCodeActivity"

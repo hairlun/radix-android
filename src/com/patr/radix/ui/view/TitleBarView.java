@@ -138,7 +138,6 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
      */
     public TitleBarView showBackBtn() {
         mBackBtn.setVisibility(VISIBLE);
-        mCloseBtn.setVisibility(GONE);
         return this;
     }
 
@@ -153,8 +152,7 @@ public class TitleBarView extends LinearLayout implements OnClickListener {
     /**
      * 显示关闭按钮
      */
-    public TitleBarView showCancelBtn() {
-        mBackBtn.setVisibility(GONE);
+    public TitleBarView showCloseBtn() {
         mCloseBtn.setVisibility(VISIBLE);
         return this;
     }

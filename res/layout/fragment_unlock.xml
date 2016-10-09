@@ -69,11 +69,11 @@
 
         <ImageView
             android:id="@+id/weather_iv"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/weather_tv"
-            android:src="@drawable/w3"
+            android:src="@drawable/ww3"
             android:scaleType="fitXY" />
     </RelativeLayout>
 

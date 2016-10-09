@@ -4,14 +4,25 @@
  * zhoushujie
  * 2016-6-30 下午3:24:59
  */
-package com.patr.radix;
+package com.patr.radix.ui.unlock;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.patr.radix.MainActivity;
+import com.patr.radix.MyApplication;
+import com.patr.radix.QRCodeActivity;
+import com.patr.radix.R;
+import com.patr.radix.R.id;
+import com.patr.radix.R.layout;
+import com.patr.radix.R.string;
+import com.patr.radix.bean.AddVisitorResult;
 import com.patr.radix.bean.RadixLock;
+import com.patr.radix.bll.ServiceManager;
+import com.patr.radix.network.RequestListener;
+import com.patr.radix.ui.view.LoadingDialog;
 import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.ui.view.picker.DatetimeDialog;
 import com.patr.radix.ui.view.picker.DatetimeDialog.OnConfirmListener;
@@ -29,10 +40,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.text.TextUtils;
+import android.text.style.LeadingMarginSpan.Standard;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -57,11 +71,15 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
 
     private TextView keyEndTimeTv;
 
-    // private LinearLayout keyActiveTimeLl;
-    //
-    // private EditText keyActiveTimeEt;
+    private EditText nameEt;
+
+    private EditText telEt;
+
+    private EditText remarkEt;
 
     private Button generateQrcodeBtn;
+
+    private LoadingDialog loadingDialog;
 
     private Calendar startCal;
 
@@ -89,18 +107,27 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
         keyStartTimeTv = (TextView) findViewById(R.id.unlock_start_tv);
         keyEndTimeRl = (RelativeLayout) findViewById(R.id.unlock_end_rl);
         keyEndTimeTv = (TextView) findViewById(R.id.unlock_end_tv);
-        // keyActiveTimeLl = (LinearLayout)
-        // findViewById(R.id.unlock_active_time_ll);
-        // keyActiveTimeEt = (EditText)
-        // findViewById(R.id.unlock_active_time_et);
+        nameEt = (EditText) findViewById(R.id.name_et);
+        telEt = (EditText) findViewById(R.id.tel_et);
+        remarkEt = (EditText) findViewById(R.id.remark_et);
         generateQrcodeBtn = (Button) findViewById(R.id.unlock_generate_qrcode_btn);
-        titleBarView.setTitle(R.string.titlebar_key_active_time);
+
+        titleBarView.setTitle("生成二维码");
+        titleBarView.showCloseBtn();
+        titleBarView.setOnCloseClickListener(this);
         keyStartTimeRl.setOnClickListener(this);
         keyEndTimeRl.setOnClickListener(this);
-        // keyActiveTimeLl.setOnClickListener(this);
         generateQrcodeBtn.setOnClickListener(this);
         startCal = Calendar.getInstance();
         endCal = Calendar.getInstance();
+        loadingDialog = new LoadingDialog(context);
+//        Parcel p = Parcel.obtain();
+//        p.writeInt(20);
+//        p.writeInt(0);
+//        p.setDataPosition(0);
+//        Standard lms = new Standard(40, 0);
+//        Spann
+//        remarkEt.setText(text)
     }
 
     /**
@@ -194,6 +221,72 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
         List<RadixLock> list = MyApplication.instance.getSelectedLocks();
     }
 
+    private void addVisitor() {
+        String visitorName = nameEt.getText().toString().trim();
+        String phoneNum = telEt.getText().toString().trim();
+        String remark = remarkEt.getText().toString().trim();
+        String startTime = keyStartTimeTv.getText().toString();
+        String endTime = keyEndTimeTv.getText().toString();
+        ServiceManager.mobileAddVisitor(visitorName, startTime, endTime,
+                phoneNum, remark, new RequestListener<AddVisitorResult>() {
+
+                    @Override
+                    public void onStart() {
+                        loadingDialog.show("正在提交数据…");
+                    }
+
+                    @Override
+                    public void onSuccess(int stateCode, AddVisitorResult result) {
+                        if (result != null && result.isSuccesses()) {
+                            loadingDialog.show("正在生成二维码…");
+                            String visitorId = result.getVisitorId();
+                            generateQRCode(visitorId);
+                        } else {
+                            loadingDialog.dismiss();
+                            ToastUtil.showShort(context, "访问预约失败。");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, String content) {
+                        loadingDialog.dismiss();
+                        ToastUtil.showShort(context, "访问预约失败。");
+                    }
+
+                });
+    }
+
+    private void generateQRCode(String visitorId) {
+        // 生成二维码
+        visitorId = visitorId.replaceAll(" ", "");
+        visitorId = Utils.ByteArraytoHex(Utils.hexStringToByteArray(visitorId));
+        try {
+            String cmd = "71 ";
+            String data = "10 "
+                    + visitorId
+                    + Utils.ByteArraytoHex(Utils.dateTime2Bytes(startCal
+                            .getTime()))
+                    + Utils.ByteArraytoHex(Utils.dateTime2Bytes(endCal
+                            .getTime()))
+                    + MyApplication.instance.getUserInfo().getCardNo();
+            byte len = (byte) MyApplication.instance.getSelectedLocks().size();
+            data += Utils.ByteArraytoHex(new byte[] { len });
+            for (RadixLock lock : MyApplication.instance.getSelectedLocks()) {
+                data += Utils.ByteArraytoHex(new byte[] {
+                        (byte) (lock.getCtrId() & 0xFF),
+                        (byte) ((lock.getCtrId() >> 8) & 0xFF) });
+            }
+            String cmdData = Utils.getCmdData("00 ", cmd, data);
+            byte[] array = Utils.getCmdDataByteArray(cmdData);
+            String text = new String(array, "ISO8859-1");
+            Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(text, 300, 300);
+            loadingDialog.dismiss();
+            QRCodeActivity.start(context, bitmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -205,52 +298,29 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
         case R.id.unlock_start_rl:
             showDatePickerDialog(0);
             break;
-        // case R.id.unlock_active_time_ll:
-        // keyActiveTimeEt.setFocusable(true);
-        // keyActiveTimeEt.setFocusableInTouchMode(true);
-        // keyActiveTimeEt.requestFocus();
-        // break;
         case R.id.unlock_end_rl:
             showDatePickerDialog(1);
             break;
+        case R.id.titlebar_close_btn:
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
+            break;
         case R.id.unlock_generate_qrcode_btn:
-            if (TextUtils.isEmpty(keyStartTimeTv.getText())) {
+            if (TextUtils.isEmpty(keyStartTimeTv.getText().toString())) {
                 ToastUtil.showShort(context, "请选择开始时间！");
                 break;
             }
-            if (TextUtils.isEmpty(keyEndTimeTv.getText())) {
+            if (TextUtils.isEmpty(keyEndTimeTv.getText().toString())) {
                 ToastUtil.showShort(context, "请选择截止时间！");
                 break;
             }
-            // if (TextUtils.isEmpty(keyActiveTimeEt.getText())) {
-            // ToastUtil.showShort(context, "请选择有效时间！");
-            // break;
-            // }
-            // 生成二维码
-            try {
-                String cmd = "71 ";
-                String data = "00 00 00 00 "
-                        + MyApplication.instance.getUserInfo().getCardNo()
-                        + Utils.ByteArraytoHex(Utils.dateTime2Bytes(startCal
-                                .getTime()))
-                        + Utils.ByteArraytoHex(Utils.dateTime2Bytes(endCal
-                                .getTime()));
-                byte len = (byte) MyApplication.instance.getSelectedLocks()
-                        .size();
-                data += Utils.ByteArraytoHex(new byte[] { len });
-                for (RadixLock lock : MyApplication.instance.getSelectedLocks()) {
-                    data += Utils.ByteArraytoHex(new byte[] {
-                            (byte) (lock.getCtrId() & 0xFF),
-                            (byte) ((lock.getCtrId() >> 8) & 0xFF) });
-                }
-                String cmdData = Utils.getCmdData("00 ", cmd, data);
-                byte[] array = Utils.getCmdDataByteArray(cmdData);
-                String text = new String(array);
-                Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(text, 300, 300);
-                QRCodeActivity.start(context, bitmap);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (TextUtils.isEmpty(nameEt.getText().toString().trim())) {
+                ToastUtil.showShort(context, "请输入拜访人姓名！");
+                break;
             }
+            // 访客预约
+            addVisitor();
             break;
         }
     }
