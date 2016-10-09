@@ -32,7 +32,7 @@ import android.widget.ListView;
  * @author zhoushujie
  * 
  */
-public class MessageView extends LinearLayout implements OnItemClickListener,
+public class NoticeView extends LinearLayout implements OnItemClickListener,
         OnRefreshListener {
 
     private ListView lv;
@@ -50,7 +50,7 @@ public class MessageView extends LinearLayout implements OnItemClickListener,
     /**
      * @param context
      */
-    public MessageView(Context context) {
+    public NoticeView(Context context) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.view_message, this);
         swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);

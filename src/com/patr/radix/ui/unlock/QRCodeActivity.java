@@ -1,7 +1,16 @@
-package com.patr.radix;
+package com.patr.radix.ui.unlock;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.xutils.x;
 
+import com.patr.radix.MainActivity;
+import com.patr.radix.MyApplication;
+import com.patr.radix.R;
+import com.patr.radix.R.id;
+import com.patr.radix.R.layout;
+import com.patr.radix.adapter.SharePagerAdapter;
 import com.patr.radix.ui.view.TitleBarView;
 
 import android.app.Activity;
@@ -36,6 +45,11 @@ public class QRCodeActivity extends Activity implements OnClickListener {
     private Button sendBtn;
     
     private CheckBox gohomeCb;
+    
+    private SharePagerAdapter pagerAdapter;
+
+    /** View集合 */
+    private List<ShareView> views = new ArrayList<>();
 
     private Bitmap bitmap;
 
@@ -61,6 +75,19 @@ public class QRCodeActivity extends Activity implements OnClickListener {
         titleBarView.setTitle("分享给好友");
         titleBarView.showCloseBtn();
         titleBarView.setOnCloseClickListener(this);
+        views.add(new ShareView(context, 0, bitmap));
+        views.add(new ShareView(context, 1));
+        pagerAdapter = new SharePagerAdapter(context, views);
+        pager.setAdapter(pagerAdapter);
+
+        try {
+            if (bitmap != null) {
+                qrcodeUri = Uri.parse(MediaStore.Images.Media.insertImage(
+                        getContentResolver(), bitmap, null, null));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
 //        String areaPic = MyApplication.instance.getUserInfo().getAreaPic();
 //        if (TextUtils.isEmpty(areaPic)) {

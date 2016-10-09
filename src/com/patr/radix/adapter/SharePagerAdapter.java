@@ -3,7 +3,7 @@ package com.patr.radix.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.patr.radix.ui.message.NoticeView;
+import com.patr.radix.ui.unlock.ShareView;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -13,18 +13,18 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
 /***
- * 最新消息Pager适配器
+ * 分享Pager适配器
  */
-public class MessagePagerAdapter extends PagerAdapter {
+public class SharePagerAdapter extends PagerAdapter {
 
-    public static final String TAG = MessagePagerAdapter.class.getName();
+    public static final String TAG = SharePagerAdapter.class.getName();
 
     Context mContext;
 
     /** View集合 */
-    private List<NoticeView> views = new ArrayList<NoticeView>();
+    private List<ShareView> views = new ArrayList<ShareView>();
 
-    public MessagePagerAdapter(Context context, List<NoticeView> mViews) {
+    public SharePagerAdapter(Context context, List<ShareView> mViews) {
         mContext = context;
         this.views = mViews;
     }

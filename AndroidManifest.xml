@@ -119,7 +119,7 @@
             android:name="com.patr.radix.ui.unlock.ActiveTimeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.patr.radix.QRCodeActivity"
+            android:name="com.patr.radix.ui.unlock.QRCodeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.patr.radix.ui.message.MessageDetailsActivity"

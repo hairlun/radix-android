@@ -35,7 +35,7 @@ public class MessageFragment extends Fragment implements OnPageChangeListener,
     MessagePagerAdapter mPagerAdapter;
 
     /** View集合 */
-    List<MessageView> mViews = new ArrayList<MessageView>();
+    List<NoticeView> mViews = new ArrayList<NoticeView>();
 
     @Override
     public void onAttach(Activity activity) {
@@ -50,8 +50,8 @@ public class MessageFragment extends Fragment implements OnPageChangeListener,
                 .inflate(R.layout.fragment_messge, container, false);
         mRadioGroup = (RadioGroup) view.findViewById(R.id.message_rg);
         mPager = (ViewPager) view.findViewById(R.id.message_pager);
-        mViews.add(new MessageView(context));
-        mViews.add(new MessageView(context));
+        mViews.add(new NoticeView(context));
+        mViews.add(new NoticeView(context));
         mPagerAdapter = new MessagePagerAdapter(context, mViews);
         mPager.setAdapter(mPagerAdapter);
         mPager.setOnPageChangeListener(this);
