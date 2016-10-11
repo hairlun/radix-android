@@ -169,7 +169,7 @@ public class ServiceManager {
      */
     public interface Url {
         
-        String WEATHER = "http://op.juhe.cn/onebox/weather/query?cityname=中山&key=1a494fbdbdd0db6561e0f1aef69233d7";
+        String WEATHER = "http://op.juhe.cn/onebox/weather/query?";
 
         String COMMUNITY_LIST = "http://119.29.33.197:8080/surpass/mobile/getCommunityList";
 
@@ -218,7 +218,9 @@ public class ServiceManager {
      */
     public static Cancelable getWeather(
             final RequestListener<GetWeatherResult> listener) {
-        return WebService.post(Url.WEATHER, null, null, listener,
+        String[] keys = { "cityname", "key" };
+        String[] values = { "中山", "1a494fbdbdd0db6561e0f1aef69233d7" };
+        return WebService.post(Url.WEATHER, keys, values, listener,
                 new GetWeatherParser(listener));
     }
 
