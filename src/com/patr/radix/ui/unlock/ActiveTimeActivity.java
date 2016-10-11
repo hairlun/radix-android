@@ -242,14 +242,14 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
                             generateQRCode(visitorId);
                         } else {
                             loadingDialog.dismiss();
-                            ToastUtil.showShort(context, "访问预约失败。");
+                            ToastUtil.showShort(context, R.string.connect_exception);
                         }
                     }
 
                     @Override
                     public void onFailure(Exception error, String content) {
                         loadingDialog.dismiss();
-                        ToastUtil.showShort(context, "访问预约失败。");
+                        ToastUtil.showShort(context, R.string.connect_exception);
                     }
 
                 });

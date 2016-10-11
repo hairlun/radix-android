@@ -131,14 +131,14 @@ public class VisitorFragment extends Fragment implements OnClickListener,
                         getUserListFromCache();
                     }
                 } else {
-                    ToastUtil.showShort(context, "网络请求失败！");
+                    ToastUtil.showShort(context, R.string.connect_exception);
                     getUserListFromCache();
                 }
             }
 
             @Override
             public void onFailure(Exception error, String content) {
-                ToastUtil.showShort(context, content);
+                ToastUtil.showShort(context, R.string.connect_exception);
                 getUserListFromCache();
             }
 

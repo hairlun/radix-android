@@ -79,6 +79,12 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
         initView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        phoneTv.setText(MyApplication.instance.getUserInfo().getMobile());
+    }
+
     private void initView() {
         titleBarView = (TitleBarView) findViewById(R.id.user_info_titlebar);
         avatarIv = (ImageView) findViewById(R.id.avatar_iv);
@@ -92,7 +98,6 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
         pwdRl.setOnClickListener(this);
 
         titleBarView.setTitle(R.string.titlebar_edit_user_info);
-        phoneTv.setText(MyApplication.instance.getUserInfo().getMobile());
         loadingDialog = new LoadingDialog(context);
         String pic = MyApplication.instance.getUserInfo().getUserPic();
         if (!TextUtils.isEmpty(pic)) {
@@ -227,7 +232,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 
             @Override
             public void onFailure(Exception error, String content) {
-                ToastUtil.showShort(context, "上传头像失败！");
+                ToastUtil.showShort(context, R.string.connect_exception);
                 loadingDialog.dismiss();
             }
 
@@ -254,7 +259,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 
             @Override
             public void onFailure(Exception error, String content) {
-                ToastUtil.showShort(context, "上传头像失败！");
+                ToastUtil.showShort(context, R.string.connect_exception);
                 loadingDialog.dismiss();
             }
             

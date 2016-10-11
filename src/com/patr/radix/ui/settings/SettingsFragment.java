@@ -1,5 +1,6 @@
 package com.patr.radix.ui.settings;
 
+import org.xutils.x;
 import org.xutils.common.util.LogUtil;
 
 import com.patr.radix.LockSetupActivity;
@@ -27,6 +28,7 @@ import com.patr.radix.utils.ToastUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -38,6 +40,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,22 +51,28 @@ public class SettingsFragment extends Fragment implements OnClickListener,
     private Context context;
 
     private RelativeLayout currentCommunityRl;
-    
+
     private TextView communityName;
 
     private RelativeLayout remoteOpenDoorRl;
-    
+
     private RelativeLayout modifyUserinfoRl;
-    
+
     private RelativeLayout shareRl;
-    
+
     private RelativeLayout feedbackRl;
-    
+
     private TextView clearValue;
-    
+
     private Button clearBtn;
-    
+
     private ImageButton settingBtn;
+    
+    private ImageView avatarIv;
+    
+    private TextView nameTv;
+    
+    private TextView phoneTv;
 
     private CommunityListAdapter adapter;
 
@@ -82,12 +91,16 @@ public class SettingsFragment extends Fragment implements OnClickListener,
                 .findViewById(R.id.current_community_ll);
         communityName = (TextView) view.findViewById(R.id.community_name);
         remoteOpenDoorRl = (RelativeLayout) view.findViewById(R.id.my_key_ll);
-        modifyUserinfoRl = (RelativeLayout) view.findViewById(R.id.modify_userinfo_ll);
+        modifyUserinfoRl = (RelativeLayout) view
+                .findViewById(R.id.modify_userinfo_ll);
         shareRl = (RelativeLayout) view.findViewById(R.id.share_ll);
         feedbackRl = (RelativeLayout) view.findViewById(R.id.feedback_ll);
         clearValue = (TextView) view.findViewById(R.id.clear_value);
         clearBtn = (Button) view.findViewById(R.id.clear_btn);
         settingBtn = (ImageButton) view.findViewById(R.id.setting_btn);
+        avatarIv = (ImageView) view.findViewById(R.id.avatar_iv);
+        nameTv = (TextView) view.findViewById(R.id.name_tv);
+        phoneTv = (TextView) view.findViewById(R.id.phone_tv);
 
         currentCommunityRl.setOnClickListener(this);
         remoteOpenDoorRl.setOnClickListener(this);
@@ -102,7 +115,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
         Community selectedCommunity = MyApplication.instance
                 .getSelectedCommunity();
         if (selectedCommunity != null) {
-            communityName.setText(selectedCommunity.getName());
+            communityName.setText("(" + selectedCommunity.getName() + ")");
             int size = adapter.getCount();
             for (int i = 0; i < size; i++) {
                 if (selectedCommunity.equals(adapter.getList().get(i))) {
@@ -121,6 +134,28 @@ public class SettingsFragment extends Fragment implements OnClickListener,
     }
 
     private void refresh() {
+        Community selectedCommunity = MyApplication.instance
+                .getSelectedCommunity();
+        if (selectedCommunity != null) {
+            communityName.setText("(" + selectedCommunity.getName() + ")");
+        }
+        UserInfo userInfo = MyApplication.instance.getUserInfo();
+        if (!TextUtils.isEmpty(userInfo.getToken())) {
+            if (!TextUtils.isEmpty(userInfo.getUserPic())) {
+                x.image().bind(avatarIv, userInfo.getUserPic());
+            }
+            nameTv.setVisibility(View.VISIBLE);
+            phoneTv.setVisibility(View.VISIBLE);
+            nameTv.setText(userInfo.getName());
+            phoneTv.setText(userInfo.getMobile());
+        } else {
+            avatarIv.setImageResource(R.drawable.personal_center_pic_head_portrait);
+            nameTv.setVisibility(View.INVISIBLE);
+            phoneTv.setVisibility(View.INVISIBLE);
+        }
+        
+        //TODO 刷新缓存大小
+        
     }
 
     @Override
@@ -135,30 +170,46 @@ public class SettingsFragment extends Fragment implements OnClickListener,
         case R.id.setting_btn:
             context.startActivity(new Intent(context, PrefSettingActivity.class));
             break;
-            
+
         case R.id.current_community_ll:
             getCommunityList();
             break;
-            
+
         case R.id.my_key_ll:
             intent = new Intent(context, MyKeysActivity.class);
             intent.putExtra("remoteOpenDoor", true);
             context.startActivity(intent);
             break;
-            
+
         case R.id.modify_userinfo_ll:
             intent = new Intent(context, EditUserInfoActivity.class);
             context.startActivity(intent);
             break;
-        // case R.id.settings_logout_btn:
-        // if (TextUtils.isEmpty(MyApplication.instance.getUserInfo()
-        // .getAccount())) {
-        // login();
-        // } else {
-        // logout();
-        // }
-        // break;
+
+        case R.id.share_ll:
+            shareMsg("请选择", "", "", Uri.parse("http://zsyuxindianzi.b2b.c-ps.net/"));
+            break;
+
+        case R.id.feedback_ll:
+            intent = new Intent(context, FeedbackActivity.class);
+            context.startActivity(intent);
+            break;
+
         }
+    }
+
+    public void shareMsg(String activityTitle, String msgTitle, String msgText,
+            Uri uri) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain"); // 纯文本
+        intent.setType("image/*");
+        if (uri != null) {
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+        }
+        intent.putExtra(Intent.EXTRA_SUBJECT, msgTitle);
+        intent.putExtra(Intent.EXTRA_TEXT, msgText);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(Intent.createChooser(intent, activityTitle));
     }
 
     private void getCommunityList() {
@@ -217,14 +268,16 @@ public class SettingsFragment extends Fragment implements OnClickListener,
                                 getCommunityListFromCache();
                             }
                         } else {
-                            ToastUtil.showShort(context, "网络请求失败！");
+                            ToastUtil.showShort(context,
+                                    R.string.connect_exception);
                             getCommunityListFromCache();
                         }
                     }
 
                     @Override
                     public void onFailure(Exception error, String content) {
-                        ToastUtil.showShort(context, content);
+                        ToastUtil
+                                .showShort(context, R.string.connect_exception);
                         getCommunityListFromCache();
                     }
 
