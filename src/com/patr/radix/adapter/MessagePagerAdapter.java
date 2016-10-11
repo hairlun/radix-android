@@ -22,9 +22,9 @@ public class MessagePagerAdapter extends PagerAdapter {
     Context mContext;
 
     /** View集合 */
-    private List<NoticeView> views = new ArrayList<NoticeView>();
+    private List<View> views = new ArrayList<View>();
 
-    public MessagePagerAdapter(Context context, List<NoticeView> mViews) {
+    public MessagePagerAdapter(Context context, List<View> mViews) {
         mContext = context;
         this.views = mViews;
     }

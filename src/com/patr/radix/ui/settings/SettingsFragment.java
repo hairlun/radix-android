@@ -102,7 +102,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
         Community selectedCommunity = MyApplication.instance
                 .getSelectedCommunity();
         if (selectedCommunity != null) {
-            communityName.setText(selectedCommunity.getName());
+            communityName.setText("(" + selectedCommunity.getName() + ")");
             int size = adapter.getCount();
             for (int i = 0; i < size; i++) {
                 if (selectedCommunity.equals(adapter.getList().get(i))) {

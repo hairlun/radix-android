@@ -133,11 +133,12 @@ public class MainActivity extends FragmentActivity implements
         TextView badge = (TextView) view.findViewById(R.id.badge);
         tv.setText(TabDb.getTabsTxt()[idx]);
         // TODO 设置badge
-        if (idx == 2) {
-            badge.setText("99");
-        } else {
-            badge.setVisibility(View.GONE);
-        }
+//        if (idx == 2) {
+//            badge.setText("99");
+//            badge.setVisibility(View.VISIBLE);
+//        } else {
+//            badge.setVisibility(View.GONE);
+//        }
         if (idx == defaultTab) {
             iv.setImageResource(TabDb.getTabsImgLight()[idx]);
             tv.setTextColor(getResources().getColor(
