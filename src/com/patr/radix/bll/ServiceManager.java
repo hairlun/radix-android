@@ -71,6 +71,10 @@ public class ServiceManager {
         String USER_PIC = "userPic";
 
         String FILE = "file";
+        
+        String TITLE = "title";
+        
+        String CONTENT = "content";
     }
 
     /**
@@ -195,19 +199,25 @@ public class ServiceManager {
         String MOBILE_OPEN_DOOR = "/mobileOpenDoor?";
 
         /** 访客预约 */
-        String MOBILE_ADD_VISITOR = "/mobileAddVisitor";
+        String MOBILE_ADD_VISITOR = "/mobileAddVisitor?";
 
         /** 文件上传 */
-        String MOBILE_UPLOAD = "/mobileUpload";
+        String MOBILE_UPLOAD = "/mobileUpload?";
 
         /** 修改用户头像 */
-        String UPDATE_USER_PORTRAIT = "/updateUserPortrait";
+        String UPDATE_USER_PORTRAIT = "/updateUserPortrait?";
 
         /** 修改用户手机号 */
-        String UPDATE_USER_PHONE = "/updateUserPhone";
+        String UPDATE_USER_PHONE = "/updateUserPhone?";
 
         /** 修改用户登录密码 */
-        String UPDATE_USER_PWD = "/updateUserPWD";
+        String UPDATE_USER_PWD = "/updateUserPWD?";
+        
+        /** 重置密码 */
+        String UPDATE_PWD_BY_FORGET = "/updatePwdByForget?";
+        
+        /** 意见反馈 */
+        String ADVICE_FEEDBACK = "/adviceFeedback?";
     }
 
     /**
@@ -396,6 +406,40 @@ public class ServiceManager {
         String[] values = { MyApplication.instance.getUserInfo().getToken(),
                 pwd };
         return WebService.post(Url.UPDATE_USER_PWD, keys, values, listener,
+                new RequestResultParser(listener));
+    }
+    
+    /**
+     * 重置登录密码
+     * 
+     * @param pwd
+     * @param account
+     * @param mobile
+     * @param listener
+     * @return
+     */
+    public static Cancelable updatePwdByForget(String pwd, String account, String mobile,
+            final RequestListener<RequestResult> listener) {
+        String[] keys = { RequestKey.PWD, RequestKey.ACCOUNT, RequestKey.MOBILE };
+        String[] values = { pwd, account, mobile };
+        return WebService.post(Url.UPDATE_PWD_BY_FORGET, keys, values, listener,
+                new RequestResultParser(listener));
+    }
+    
+    /**
+     * 意见反馈
+     * 
+     * @param title
+     * @param content
+     * @param listener
+     * @return
+     */
+    public static Cancelable adviceFeedback(String title, String content,
+            final RequestListener<RequestResult> listener) {
+        String[] keys = { RequestKey.TOKEN, RequestKey.TITLE, RequestKey.CONTENT };
+        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+                title, content };
+        return WebService.post(Url.ADVICE_FEEDBACK, keys, values, listener,
                 new RequestResultParser(listener));
     }
 

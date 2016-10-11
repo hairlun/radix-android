@@ -110,7 +110,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 
             @Override
             public void onFailure(Exception error, String content) {
-                ToastUtil.showShort(context, "网络异常，请稍后再试。");
+                ToastUtil.showShort(context, R.string.connect_exception);
                 loadingDialog.dismiss();
             }
 

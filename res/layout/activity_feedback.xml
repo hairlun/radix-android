@@ -1,0 +1,153 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <com.patr.radix.ui.view.TitleBarView
+        android:id="@+id/feedback_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_bg"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_feedback" />
+
+            <EditText
+                android:id="@+id/title_et"
+                style="?android:attr/textViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1.0"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="请输入标题"
+                android:inputType="text"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_text"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_input" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:orientation="vertical"
+            android:background="@color/white" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:gravity="top"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/icon_feedback" />
+
+                <EditText
+                    android:id="@+id/content_et"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1.0"
+                    android:background="@null"
+                    android:gravity="top|left"
+                    android:hint="请在此输入您宝贵的意见"
+                    android:inputType="text"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_text"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+            
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                
+                <ImageView
+                android:id="@+id/content_et_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_input" />
+                
+                <TextView
+                    android:id="@+id/limit_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/content_et_iv"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
+                    android:text="/200"
+                    android:textColor="@color/gray_text"
+                    android:textSize="13sp" />
+                
+                <TextView
+                    android:id="@+id/len_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/limit_tv"
+                    android:layout_centerVertical="true"
+                    android:text="0"
+                    android:textColor="@color/gray_text"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/submit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/submit_btn_bg_selector"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>
