@@ -1196,9 +1196,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     if (name.equalsIgnoreCase(lock.getBleName1())
                             || name.equalsIgnoreCase(lock.getBleName2())) {
                         list.add(mDev);
-                        if (mBluetoothAdapter != null) {
-                            mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                        }
                         connectDevice(mDev.getDevice());
                     }
                     LogUtil.d("发现蓝牙设备：" + mDev.getDevice().getName());
@@ -1235,7 +1232,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 }
                 mScanning = false;
             }
-        }, 2800);
+        }, 2000);
 
         if (mBluetoothAdapter == null) {
             getBluetoothAdapter();
@@ -1271,7 +1268,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 }
                 mScanning = false;
             }
-        }, 2800);
+        }, 2000);
 
         if (bleScanner == null) {
             if (mBluetoothAdapter == null) {
@@ -1298,15 +1295,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     if (name.equalsIgnoreCase(lock.getBleName1())
                             || name.equalsIgnoreCase(lock.getBleName2())) {
                         list.add(mDev);
-                        if (bleScanner != null) {
-                            bleScanner.stopScan(new ScanCallback() {
-                                @Override
-                                public void onScanResult(int callbackType,
-                                        ScanResult result) {
-                                    super.onScanResult(callbackType, result);
-                                }
-                            });
-                        }
                         connectDevice(mDev.getDevice());
                     }
                     LogUtil.d("发现蓝牙设备：" + mDev.getDevice().getName());
