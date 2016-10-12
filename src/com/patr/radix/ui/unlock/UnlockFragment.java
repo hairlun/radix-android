@@ -1116,7 +1116,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         }
         for (MDevice device : list) {
             LogUtil.d("device list: " + device.getDevice().getName());
-            if (device.getDevice().getName().equalsIgnoreCase(bleName)) {
+            if (device.getDevice().getName() != null && device.getDevice().getName().equalsIgnoreCase(bleName)) {
                 if (!isUnlocking) {
                     isUnlocking = true;
                     retryCount = 0;
@@ -1191,7 +1191,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
      * 版本号21之前的调用该方法搜索
      */
     private void scanPrevious21Version() {
-        // 2.8秒后停止扫描
+        // 2秒后停止扫描
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -1202,7 +1202,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 if (isScanningForUnlock) {
                     isScanningForUnlock = false;
                     if (list.size() <= 0) {
-                        ToastUtil.showShort(context, "没找到门禁设备！");
+                        ToastUtil.showShort(context, "没找到与之匹配的门禁设备！");
                     } else {
                         unlock();
                     }
@@ -1241,7 +1241,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 if (isScanningForUnlock) {
                     isScanningForUnlock = false;
                     if (list.size() <= 0) {
-                        ToastUtil.showShort(context, "没找到门禁设备！");
+                        ToastUtil.showShort(context, "没找到与之匹配的门禁设备！");
                     } else {
                         unlock();
                     }
