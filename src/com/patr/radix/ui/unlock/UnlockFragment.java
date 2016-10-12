@@ -1196,9 +1196,9 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     if (name.equalsIgnoreCase(lock.getBleName1())
                             || name.equalsIgnoreCase(lock.getBleName2())) {
                         list.add(mDev);
-//                        if (mBluetoothAdapter != null) {
-//                            mBluetoothAdapter.stopLeScan(mLeScanCallback);
-//                        }
+                        if (mBluetoothAdapter != null) {
+                            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                        }
                         connectDevice(mDev.getDevice());
                     }
                     LogUtil.d("发现蓝牙设备：" + mDev.getDevice().getName());
@@ -1298,15 +1298,15 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     if (name.equalsIgnoreCase(lock.getBleName1())
                             || name.equalsIgnoreCase(lock.getBleName2())) {
                         list.add(mDev);
-//                        if (bleScanner != null) {
-//                            bleScanner.stopScan(new ScanCallback() {
-//                                @Override
-//                                public void onScanResult(int callbackType,
-//                                        ScanResult result) {
-//                                    super.onScanResult(callbackType, result);
-//                                }
-//                            });
-//                        }
+                        if (bleScanner != null) {
+                            bleScanner.stopScan(new ScanCallback() {
+                                @Override
+                                public void onScanResult(int callbackType,
+                                        ScanResult result) {
+                                    super.onScanResult(callbackType, result);
+                                }
+                            });
+                        }
                         connectDevice(mDev.getDevice());
                     }
                     LogUtil.d("发现蓝牙设备：" + mDev.getDevice().getName());
