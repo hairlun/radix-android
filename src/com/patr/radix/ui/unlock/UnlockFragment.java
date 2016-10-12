@@ -1228,7 +1228,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
                 if (list.size() <= 0) {
                     ToastUtil.showShort(context, "没找到与之匹配的门禁设备！");
-                    loadingDialog.dismiss();
                 }
                 mScanning = false;
             }
@@ -1264,7 +1263,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
                 if (list.size() <= 0) {
                     ToastUtil.showShort(context, "没找到与之匹配的门禁设备！");
-                    loadingDialog.dismiss();
                 }
                 mScanning = false;
             }
