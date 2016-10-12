@@ -268,13 +268,6 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
                     + Utils.ByteArraytoHex(Utils.dateTime2Bytes(endCal
                             .getTime()))
                     + MyApplication.instance.getUserInfo().getCardNo();
-            byte len = (byte) MyApplication.instance.getSelectedLocks().size();
-            data += Utils.ByteArraytoHex(new byte[] { len });
-            for (RadixLock lock : MyApplication.instance.getSelectedLocks()) {
-                data += Utils.ByteArraytoHex(new byte[] {
-                        (byte) (lock.getCtrId() & 0xFF),
-                        (byte) ((lock.getCtrId() >> 8) & 0xFF) });
-            }
             String cmdData = Utils.getCmdData("00 ", cmd, data);
             byte[] array = Utils.getCmdDataByteArray(cmdData);
             String text = new String(array, "ISO8859-1");

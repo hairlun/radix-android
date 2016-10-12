@@ -158,7 +158,7 @@ public class LoadingDialog extends AbsCustomDialog implements
      * @param msg
      */
     public void show(String msg) {
-        show(msg, false);
+        show(msg, true);
     }
 
     /**

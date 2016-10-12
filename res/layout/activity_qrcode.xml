@@ -21,7 +21,7 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/img_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="360dp" />
 
         <LinearLayout
             android:layout_width="30dp"
@@ -31,15 +31,15 @@
 
             <TextView
                 android:id="@+id/pg1"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
                 android:background="@drawable/page_index_bg_selected_selector" />
 
             <TextView
                 android:id="@+id/pg2"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:layout_marginLeft="18dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/page_index_bg_selector" />
         </LinearLayout>
     </LinearLayout>
@@ -57,7 +57,7 @@
             android:layout_height="38dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/submit_btn_bg_selector"
             android:text="发送二维码"
             android:textColor="@color/white"
@@ -66,7 +66,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
             android:gravity="center_vertical" >
             
@@ -77,13 +77,14 @@
                 android:textColor="@color/black"
                 android:textSize="13sp" />
             
-            <CheckBox
-                android:id="@+id/gohome_cb"
+            <ImageView
+                android:id="@+id/gohome_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:checked="false"
-                android:background="@drawable/gohome_btn_bg_selector" />
+                android:src="@drawable/send_key_btn_return"
+                android:scaleType="fitCenter"
+                android:clickable="true" />
             
         </LinearLayout>
     </LinearLayout>

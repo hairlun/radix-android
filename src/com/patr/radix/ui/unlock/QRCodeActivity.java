@@ -12,6 +12,9 @@ import com.patr.radix.R.id;
 import com.patr.radix.R.layout;
 import com.patr.radix.adapter.SharePagerAdapter;
 import com.patr.radix.ui.view.TitleBarView;
+import com.patr.radix.utils.BitmapUtil;
+import com.patr.radix.utils.Constants;
+import com.patr.radix.utils.PrefUtil;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,6 +25,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,22 +34,25 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class QRCodeActivity extends Activity implements OnClickListener {
+public class QRCodeActivity extends Activity implements OnClickListener,
+        OnPageChangeListener {
 
     private Context context;
 
     private TitleBarView titleBarView;
 
     private ViewPager pager;
-    
+
     private TextView pg1;
-    
+
     private TextView pg2;
-    
+
     private Button sendBtn;
-    
-    private CheckBox gohomeCb;
-    
+
+    private ImageView gohomeIv;
+
+    private boolean gohomeAfterShare;
+
     private SharePagerAdapter pagerAdapter;
 
     /** View集合 */
@@ -54,6 +61,8 @@ public class QRCodeActivity extends Activity implements OnClickListener {
     private Bitmap bitmap;
 
     private Uri qrcodeUri;
+    
+    private ShareView areaPicView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,15 +79,26 @@ public class QRCodeActivity extends Activity implements OnClickListener {
         pg1 = (TextView) findViewById(R.id.pg1);
         pg2 = (TextView) findViewById(R.id.pg2);
         sendBtn = (Button) findViewById(R.id.send_btn);
-        gohomeCb = (CheckBox) findViewById(R.id.gohome_cb);
-        
+        gohomeIv = (ImageView) findViewById(R.id.gohome_iv);
+
         titleBarView.setTitle("分享给好友");
         titleBarView.showCloseBtn();
         titleBarView.setOnCloseClickListener(this);
+        sendBtn.setOnClickListener(this);
+        gohomeIv.setOnClickListener(this);
         views.add(new ShareView(context, 0, bitmap));
-        views.add(new ShareView(context, 1));
+        areaPicView = new ShareView(context, 1);
+        views.add(areaPicView);
         pagerAdapter = new SharePagerAdapter(context, views);
         pager.setAdapter(pagerAdapter);
+        pager.setOnPageChangeListener(this);
+        gohomeAfterShare = PrefUtil.getBoolean(context,
+                Constants.PREF_GOHOME_AFTER_SHARE, false);
+        if (gohomeAfterShare) {
+            gohomeIv.setImageResource(R.drawable.send_key_btn_return_check);
+        } else {
+            gohomeIv.setImageResource(R.drawable.send_key_btn_return);
+        }
 
         try {
             if (bitmap != null) {
@@ -88,26 +108,6 @@ public class QRCodeActivity extends Activity implements OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-//        String areaPic = MyApplication.instance.getUserInfo().getAreaPic();
-//        if (TextUtils.isEmpty(areaPic)) {
-//            areaPicTv.setVisibility(View.GONE);
-//            areaPicIv.setVisibility(View.GONE);
-//            share2Btn.setVisibility(View.GONE);
-//        } else {
-//            x.image().bind(areaPicIv, areaPic);
-//        }
-//        try {
-//            if (bitmap != null) {
-//                qrcodeIv.setImageBitmap(bitmap);
-//                qrcodeUri = Uri.parse(MediaStore.Images.Media.insertImage(
-//                        getContentResolver(), bitmap, null, null));
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        shareBtn.setOnClickListener(this);
-//        share2Btn.setOnClickListener(this);
     }
 
     /**
@@ -149,7 +149,18 @@ public class QRCodeActivity extends Activity implements OnClickListener {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
             break;
-            
+
+        case R.id.gohome_iv:
+            gohomeAfterShare = !gohomeAfterShare;
+            PrefUtil.save(context, Constants.PREF_GOHOME_AFTER_SHARE,
+                    gohomeAfterShare);
+            if (gohomeAfterShare) {
+                gohomeIv.setImageResource(R.drawable.send_key_btn_return_check);
+            } else {
+                gohomeIv.setImageResource(R.drawable.send_key_btn_return);
+            }
+            break;
+
         case R.id.send_btn:
             if (pager.getCurrentItem() == 0) {
                 // 分享二维码
@@ -157,7 +168,10 @@ public class QRCodeActivity extends Activity implements OnClickListener {
                 break;
             } else {
                 // 分享路线路
-                shareMsg("请选择", "", "", Uri.parse(MyApplication.instance.getUserInfo().getAreaPic()));
+                Bitmap bm = ((BitmapDrawable) areaPicView.getIv().getDrawable()).getBitmap();
+                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(
+                        getContentResolver(), bm, null, null));
+                shareMsg("请选择", "", "", uri);
             }
             break;
         }
@@ -167,6 +181,51 @@ public class QRCodeActivity extends Activity implements OnClickListener {
         Intent intent = new Intent(context, QRCodeActivity.class);
         intent.putExtra("bitmap", bitmap);
         context.startActivity(intent);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.support.v4.view.ViewPager.OnPageChangeListener#
+     * onPageScrollStateChanged(int)
+     */
+    @Override
+    public void onPageScrollStateChanged(int arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.support.v4.view.ViewPager.OnPageChangeListener#onPageScrolled
+     * (int, float, int)
+     */
+    @Override
+    public void onPageScrolled(int arg0, float arg1, int arg2) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.support.v4.view.ViewPager.OnPageChangeListener#onPageSelected
+     * (int)
+     */
+    @Override
+    public void onPageSelected(int position) {
+        if (position == 0) {
+            pg1.setBackgroundResource(R.drawable.page_index_bg_selected_selector);
+            pg2.setBackgroundResource(R.drawable.page_index_bg_selector);
+            sendBtn.setText("发送二维码");
+        } else {
+            pg1.setBackgroundResource(R.drawable.page_index_bg_selector);
+            pg2.setBackgroundResource(R.drawable.page_index_bg_selected_selector);
+            sendBtn.setText("发送小区引导图");
+        }
     }
 
 }

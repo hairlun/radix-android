@@ -52,4 +52,12 @@ public class ShareView extends LinearLayout {
         }
     }
 
+    public ImageView getIv() {
+        return iv;
+    }
+
+    public void setIv(ImageView iv) {
+        this.iv = iv;
+    }
+
 }
