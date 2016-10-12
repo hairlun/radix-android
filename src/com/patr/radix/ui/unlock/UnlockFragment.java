@@ -596,20 +596,20 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     private void doUnlock() {
         writeOption("30 ", "06 00 00 "
                 + MyApplication.instance.getUserInfo().getCardNo());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(5000);
-                    if (isUnlocking) {
-                        ToastUtil.showShort(context, "开门失败，断开连接！");
-                        disconnectDevice();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(5000);
+//                    if (isUnlocking) {
+//                        ToastUtil.showShort(context, "开门失败，断开连接！");
+//                        disconnectDevice();
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
     }
 
     private void writeOption(String cmd, String data) {
@@ -1182,7 +1182,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         public void onLeScan(final BluetoothDevice device, final int rssi,
                 byte[] scanRecord) {
 
-            handler.post(new Runnable() {
+            getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     MDevice mDev = new MDevice(device, rssi);
