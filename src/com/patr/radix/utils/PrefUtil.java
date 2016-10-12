@@ -108,6 +108,8 @@ public class PrefUtil {
         save(context, Constants.PREF_HOME, userInfo.getHome());
         save(context, Constants.PREF_TOKEN, userInfo.getToken());
         save(context, Constants.PREF_AREA_PIC, userInfo.getAreaPic());
+        save(context, Constants.PREF_USER_PIC, userInfo.getUserPic());
+        save(context, Constants.PREF_CARD_NO, userInfo.getCardNo());
     }
 
     public static UserInfo getUserInfo(Context context) {
@@ -119,6 +121,8 @@ public class PrefUtil {
         String home = getString(context, Constants.PREF_HOME);
         String token = getString(context, Constants.PREF_TOKEN);
         String areaPic = getString(context, Constants.PREF_AREA_PIC);
+        String userPic = getString(context, Constants.PREF_USER_PIC);
+        String cardNo = getString(context, Constants.PREF_CARD_NO);
         UserInfo userInfo = new UserInfo();
         userInfo.setAccount(account);
         userInfo.setName(name);
@@ -128,6 +132,8 @@ public class PrefUtil {
         userInfo.setHome(home);
         userInfo.setToken(token);
         userInfo.setAreaPic(areaPic);
+        userInfo.setUserPic(userPic);
+        userInfo.setCardNo(cardNo);
         return userInfo;
     }
 

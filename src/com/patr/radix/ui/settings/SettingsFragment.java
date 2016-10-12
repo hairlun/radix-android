@@ -323,7 +323,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             long id) {
         MyApplication.instance.setSelectedCommunity(adapter.getItem(position));
         if (!adapter.isSelect(position)) {
-            MyApplication.instance.setSelectedLock(null);
+            MyApplication.instance.clearCache();
         }
         adapter.select(position);
         refresh();

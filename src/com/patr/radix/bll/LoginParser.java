@@ -3,6 +3,8 @@ package com.patr.radix.bll;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.patr.radix.MyApplication;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.LoginResult;
@@ -52,21 +54,32 @@ public class LoginParser extends AbsBaseParser<LoginResult> {
                         userInfo.setMobile(mobile);
                         userInfo.setHome(home);
                         userInfo.setToken(token);
-                        if (!areaPic.startsWith("http")) {
+                        if (!TextUtils.isEmpty(areaPic) && !areaPic.startsWith("http")) {
                             Community community = MyApplication.instance
                                     .getSelectedCommunity();
-                            areaPic = String.format("%s:%s%s",
-                                    community.getHost(), community.getPort(),
-                                    areaPic);
+                            if (areaPic.contains("surpass")) {
+                                areaPic = String.format("%s:%s/%s",
+                                        community.getHost(), community.getPort(),
+                                        areaPic);
+                            } else {
+                                areaPic = String.format("%s:%s/surpass/%s",
+                                        community.getHost(), community.getPort(),
+                                        areaPic);
+                            }
                         }
                         userInfo.setAreaPic(areaPic);
                         userInfo.setCardNo(cardNo);
-                        if (!userPic.startsWith("http")) {
+                        if (!TextUtils.isEmpty(userPic) && !userPic.startsWith("http")) {
                             Community community = MyApplication.instance
                                     .getSelectedCommunity();
-                            userPic = String.format("%s:%s%s",
-                                    community.getHost(), community.getPort(),
+                            if (userPic.contains("surpass")) {
+                                userPic = String.format("%s:%s/%s", community.getHost(), community.getPort(),
                                     userPic);
+                            } else {
+                                userPic = String.format("%s:%s/surpass/%s",
+                                        community.getHost(), community.getPort(),
+                                        userPic);
+                            }
                         }
                         userInfo.setUserPic(userPic);
                         result.setUserInfo(userInfo);

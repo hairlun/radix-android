@@ -29,6 +29,7 @@
         android:layout_width="92dp"
         android:layout_height="92dp"
         android:layout_marginBottom="3dp"
+        android:scaleType="fitXY"
         android:src="@drawable/personal_center_pic_head_portrait" />
     
     <TextView

@@ -6,10 +6,14 @@
  */
 package com.patr.radix.ui.settings;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.patr.radix.LoginActivity;
 import com.patr.radix.MyApplication;
 import com.patr.radix.R;
 import com.patr.radix.bean.UserInfo;
+import com.patr.radix.ui.view.LoadingDialog;
 import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.ui.view.dialog.MsgDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog.BtnType;
@@ -45,6 +49,8 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
     private ImageView shakeSwitchIv;
 
     private Button logoutBtn;
+    
+    private LoadingDialog loadingDialog;
 
     private boolean pushEnabled;
 
@@ -71,6 +77,7 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
         logoutBtn.setOnClickListener(this);
 
         titleBarView.setTitle("偏好设置");
+        loadingDialog = new LoadingDialog(context);
         pushEnabled = PrefUtil.getBoolean(context, Constants.PREF_PUSH_SWITCH,
                 true);
         shakeEnabled = PrefUtil.getBoolean(context,
@@ -98,9 +105,10 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
 
                     @Override
                     public void onClick(View v) {
-                        MyApplication.instance.setUserInfo(new UserInfo());
-                        PrefUtil.saveUserInfo(context, new UserInfo());
+                        loadingDialog.show("正在退出…");
+                        MyApplication.instance.clearCache();
                         refresh();
+                        loadingDialog.dismiss();
                     }
                 }, BtnType.TWO);
     }

@@ -83,6 +83,10 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
     protected void onResume() {
         super.onResume();
         phoneTv.setText(MyApplication.instance.getUserInfo().getMobile());
+        String pic = MyApplication.instance.getUserInfo().getUserPic();
+        if (!TextUtils.isEmpty(pic)) {
+            x.image().bind(avatarIv, pic);
+        }
     }
 
     private void initView() {
@@ -99,10 +103,6 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 
         titleBarView.setTitle(R.string.titlebar_edit_user_info);
         loadingDialog = new LoadingDialog(context);
-        String pic = MyApplication.instance.getUserInfo().getUserPic();
-        if (!TextUtils.isEmpty(pic)) {
-            x.image().bind(avatarIv, pic);
-        }
     }
 
     private void showPhotoDiaLog() {
@@ -245,12 +245,17 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
             @Override
             public void onSuccess(int stateCode, RequestResult result) {
                 String pic = userPic;
-                if (!userPic.startsWith("http")) {
+                if (!TextUtils.isEmpty(userPic) && !userPic.startsWith("http")) {
                     Community community = MyApplication.instance
                             .getSelectedCommunity();
-                    pic = String.format("%s:%s/surpass/%s",
-                            community.getHost(), community.getPort(),
+                    if (userPic.contains("surpass")) {
+                        pic = String.format("%s:%s/%s", community.getHost(), community.getPort(),
                             userPic);
+                    } else {
+                        pic = String.format("%s:%s/surpass/%s",
+                                community.getHost(), community.getPort(),
+                                userPic);
+                    }
                 }
                 MyApplication.instance.getUserInfo().setUserPic(pic);
                 x.image().bind(avatarIv, pic);

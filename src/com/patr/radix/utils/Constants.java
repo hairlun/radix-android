@@ -54,6 +54,9 @@ public class Constants {
     public static final String PREF_HOME = "home";
     public static final String PREF_TOKEN = "token";
     public static final String PREF_AREA_PIC = "areaPic";
+    public static final String PREF_USER_PIC = "userPic";
+    public static final String PREF_CARD_NO = "cardNo";
+    
     public static final String PREF_SELECTED_KEY = "selectedKey";
     public static final String PREF_SELECTED_COMMUNITY = "selectedCommunity";
     public static final String PREF_LOCK_KEY = "lockKey";

@@ -53,10 +53,6 @@ public class MyApplication extends Application {
 
     private UserInfo userInfo = new UserInfo();
 
-    private String mName;
-
-    private String cardNum = "FF FF FF FF ";
-
     public static MyApplication instance;
 
     @Override
@@ -162,17 +158,6 @@ public class MyApplication extends Application {
         this.userInfo = userInfo;
     }
 
-    public String getName() {
-        if (TextUtils.isEmpty(mName)) {
-            mName = PrefUtil.getString(instance, Constants.PREF_NAME);
-        }
-        return mName;
-    }
-
-    public void setName(String name) {
-        this.mName = name;
-    }
-
     public RadixLock getSelectedLock() {
         return selectedLock;
     }
@@ -227,14 +212,6 @@ public class MyApplication extends Application {
         this.communities.addAll(communities);
     }
 
-    public String getCardNum() {
-        return cardNum;
-    }
-
-    public void setCardNum(String cardNum) {
-        this.cardNum = cardNum;
-    }
-
     public List<RadixLock> getSelectedLocks() {
         return selectedLocks;
     }
@@ -242,6 +219,16 @@ public class MyApplication extends Application {
     public void setSelectedLocks(List<RadixLock> list) {
         this.selectedLocks.clear();
         this.selectedLocks.addAll(list);
+    }
+    
+    public void clearCache() {
+        locks.clear();
+        selectedLocks.clear();
+        selectedLock = null;
+        selectedLockId = null;
+        userInfo = new UserInfo();
+        PrefUtil.saveUserInfo(this, new UserInfo());
+        PrefUtil.save(this, Constants.PREF_SELECTED_KEY, null);
     }
 
 }
