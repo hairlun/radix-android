@@ -3,8 +3,6 @@ package com.patr.radix.ui.settings;
 import org.xutils.x;
 import org.xutils.common.util.LogUtil;
 
-import com.patr.radix.LockSetupActivity;
-import com.patr.radix.LockValidateActivity;
 import com.patr.radix.LoginActivity;
 import com.patr.radix.MyApplication;
 import com.patr.radix.R;
@@ -17,6 +15,7 @@ import com.patr.radix.bll.GetCommunityListParser;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.ui.unlock.MyKeysActivity;
+import com.patr.radix.ui.view.AvatarView;
 import com.patr.radix.ui.view.ListSelectDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog.BtnType;
@@ -40,8 +39,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -68,7 +65,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
 
     private ImageButton settingBtn;
     
-    private ImageView avatarIv;
+    private AvatarView avatarIv;
     
     private TextView nameTv;
     
@@ -98,7 +95,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
         clearValue = (TextView) view.findViewById(R.id.clear_value);
         clearBtn = (Button) view.findViewById(R.id.clear_btn);
         settingBtn = (ImageButton) view.findViewById(R.id.setting_btn);
-        avatarIv = (ImageView) view.findViewById(R.id.avatar_iv);
+        avatarIv = (AvatarView) view.findViewById(R.id.avatar_iv);
         nameTv = (TextView) view.findViewById(R.id.name_tv);
         phoneTv = (TextView) view.findViewById(R.id.phone_tv);
 

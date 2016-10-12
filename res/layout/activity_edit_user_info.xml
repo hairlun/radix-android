@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.patr.radix"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -125,7 +126,7 @@
             </RelativeLayout>
         </LinearLayout>
         
-        <ImageView
+        <com.patr.radix.ui.view.AvatarView
             android:id="@+id/avatar_iv"
             android:layout_width="78dp"
             android:layout_height="78dp"

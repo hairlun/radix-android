@@ -52,6 +52,9 @@ public class MyApplication extends Application {
     private String selectedLockId;
 
     private UserInfo userInfo = new UserInfo();
+    
+    // 信鸽推送token
+    private String pushToken;
 
     public static MyApplication instance;
 
@@ -221,6 +224,14 @@ public class MyApplication extends Application {
         this.selectedLocks.addAll(list);
     }
     
+    public String getPushToken() {
+        return pushToken == null ? "" : pushToken;
+    }
+
+    public void setPushToken(String pushToken) {
+        this.pushToken = pushToken;
+    }
+
     public void clearCache() {
         locks.clear();
         selectedLocks.clear();

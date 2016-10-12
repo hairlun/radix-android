@@ -75,6 +75,8 @@ public class ServiceManager {
         String TITLE = "title";
         
         String CONTENT = "content";
+        
+        String PUSH_TOKEN = "pushToken";
     }
 
     /**
@@ -256,8 +258,8 @@ public class ServiceManager {
      */
     public static Cancelable login(String account, String pwd,
             final RequestListener<LoginResult> listener) {
-        String[] keys = { RequestKey.ACCOUNT, RequestKey.PWD };
-        String[] values = { account, pwd };
+        String[] keys = { RequestKey.ACCOUNT, RequestKey.PWD, RequestKey.PUSH_TOKEN };
+        String[] values = { account, pwd, MyApplication.instance.getPushToken() };
         return WebService.post(Url.LOGIN, keys, values, listener,
                 new LoginParser(listener));
     }

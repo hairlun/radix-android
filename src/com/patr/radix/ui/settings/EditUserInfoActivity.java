@@ -12,6 +12,7 @@ import com.patr.radix.bean.MobileUploadResult;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
+import com.patr.radix.ui.view.AvatarView;
 import com.patr.radix.ui.view.LoadingDialog;
 import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.utils.BitmapUtil;
@@ -47,7 +48,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 
     private TitleBarView titleBarView;
 
-    private ImageView avatarIv;
+    private AvatarView avatarIv;
 
     private Button changeAvatarBtn;
 
@@ -91,7 +92,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 
     private void initView() {
         titleBarView = (TitleBarView) findViewById(R.id.user_info_titlebar);
-        avatarIv = (ImageView) findViewById(R.id.avatar_iv);
+        avatarIv = (AvatarView) findViewById(R.id.avatar_iv);
         changeAvatarBtn = (Button) findViewById(R.id.change_avatar_btn);
         phoneRl = (RelativeLayout) findViewById(R.id.phone_rl);
         pwdRl = (RelativeLayout) findViewById(R.id.pwd_rl);
