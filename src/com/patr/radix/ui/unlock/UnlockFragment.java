@@ -944,7 +944,9 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private void refreshKey() {
         RadixLock selectedKey = MyApplication.instance.getSelectedLock();
-        keyTv.setText(selectedKey.getName());
+        if (selectedKey != null) {
+            keyTv.setText(selectedKey.getName());
+        }
         keysLl.removeAllViews();
         final List<RadixLock> keys = MyApplication.instance.getLocks();
         int size = keys.size();
