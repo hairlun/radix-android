@@ -997,9 +997,11 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
-        sensorManager.registerListener(this,
-                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_NORMAL);
+        if (PrefUtil.getBoolean(context, Constants.PREF_SHAKE_SWITCH, true)) {
+            sensorManager.registerListener(this,
+                    sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                    SensorManager.SENSOR_DELAY_NORMAL);
+        }
         getWeather();
     }
 
