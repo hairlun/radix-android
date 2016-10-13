@@ -25,8 +25,7 @@
                 android:id="@+id/weather_iv"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/w8" />
+                android:scaleType="fitCenter" />
             
             <TextView
                 android:id="@+id/weather_tv"
@@ -34,7 +33,6 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:gravity="center"
-                android:text="小雨"
                 android:textSize="16sp"
                 android:textColor="@color/white" />
             
@@ -73,7 +71,6 @@
                     android:id="@+id/wet_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="92%"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
                 
@@ -89,7 +86,6 @@
                     android:id="@+id/pm_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="26"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
                 
@@ -104,7 +100,6 @@
                     android:id="@+id/wind_direct_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="西北风"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
                 
@@ -112,7 +107,6 @@
                     android:id="@+id/wind_power_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2级"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
                 

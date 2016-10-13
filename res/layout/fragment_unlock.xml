@@ -52,7 +52,6 @@
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@id/weather_detail_btn"
             android:gravity="center_vertical"
-            android:text="20℃"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -63,7 +62,6 @@
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@id/temp_tv"
             android:gravity="center_vertical"
-            android:text="阵雨"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -73,7 +71,6 @@
             android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/weather_tv"
-            android:src="@drawable/ww3"
             android:scaleType="fitXY" />
     </RelativeLayout>
 
