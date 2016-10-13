@@ -19,13 +19,13 @@ import android.widget.LinearLayout;
 
 /**
  * @author zhoushujie
- *
+ * 
  */
 public class ShareView extends LinearLayout {
-    
+
     // 分享图类型，0=二维码，1=小区路线图
     private int type = 0;
-    
+
     private ImageView iv;
 
     /**
@@ -48,7 +48,8 @@ public class ShareView extends LinearLayout {
         if (type == 0) {
             iv.setImageBitmap(bitmap);
         } else {
-            x.image().bind(iv, MyApplication.instance.getUserInfo().getAreaPic());
+            x.image().bind(iv,
+                    MyApplication.instance.getUserInfo().getAreaPic());
         }
     }
 

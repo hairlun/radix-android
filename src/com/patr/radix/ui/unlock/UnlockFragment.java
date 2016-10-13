@@ -212,13 +212,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
                 // 搜索服务
                 handler.post(new Runnable() {
-                    
+
                     @Override
                     public void run() {
                         BluetoothLeService.discoverServices();
                     }
                 });
-                
+
             }
             // Services Discovered from GATT Server
             else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED
@@ -270,7 +270,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                         // Constants.ENCRYPT);
                         // }
                         handler.post(new Runnable() {
-                            
+
                             @Override
                             public void run() {
                                 handle(array);
@@ -598,7 +598,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private void doUnlock() {
         handler.post(new Runnable() {
-            
+
             @Override
             public void run() {
                 writeOption("30 ", "06 00 00 "
@@ -657,13 +657,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void notifyOption() {
-        // if (notifyEnable) {
-        // notifyEnable = false;
-        // stopBroadcastDataNotify(notifyCharacteristic);
-        // } else {
-        // notifyEnable = true;
-        prepareBroadcastDataNotify(notifyCharacteristic);
-        // }
+        if (notifyEnable) {
+            notifyEnable = false;
+            stopBroadcastDataNotify(notifyCharacteristic);
+        } else {
+            notifyEnable = true;
+            prepareBroadcastDataNotify(notifyCharacteristic);
+        }
     }
 
     /**
@@ -698,9 +698,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         currentDevName = device.getName();
         LogUtil.d("connectDevice: DevName = " + currentDevName
                 + "; DevAddress = " + currentDevAddress);
-        //如果是连接状态，断开，重新连接
-        if (BluetoothLeService.getConnectionState() !=
-            BluetoothLeService.STATE_DISCONNECTED) {
+        // 如果是连接状态，断开，重新连接
+        if (BluetoothLeService.getConnectionState() != BluetoothLeService.STATE_DISCONNECTED) {
             isDisconnectForUnlock = false;
             BluetoothLeService.disconnect();
         }
@@ -710,14 +709,14 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void disconnectDevice() {
-        // notifyOption();
+        notifyOption();
         if (isUnlocking) {
             isDisconnectForUnlock = true;
         } else {
             isDisconnectForUnlock = false;
         }
         handler.post(new Runnable() {
-            
+
             @Override
             public void run() {
                 BluetoothLeService.disconnect();
@@ -1213,7 +1212,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                             foundDevice = true;
                             LogUtil.d("正在连接……");
                             handler.post(new Runnable() {
-                                
+
                                 @Override
                                 public void run() {
                                     connectDevice(device);
@@ -1325,7 +1324,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                             foundDevice = true;
                             LogUtil.d("正在连接……");
                             handler.post(new Runnable() {
-                                
+
                                 @Override
                                 public void run() {
                                     connectDevice(mDev.getDevice());

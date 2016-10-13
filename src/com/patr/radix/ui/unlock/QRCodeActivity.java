@@ -61,7 +61,7 @@ public class QRCodeActivity extends Activity implements OnClickListener,
     private Bitmap bitmap;
 
     private Uri qrcodeUri;
-    
+
     private ShareView areaPicView;
 
     @Override
@@ -168,7 +168,8 @@ public class QRCodeActivity extends Activity implements OnClickListener,
                 break;
             } else {
                 // 分享路线路
-                Bitmap bm = ((BitmapDrawable) areaPicView.getIv().getDrawable()).getBitmap();
+                Bitmap bm = ((BitmapDrawable) areaPicView.getIv().getDrawable())
+                        .getBitmap();
                 Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(
                         getContentResolver(), bm, null, null));
                 shareMsg("请选择", "", "", uri);
