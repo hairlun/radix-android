@@ -38,9 +38,9 @@
 
             <TextView
                 android:id="@+id/old_pwd_label"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
+                android:layout_marginLeft="12dp"
                 android:layout_toRightOf="@id/old_pwd_iv"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
@@ -63,7 +63,6 @@
                 android:id="@+id/old_pwd_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
                 android:layout_toLeftOf="@id/old_pwd_et_iv"
                 android:layout_toRightOf="@id/old_pwd_label"
                 style="?android:attr/textViewStyle"
@@ -98,9 +97,9 @@
 
             <TextView
                 android:id="@+id/new_pwd_label"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
+                android:layout_marginLeft="12dp"
                 android:layout_toRightOf="@id/new_pwd_iv"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
@@ -123,7 +122,6 @@
                 android:id="@+id/new_pwd_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
                 android:layout_toLeftOf="@id/new_pwd_et_iv"
                 android:layout_toRightOf="@id/new_pwd_label"
                 style="?android:attr/textViewStyle"
@@ -158,9 +156,9 @@
 
             <TextView
                 android:id="@+id/re_pwd_label"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
+                android:layout_marginLeft="12dp"
                 android:layout_toRightOf="@id/re_pwd_iv"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
@@ -183,7 +181,6 @@
                 android:id="@+id/re_pwd_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
                 android:layout_toLeftOf="@id/re_pwd_et_iv"
                 android:layout_toRightOf="@id/re_pwd_label"
                 style="?android:attr/textViewStyle"

@@ -91,7 +91,7 @@ public class UpdateUserPhoneActivity extends Activity implements
                     // 提交验证码成功
                     LogUtil.d("提交验证码成功。" + data.toString());
                     handler.post(new Runnable() {
-                        
+
                         @Override
                         public void run() {
                             updateUserPhone();
@@ -157,10 +157,12 @@ public class UpdateUserPhoneActivity extends Activity implements
 
     private void verify() {
         String code = verifyEt.getText().toString().trim();
-        if (!TextUtils.isEmpty(code)) {
-            SMSSDK.submitVerificationCode("86", MyApplication.instance
-                    .getUserInfo().getMobile(), code);
+        if (TextUtils.isEmpty(code)) {
+            ToastUtil.showShort(context, "请输入验证码");
+            return;
         }
+        SMSSDK.submitVerificationCode("86", MyApplication.instance
+                .getUserInfo().getMobile(), code);
     }
 
     private void updateUserPhone() {

@@ -207,7 +207,7 @@ public class GroupMemberSqlManager extends AbstractSQLManager {
     }
 
     /**
-     * 查询所有群组成员帐号
+     * 查询所有群组成员账号
      * @param groupId
      * @return
      */
