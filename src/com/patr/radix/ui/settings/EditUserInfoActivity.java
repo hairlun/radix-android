@@ -284,6 +284,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
             break;
 
         case R.id.pwd_rl:
+            startActivity(new Intent(context, EditPwdActivity.class));
             break;
         }
     }

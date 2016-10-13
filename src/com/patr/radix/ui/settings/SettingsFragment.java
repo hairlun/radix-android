@@ -184,7 +184,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             break;
 
         case R.id.share_ll:
-            shareMsg("请选择", "", "", Uri.parse("http://zsyuxindianzi.b2b.c-ps.net/"));
+            shareMsg("请选择", "", "http://zsyuxindianzi.b2b.c-ps.net/", null);
             break;
 
         case R.id.feedback_ll:
@@ -192,6 +192,9 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             context.startActivity(intent);
             break;
 
+        case R.id.clear_btn:
+            MyApplication.instance.clearCache();
+            break;
         }
     }
 
@@ -199,10 +202,10 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             Uri uri) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain"); // 纯文本
-        intent.setType("image/*");
-        if (uri != null) {
-            intent.putExtra(Intent.EXTRA_STREAM, uri);
-        }
+//        intent.setType("image/*");
+//        if (uri != null) {
+//            intent.putExtra(Intent.EXTRA_STREAM, uri);
+//        }
         intent.putExtra(Intent.EXTRA_SUBJECT, msgTitle);
         intent.putExtra(Intent.EXTRA_TEXT, msgText);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

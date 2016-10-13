@@ -51,6 +51,8 @@ public class ServiceManager {
         String NAME = "name";
 
         String PWD = "pwd";
+        
+        String OLD_PWD = "oldPWD";
 
         String MOBILE = "mobile";
 
@@ -404,11 +406,11 @@ public class ServiceManager {
      * @param listener
      * @return
      */
-    public static Cancelable updateUserPwd(String pwd,
+    public static Cancelable updateUserPwd(String pwd, String oldPwd,
             final RequestListener<RequestResult> listener) {
-        String[] keys = { RequestKey.TOKEN, RequestKey.PWD };
+        String[] keys = { RequestKey.TOKEN, RequestKey.PWD, RequestKey.OLD_PWD };
         String[] values = { MyApplication.instance.getUserInfo().getToken(),
-                pwd };
+                pwd, oldPwd };
         return WebService.post(Url.UPDATE_USER_PWD, keys, values, listener,
                 new RequestResultParser(listener));
     }

@@ -112,7 +112,6 @@ public class MainActivity extends FragmentActivity implements
         setChattingContactId();
         initImageLoader();
         // CrashHandler.getInstance().init(MyApplication.instance);
-        SDKInitializer.initialize(MyApplication.instance);
         ECContentObservers.getInstance().initContentObserver();
         CrashHandler.getInstance().setContext(this);
 

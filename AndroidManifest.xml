@@ -154,6 +154,12 @@
         <activity
             android:name="com.patr.radix.ui.settings.FeedbackActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.patr.radix.ui.settings.EditPwdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.patr.radix.ForgetPwdActivity"
+            android:screenOrientation="portrait" />
         
         <service
             android:name="com.patr.radix.ble.BluetoothLeService"
