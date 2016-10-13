@@ -586,20 +586,20 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     private void doUnlock() {
         writeOption("30 ", "06 00 00 "
                 + MyApplication.instance.getUserInfo().getCardNo());
-//        handler.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Thread.sleep(5000);
-//                    if (isUnlocking) {
-//                        ToastUtil.showShort(context, "开门失败，断开连接！");
-//                        disconnectDevice();
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+        // handler.post(new Runnable() {
+        // @Override
+        // public void run() {
+        // try {
+        // Thread.sleep(5000);
+        // if (isUnlocking) {
+        // ToastUtil.showShort(context, "开门失败，断开连接！");
+        // disconnectDevice();
+        // }
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // }
+        // }
+        // });
     }
 
     private void writeOption(String cmd, String data) {
@@ -680,10 +680,11 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         LogUtil.d("connectDevice: DevName = " + currentDevName
                 + "; DevAddress = " + currentDevAddress);
         // 如果是连接状态，断开，重新连接
-        if (BluetoothLeService.getConnectionState() != BluetoothLeService.STATE_DISCONNECTED) {
-            isDisconnectForUnlock = false;
-            BluetoothLeService.disconnect();
-        }
+        // if (BluetoothLeService.getConnectionState() !=
+        // BluetoothLeService.STATE_DISCONNECTED) {
+        // isDisconnectForUnlock = false;
+        // BluetoothLeService.disconnect();
+        // }
 
         // statusTv.setText("正在连接门禁…");
         BluetoothLeService.connect(currentDevAddress, currentDevName, context);
@@ -1187,6 +1188,9 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                             foundDevice = true;
                             LogUtil.d("正在连接……");
                             connectDevice(device);
+                            if (mBluetoothAdapter != null) {
+                                mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                            }
                         }
                     }
                 }
@@ -1290,6 +1294,15 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                             foundDevice = true;
                             LogUtil.d("正在连接……");
                             connectDevice(result.getDevice());
+                            if (bleScanner != null) {
+                                bleScanner.stopScan(new ScanCallback() {
+                                    @Override
+                                    public void onScanResult(int callbackType,
+                                            ScanResult result) {
+                                        super.onScanResult(callbackType, result);
+                                    }
+                                });
+                            }
                         }
                     }
                 }
