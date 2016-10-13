@@ -364,7 +364,7 @@
                 android:text="清除"
                 android:textSize="15sp"
                 android:textColor="@color/white"
-                android:background="@drawable/personal_center_btn_eliminate" />
+                android:background="@drawable/personal_center_btn_eliminate_bg_selector" />
         </RelativeLayout>
 
     </LinearLayout>
