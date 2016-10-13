@@ -238,8 +238,6 @@ public class MyApplication extends Application {
         selectedLocks.clear();
         selectedLock = null;
         selectedLockId = null;
-        userInfo = new UserInfo();
-        PrefUtil.saveUserInfo(this, new UserInfo());
         PrefUtil.save(this, Constants.PREF_SELECTED_KEY, null);
     }
 

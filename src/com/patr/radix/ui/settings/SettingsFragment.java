@@ -17,6 +17,7 @@ import com.patr.radix.network.RequestListener;
 import com.patr.radix.ui.unlock.MyKeysActivity;
 import com.patr.radix.ui.view.AvatarView;
 import com.patr.radix.ui.view.ListSelectDialog;
+import com.patr.radix.ui.view.LoadingDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog.BtnType;
 import com.patr.radix.utils.Constants;
@@ -72,6 +73,8 @@ public class SettingsFragment extends Fragment implements OnClickListener,
     private TextView phoneTv;
 
     private CommunityListAdapter adapter;
+    
+    private LoadingDialog loadingDialog;
 
     @Override
     public void onAttach(Activity activity) {
@@ -121,6 +124,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
                 }
             }
         }
+        loadingDialog = new LoadingDialog(context);
         return view;
     }
 
@@ -193,7 +197,17 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             break;
 
         case R.id.clear_btn:
-            MyApplication.instance.clearCache();
+            MsgDialog.show(context, "确认", "确定要清除缓存吗？", "确定",
+                    new OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            loadingDialog.show("正在退出…");
+                            MyApplication.instance.clearCache();
+                            loadingDialog.dismiss();
+                        }
+                    }, BtnType.TWO);
+            
             break;
         }
     }
@@ -324,6 +338,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
         MyApplication.instance.setSelectedCommunity(adapter.getItem(position));
         if (!adapter.isSelect(position)) {
             MyApplication.instance.clearCache();
+            PrefUtil.saveUserInfo(context, new UserInfo());
         }
         adapter.select(position);
         refresh();
