@@ -1226,7 +1226,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 }
                 mScanning = false;
             }
-        }, 2000);
+        }, 2800);
 
         if (mBluetoothAdapter == null) {
             getBluetoothAdapter();
@@ -1261,7 +1261,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 }
                 mScanning = false;
             }
-        }, 2000);
+        }, 2800);
 
         if (bleScanner == null) {
             if (mBluetoothAdapter == null) {
