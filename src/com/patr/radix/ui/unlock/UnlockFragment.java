@@ -211,7 +211,14 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 LogUtil.d("已连接门禁。");
 
                 // 搜索服务
-                BluetoothLeService.discoverServices();
+                handler.post(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        BluetoothLeService.discoverServices();
+                    }
+                });
+                
             }
             // Services Discovered from GATT Server
             else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED
@@ -252,7 +259,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 // Data Received
                 if (extras.containsKey(Constants.EXTRA_BYTE_VALUE)) {
-                    byte[] array = intent
+                    final byte[] array = intent
                             .getByteArrayExtra(Constants.EXTRA_BYTE_VALUE);
                     LogUtil.d("收到数据：" + Utils.ByteArraytoHex(array));
                     if (extras.containsKey(Constants.EXTRA_BYTE_UUID_VALUE)) {
@@ -262,7 +269,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                         // array[i] = (byte) (encryptArray[i] ^
                         // Constants.ENCRYPT);
                         // }
-                        handle(array);
+                        handler.post(new Runnable() {
+                            
+                            @Override
+                            public void run() {
+                                handle(array);
+                            }
+                        });
                     }
                 }
                 if (extras.containsKey(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE)) {
@@ -584,8 +597,14 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void doUnlock() {
-        writeOption("30 ", "06 00 00 "
-                + MyApplication.instance.getUserInfo().getCardNo());
+        handler.post(new Runnable() {
+            
+            @Override
+            public void run() {
+                writeOption("30 ", "06 00 00 "
+                        + MyApplication.instance.getUserInfo().getCardNo());
+            }
+        });
         // handler.post(new Runnable() {
         // @Override
         // public void run() {
@@ -697,7 +716,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         } else {
             isDisconnectForUnlock = false;
         }
-        BluetoothLeService.disconnect();
+        handler.post(new Runnable() {
+            
+            @Override
+            public void run() {
+                BluetoothLeService.disconnect();
+            }
+        });
     }
 
     private void loadData() {
@@ -1187,7 +1212,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                         if (!foundDevice) {
                             foundDevice = true;
                             LogUtil.d("正在连接……");
-                            connectDevice(device);
+                            handler.post(new Runnable() {
+                                
+                                @Override
+                                public void run() {
+                                    connectDevice(device);
+                                }
+                            });
                             if (mBluetoothAdapter != null) {
                                 mBluetoothAdapter.stopLeScan(mLeScanCallback);
                             }
@@ -1276,7 +1307,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 @Override
                 public void onScanResult(int callbackType, ScanResult result) {
                     super.onScanResult(callbackType, result);
-                    MDevice mDev = new MDevice(result.getDevice(), result
+                    final MDevice mDev = new MDevice(result.getDevice(), result
                             .getRssi());
                     if (list.contains(mDev)) {
                         return;
@@ -1293,7 +1324,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                         if (!foundDevice) {
                             foundDevice = true;
                             LogUtil.d("正在连接……");
-                            connectDevice(result.getDevice());
+                            handler.post(new Runnable() {
+                                
+                                @Override
+                                public void run() {
+                                    connectDevice(mDev.getDevice());
+                                }
+                            });
                             if (bleScanner != null) {
                                 bleScanner.stopScan(new ScanCallback() {
                                     @Override
