@@ -698,12 +698,12 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         currentDevName = device.getName();
         LogUtil.d("connectDevice: DevName = " + currentDevName
                 + "; DevAddress = " + currentDevAddress);
-        // 如果是连接状态，断开，重新连接
-        // if (BluetoothLeService.getConnectionState() !=
-        // BluetoothLeService.STATE_DISCONNECTED) {
-        // isDisconnectForUnlock = false;
-        // BluetoothLeService.disconnect();
-        // }
+        //如果是连接状态，断开，重新连接
+        if (BluetoothLeService.getConnectionState() !=
+            BluetoothLeService.STATE_DISCONNECTED) {
+            isDisconnectForUnlock = false;
+            BluetoothLeService.disconnect();
+        }
 
         // statusTv.setText("正在连接门禁…");
         BluetoothLeService.connect(currentDevAddress, currentDevName, context);
