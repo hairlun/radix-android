@@ -106,7 +106,9 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
                     @Override
                     public void onClick(View v) {
                         loadingDialog.show("正在退出…");
-                        PrefUtil.saveUserInfo(context, new UserInfo());
+                        UserInfo userInfo = new UserInfo();
+                        MyApplication.instance.setUserInfo(userInfo);
+                        PrefUtil.saveUserInfo(context, userInfo);
                         MyApplication.instance.clearCache();
                         refresh();
                         loadingDialog.dismiss();

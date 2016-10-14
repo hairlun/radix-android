@@ -202,7 +202,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
 
                         @Override
                         public void onClick(View v) {
-                            loadingDialog.show("正在退出…");
+                            loadingDialog.show("正在清除缓存…");
                             MyApplication.instance.clearCache();
                             loadingDialog.dismiss();
                         }
@@ -337,8 +337,10 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             long id) {
         MyApplication.instance.setSelectedCommunity(adapter.getItem(position));
         if (!adapter.isSelect(position)) {
+            UserInfo userInfo = new UserInfo();
+            MyApplication.instance.setUserInfo(userInfo);
+            PrefUtil.saveUserInfo(context, userInfo);
             MyApplication.instance.clearCache();
-            PrefUtil.saveUserInfo(context, new UserInfo());
         }
         adapter.select(position);
         refresh();
