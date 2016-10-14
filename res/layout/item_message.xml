@@ -49,7 +49,10 @@
             android:background="@drawable/latest_news_frame"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:padding="5dp" >
+            android:paddingLeft="12dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp" >
 
             <ImageView
                 android:id="@+id/iv"

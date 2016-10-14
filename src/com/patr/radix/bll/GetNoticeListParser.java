@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.patr.radix.MyApplication;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.GetNoticeListResult;
@@ -51,6 +53,9 @@ public class GetNoticeListParser extends AbsBaseParser<GetNoticeListResult> {
                                 String readTime = obj
                                         .optString(ResponseKey.READ_TIME);
                                 String imgUrl = obj.optString(ResponseKey.PIC);
+                                if (imgUrl.equals("null")) {
+                                    imgUrl = "";
+                                }
                                 String plainText = obj.optString(ResponseKey.PLAIN_TEXT);
                                 int video = obj.optInt(ResponseKey.VIDEO);
                                 Message notice = new Message();
@@ -59,7 +64,7 @@ public class GetNoticeListParser extends AbsBaseParser<GetNoticeListResult> {
                                 notice.setSentDate(sentDate);
                                 notice.setContent(content);
                                 notice.setReadTime(readTime);
-                                if (!imgUrl.startsWith("http")) {
+                                if (!TextUtils.isEmpty(imgUrl) && !imgUrl.startsWith("http")) {
                                     Community community = MyApplication.instance
                                             .getSelectedCommunity();
                                     imgUrl = String.format("%s:%s/%s",
