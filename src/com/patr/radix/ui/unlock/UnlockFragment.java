@@ -875,23 +875,17 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void getLockList() {
-        if (MyApplication.instance.getLocks().size() == 0) {
-            switch (NetUtils.getConnectedType(context)) {
-            case NONE:
-                getLockListFromCache();
-                break;
-            case WIFI:
-            case OTHER:
-                getLockListFromServer();
-                break;
-            default:
-                break;
-            }
-        } else {
-            MyApplication.instance.setSelectedLock(MyApplication.instance
-                    .getLocks().get(0));
+        switch (NetUtils.getConnectedType(context)) {
+        case NONE:
+            getLockListFromCache();
+            break;
+        case WIFI:
+        case OTHER:
+            getLockListFromServer();
+            break;
+        default:
+            break;
         }
-
     }
 
     private void getLockListFromCache() {
