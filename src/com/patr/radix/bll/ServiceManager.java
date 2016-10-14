@@ -157,6 +157,8 @@ public class ServiceManager {
         String READ_TIME = "readTime";
 
         String PIC = "pic";
+        
+        String PLAIN_TEXT = "plainText";
 
         String VIDEO = "video";
 
@@ -222,6 +224,8 @@ public class ServiceManager {
         
         /** 意见反馈 */
         String ADVICE_FEEDBACK = "/adviceFeedback?";
+        
+        String QUERY_MOBILE_USER_BY_ID = "/queryMobileUserById?";
     }
 
     /**
@@ -447,6 +451,19 @@ public class ServiceManager {
                 title, content };
         return WebService.post(Url.ADVICE_FEEDBACK, keys, values, listener,
                 new RequestResultParser(listener));
+    }
+    
+    /**
+     * 获取已登录用户的信息
+     * 
+     * @param listener
+     * @return
+     */
+    public static Cancelable queryMobileUserById(final RequestListener<LoginResult> listener) {
+        String[] keys = { RequestKey.TOKEN };
+        String[] values = { MyApplication.instance.getUserInfo().getToken() };
+        return WebService.post(Url.QUERY_MOBILE_USER_BY_ID, keys, values, listener,
+                new LoginParser(listener));
     }
 
 }

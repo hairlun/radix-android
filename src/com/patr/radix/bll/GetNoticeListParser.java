@@ -51,6 +51,7 @@ public class GetNoticeListParser extends AbsBaseParser<GetNoticeListResult> {
                                 String readTime = obj
                                         .optString(ResponseKey.READ_TIME);
                                 String imgUrl = obj.optString(ResponseKey.PIC);
+                                String plainText = obj.optString(ResponseKey.PLAIN_TEXT);
                                 int video = obj.optInt(ResponseKey.VIDEO);
                                 Message notice = new Message();
                                 notice.setId(id);
@@ -66,6 +67,7 @@ public class GetNoticeListParser extends AbsBaseParser<GetNoticeListResult> {
                                             community.getPort(), imgUrl);
                                 }
                                 notice.setImgUrl(imgUrl);
+                                notice.setPlainText(plainText);
                                 notice.setVideo(video == 1 ? true : false);
                                 result.getNotices().add(notice);
                             }

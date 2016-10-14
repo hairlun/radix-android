@@ -9,6 +9,7 @@ import com.patr.radix.R;
 import com.patr.radix.adapter.CommunityListAdapter;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.GetCommunityListResult;
+import com.patr.radix.bean.LoginResult;
 import com.patr.radix.bean.UserInfo;
 import com.patr.radix.bll.CacheManager;
 import com.patr.radix.bll.GetCommunityListParser;
@@ -65,15 +66,15 @@ public class SettingsFragment extends Fragment implements OnClickListener,
     private Button clearBtn;
 
     private ImageButton settingBtn;
-    
+
     private AvatarView avatarIv;
-    
+
     private TextView nameTv;
-    
+
     private TextView phoneTv;
 
     private CommunityListAdapter adapter;
-    
+
     private LoadingDialog loadingDialog;
 
     @Override
@@ -154,9 +155,9 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             nameTv.setVisibility(View.INVISIBLE);
             phoneTv.setVisibility(View.INVISIBLE);
         }
-        
-        //TODO 刷新缓存大小
-        
+
+        // TODO 刷新缓存大小
+
     }
 
     @Override
@@ -205,21 +206,55 @@ public class SettingsFragment extends Fragment implements OnClickListener,
                             loadingDialog.show("正在清除缓存…");
                             MyApplication.instance.clearCache();
                             loadingDialog.dismiss();
+                            getUserInfo();
                         }
                     }, BtnType.TWO);
-            
+
             break;
         }
+    }
+
+    private void getUserInfo() {
+        ServiceManager.queryMobileUserById(new RequestListener<LoginResult>() {
+
+            @Override
+            public void onStart() {
+                loadingDialog.show("正在加载…");
+            }
+
+            @Override
+            public void onSuccess(int stateCode, LoginResult result) {
+                if (result != null) {
+                    if (result.isSuccesses()) {
+                        MyApplication.instance.setUserInfo(result.getUserInfo());
+                        PrefUtil.saveUserInfo(context, result.getUserInfo());
+                        refresh();
+                    } else {
+                        ToastUtil.showShort(context, result.getRetinfo());
+                    }
+                } else {
+                    ToastUtil.showShort(context, R.string.connect_exception);
+                }
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Exception error, String content) {
+                ToastUtil.showShort(context, R.string.connect_exception);
+                loadingDialog.dismiss();
+            }
+
+        });
     }
 
     public void shareMsg(String activityTitle, String msgTitle, String msgText,
             Uri uri) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain"); // 纯文本
-//        intent.setType("image/*");
-//        if (uri != null) {
-//            intent.putExtra(Intent.EXTRA_STREAM, uri);
-//        }
+        // intent.setType("image/*");
+        // if (uri != null) {
+        // intent.putExtra(Intent.EXTRA_STREAM, uri);
+        // }
         intent.putExtra(Intent.EXTRA_SUBJECT, msgTitle);
         intent.putExtra(Intent.EXTRA_TEXT, msgText);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -22,6 +22,8 @@ public class Message implements Serializable {
     private String imgUrl;
 
     private String from;
+    
+    private String plainText;
 
     private boolean isVideo;
 
@@ -87,6 +89,14 @@ public class Message implements Serializable {
 
     public void setVideo(boolean isVideo) {
         this.isVideo = isVideo;
+    }
+
+    public String getPlainText() {
+        return plainText;
+    }
+
+    public void setPlainText(String plainText) {
+        this.plainText = plainText;
     }
 
     @Override

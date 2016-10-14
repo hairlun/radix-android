@@ -11,51 +11,61 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="30dp" >
-        
+
         <ImageButton
             android:id="@+id/setting_btn"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
-            android:src="@drawable/setting"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/titlebar_btn_bg_selector"
             android:scaleType="centerInside"
-            android:background="@drawable/titlebar_btn_bg_selector" />
-        
+            android:src="@drawable/setting" />
     </RelativeLayout>
-    
-    <com.patr.radix.ui.view.AvatarView
-        android:id="@+id/avatar_iv"
+
+    <RelativeLayout
         android:layout_width="92dp"
         android:layout_height="92dp"
-        android:layout_marginBottom="3dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/personal_center_pic_head_portrait" />
-    
+        android:layout_marginBottom="3dp" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/personal_center_pic_head_portrait" />
+
+        <com.patr.radix.ui.view.AvatarView
+            android:id="@+id/avatar_iv"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY" />
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:text="大青蛙"
-        android:textSize="15sp"
-        android:textColor="@color/white" />
-    
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
     <TextView
         android:id="@+id/phone_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:text="138****8888"
-        android:textSize="15sp"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="15sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.0"
         android:layout_marginTop="25dp"
+        android:layout_weight="1.0"
         android:background="#FFE6E6E6"
         android:orientation="vertical" >
 
@@ -65,57 +75,57 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_bg_selector"
             android:clickable="true" >
-            
+
             <ImageView
                 android:id="@+id/community_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginLeft="12dp"
                 android:background="@null"
-                android:src="@drawable/icon_residential_quarters"
-                android:scaleType="center" />
-            
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_residential_quarters" />
+
             <TextView
                 android:id="@+id/community_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/community_iv"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/community_iv"
                 android:background="@null"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
                 android:text="@string/settings_community"
-                android:textSize="15sp"
-                android:textColor="@color/black_text" />
-            
+                android:textColor="@color/black_text"
+                android:textSize="15sp" />
+
             <TextView
                 android:id="@+id/community_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/community_label"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:background="@null"
-                android:textSize="13sp"
-                android:textColor="@color/gray_text" />
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:textColor="@color/gray_text"
+                android:textSize="13sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginRight="15dp"
                 android:background="@null"
-                android:src="@drawable/icon_go_to"
-                android:scaleType="center" />
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_go_to" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -125,44 +135,44 @@
             android:layout_marginTop="1px"
             android:background="@drawable/btn_bg_selector"
             android:clickable="true" >
-            
+
             <ImageView
                 android:id="@+id/my_key_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginLeft="12dp"
                 android:background="@null"
-                android:src="@drawable/icon_residential_quarters"
-                android:scaleType="center" />
-            
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_residential_quarters" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/my_key_iv"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/my_key_iv"
                 android:background="@null"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
                 android:text="@string/settings_remote_open_door"
-                android:textSize="15sp"
-                android:textColor="@color/black_text" />
-            
+                android:textColor="@color/black_text"
+                android:textSize="15sp" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginRight="15dp"
                 android:background="@null"
-                android:src="@drawable/icon_go_to"
-                android:scaleType="center" />
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_go_to" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -172,44 +182,44 @@
             android:layout_marginTop="1px"
             android:background="@drawable/btn_bg_selector"
             android:clickable="true" >
-            
+
             <ImageView
                 android:id="@+id/userinfo_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginLeft="12dp"
                 android:background="@null"
-                android:src="@drawable/icon_name"
-                android:scaleType="center" />
-            
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_name" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/userinfo_iv"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/userinfo_iv"
                 android:background="@null"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
                 android:text="@string/settings_modify_userinfo"
-                android:textSize="15sp"
-                android:textColor="@color/black_text" />
-            
+                android:textColor="@color/black_text"
+                android:textSize="15sp" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginRight="15dp"
                 android:background="@null"
-                android:src="@drawable/icon_go_to"
-                android:scaleType="center" />
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_go_to" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -219,44 +229,44 @@
             android:layout_marginTop="1px"
             android:background="@drawable/btn_bg_selector"
             android:clickable="true" >
-            
+
             <ImageView
                 android:id="@+id/share_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginLeft="12dp"
                 android:background="@null"
-                android:src="@drawable/icon_share"
-                android:scaleType="center" />
-            
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_share" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/share_iv"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/share_iv"
                 android:background="@null"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
                 android:text="@string/settings_share"
-                android:textSize="15sp"
-                android:textColor="@color/black_text" />
-            
+                android:textColor="@color/black_text"
+                android:textSize="15sp" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginRight="15dp"
                 android:background="@null"
-                android:src="@drawable/icon_go_to"
-                android:scaleType="center" />
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_go_to" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -266,44 +276,44 @@
             android:layout_marginTop="1px"
             android:background="@drawable/btn_bg_selector"
             android:clickable="true" >
-            
+
             <ImageView
                 android:id="@+id/feedback_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginLeft="12dp"
                 android:background="@null"
-                android:src="@drawable/icon_feedback"
-                android:scaleType="center" />
-            
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_feedback" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/feedback_iv"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/feedback_iv"
                 android:background="@null"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
                 android:text="@string/settings_feedback"
-                android:textSize="15sp"
-                android:textColor="@color/black_text" />
-            
+                android:textColor="@color/black_text"
+                android:textSize="15sp" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginRight="15dp"
                 android:background="@null"
-                android:src="@drawable/icon_go_to"
-                android:scaleType="center" />
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_go_to" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -312,45 +322,45 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_bg_selector" >
-            
+
             <ImageView
                 android:id="@+id/clear_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginLeft="12dp"
                 android:background="@null"
-                android:src="@drawable/icon_eliminate"
-                android:scaleType="center" />
-            
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:scaleType="center"
+                android:src="@drawable/icon_eliminate" />
+
             <TextView
                 android:id="@+id/clear_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/clear_iv"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/clear_iv"
                 android:background="@null"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
                 android:text="@string/settings_clear"
-                android:textSize="15sp"
-                android:textColor="@color/black_text" />
-            
+                android:textColor="@color/black_text"
+                android:textSize="15sp" />
+
             <TextView
                 android:id="@+id/clear_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/clear_label"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
                 android:background="@null"
-                android:textSize="13sp"
-                android:textColor="@color/gray_text" />
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:textColor="@color/gray_text"
+                android:textSize="13sp" />
 
             <Button
                 android:id="@+id/clear_btn"
@@ -358,18 +368,18 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
                 android:layout_marginRight="6dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/personal_center_btn_eliminate_bg_selector"
                 android:text="清除"
-                android:textSize="15sp"
                 android:textColor="@color/white"
-                android:background="@drawable/personal_center_btn_eliminate_bg_selector" />
+                android:textSize="15sp" />
         </RelativeLayout>
-
     </LinearLayout>
-    
-<!--     <LinearLayout
+
+    <!--
+         <LinearLayout
         android:id="@+id/settings_user_permission_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -516,6 +526,7 @@
         android:padding="12dp"
         android:text="@string/settings_logout"
         android:textColor="@color/white"
-        android:textSize="18sp" />
- -->
+        android:textSize="18sp" />
+    -->
+
 </LinearLayout>

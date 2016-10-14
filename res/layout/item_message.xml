@@ -13,10 +13,11 @@
         android:orientation="vertical" >
 
         <ImageView
+            android:id="@+id/avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
-            android:src="@drawable/latest_news_head_portrait" />
+            android:src="@drawable/announcement_information_icon_notice" />
 
         <TextView
             android:layout_width="wrap_content"
