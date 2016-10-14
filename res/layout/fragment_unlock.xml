@@ -80,94 +80,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/weather_rl"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="25dp"
         android:text="摇一摇开门"
         android:textColor="@color/white"
         android:textSize="20sp" />
 
-    <RelativeLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/shake_tv"
-        android:layout_marginTop="90dp"
-        android:background="@color/white"
-        android:gravity="center_horizontal" >
-
-        <RelativeLayout
-            android:id="@+id/key_rl"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/homepage_pic_key_bg" >
-
-            <ImageView
-                android:id="@+id/left_arrow_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/homepage_key_left" />
-
-            <ImageView
-                android:id="@+id/right_arrow_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/homepage_key_right" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toLeftOf="@id/right_arrow_iv"
-                android:layout_toRightOf="@id/left_arrow_iv"
-                android:overScrollMode="always" >
-
-                <LinearLayout
-                    android:id="@+id/key_ll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical" >
-                </LinearLayout>
-            </HorizontalScrollView>
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/line_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/key_rl"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="5dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/homepage_pic_title" />
-
-        <Button
-            android:id="@+id/send_key_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/line_iv"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="35dp"
-            android:background="@drawable/homepage_btn_send_key"
-            android:gravity="left|center_vertical"
-            android:text="  发送钥匙"
-            android:textColor="@color/black"
-            android:textSize="13sp" />
-    </RelativeLayout>
+        android:layout_marginTop="80dp"
+        android:background="@color/white" />
 
     <ImageButton
         android:id="@+id/shake_btn"
@@ -175,18 +98,94 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/shake_tv"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:src="@drawable/homepage_pic_state"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shake_btn_bg_selector"
         android:scaleType="centerInside"
-        android:background="@drawable/shake_btn_bg_selector" />
-    
+        android:src="@drawable/homepage_pic_state" />
+
     <TextView
         android:id="@+id/key_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="16sp"
         android:layout_below="@id/shake_btn"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:id="@+id/key_rl"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/homepage_pic_key_bg" >
+
+        <ImageView
+            android:id="@+id/left_arrow_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/homepage_key_left" />
+
+        <ImageView
+            android:id="@+id/right_arrow_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/homepage_key_right" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/right_arrow_iv"
+            android:layout_toRightOf="@id/left_arrow_iv"
+            android:overScrollMode="always" >
+
+            <LinearLayout
+                android:id="@+id/key_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </HorizontalScrollView>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/line_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/key_rl"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/homepage_pic_title" />
+
+    <Button
+        android:id="@+id/send_key_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/line_iv"
+        android:layout_below="@id/key_tv"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/homepage_btn_send_key"
+        android:gravity="left|center_vertical"
+        android:text="  发送钥匙"
+        android:textColor="@color/black"
+        android:textSize="13sp" />
 
 </RelativeLayout>
