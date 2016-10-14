@@ -704,7 +704,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             BluetoothLeService.disconnect();
         }
 
-        // statusTv.setText("正在连接门禁…");
         BluetoothLeService.connect(currentDevAddress, currentDevName, context);
     }
 
@@ -1130,12 +1129,12 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             RadixLock lock = MyApplication.instance.getSelectedLock();
             LogUtil.d("unlock: inBleName = " + lock.getBleName1()
                     + ", outBleName = " + lock.getBleName2());
+            startScan();
             handler.post(new Runnable() {
 
                 @Override
                 public void run() {
                     loadingDialog.show("正在开门…");
-                    startScan();
                 }
             });
         }
