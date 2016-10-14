@@ -729,12 +729,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             getCommunityList();
             return;
         }
-        // 若没有选钥匙，则获取钥匙列表
-        if (MyApplication.instance.getSelectedLock() == null) {
-            getLockList();
-        } else {
-            refreshKey();
-        }
         // 若用户已登录，则初始化和登录云通讯账号
         if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo()
                 .getAccount())) {
@@ -1027,6 +1021,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     SensorManager.SENSOR_DELAY_NORMAL);
         }
         getWeather();
+        getLockList();
     }
 
     @Override
