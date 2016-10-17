@@ -32,7 +32,7 @@ public class ServiceManager {
 
     public static final String TAG = ServiceManager.class.getName();
 
-    public static final int LIMIT = 20;
+    public static final int LIMIT = 10;
 
     /**
      * 请求参数Key
@@ -171,6 +171,10 @@ public class ServiceManager {
         String FILE_PATH = "filePath";
 
         String VISITOR_ID = "visitorId";
+        
+        String PAGE_MODDEL = "pageModel";
+        
+        String CTR_NAME = "ctrName";
 
     }
 
@@ -226,6 +230,10 @@ public class ServiceManager {
         String ADVICE_FEEDBACK = "/adviceFeedback?";
         
         String QUERY_MOBILE_USER_BY_ID = "/queryMobileUserById?";
+        
+        String QUERY_PERSON_MESSAGE = "/queryPersonMessage?";
+        
+        String DELETE_PERSON_MESSAGE = "/deletePersonMessage?";
     }
 
     /**
@@ -464,6 +472,16 @@ public class ServiceManager {
         String[] values = { MyApplication.instance.getUserInfo().getToken() };
         return WebService.post(Url.QUERY_MOBILE_USER_BY_ID, keys, values, listener,
                 new LoginParser(listener));
+    }
+    
+    public static Cancelable queryPersonMessage(int pageNum,
+            final RequestListener<GetNoticeListResult> listener) {
+        String[] keys = { RequestKey.TOKEN, RequestKey.PAGE_NUM,
+                RequestKey.PAGE_SIZE };
+        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+                String.valueOf(pageNum), String.valueOf(LIMIT) };
+        return WebService.post(Url.NOTICE_LIST, keys, values, listener,
+                new GetNoticeListParser(listener));
     }
 
 }
