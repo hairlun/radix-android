@@ -17,7 +17,11 @@ import com.patr.radix.ui.unlock.MyKeysActivity;
 import com.patr.radix.ui.view.ListSelectDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog;
 import com.patr.radix.utils.Constants;
+import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.TabDb;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
 import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.common.ECContentObservers;
 import com.yuntongxun.ecdemo.common.utils.CrashHandler;
@@ -108,9 +112,34 @@ public class MainActivity extends FragmentActivity implements
         setChattingContactId();
         initImageLoader();
         // CrashHandler.getInstance().init(MyApplication.instance);
-        SDKInitializer.initialize(MyApplication.instance);
         ECContentObservers.getInstance().initContentObserver();
         CrashHandler.getInstance().setContext(this);
+
+        if (PrefUtil.getBoolean(this, Constants.PREF_PUSH_SWITCH, true)) {
+            // 信鸽注册
+            // 开启logcat输出，方便debug，发布时请关闭
+            XGPushConfig.enableDebug(this, MyApplication.DEBUG);
+            // 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
+            // XGIOperateCallback)带callback版本
+            // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
+            // 具体可参考详细的开发指南
+            // 传递的参数为ApplicationContext
+            Context context = getApplicationContext();
+            XGPushManager.registerPush(context, new XGIOperateCallback() {
+    
+                @Override
+                public void onSuccess(Object data, int flag) {
+                    Log.d("TPush", "注册成功，设备token为：" + data);
+                    // 保存pushToken到本地
+                    MyApplication.instance.setPushToken((String) data);
+                }
+    
+                @Override
+                public void onFail(Object data, int errCode, String msg) {
+                    Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+                }
+            });
+        }
     }
 
     private void initTab() {
@@ -133,12 +162,12 @@ public class MainActivity extends FragmentActivity implements
         TextView badge = (TextView) view.findViewById(R.id.badge);
         tv.setText(TabDb.getTabsTxt()[idx]);
         // TODO 设置badge
-//        if (idx == 2) {
-//            badge.setText("99");
-//            badge.setVisibility(View.VISIBLE);
-//        } else {
-//            badge.setVisibility(View.GONE);
-//        }
+        // if (idx == 2) {
+        // badge.setText("99");
+        // badge.setVisibility(View.VISIBLE);
+        // } else {
+        // badge.setVisibility(View.GONE);
+        // }
         if (idx == defaultTab) {
             iv.setImageResource(TabDb.getTabsImgLight()[idx]);
             tv.setTextColor(getResources().getColor(

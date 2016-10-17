@@ -55,7 +55,7 @@
     <string name="login_regist">注册</string>
     <string name="login_login">登 录</string>
     <string name="login_submit">提 交</string>
-    <string name="tips_login_accountpwd_null">帐号或密码不能为空</string>
+    <string name="tips_login_accountpwd_null">账号或密码不能为空</string>
     <string name="tab_loading">正在加载…</string>
     <string name="app_tip">提示</string>
     <string name="app_crash_tips">崩溃警告</string>
@@ -72,7 +72,7 @@
     <string name="main_plus_inter_phone">实时对讲</string>
     <string name="main_plus_meeting_voice">语音会议</string>
     <string name="main_plus_settings">设置</string>
-    <string name="main_title_select_account">选择登陆帐号</string>
+    <string name="main_title_select_account">选择登陆账号</string>
     <string name="str_group_name_hint">群组名称</string>
     <string name="str_group_notice_hint">群公告(选填)</string>
     <string name="app_button_create">创建</string>
@@ -158,7 +158,7 @@
     <string name="group_exit_posting">正在退出，请稍候</string>
     <string name="group_remove_member_posting">正在移除成员，请稍候</string>
     <string name="posting_logout">正在退出，请稍后</string>
-    <string name="settings_logout_warning_tip">退出后不会删除任何历史数据，下次登录依然可以使用本帐号</string>
+    <string name="settings_logout_warning_tip">退出后不会删除任何历史数据，下次登录依然可以使用本账号</string>
     <string name="connect_server_error">无法连接到服务器</string>
     <string name="connecting_server">正在连接服务器...</string>
     <string name="chatting_resend_title">提示</string>

@@ -1,12 +1,10 @@
 /**
  * radix
- * UpdataUserPhoneActivity
+ * ForgetPwdActivity
  * zhoushujie
- * 2016-10-6 上午11:17:35
+ * 2016-10-13 下午5:14:25
  */
-package com.patr.radix.ui.settings;
-
-import java.util.List;
+package com.patr.radix;
 
 import org.json.JSONObject;
 import org.xutils.common.util.LogUtil;
@@ -14,15 +12,11 @@ import org.xutils.common.util.LogUtil;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
-import com.patr.radix.MyApplication;
-import com.patr.radix.R;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.ui.view.LoadingDialog;
 import com.patr.radix.ui.view.TitleBarView;
-import com.patr.radix.utils.Constants;
-import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
 
 import android.app.Activity;
@@ -34,22 +28,24 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 /**
  * @author zhoushujie
- * 
+ *
  */
-public class UpdateUserPhoneActivity extends Activity implements
-        OnClickListener {
+public class ForgetPwdActivity extends Activity implements OnClickListener {
 
     private Context context;
 
     private TitleBarView titleBarView;
 
     private EditText verifyEt;
+    
+    private EditText newPwdEt;
 
     private EditText phoneEt;
+    
+    private EditText usernameEt;
 
     private Button verifyBtn;
 
@@ -60,6 +56,12 @@ public class UpdateUserPhoneActivity extends Activity implements
     private Handler handler;
 
     private int countdown;
+    
+    private String phone;
+
+    private String username;
+
+    private String pwd;
 
     private static final int RETRY_TIME = 60;
 
@@ -91,10 +93,10 @@ public class UpdateUserPhoneActivity extends Activity implements
                     // 提交验证码成功
                     LogUtil.d("提交验证码成功。" + data.toString());
                     handler.post(new Runnable() {
-
+                        
                         @Override
                         public void run() {
-                            updateUserPhone();
+                            resetPwd();
                         }
                     });
                 } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
@@ -125,7 +127,7 @@ public class UpdateUserPhoneActivity extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_user_phone);
+        setContentView(R.layout.activity_forget_pwd);
         context = this;
         initView();
         SMSSDK.registerEventHandler(eh); // 注册短信回调
@@ -137,11 +139,10 @@ public class UpdateUserPhoneActivity extends Activity implements
         super.onDestroy();
     }
 
-    /**
-     * 
-     */
     private void initView() {
-        titleBarView = (TitleBarView) findViewById(R.id.update_phone_titlebar);
+        titleBarView = (TitleBarView) findViewById(R.id.forget_pwd_titlebar);
+        newPwdEt = (EditText) findViewById(R.id.new_pwd_et);
+        usernameEt = (EditText) findViewById(R.id.username_et);
         verifyEt = (EditText) findViewById(R.id.verification_et);
         phoneEt = (EditText) findViewById(R.id.phone_et);
         verifyBtn = (Button) findViewById(R.id.verify_btn);
@@ -156,57 +157,68 @@ public class UpdateUserPhoneActivity extends Activity implements
     }
 
     private void verify() {
+        username = usernameEt.getText().toString().trim();
+        pwd = newPwdEt.getText().toString();
         String code = verifyEt.getText().toString().trim();
+        
+        if (TextUtils.isEmpty(phone)) {
+            ToastUtil.showShort(context, "请输入手机号码");
+            return;
+        }
+        if (TextUtils.isEmpty(username)) {
+            ToastUtil.showShort(context, "请输入账号");
+            return;
+        }
+        if (TextUtils.isEmpty(pwd)) {
+            ToastUtil.showShort(context, "请输入新密码");
+            return;
+        }
         if (TextUtils.isEmpty(code)) {
             ToastUtil.showShort(context, "请输入验证码");
             return;
         }
-        SMSSDK.submitVerificationCode("86", MyApplication.instance
-                .getUserInfo().getMobile(), code);
+        SMSSDK.submitVerificationCode("86", phone, code);
+    }
+    
+    private void resetPwd() {
+        ServiceManager.updatePwdByForget(pwd, username, phone, new RequestListener<RequestResult>() {
+
+            @Override
+            public void onStart() {
+                loadingDialog.show("正在提交…");
+            }
+
+            @Override
+            public void onSuccess(int stateCode, RequestResult result) {
+                if (result != null) {
+                    ToastUtil.showShort(context, result.getRetinfo());
+                } else {
+                    ToastUtil.showShort(context, R.string.connect_exception);
+                }
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Exception error, String content) {
+                ToastUtil.showShort(context, R.string.connect_exception);
+                loadingDialog.dismiss();
+            }
+        });
     }
 
-    private void updateUserPhone() {
-        final String mobile = phoneEt.getText().toString().trim();
-        if (TextUtils.isEmpty(mobile)) {
-            ToastUtil.showShort(this, "请输入新号码");
-            return;
-        }
-        ServiceManager.updateUserPhone(mobile,
-                new RequestListener<RequestResult>() {
-
-                    @Override
-                    public void onStart() {
-                        loadingDialog.show("正在提交…");
-                    }
-
-                    @Override
-                    public void onSuccess(int stateCode, RequestResult result) {
-                        ToastUtil.showShort(context, "成功！");
-                        loadingDialog.dismiss();
-                        PrefUtil.save(context, Constants.PREF_MOBILE, mobile);
-                        finish();
-                    }
-
-                    @Override
-                    public void onFailure(Exception error, String content) {
-                        ToastUtil
-                                .showShort(context, R.string.connect_exception);
-                        loadingDialog.dismiss();
-                    }
-                });
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
+    /* (non-Javadoc)
      * @see android.view.View.OnClickListener#onClick(android.view.View)
      */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.verify_btn:
-            SMSSDK.getVerificationCode("86", MyApplication.instance
-                    .getUserInfo().getMobile());
+            phone = phoneEt.getText().toString().trim();
+            if (TextUtils.isEmpty(phone)) {
+                ToastUtil.showShort(context, "请输入手机号");
+                return;
+            }
+            SMSSDK.getVerificationCode("86", phone);
             countdown = RETRY_TIME;
             verifyBtn.setText("获取验证码(" + countdown + ")");
             verifyBtn.setEnabled(false);
@@ -220,5 +232,4 @@ public class UpdateUserPhoneActivity extends Activity implements
             break;
         }
     }
-
 }

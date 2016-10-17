@@ -49,7 +49,7 @@ public class NoticeListAdapter extends AbsListAdapter<Message> {
             holder.pic.setVisibility(View.GONE);
         }
         holder.title.setText(notice.getTitle());
-        holder.content.setText(notice.getContent());
+        holder.content.setText(notice.getPlainText());
         holder.sentDate.setText(notice.getSentDate());
         return convertView;
 

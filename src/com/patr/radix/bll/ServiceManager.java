@@ -51,6 +51,8 @@ public class ServiceManager {
         String NAME = "name";
 
         String PWD = "pwd";
+        
+        String OLD_PWD = "oldPWD";
 
         String MOBILE = "mobile";
 
@@ -75,6 +77,8 @@ public class ServiceManager {
         String TITLE = "title";
         
         String CONTENT = "content";
+        
+        String PUSH_TOKEN = "pushToken";
     }
 
     /**
@@ -153,6 +157,8 @@ public class ServiceManager {
         String READ_TIME = "readTime";
 
         String PIC = "pic";
+        
+        String PLAIN_TEXT = "plainText";
 
         String VIDEO = "video";
 
@@ -218,6 +224,8 @@ public class ServiceManager {
         
         /** 意见反馈 */
         String ADVICE_FEEDBACK = "/adviceFeedback?";
+        
+        String QUERY_MOBILE_USER_BY_ID = "/queryMobileUserById?";
     }
 
     /**
@@ -256,8 +264,8 @@ public class ServiceManager {
      */
     public static Cancelable login(String account, String pwd,
             final RequestListener<LoginResult> listener) {
-        String[] keys = { RequestKey.ACCOUNT, RequestKey.PWD };
-        String[] values = { account, pwd };
+        String[] keys = { RequestKey.ACCOUNT, RequestKey.PWD, RequestKey.PUSH_TOKEN };
+        String[] values = { account, pwd, MyApplication.instance.getPushToken() };
         return WebService.post(Url.LOGIN, keys, values, listener,
                 new LoginParser(listener));
     }
@@ -402,11 +410,11 @@ public class ServiceManager {
      * @param listener
      * @return
      */
-    public static Cancelable updateUserPwd(String pwd,
+    public static Cancelable updateUserPwd(String pwd, String oldPwd,
             final RequestListener<RequestResult> listener) {
-        String[] keys = { RequestKey.TOKEN, RequestKey.PWD };
+        String[] keys = { RequestKey.TOKEN, RequestKey.PWD, RequestKey.OLD_PWD };
         String[] values = { MyApplication.instance.getUserInfo().getToken(),
-                pwd };
+                pwd, oldPwd };
         return WebService.post(Url.UPDATE_USER_PWD, keys, values, listener,
                 new RequestResultParser(listener));
     }
@@ -443,6 +451,19 @@ public class ServiceManager {
                 title, content };
         return WebService.post(Url.ADVICE_FEEDBACK, keys, values, listener,
                 new RequestResultParser(listener));
+    }
+    
+    /**
+     * 获取已登录用户的信息
+     * 
+     * @param listener
+     * @return
+     */
+    public static Cancelable queryMobileUserById(final RequestListener<LoginResult> listener) {
+        String[] keys = { RequestKey.TOKEN };
+        String[] values = { MyApplication.instance.getUserInfo().getToken() };
+        return WebService.post(Url.QUERY_MOBILE_USER_BY_ID, keys, values, listener,
+                new LoginParser(listener));
     }
 
 }

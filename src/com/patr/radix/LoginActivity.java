@@ -94,6 +94,10 @@ public class LoginActivity extends Activity implements OnClickListener {
                 // }
             }
             break;
+            
+        case R.id.forget_pwd_btn:
+            context.startActivity(new Intent(context, ForgetPwdActivity.class));
+            break;
         }
     }
 

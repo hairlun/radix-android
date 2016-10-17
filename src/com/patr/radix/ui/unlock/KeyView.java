@@ -17,18 +17,18 @@ import android.widget.TextView;
 
 /**
  * @author zhoushujie
- *
+ * 
  */
 public class KeyView extends LinearLayout {
-    
+
     private LinearLayout keyLl;
-    
+
     private ImageView keyIv;
-    
+
     private TextView keyTv;
-    
+
     private RadixLock key;
-    
+
     private int idx;
 
     /**
@@ -40,7 +40,7 @@ public class KeyView extends LinearLayout {
         this.idx = idx;
         initView(context, selected);
     }
-    
+
     private void initView(Context context, boolean selected) {
         LayoutInflater.from(getContext()).inflate(R.layout.view_key, this);
         keyLl = (LinearLayout) findViewById(R.id.key_ll);
@@ -53,11 +53,12 @@ public class KeyView extends LinearLayout {
             keyTv.setTextColor(getResources().getColor(R.color.black));
             keyIv.setImageResource(R.drawable.homepage_key);
         } else {
-            keyTv.setTextColor(getResources().getColor(R.color.buttombar_text_selected));
+            keyTv.setTextColor(getResources().getColor(
+                    R.color.buttombar_text_selected));
             keyIv.setImageResource(R.drawable.homepage_key_pre);
         }
     }
-    
+
     public void setOnClickListener(OnClickListener onClickListener) {
         keyLl.setOnClickListener(onClickListener);
     }

@@ -52,6 +52,9 @@ public class MyApplication extends Application {
     private String selectedLockId;
 
     private UserInfo userInfo = new UserInfo();
+    
+    // 信鸽推送token
+    private String pushToken;
 
     public static MyApplication instance;
 
@@ -67,6 +70,7 @@ public class MyApplication extends Application {
         getCommunityListFromCache();
         // 从缓存读取门禁钥匙列表和当前选择门禁钥匙
         getLockListFromCache();
+        // 初始化验证码模块
         SMSSDK.initSDK(this, "17805a217c862",
                 "4489d28f7383f6b9eb6b697b3998a42d");
     }
@@ -221,13 +225,19 @@ public class MyApplication extends Application {
         this.selectedLocks.addAll(list);
     }
     
+    public String getPushToken() {
+        return pushToken == null ? "" : pushToken;
+    }
+
+    public void setPushToken(String pushToken) {
+        this.pushToken = pushToken;
+    }
+
     public void clearCache() {
         locks.clear();
         selectedLocks.clear();
         selectedLock = null;
         selectedLockId = null;
-        userInfo = new UserInfo();
-        PrefUtil.saveUserInfo(this, new UserInfo());
         PrefUtil.save(this, Constants.PREF_SELECTED_KEY, null);
     }
 

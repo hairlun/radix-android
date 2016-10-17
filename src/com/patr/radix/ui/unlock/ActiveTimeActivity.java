@@ -118,15 +118,24 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
         keyEndTimeRl.setOnClickListener(this);
         generateQrcodeBtn.setOnClickListener(this);
         startCal = Calendar.getInstance();
+        startCal.set(Calendar.SECOND, 0);
+        startCal.set(Calendar.MILLISECOND, 0);
         endCal = Calendar.getInstance();
+        endCal.setTime(startCal.getTime());
+        endCal.add(Calendar.HOUR, 4);
+        keyStartTimeTv.setText(TimeUtil.getDateStr(startCal.getTime(),
+                DATE_FORMAT));
+        keyEndTimeTv
+                .setText(TimeUtil.getDateStr(endCal.getTime(), DATE_FORMAT));
         loadingDialog = new LoadingDialog(context);
-//        Parcel p = Parcel.obtain();
-//        p.writeInt(20);
-//        p.writeInt(0);
-//        p.setDataPosition(0);
-//        Standard lms = new Standard(40, 0);
-//        Spann
-//        remarkEt.setText(text)
+
+        // Parcel p = Parcel.obtain();
+        // p.writeInt(20);
+        // p.writeInt(0);
+        // p.setDataPosition(0);
+        // Standard lms = new Standard(40, 0);
+        // Spann
+        // remarkEt.setText(text)
     }
 
     /**
@@ -242,14 +251,16 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
                             generateQRCode(visitorId);
                         } else {
                             loadingDialog.dismiss();
-                            ToastUtil.showShort(context, R.string.connect_exception);
+                            ToastUtil.showShort(context,
+                                    R.string.connect_exception);
                         }
                     }
 
                     @Override
                     public void onFailure(Exception error, String content) {
                         loadingDialog.dismiss();
-                        ToastUtil.showShort(context, R.string.connect_exception);
+                        ToastUtil
+                                .showShort(context, R.string.connect_exception);
                     }
 
                 });

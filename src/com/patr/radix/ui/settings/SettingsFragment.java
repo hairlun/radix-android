@@ -3,21 +3,22 @@ package com.patr.radix.ui.settings;
 import org.xutils.x;
 import org.xutils.common.util.LogUtil;
 
-import com.patr.radix.LockSetupActivity;
-import com.patr.radix.LockValidateActivity;
 import com.patr.radix.LoginActivity;
 import com.patr.radix.MyApplication;
 import com.patr.radix.R;
 import com.patr.radix.adapter.CommunityListAdapter;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.GetCommunityListResult;
+import com.patr.radix.bean.LoginResult;
 import com.patr.radix.bean.UserInfo;
 import com.patr.radix.bll.CacheManager;
 import com.patr.radix.bll.GetCommunityListParser;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.ui.unlock.MyKeysActivity;
+import com.patr.radix.ui.view.AvatarView;
 import com.patr.radix.ui.view.ListSelectDialog;
+import com.patr.radix.ui.view.LoadingDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog.BtnType;
 import com.patr.radix.utils.Constants;
@@ -40,8 +41,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -67,14 +66,16 @@ public class SettingsFragment extends Fragment implements OnClickListener,
     private Button clearBtn;
 
     private ImageButton settingBtn;
-    
-    private ImageView avatarIv;
-    
+
+    private AvatarView avatarIv;
+
     private TextView nameTv;
-    
+
     private TextView phoneTv;
 
     private CommunityListAdapter adapter;
+
+    private LoadingDialog loadingDialog;
 
     @Override
     public void onAttach(Activity activity) {
@@ -98,7 +99,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
         clearValue = (TextView) view.findViewById(R.id.clear_value);
         clearBtn = (Button) view.findViewById(R.id.clear_btn);
         settingBtn = (ImageButton) view.findViewById(R.id.setting_btn);
-        avatarIv = (ImageView) view.findViewById(R.id.avatar_iv);
+        avatarIv = (AvatarView) view.findViewById(R.id.avatar_iv);
         nameTv = (TextView) view.findViewById(R.id.name_tv);
         phoneTv = (TextView) view.findViewById(R.id.phone_tv);
 
@@ -124,6 +125,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
                 }
             }
         }
+        loadingDialog = new LoadingDialog(context);
         return view;
     }
 
@@ -153,9 +155,9 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             nameTv.setVisibility(View.INVISIBLE);
             phoneTv.setVisibility(View.INVISIBLE);
         }
-        
-        //TODO 刷新缓存大小
-        
+
+        // TODO 刷新缓存大小
+
     }
 
     @Override
@@ -187,7 +189,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             break;
 
         case R.id.share_ll:
-            shareMsg("请选择", "", "", Uri.parse("http://zsyuxindianzi.b2b.c-ps.net/"));
+            shareMsg("请选择", "", "http://zsyuxindianzi.b2b.c-ps.net/", null);
             break;
 
         case R.id.feedback_ll:
@@ -195,17 +197,64 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             context.startActivity(intent);
             break;
 
+        case R.id.clear_btn:
+            MsgDialog.show(context, "确认", "确定要清除缓存吗？", "确定",
+                    new OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            loadingDialog.show("正在清除缓存…");
+                            MyApplication.instance.clearCache();
+                            loadingDialog.dismiss();
+                            getUserInfo();
+                        }
+                    }, BtnType.TWO);
+
+            break;
         }
+    }
+
+    private void getUserInfo() {
+        ServiceManager.queryMobileUserById(new RequestListener<LoginResult>() {
+
+            @Override
+            public void onStart() {
+                loadingDialog.show("正在加载…");
+            }
+
+            @Override
+            public void onSuccess(int stateCode, LoginResult result) {
+                if (result != null) {
+                    if (result.isSuccesses()) {
+                        MyApplication.instance.setUserInfo(result.getUserInfo());
+                        PrefUtil.saveUserInfo(context, result.getUserInfo());
+                        refresh();
+                    } else {
+                        ToastUtil.showShort(context, result.getRetinfo());
+                    }
+                } else {
+                    ToastUtil.showShort(context, R.string.connect_exception);
+                }
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Exception error, String content) {
+                ToastUtil.showShort(context, R.string.connect_exception);
+                loadingDialog.dismiss();
+            }
+
+        });
     }
 
     public void shareMsg(String activityTitle, String msgTitle, String msgText,
             Uri uri) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain"); // 纯文本
-        intent.setType("image/*");
-        if (uri != null) {
-            intent.putExtra(Intent.EXTRA_STREAM, uri);
-        }
+        // intent.setType("image/*");
+        // if (uri != null) {
+        // intent.putExtra(Intent.EXTRA_STREAM, uri);
+        // }
         intent.putExtra(Intent.EXTRA_SUBJECT, msgTitle);
         intent.putExtra(Intent.EXTRA_TEXT, msgText);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -323,6 +372,9 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             long id) {
         MyApplication.instance.setSelectedCommunity(adapter.getItem(position));
         if (!adapter.isSelect(position)) {
+            UserInfo userInfo = new UserInfo();
+            MyApplication.instance.setUserInfo(userInfo);
+            PrefUtil.saveUserInfo(context, userInfo);
             MyApplication.instance.clearCache();
         }
         adapter.select(position);
