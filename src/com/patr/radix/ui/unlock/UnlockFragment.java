@@ -910,32 +910,34 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void getLockListFromServer() {
-        // 从服务器获取门禁钥匙列表
-        ServiceManager.getLockList(new RequestListener<GetLockListResult>() {
-
-            @Override
-            public void onSuccess(int stateCode, GetLockListResult result) {
-                if (result != null) {
-                    if (result.isSuccesses()) {
-                        MyApplication.instance.setLocks(result.getLocks());
-                        saveLockListToDb(result.getResponse());
-                        setSelectedKey();
-                        refreshKey();
+        if (MyApplication.instance.getSelectedCommunity() != null) {
+            // 从服务器获取门禁钥匙列表
+            ServiceManager.getLockList(new RequestListener<GetLockListResult>() {
+    
+                @Override
+                public void onSuccess(int stateCode, GetLockListResult result) {
+                    if (result != null) {
+                        if (result.isSuccesses()) {
+                            MyApplication.instance.setLocks(result.getLocks());
+                            saveLockListToDb(result.getResponse());
+                            setSelectedKey();
+                            refreshKey();
+                        } else {
+                            ToastUtil.showShort(context, result.getRetinfo());
+                            getLockListFromCache();
+                        }
                     } else {
-                        ToastUtil.showShort(context, result.getRetinfo());
                         getLockListFromCache();
                     }
-                } else {
+                }
+    
+                @Override
+                public void onFailure(Exception error, String content) {
                     getLockListFromCache();
                 }
-            }
-
-            @Override
-            public void onFailure(Exception error, String content) {
-                getLockListFromCache();
-            }
-
-        });
+    
+            });
+        }
     }
 
     /**

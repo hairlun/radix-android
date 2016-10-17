@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/weather_rl"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:text="摇一摇开门"
         android:textColor="@color/white"
         android:textSize="20sp" />
@@ -89,7 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/shake_tv"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="75dp"
         android:background="@color/white" />
 
     <ImageButton
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/shake_tv"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/shake_btn_bg_selector"
         android:scaleType="centerInside"
         android:src="@drawable/homepage_pic_state" />
@@ -117,7 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/homepage_pic_key_bg" >
@@ -179,7 +179,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/line_iv"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/homepage_btn_send_key"
         android:gravity="left|center_vertical"
