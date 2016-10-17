@@ -183,6 +183,7 @@ public class UpdateUserPhoneActivity extends Activity implements
                     public void onSuccess(int stateCode, RequestResult result) {
                         ToastUtil.showShort(context, "成功！");
                         loadingDialog.dismiss();
+                        MyApplication.instance.getUserInfo().setMobile(mobile);
                         PrefUtil.save(context, Constants.PREF_MOBILE, mobile);
                         finish();
                     }
