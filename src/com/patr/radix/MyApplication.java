@@ -71,8 +71,8 @@ public class MyApplication extends Application {
         // 从缓存读取门禁钥匙列表和当前选择门禁钥匙
         getLockListFromCache();
         // 初始化验证码模块
-//        SMSSDK.initSDK(this, "17805a217c862",
-//                "4489d28f7383f6b9eb6b697b3998a42d");
+        SMSSDK.initSDK(this, "17805a217c862",
+                "4489d28f7383f6b9eb6b697b3998a42d");
     }
 
     private void getCommunityListFromCache() {
