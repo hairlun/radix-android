@@ -72,8 +72,9 @@ public class MainActivity extends FragmentActivity implements
                             @Override
                             public void onClick(View v) {
                                 // 立即开门
-                                ListSelectDialog.show(mContext, "请选择门禁",
-                                        adapter, MainActivity.this);
+                                Intent intent = new Intent(mContext, MyKeysActivity.class);
+                                intent.putExtra("remoteOpenDoor", true);
+                                mContext.startActivity(intent);
                             }
                         }, new OnClickListener() {
 
