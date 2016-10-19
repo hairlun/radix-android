@@ -54,7 +54,7 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:hint="请输入新号码"
-                android:inputType="phone"
+                android:inputType="textPhonetic"
                 android:textSize="15sp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_text" />
@@ -97,7 +97,6 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:hint="请输入账号"
-                android:inputType="phone"
                 android:textSize="15sp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_text" />
@@ -199,7 +198,6 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:hint="请输入验证码"
-                android:inputType="phone"
                 android:textSize="15sp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_text" />
