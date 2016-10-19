@@ -185,8 +185,14 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             break;
 
         case R.id.modify_userinfo_ll:
-            intent = new Intent(context, EditUserInfoActivity.class);
-            context.startActivity(intent);
+            if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getAccount())) {
+                intent = new Intent(context, EditUserInfoActivity.class);
+                context.startActivity(intent);
+            } else {
+                ToastUtil.showShort(context, "请先登录！");
+                intent = new Intent(context, LoginActivity.class);
+                context.startActivity(intent);
+            }
             break;
 
         case R.id.share_ll:
