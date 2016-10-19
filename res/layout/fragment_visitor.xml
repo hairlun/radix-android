@@ -38,6 +38,7 @@
             android:singleLine="true"
             android:background="@null"
             android:hint="@string/visitor_mobile_hint"
+            android:inputType="phone"
             android:textSize="18sp"
             android:textColor="@color/black"
             android:textColorHint="@color/gray_text" />

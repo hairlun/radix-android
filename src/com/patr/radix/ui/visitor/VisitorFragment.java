@@ -82,9 +82,9 @@ public class VisitorFragment extends Fragment implements OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
-        // 若用户已登录，则初始化和登录云通讯账号
+        // 若用户已登录且手机号码不为空，则初始化和登录云通讯账号
         if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo()
-                .getAccount())) {
+                .getMobile())) {
             String appKey = FileAccessor.getAppKey();
             String token = FileAccessor.getAppToken();
             String myMobile = MyApplication.instance.getUserInfo().getMobile();
@@ -200,13 +200,6 @@ public class VisitorFragment extends Fragment implements OnClickListener,
         case R.id.visitor_contact_btn:
             startActivityForResult(new Intent(Intent.ACTION_PICK,
                     ContactsContract.Contacts.CONTENT_URI), 0);
-            // if
-            // (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getAccount()))
-            // {
-            // getUserList();
-            // } else {
-            // ToastUtil.showShort(context, "未登录！");
-            // }
             break;
         case R.id.visitor_btn:
             mobile = mobileEt.getText().toString().trim();
@@ -215,30 +208,8 @@ public class VisitorFragment extends Fragment implements OnClickListener,
                 return;
             }
             // 申请访问
-            // 检查有没有登录
-            if (TextUtils.isEmpty(MyApplication.instance.getUserInfo()
-                    .getAccount())) {
-                // // 如果没有登录，使用自己的手机号码自动登录云通讯
-                // String appKey = FileAccessor.getAppKey();
-                // String token = FileAccessor.getAppToken();
-                // String myMobile = Utils.getNativePhoneNumber(context);
-                // String pass = "";
-                // ClientUser clientUser = new ClientUser(myMobile);
-                // clientUser.setAppKey(appKey);
-                // clientUser.setAppToken(token);
-                // clientUser.setLoginAuthType(ECInitParams.LoginAuthType.NORMAL_AUTH);
-                // clientUser.setPassword(pass);
-                // CCPAppManager.setClientUser(clientUser);
-                // SDKCoreHelper.init(context,
-                // ECInitParams.LoginMode.FORCE_LOGIN);
-
-                // 如果没有登录，提示没有登录
-                ToastUtil.showLong(context, "未登录！");
-            } else {
-                // 如果登录了，直接呼叫
-                CCPAppManager.callVoIPAction(getActivity(), CallType.VIDEO, "",
-                        mobile, false);
-            }
+            CCPAppManager.callVoIPAction(getActivity(), CallType.VIDEO, "",
+                    mobile, false);
             break;
         }
     }

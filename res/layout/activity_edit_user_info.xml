@@ -140,10 +140,11 @@
 
             <com.patr.radix.ui.view.AvatarView
                 android:id="@+id/avatar_iv"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="71dp"
+                android:layout_height="71dp"
                 android:layout_centerInParent="true"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <Button

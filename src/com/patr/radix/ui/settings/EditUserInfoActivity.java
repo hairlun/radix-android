@@ -86,7 +86,10 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
         phoneTv.setText(MyApplication.instance.getUserInfo().getMobile());
         String pic = MyApplication.instance.getUserInfo().getUserPic();
         if (!TextUtils.isEmpty(pic)) {
+            avatarIv.setVisibility(View.VISIBLE);
             x.image().bind(avatarIv, pic);
+        } else {
+            avatarIv.setVisibility(View.GONE);
         }
     }
 

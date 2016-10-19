@@ -764,7 +764,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
             @Override
             public void onStart() {
-                loadingDialog.show("正在加载…");
             }
 
             @Override
@@ -774,13 +773,11 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 } else {
                     ToastUtil.showShort(context, result.getReason());
                 }
-                loadingDialog.dismiss();
             }
 
             @Override
             public void onFailure(Exception error, String content) {
                 ToastUtil.showShort(context, "获取天气信息失败，请稍后再试。");
-                loadingDialog.dismiss();
             }
 
         });

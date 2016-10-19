@@ -144,6 +144,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
         UserInfo userInfo = MyApplication.instance.getUserInfo();
         if (!TextUtils.isEmpty(userInfo.getToken())) {
             if (!TextUtils.isEmpty(userInfo.getUserPic())) {
+                avatarIv.setVisibility(View.VISIBLE);
                 x.image().bind(avatarIv, userInfo.getUserPic());
             }
             nameTv.setVisibility(View.VISIBLE);
@@ -151,7 +152,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             nameTv.setText(userInfo.getName());
             phoneTv.setText(userInfo.getMobile());
         } else {
-            avatarIv.setImageResource(R.drawable.personal_center_pic_head_portrait);
+            avatarIv.setVisibility(View.GONE);
             nameTv.setVisibility(View.INVISIBLE);
             phoneTv.setVisibility(View.INVISIBLE);
         }
