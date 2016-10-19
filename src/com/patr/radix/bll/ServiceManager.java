@@ -20,6 +20,7 @@ import com.patr.radix.bean.GetUserListResult;
 import com.patr.radix.bean.GetWeatherResult;
 import com.patr.radix.bean.LoginResult;
 import com.patr.radix.bean.MobileUploadResult;
+import com.patr.radix.bean.QueryPersonMessageResult;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.network.WebService;
@@ -175,6 +176,12 @@ public class ServiceManager {
         String PAGE_MODDEL = "pageModel";
         
         String CTR_NAME = "ctrName";
+        
+        String DATE_TIME = "dateTime";
+        
+        String OUT_OR_IN = "outOrIn";
+        
+        String TYPE = "type";
 
     }
 
@@ -475,13 +482,20 @@ public class ServiceManager {
     }
     
     public static Cancelable queryPersonMessage(int pageNum,
-            final RequestListener<GetNoticeListResult> listener) {
-        String[] keys = { RequestKey.TOKEN, RequestKey.PAGE_NUM,
-                RequestKey.PAGE_SIZE };
+            final RequestListener<QueryPersonMessageResult> listener) {
+        String[] keys = { RequestKey.TOKEN, RequestKey.PAGE_NUM };
         String[] values = { MyApplication.instance.getUserInfo().getToken(),
                 String.valueOf(pageNum), String.valueOf(LIMIT) };
-        return WebService.post(Url.NOTICE_LIST, keys, values, listener,
-                new GetNoticeListParser(listener));
+        return WebService.post(Url.QUERY_PERSON_MESSAGE, keys, values, listener,
+                new QueryPersonMessageParser(listener));
+    }
+    
+    public static Cancelable deletePersonMessage(
+            final RequestListener<RequestResult> listener) {
+        String[] keys = { RequestKey.TOKEN };
+        String[] values = { MyApplication.instance.getUserInfo().getToken() };
+        return WebService.post(Url.DELETE_PERSON_MESSAGE, keys, values, listener,
+                new RequestResultParser(listener));
     }
 
 }

@@ -6,12 +6,16 @@
  */
 package com.patr.radix.ui.message;
 
+import java.util.Currency;
 import java.util.List;
 
 import com.patr.radix.R;
+import com.patr.radix.adapter.MessageListAdapter;
 import com.patr.radix.adapter.NoticeListAdapter;
 import com.patr.radix.bean.GetNoticeListResult;
 import com.patr.radix.bean.Message;
+import com.patr.radix.bean.PersonMessage;
+import com.patr.radix.bean.QueryPersonMessageResult;
 import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.ui.view.swipe.SwipeRefreshLayout;
@@ -32,12 +36,11 @@ import android.widget.ListView;
  * @author zhoushujie
  * 
  */
-public class MessageView extends LinearLayout implements OnItemClickListener,
-        OnRefreshListener {
+public class MessageView extends LinearLayout implements OnRefreshListener {
 
     private ListView lv;
 
-    private NoticeListAdapter adapter;
+    private MessageListAdapter adapter;
 
     private SwipeRefreshLayout swipe;
 
@@ -55,10 +58,12 @@ public class MessageView extends LinearLayout implements OnItemClickListener,
         LayoutInflater.from(context).inflate(R.layout.view_message, this);
         swipe = (SwipeRefreshLayout) findViewById(R.id.swipe);
         lv = (ListView) findViewById(R.id.message_lv);
-        adapter = new NoticeListAdapter(context, null);
+        adapter = new MessageListAdapter(context, null);
         lv.setAdapter(adapter);
-        lv.setOnItemClickListener(this);
         swipe.setOnRefreshListener(this);
+    }
+    
+    public void refresh() {
         pageNum = 1;
         totalCount = 0;
         totalPage = 0;
@@ -66,59 +71,57 @@ public class MessageView extends LinearLayout implements OnItemClickListener,
     }
 
     private void loadData() {
-        // 从服务器获取公告列表
-//        ServiceManager.getNoticeList(pageNum,
-//                new RequestListener<GetNoticeListResult>() {
-//
-//                    @Override
-//                    public void onStart() {
-//                        swipe.post(new Runnable() {
-//
-//                            @Override
-//                            public void run() {
-//                                swipe.setRefreshing(true);
-//                            }
-//                        });
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(int stateCode,
-//                            GetNoticeListResult result) {
-//                        if (result != null) {
-//                            if (result.isSuccesses()) {
-//                                List<Message> notices = result.getNotices();
-//                                totalCount = result.getTotalCount();
-//                                totalPage = result.getTotalPage();
-//                                adapter.set(notices);
-//                                adapter.notifyDataSetChanged();
-//                            } else {
-//                                ToastUtil.showShort(getContext(),
-//                                        result.getRetinfo());
-//                            }
-//                        } else {
-//                            // ToastUtil.showShort(context,
-//                            // R.string.connect_exception);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Exception error, String content) {
-//                        // ToastUtil.showShort(context,
-//                        // R.string.connect_exception);
-//                    }
-//
-//                    @Override
-//                    public void onStopped() {
-//                        swipe.setRefreshing(false);
-//                    }
-//
-//                });
-    }
+        // 从服务器获取个人消息列表
+        ServiceManager.queryPersonMessage(pageNum,
+                new RequestListener<QueryPersonMessageResult>() {
 
-    public void onItemClick(AdapterView<?> parent, View view, int position,
-            long id) {
-        Message message = adapter.getItem(position);
-        MessageDetailsActivity.start(getContext(), message.getId());
+                    @Override
+                    public void onStart() {
+                        swipe.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                swipe.setRefreshing(true);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onSuccess(int stateCode,
+                            QueryPersonMessageResult result) {
+                        if (result != null) {
+                            if (result.isSuccesses()) {
+                                List<PersonMessage> messages = result.getMessages();
+                                totalCount = result.getTotalCount();
+                                totalPage = result.getTotalPage();
+                                if (pageNum > 1) {
+                                    adapter.addAll(messages);
+                                } else {
+                                    adapter.set(messages);
+                                }
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                ToastUtil.showShort(getContext(),
+                                        result.getRetinfo());
+                            }
+                        } else {
+                            // ToastUtil.showShort(context,
+                            // R.string.connect_exception);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, String content) {
+                        // ToastUtil.showShort(context,
+                        // R.string.connect_exception);
+                    }
+
+                    @Override
+                    public void onStopped() {
+                        swipe.setRefreshing(false);
+                    }
+
+                });
     }
 
     @Override

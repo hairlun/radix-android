@@ -64,6 +64,13 @@ public class NoticeView extends LinearLayout implements OnItemClickListener,
         totalPage = 0;
         loadData();
     }
+    
+    public void refresh() {
+        pageNum = 1;
+        totalCount = 0;
+        totalPage = 0;
+        loadData();
+    }
 
     private void loadData() {
         // 从服务器获取公告列表
@@ -89,7 +96,11 @@ public class NoticeView extends LinearLayout implements OnItemClickListener,
                                 List<Message> notices = result.getNotices();
                                 totalCount = result.getTotalCount();
                                 totalPage = result.getTotalPage();
-                                adapter.set(notices);
+                                if (pageNum > 1) {
+                                    adapter.addAll(notices);
+                                } else {
+                                    adapter.set(notices);
+                                }
                                 adapter.notifyDataSetChanged();
                             } else {
                                 ToastUtil.showShort(getContext(),

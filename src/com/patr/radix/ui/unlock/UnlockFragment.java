@@ -66,6 +66,7 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -735,6 +736,18 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             String appKey = FileAccessor.getAppKey();
             String token = FileAccessor.getAppToken();
             String myMobile = MyApplication.instance.getUserInfo().getMobile();
+            String pass = "";
+            ClientUser clientUser = new ClientUser(myMobile);
+            clientUser.setAppKey(appKey);
+            clientUser.setAppToken(token);
+            clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
+            clientUser.setPassword(pass);
+            CCPAppManager.setClientUser(clientUser);
+            SDKCoreHelper.init(context, LoginMode.FORCE_LOGIN);
+        } else {
+            String appKey = FileAccessor.getAppKey();
+            String token = FileAccessor.getAppToken();
+            String myMobile = String.format("%s", System.currentTimeMillis());
             String pass = "";
             ClientUser clientUser = new ClientUser(myMobile);
             clientUser.setAppKey(appKey);

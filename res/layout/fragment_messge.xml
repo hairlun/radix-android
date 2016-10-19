@@ -7,13 +7,37 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".MainActivity" >
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="124dp" >
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
-        android:src="@drawable/latest_news_pic"
-        android:layout_margin="30dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/latest_news_pic" />
+        
+        <Button
+            android:id="@+id/clear_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="清除"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:background="@drawable/titlebar_close_btn_bg_selector" />
+        
+    </RelativeLayout>
 
     <RadioGroup
         android:id="@+id/message_rg"
@@ -34,6 +58,7 @@
             android:checked="true"
             android:gravity="center"
             android:text="@string/public_message"
+            android:textSize="18sp"
             android:textColor="@drawable/message_tab_text_selector" />
 
         <RadioButton
@@ -47,6 +72,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="@string/private_message"
+            android:textSize="18sp"
             android:textColor="@drawable/message_tab_text_selector" />
     </RadioGroup>
 

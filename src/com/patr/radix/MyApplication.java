@@ -53,6 +53,8 @@ public class MyApplication extends Application {
 
     private UserInfo userInfo = new UserInfo();
     
+    private String visitorId;
+    
     // 信鸽推送token
     private String pushToken;
 
@@ -73,6 +75,7 @@ public class MyApplication extends Application {
         // 初始化验证码模块
         SMSSDK.initSDK(this, "17805a217c862",
                 "4489d28f7383f6b9eb6b697b3998a42d");
+        setVisitorId(String.format("%s", System.currentTimeMillis()));
     }
 
     private void getCommunityListFromCache() {
@@ -231,6 +234,14 @@ public class MyApplication extends Application {
 
     public void setPushToken(String pushToken) {
         this.pushToken = pushToken;
+    }
+
+    public String getVisitorId() {
+        return visitorId;
+    }
+
+    public void setVisitorId(String visitorId) {
+        this.visitorId = visitorId;
     }
 
     public void clearCache() {
