@@ -249,6 +249,7 @@
                 android:background="@null"
                 android:singleLine="true"
                 android:hint="请输入拜访者电话(可选)"
+                android:inputType="phone"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
                 android:text=""

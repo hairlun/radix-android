@@ -141,19 +141,33 @@ public class LoginActivity extends Activity implements OnClickListener {
                         MyApplication.instance
                                 .setUserInfo(result.getUserInfo());
                         PrefUtil.saveUserInfo(context, result.getUserInfo());
-                        // 初始化和登录云通讯账号
-                        String appKey = FileAccessor.getAppKey();
-                        String token = FileAccessor.getAppToken();
-                        String myMobile = MyApplication.instance.getUserInfo()
-                                .getMobile();
-                        String pass = "";
-                        ClientUser clientUser = new ClientUser(myMobile);
-                        clientUser.setAppKey(appKey);
-                        clientUser.setAppToken(token);
-                        clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
-                        clientUser.setPassword(pass);
-                        CCPAppManager.setClientUser(clientUser);
-                        SDKCoreHelper.init(context, LoginMode.FORCE_LOGIN);
+                        // 若用户已登录且手机号码不为空，则初始化和登录云通讯账号
+                        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo()
+                                .getMobile())) {
+                            String appKey = FileAccessor.getAppKey();
+                            String token = FileAccessor.getAppToken();
+                            String myMobile = MyApplication.instance.getUserInfo().getMobile();
+                            String pass = "";
+                            ClientUser clientUser = new ClientUser(myMobile);
+                            clientUser.setAppKey(appKey);
+                            clientUser.setAppToken(token);
+                            clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
+                            clientUser.setPassword(pass);
+                            CCPAppManager.setClientUser(clientUser);
+                            SDKCoreHelper.init(context, LoginMode.FORCE_LOGIN);
+                        } else {
+                            String appKey = FileAccessor.getAppKey();
+                            String token = FileAccessor.getAppToken();
+                            String myMobile = MyApplication.instance.getVisitorId();
+                            String pass = "";
+                            ClientUser clientUser = new ClientUser(myMobile);
+                            clientUser.setAppKey(appKey);
+                            clientUser.setAppToken(token);
+                            clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
+                            clientUser.setPassword(pass);
+                            CCPAppManager.setClientUser(clientUser);
+                            SDKCoreHelper.init(context, LoginMode.FORCE_LOGIN);
+                        }
 
                         finish();
                     } else {

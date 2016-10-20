@@ -730,9 +730,9 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             getCommunityList();
             return;
         }
-        // 若用户已登录，则初始化和登录云通讯账号
+        // 若用户已登录且手机号码不为空，则初始化和登录云通讯账号s
         if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo()
-                .getAccount())) {
+                .getMobile())) {
             String appKey = FileAccessor.getAppKey();
             String token = FileAccessor.getAppToken();
             String myMobile = MyApplication.instance.getUserInfo().getMobile();
