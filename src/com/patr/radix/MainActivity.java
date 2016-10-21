@@ -63,40 +63,19 @@ public class MainActivity extends FragmentActivity implements
 
     private KeyListAdapter2 adapter;
 
-    // private BroadcastReceiver receiver = new BroadcastReceiver() {
-    //
-    // @Override
-    // public void onReceive(Context context, Intent intent) {
-    // String action = intent.getAction();
-    // Log.i("MainActivity", action);
-    // if (Constants.ACTION_RELEASE_CALL.equals(action)) {
-    // final String callNumber = intent.getStringExtra("callNumber");
-    // MsgDialog.show(mContext, "提示", "您收到开门申请，请选择", "立即开门", "发送钥匙",
-    // "取消", new OnClickListener() {
-    //
-    // @Override
-    // public void onClick(View v) {
-    // // 立即开门
-    // Intent intent = new Intent(mContext, MyKeysActivity.class);
-    // intent.putExtra("remoteOpenDoor", true);
-    // mContext.startActivity(intent);
-    // }
-    // }, new OnClickListener() {
-    //
-    // @Override
-    // public void onClick(View v) {
-    // MyKeysActivity.startAfterIM(MainActivity.this,
-    // callNumber);
-    // }
-    // }, new OnClickListener() {
-    //
-    // @Override
-    // public void onClick(View v) {
-    // }
-    // });
-    // }
-    // }
-    // };
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            Log.i("MainActivity", action);
+            if ("actionClearPersonMessage".equals(action)) {
+                View view = tabHost.getTabWidget().getChildAt(2);
+                TextView badge = (TextView) view.findViewById(R.id.badge);
+                badge.setVisibility(View.GONE);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +114,7 @@ public class MainActivity extends FragmentActivity implements
         tabHost.getTabWidget().setDividerDrawable(null);
         tabHost.setOnTabChangedListener(this);
         initTab();
-        // registerReceiver();
+        registerReceiver();
         adapter = new KeyListAdapter2(this, MyApplication.instance.getLocks());
 
         // 云通讯初始化
@@ -273,11 +252,11 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
-    // private void registerReceiver() {
-    // IntentFilter filter = new IntentFilter();
-    // filter.addAction(Constants.ACTION_RELEASE_CALL);
-    // registerReceiver(receiver, filter);
-    // }
+    private void registerReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("actionClearPersonMessage");
+        registerReceiver(receiver, filter);
+    }
 
     /**
      * 保存当前的聊天界面所对应的联系人、方便来消息屏蔽通知
@@ -311,24 +290,27 @@ public class MainActivity extends FragmentActivity implements
                 .build();// 开始构建
         ImageLoader.getInstance().init(config);
     }
-    
-    private void updateBadge() {
-        ServiceManager.queryPersonMessage(1, new RequestListener<QueryPersonMessageResult>() {
 
-            @Override
-            public void onSuccess(int stateCode, QueryPersonMessageResult result) {
-                if (result != null && result.isSuccesses()) {
-                    View view = tabHost.getTabWidget().getChildAt(2);
-                    TextView badge = (TextView) view.findViewById(R.id.badge);
-                    if (result.getTotalCount() > 0) {
-                        badge.setText("" + result.getTotalCount());
-                        badge.setVisibility(View.VISIBLE);
-                    } else {
-                        badge.setVisibility(View.GONE);
+    private void updateBadge() {
+        ServiceManager.queryPersonMessage(1,
+                new RequestListener<QueryPersonMessageResult>() {
+
+                    @Override
+                    public void onSuccess(int stateCode,
+                            QueryPersonMessageResult result) {
+                        if (result != null && result.isSuccesses()) {
+                            View view = tabHost.getTabWidget().getChildAt(2);
+                            TextView badge = (TextView) view
+                                    .findViewById(R.id.badge);
+                            if (result.getTotalCount() > 0) {
+                                badge.setText("" + result.getTotalCount());
+                                badge.setVisibility(View.VISIBLE);
+                            } else {
+                                badge.setVisibility(View.GONE);
+                            }
+                        }
                     }
-                }
-            }
-        });
+                });
     }
 
     @Override
@@ -346,7 +328,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // unregisterReceiver(receiver);
+        unregisterReceiver(receiver);
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter
                 .getDefaultAdapter();
 
