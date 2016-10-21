@@ -27,8 +27,19 @@
             android:layout_marginTop="3dp"
             android:textSize="10sp" />
     </LinearLayout>
+    
+    <ImageView
+        android:id="@+id/badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/tab_ll"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="-3dp"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/icon_update_point"
+        android:visibility="gone" />
 
-    <TextView
+    <!-- <TextView
         android:id="@+id/badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,6 +53,6 @@
         android:singleLine="true"
         android:textColor="@color/white"
         android:textSize="10sp"
-        android:visibility="gone" />
+        android:visibility="gone" /> -->
 
 </RelativeLayout>

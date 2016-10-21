@@ -71,7 +71,7 @@ public class MainActivity extends FragmentActivity implements
             Log.i("MainActivity", action);
             if ("actionClearPersonMessage".equals(action)) {
                 View view = tabHost.getTabWidget().getChildAt(2);
-                TextView badge = (TextView) view.findViewById(R.id.badge);
+                ImageView badge = (ImageView) view.findViewById(R.id.badge);
                 badge.setVisibility(View.GONE);
             }
         }
@@ -116,6 +116,7 @@ public class MainActivity extends FragmentActivity implements
         initTab();
         registerReceiver();
         adapter = new KeyListAdapter2(this, MyApplication.instance.getLocks());
+        updateBadge();
 
         // 云通讯初始化
         CCPAppManager.setContext(MyApplication.instance);
@@ -208,15 +209,7 @@ public class MainActivity extends FragmentActivity implements
         int defaultTab = 0;
         ImageView iv = (ImageView) view.findViewById(R.id.iv);
         TextView tv = (TextView) view.findViewById(R.id.tv);
-        TextView badge = (TextView) view.findViewById(R.id.badge);
         tv.setText(TabDb.getTabsTxt()[idx]);
-        // TODO 设置badge
-        // if (idx == 2) {
-        // badge.setText("99");
-        // badge.setVisibility(View.VISIBLE);
-        // } else {
-        // badge.setVisibility(View.GONE);
-        // }
         if (idx == defaultTab) {
             iv.setImageResource(TabDb.getTabsImgLight()[idx]);
             tv.setTextColor(getResources().getColor(
@@ -231,7 +224,6 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onTabChanged(String tabId) {
         updateTab();
-        updateBadge();
     }
 
     private void updateTab() {
@@ -300,10 +292,9 @@ public class MainActivity extends FragmentActivity implements
                             QueryPersonMessageResult result) {
                         if (result != null && result.isSuccesses()) {
                             View view = tabHost.getTabWidget().getChildAt(2);
-                            TextView badge = (TextView) view
+                            ImageView badge = (ImageView) view
                                     .findViewById(R.id.badge);
                             if (result.getTotalCount() > 0) {
-                                badge.setText("" + result.getTotalCount());
                                 badge.setVisibility(View.VISIBLE);
                             } else {
                                 badge.setVisibility(View.GONE);
@@ -316,13 +307,11 @@ public class MainActivity extends FragmentActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        updateBadge();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        XGPushManager.onActivityStoped(this);
     }
 
     @Override

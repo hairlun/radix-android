@@ -116,6 +116,7 @@ public class MessageFragment extends Fragment implements OnPageChangeListener,
         case R.id.private_message_rb:
             mPager.setCurrentItem(1);
             clearBtn.setVisibility(View.VISIBLE);
+            context.sendBroadcast(new Intent("actionClearPersonMessage"));
             break;
         default:
             break;
@@ -147,7 +148,6 @@ public class MessageFragment extends Fragment implements OnPageChangeListener,
                 if (result != null) {
                     ToastUtil.showShort(context, result.getRetinfo());
                     ((MessageView)mViews.get(1)).refresh();
-                    context.sendBroadcast(new Intent("actionClearPersonMessage"));
                 } else {
                     ToastUtil.showShort(context, R.string.connect_exception);
                 }
