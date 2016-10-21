@@ -58,40 +58,40 @@ public class MainActivity extends FragmentActivity implements
 
     private KeyListAdapter2 adapter;
 
-//    private BroadcastReceiver receiver = new BroadcastReceiver() {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            String action = intent.getAction();
-//            Log.i("MainActivity", action);
-//            if (Constants.ACTION_RELEASE_CALL.equals(action)) {
-//                final String callNumber = intent.getStringExtra("callNumber");
-//                MsgDialog.show(mContext, "提示", "您收到开门申请，请选择", "立即开门", "发送钥匙",
-//                        "取消", new OnClickListener() {
-//
-//                            @Override
-//                            public void onClick(View v) {
-//                                // 立即开门
-//                                Intent intent = new Intent(mContext, MyKeysActivity.class);
-//                                intent.putExtra("remoteOpenDoor", true);
-//                                mContext.startActivity(intent);
-//                            }
-//                        }, new OnClickListener() {
-//
-//                            @Override
-//                            public void onClick(View v) {
-//                                MyKeysActivity.startAfterIM(MainActivity.this,
-//                                        callNumber);
-//                            }
-//                        }, new OnClickListener() {
-//
-//                            @Override
-//                            public void onClick(View v) {
-//                            }
-//                        });
-//            }
-//        }
-//    };
+    // private BroadcastReceiver receiver = new BroadcastReceiver() {
+    //
+    // @Override
+    // public void onReceive(Context context, Intent intent) {
+    // String action = intent.getAction();
+    // Log.i("MainActivity", action);
+    // if (Constants.ACTION_RELEASE_CALL.equals(action)) {
+    // final String callNumber = intent.getStringExtra("callNumber");
+    // MsgDialog.show(mContext, "提示", "您收到开门申请，请选择", "立即开门", "发送钥匙",
+    // "取消", new OnClickListener() {
+    //
+    // @Override
+    // public void onClick(View v) {
+    // // 立即开门
+    // Intent intent = new Intent(mContext, MyKeysActivity.class);
+    // intent.putExtra("remoteOpenDoor", true);
+    // mContext.startActivity(intent);
+    // }
+    // }, new OnClickListener() {
+    //
+    // @Override
+    // public void onClick(View v) {
+    // MyKeysActivity.startAfterIM(MainActivity.this,
+    // callNumber);
+    // }
+    // }, new OnClickListener() {
+    //
+    // @Override
+    // public void onClick(View v) {
+    // }
+    // });
+    // }
+    // }
+    // };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,13 +100,14 @@ public class MainActivity extends FragmentActivity implements
         mContext = this;
         Intent intent = getIntent();
         if (intent.getBooleanExtra("visitorCall", false)) {
-            MsgDialog.show(mContext, "提示", "您收到开门申请，请选择", "立即开门", "发送钥匙",
-                    "取消", new OnClickListener() {
+            MsgDialog.show(mContext, "提示", "您收到开门申请，请选择", "立即开门", "发送钥匙", "取消",
+                    new OnClickListener() {
 
                         @Override
                         public void onClick(View v) {
                             // 立即开门
-                            Intent intent = new Intent(mContext, MyKeysActivity.class);
+                            Intent intent = new Intent(mContext,
+                                    MyKeysActivity.class);
                             intent.putExtra("remoteOpenDoor", true);
                             mContext.startActivity(intent);
                         }
@@ -129,7 +130,7 @@ public class MainActivity extends FragmentActivity implements
         tabHost.getTabWidget().setDividerDrawable(null);
         tabHost.setOnTabChangedListener(this);
         initTab();
-//        registerReceiver();
+        // registerReceiver();
         adapter = new KeyListAdapter2(this, MyApplication.instance.getLocks());
 
         // 云通讯初始化
@@ -141,30 +142,68 @@ public class MainActivity extends FragmentActivity implements
         ECContentObservers.getInstance().initContentObserver();
         CrashHandler.getInstance().setContext(this);
 
+        XGPushConfig.enableDebug(this, MyApplication.DEBUG);
         if (PrefUtil.getBoolean(this, Constants.PREF_PUSH_SWITCH, true)) {
             // 信鸽注册
             // 开启logcat输出，方便debug，发布时请关闭
-            XGPushConfig.enableDebug(this, MyApplication.DEBUG);
             // 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
             // XGIOperateCallback)带callback版本
             // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
             // 具体可参考详细的开发指南
             // 传递的参数为ApplicationContext
-            Context context = getApplicationContext();
-            XGPushManager.registerPush(context, new XGIOperateCallback() {
-    
-                @Override
-                public void onSuccess(Object data, int flag) {
-                    Log.d("TPush", "注册成功，设备token为：" + data);
-                    // 保存pushToken到本地
-                    MyApplication.instance.setPushToken((String) data);
-                }
-    
-                @Override
-                public void onFail(Object data, int errCode, String msg) {
-                    Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
-                }
-            });
+            final Context context = getApplicationContext();
+            XGPushManager.unregisterPush(getApplicationContext(),
+                    new XGIOperateCallback() {
+                        @Override
+                        public void onSuccess(Object data, int flag) {
+                            XGPushManager.registerPush(context,
+                                    new XGIOperateCallback() {
+
+                                        @Override
+                                        public void onSuccess(Object data,
+                                                int flag) {
+                                            Log.d("TPush", "注册成功，设备token为："
+                                                    + data);
+                                            // 保存pushToken到本地
+                                            MyApplication.instance
+                                                    .setPushToken((String) data);
+                                        }
+
+                                        @Override
+                                        public void onFail(Object data,
+                                                int errCode, String msg) {
+                                            Log.d("TPush", "注册失败，错误码："
+                                                    + errCode + ",错误信息：" + msg);
+                                        }
+                                    });
+                        }
+
+                        @Override
+                        public void onFail(Object data, int errCode, String msg) {
+                            Log.d("TPush", "反注册失败，错误码：" + errCode + ",错误信息："
+                                    + msg);
+                            XGPushManager.registerPush(context,
+                                    new XGIOperateCallback() {
+
+                                        @Override
+                                        public void onSuccess(Object data,
+                                                int flag) {
+                                            Log.d("TPush", "注册成功，设备token为："
+                                                    + data);
+                                            // 保存pushToken到本地
+                                            MyApplication.instance
+                                                    .setPushToken((String) data);
+                                        }
+
+                                        @Override
+                                        public void onFail(Object data,
+                                                int errCode, String msg) {
+                                            Log.d("TPush", "注册失败，错误码："
+                                                    + errCode + ",错误信息：" + msg);
+                                        }
+                                    });
+                        }
+                    });
         }
     }
 
@@ -229,11 +268,11 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
-//    private void registerReceiver() {
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction(Constants.ACTION_RELEASE_CALL);
-//        registerReceiver(receiver, filter);
-//    }
+    // private void registerReceiver() {
+    // IntentFilter filter = new IntentFilter();
+    // filter.addAction(Constants.ACTION_RELEASE_CALL);
+    // registerReceiver(receiver, filter);
+    // }
 
     /**
      * 保存当前的聊天界面所对应的联系人、方便来消息屏蔽通知
@@ -271,7 +310,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        unregisterReceiver(receiver);
+        // unregisterReceiver(receiver);
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter
                 .getDefaultAdapter();
 

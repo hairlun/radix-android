@@ -19,11 +19,14 @@ import com.patr.radix.ui.view.dialog.MsgDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog.BtnType;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.PrefUtil;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushManager;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -130,6 +133,52 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
         refresh();
     }
 
+    @Override
+    protected void onDestroy() {
+        boolean oldPushEnabled = PrefUtil.getBoolean(context, Constants.PREF_PUSH_SWITCH, true);
+        if (oldPushEnabled != pushEnabled) {
+            if (pushEnabled) {
+                XGPushManager.registerPush(context,
+                        new XGIOperateCallback() {
+
+                            @Override
+                            public void onSuccess(Object data,
+                                    int flag) {
+                                Log.d("TPush", "注册成功，设备token为："
+                                        + data);
+                                // 保存pushToken到本地
+                                MyApplication.instance
+                                        .setPushToken((String) data);
+                            }
+
+                            @Override
+                            public void onFail(Object data,
+                                    int errCode, String msg) {
+                                Log.d("TPush", "注册失败，错误码："
+                                        + errCode + ",错误信息：" + msg);
+                            }
+                        });
+            } else {
+                XGPushManager.unregisterPush(getApplicationContext(),
+                        new XGIOperateCallback() {
+                            @Override
+                            public void onSuccess(Object data, int flag) {
+                                Log.d("TPush", "反注册成功");
+                            }
+
+                            @Override
+                            public void onFail(Object data, int errCode, String msg) {
+                                Log.d("TPush", "反注册失败，错误码：" + errCode + ",错误信息："
+                                        + msg);
+                            }
+                });
+            }
+        }
+        PrefUtil.save(context, Constants.PREF_PUSH_SWITCH, pushEnabled);
+        PrefUtil.save(context, Constants.PREF_SHAKE_SWITCH, shakeEnabled);
+        super.onDestroy();
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -140,7 +189,6 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
         switch (v.getId()) {
         case R.id.push_ll:
             pushEnabled = !pushEnabled;
-            PrefUtil.save(context, Constants.PREF_PUSH_SWITCH, pushEnabled);
             if (pushEnabled) {
                 pushSwitchIv.setImageResource(R.drawable.switch_on);
             } else {
@@ -150,7 +198,6 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
 
         case R.id.shake_ll:
             shakeEnabled = !shakeEnabled;
-            PrefUtil.save(context, Constants.PREF_SHAKE_SWITCH, shakeEnabled);
             if (shakeEnabled) {
                 shakeSwitchIv.setImageResource(R.drawable.switch_on);
             } else {
