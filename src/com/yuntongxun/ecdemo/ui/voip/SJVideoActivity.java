@@ -1,5 +1,6 @@
 package com.yuntongxun.ecdemo.ui.voip;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.patr.radix.MainActivity;
 import com.patr.radix.MyApplication;
 import com.patr.radix.R;
 import com.patr.radix.bean.UserInfo;
@@ -43,12 +45,14 @@ import com.yuntongxun.ecsdk.voip.video.OnCameraInitListener;
 public class SJVideoActivity extends ECVoIPBaseActivity implements View.OnClickListener{
 
     private static final String TAG = "SJVideoActivity";
+    private Context mContext;
     private static long lastClickTime;
     private Button mVideoStop;
     private Button mVideoBegin;
     private Button mVideoCancle;
     private ImageView mVideoIcon;
     private RelativeLayout mVideoTipsLy;
+    private Button unlockBtn;
     private ImageView mDiaerpadBtn;
     public LinearLayout daiLayout;
 
@@ -77,7 +81,7 @@ public class SJVideoActivity extends ECVoIPBaseActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mContext = this;
         initVideoLayout();
         isCreated=true;
     }
@@ -100,12 +104,14 @@ public class SJVideoActivity extends ECVoIPBaseActivity implements View.OnClickL
         if(!mIncomingCall) {
             mVideoTopTips.setText(R.string.ec_voip_call_connecting_server);
             mCallId = VoIPCallHelper.makeCall(mCallType, mCallNumber);
+            unlockBtn.setVisibility(View.GONE);
         } else {
             mVideoCancle.setVisibility(View.GONE);
             mVideoTipsLy.setVisibility(View.VISIBLE);
             mVideoBegin.setVisibility(View.VISIBLE);
             mVideoTopTips.setText((mCallName == null ? mCallNumber : mCallName) + getString(R.string.ec_voip_invited_video_tip));
             mVideoTopTips.setVisibility(View.VISIBLE);
+            unlockBtn.setVisibility(View.VISIBLE);
         }
 
         if(mIncomingCall){
@@ -155,6 +161,8 @@ public class SJVideoActivity extends ECVoIPBaseActivity implements View.OnClickL
 
         mCallStatus = (TextView) findViewById(R.id.call_status);
         mCallStatus.setVisibility(View.GONE);
+        unlockBtn = (Button) findViewById(R.id.unlock_btn);
+        unlockBtn.setOnClickListener(this);
         // mVideoView.getHolder().setFixedSize(width, height);
 
         // SurfaceView localView = ViERenderer.CreateLocalRenderer(this);
@@ -331,10 +339,39 @@ public class SJVideoActivity extends ECVoIPBaseActivity implements View.OnClickL
             case R.id.layout_call_dialnum:
 				setDialerpadUI();
 				break;
+            case R.id.unlock_btn:
+                showUnlockDialog();
+                break;
             default:
             	onKeyBordClick(v.getId());
                 break;
         }
+    }
+    
+    private void showUnlockDialog() {
+        MsgDialog.show(mContext, "提示", "您收到开门申请，请选择", "立即开门", "发送钥匙", "取消",
+                new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // 立即开门
+                        Intent intent = new Intent(mContext,
+                                MyKeysActivity.class);
+                        intent.putExtra("remoteOpenDoor", true);
+                        mContext.startActivity(intent);
+                    }
+                }, new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        MyKeysActivity.start(mContext);
+                    }
+                }, new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
     }
     
 	private void onKeyBordClick(int id) {
