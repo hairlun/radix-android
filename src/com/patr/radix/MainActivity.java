@@ -12,7 +12,10 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.patr.radix.adapter.KeyListAdapter2;
+import com.patr.radix.bean.QueryPersonMessageResult;
 import com.patr.radix.ble.BluetoothLeService;
+import com.patr.radix.bll.ServiceManager;
+import com.patr.radix.network.RequestListener;
 import com.patr.radix.ui.unlock.MyKeysActivity;
 import com.patr.radix.ui.view.ListSelectDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog;
@@ -20,6 +23,7 @@ import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.TabDb;
 import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.yuntongxun.ecdemo.common.CCPAppManager;
@@ -48,6 +52,7 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TabWidget;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements
         OnTabChangeListener, OnItemClickListener {
@@ -247,7 +252,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onTabChanged(String tabId) {
         updateTab();
-
+        updateBadge();
     }
 
     private void updateTab() {
@@ -305,6 +310,37 @@ public class MainActivity extends FragmentActivity implements
                 // .writeDebugLogs() // Remove for release app
                 .build();// 开始构建
         ImageLoader.getInstance().init(config);
+    }
+    
+    private void updateBadge() {
+        ServiceManager.queryPersonMessage(1, new RequestListener<QueryPersonMessageResult>() {
+
+            @Override
+            public void onSuccess(int stateCode, QueryPersonMessageResult result) {
+                if (result != null && result.isSuccesses()) {
+                    View view = tabHost.getTabWidget().getChildAt(2);
+                    TextView badge = (TextView) view.findViewById(R.id.badge);
+                    if (result.getTotalCount() > 0) {
+                        badge.setText("" + result.getTotalCount());
+                        badge.setVisibility(View.VISIBLE);
+                    } else {
+                        badge.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateBadge();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        XGPushManager.onActivityStoped(this);
     }
 
     @Override

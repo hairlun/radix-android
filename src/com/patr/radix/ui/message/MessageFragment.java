@@ -14,6 +14,7 @@ import com.patr.radix.utils.ToastUtil;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -146,6 +147,7 @@ public class MessageFragment extends Fragment implements OnPageChangeListener,
                 if (result != null) {
                     ToastUtil.showShort(context, result.getRetinfo());
                     ((MessageView)mViews.get(1)).refresh();
+                    context.sendBroadcast(new Intent("actionClearPersonMessage"));
                 } else {
                     ToastUtil.showShort(context, R.string.connect_exception);
                 }

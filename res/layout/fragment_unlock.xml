@@ -9,7 +9,8 @@
         android:id="@+id/weather_rl"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:clickable="true" >
 
         <TextView
             android:id="@+id/area_label"

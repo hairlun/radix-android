@@ -1054,6 +1054,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.weather_detail_btn:
+        case R.id.weather_rl:
             context.startActivity(new Intent(context, WeatherActivity.class));
             break;
 
