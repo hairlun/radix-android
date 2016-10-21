@@ -64,7 +64,7 @@ public class Constants {
     public static final String PREF_SHAKE_SWITCH = "shakeSwitch";
     public static final String PREF_GOHOME_AFTER_SHARE = "gohomeAfterShare";
 
-    public static final String ACTION_RELEASE_CALL = "actionReleaseCall";
+    public static final String ACTION_RELEASE_CALL = "com.patr.radix.ACTION_RELEASE_CALL";
 
     /**
      * 密钥，用于加密缓存

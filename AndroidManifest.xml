@@ -171,6 +171,13 @@
         <service
             android:name="com.patr.radix.ble.BluetoothLeService"
             android:enabled="true" />
+        
+        <receiver
+            android:name="com.patr.radix.VisitorCallReceiver" >
+            <intent-filter>
+                <action android:name="com.patr.radix.ACTION_RELEASE_CALL" />
+            </intent-filter>
+        </receiver>
 
         <!-- Demo主程序路口 -->
         <activity

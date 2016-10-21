@@ -764,6 +764,10 @@ public class BluetoothLeService extends Service {
         if (device == null) {
             return;
         }
+        // 每次连接前，先关闭上一个连接
+        if (mBluetoothGatt != null) {
+            mBluetoothGatt.close();
+        }
         // We want to directly connect to the device, so we are setting the
         // autoConnect
         // parameter to false.

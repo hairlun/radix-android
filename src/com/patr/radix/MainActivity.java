@@ -58,53 +58,78 @@ public class MainActivity extends FragmentActivity implements
 
     private KeyListAdapter2 adapter;
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            Log.i("MainActivity", action);
-            if (Constants.ACTION_RELEASE_CALL.equals(action)) {
-                final String callNumber = intent.getStringExtra("callNumber");
-                MsgDialog.show(mContext, "提示", "您收到开门申请，请选择", "立即开门", "发送钥匙",
-                        "取消", new OnClickListener() {
-
-                            @Override
-                            public void onClick(View v) {
-                                // 立即开门
-                                Intent intent = new Intent(mContext, MyKeysActivity.class);
-                                intent.putExtra("remoteOpenDoor", true);
-                                mContext.startActivity(intent);
-                            }
-                        }, new OnClickListener() {
-
-                            @Override
-                            public void onClick(View v) {
-                                MyKeysActivity.startAfterIM(MainActivity.this,
-                                        callNumber);
-                            }
-                        }, new OnClickListener() {
-
-                            @Override
-                            public void onClick(View v) {
-                            }
-                        });
-            }
-        }
-    };
+//    private BroadcastReceiver receiver = new BroadcastReceiver() {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            String action = intent.getAction();
+//            Log.i("MainActivity", action);
+//            if (Constants.ACTION_RELEASE_CALL.equals(action)) {
+//                final String callNumber = intent.getStringExtra("callNumber");
+//                MsgDialog.show(mContext, "提示", "您收到开门申请，请选择", "立即开门", "发送钥匙",
+//                        "取消", new OnClickListener() {
+//
+//                            @Override
+//                            public void onClick(View v) {
+//                                // 立即开门
+//                                Intent intent = new Intent(mContext, MyKeysActivity.class);
+//                                intent.putExtra("remoteOpenDoor", true);
+//                                mContext.startActivity(intent);
+//                            }
+//                        }, new OnClickListener() {
+//
+//                            @Override
+//                            public void onClick(View v) {
+//                                MyKeysActivity.startAfterIM(MainActivity.this,
+//                                        callNumber);
+//                            }
+//                        }, new OnClickListener() {
+//
+//                            @Override
+//                            public void onClick(View v) {
+//                            }
+//                        });
+//            }
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = this;
+        Intent intent = getIntent();
+        if (intent.getBooleanExtra("visitorCall", false)) {
+            MsgDialog.show(mContext, "提示", "您收到开门申请，请选择", "立即开门", "发送钥匙",
+                    "取消", new OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            // 立即开门
+                            Intent intent = new Intent(mContext, MyKeysActivity.class);
+                            intent.putExtra("remoteOpenDoor", true);
+                            mContext.startActivity(intent);
+                        }
+                    }, new OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            MyKeysActivity.start(MainActivity.this);
+                        }
+                    }, new OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                        }
+                    });
+        }
         tabHost = (FragmentTabHost) super.findViewById(android.R.id.tabhost);
         tabHost.setup(this, super.getSupportFragmentManager(),
                 R.id.contentLayout);
         tabHost.getTabWidget().setDividerDrawable(null);
         tabHost.setOnTabChangedListener(this);
         initTab();
-        registerReceiver();
+//        registerReceiver();
         adapter = new KeyListAdapter2(this, MyApplication.instance.getLocks());
 
         // 云通讯初始化
@@ -204,11 +229,11 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
-    private void registerReceiver() {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Constants.ACTION_RELEASE_CALL);
-        registerReceiver(receiver, filter);
-    }
+//    private void registerReceiver() {
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction(Constants.ACTION_RELEASE_CALL);
+//        registerReceiver(receiver, filter);
+//    }
 
     /**
      * 保存当前的聊天界面所对应的联系人、方便来消息屏蔽通知
@@ -246,7 +271,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(receiver);
+//        unregisterReceiver(receiver);
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter
                 .getDefaultAdapter();
 
