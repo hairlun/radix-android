@@ -70,6 +70,7 @@ public class MainActivity extends FragmentActivity implements
             String action = intent.getAction();
             Log.i("MainActivity", action);
             if ("actionClearPersonMessage".equals(action)) {
+                MyApplication.instance.setBadge(0);
                 View view = tabHost.getTabWidget().getChildAt(2);
                 ImageView badge = (ImageView) view.findViewById(R.id.badge);
                 badge.setVisibility(View.GONE);
@@ -284,24 +285,13 @@ public class MainActivity extends FragmentActivity implements
     }
 
     private void updateBadge() {
-        ServiceManager.queryPersonMessage(1,
-                new RequestListener<QueryPersonMessageResult>() {
-
-                    @Override
-                    public void onSuccess(int stateCode,
-                            QueryPersonMessageResult result) {
-                        if (result != null && result.isSuccesses()) {
-                            View view = tabHost.getTabWidget().getChildAt(2);
-                            ImageView badge = (ImageView) view
-                                    .findViewById(R.id.badge);
-                            if (result.getTotalCount() > 0) {
-                                badge.setVisibility(View.VISIBLE);
-                            } else {
-                                badge.setVisibility(View.GONE);
-                            }
-                        }
-                    }
-                });
+        View view = tabHost.getTabWidget().getChildAt(2);
+        ImageView badge = (ImageView) view.findViewById(R.id.badge);
+        if (MyApplication.instance.getBadge() > 0) {
+            badge.setVisibility(View.VISIBLE);
+        } else {
+            badge.setVisibility(View.GONE);
+        }
     }
 
     @Override
