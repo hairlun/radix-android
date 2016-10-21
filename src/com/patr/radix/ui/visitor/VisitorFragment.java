@@ -159,18 +159,18 @@ public class VisitorFragment extends Fragment implements OnClickListener,
                                 VisitorFragment.this);
                         saveUserListToDb(result.getResponse());
                     } else {
-                        ToastUtil.showShort(context, result.getRetinfo());
+//                        ToastUtil.showShort(context, result.getRetinfo());
                         getUserListFromCache();
                     }
                 } else {
-                    ToastUtil.showShort(context, R.string.connect_exception);
+//                    ToastUtil.showShort(context, R.string.connect_exception);
                     getUserListFromCache();
                 }
             }
 
             @Override
             public void onFailure(Exception error, String content) {
-                ToastUtil.showShort(context, R.string.connect_exception);
+//                ToastUtil.showShort(context, R.string.connect_exception);
                 getUserListFromCache();
             }
 

@@ -128,69 +128,46 @@ public class MainActivity extends FragmentActivity implements
         ECContentObservers.getInstance().initContentObserver();
         CrashHandler.getInstance().setContext(this);
 
+        // 信鸽注册
+        // 开启logcat输出，方便debug，发布时请关闭
+        // 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
+        // XGIOperateCallback)带callback版本
+        // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
+        // 具体可参考详细的开发指南
+        // 传递的参数为ApplicationContext
         XGPushConfig.enableDebug(this, MyApplication.DEBUG);
-        if (PrefUtil.getBoolean(this, Constants.PREF_PUSH_SWITCH, true)) {
-            // 信鸽注册
-            // 开启logcat输出，方便debug，发布时请关闭
-            // 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),
-            // XGIOperateCallback)带callback版本
-            // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
-            // 具体可参考详细的开发指南
-            // 传递的参数为ApplicationContext
-            final Context context = getApplicationContext();
-            XGPushManager.unregisterPush(getApplicationContext(),
-                    new XGIOperateCallback() {
-                        @Override
-                        public void onSuccess(Object data, int flag) {
-                            XGPushManager.registerPush(context,
-                                    new XGIOperateCallback() {
+        final Context context = getApplicationContext();
+        XGPushManager.registerPush(this, new XGIOperateCallback() {
 
-                                        @Override
-                                        public void onSuccess(Object data,
-                                                int flag) {
-                                            Log.d("TPush", "注册成功，设备token为："
-                                                    + data);
-                                            // 保存pushToken到本地
-                                            MyApplication.instance
-                                                    .setPushToken((String) data);
-                                        }
+            @Override
+            public void onSuccess(Object data, int flag) {
+                Log.d("TPush", "注册成功，设备token为：" + data);
+                // 保存pushToken到本地
+                MyApplication.instance.setPushToken((String) data);
+                if (!PrefUtil.getBoolean(context, Constants.PREF_PUSH_SWITCH,
+                        true)) {
+                    XGPushManager.unregisterPush(getApplicationContext(),
+                            new XGIOperateCallback() {
+                                @Override
+                                public void onSuccess(Object data, int flag) {
+                                    Log.d("TPush", "反注册成功");
+                                }
 
-                                        @Override
-                                        public void onFail(Object data,
-                                                int errCode, String msg) {
-                                            Log.d("TPush", "注册失败，错误码："
-                                                    + errCode + ",错误信息：" + msg);
-                                        }
-                                    });
-                        }
+                                @Override
+                                public void onFail(Object data, int errCode,
+                                        String msg) {
+                                    Log.d("TPush", "反注册失败，错误码：" + errCode
+                                            + ",错误信息：" + msg);
+                                }
+                            });
+                }
+            }
 
-                        @Override
-                        public void onFail(Object data, int errCode, String msg) {
-                            Log.d("TPush", "反注册失败，错误码：" + errCode + ",错误信息："
-                                    + msg);
-                            XGPushManager.registerPush(context,
-                                    new XGIOperateCallback() {
-
-                                        @Override
-                                        public void onSuccess(Object data,
-                                                int flag) {
-                                            Log.d("TPush", "注册成功，设备token为："
-                                                    + data);
-                                            // 保存pushToken到本地
-                                            MyApplication.instance
-                                                    .setPushToken((String) data);
-                                        }
-
-                                        @Override
-                                        public void onFail(Object data,
-                                                int errCode, String msg) {
-                                            Log.d("TPush", "注册失败，错误码："
-                                                    + errCode + ",错误信息：" + msg);
-                                        }
-                                    });
-                        }
-                    });
-        }
+            @Override
+            public void onFail(Object data, int errCode, String msg) {
+                Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+            }
+        });
     }
 
     private void initTab() {

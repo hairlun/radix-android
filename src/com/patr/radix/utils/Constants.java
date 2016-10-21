@@ -63,6 +63,7 @@ public class Constants {
     public static final String PREF_PUSH_SWITCH = "pushSwitch";
     public static final String PREF_SHAKE_SWITCH = "shakeSwitch";
     public static final String PREF_GOHOME_AFTER_SHARE = "gohomeAfterShare";
+    public static final String PREF_PUSH_TOKEN = "pushToken";
 
     public static final String ACTION_RELEASE_CALL = "com.patr.radix.ACTION_RELEASE_CALL";
 

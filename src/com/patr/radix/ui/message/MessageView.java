@@ -101,8 +101,8 @@ public class MessageView extends LinearLayout implements OnRefreshListener {
                                 }
                                 adapter.notifyDataSetChanged();
                             } else {
-                                ToastUtil.showShort(getContext(),
-                                        result.getRetinfo());
+//                                ToastUtil.showShort(getContext(),
+//                                        result.getRetinfo());
                             }
                         } else {
                             // ToastUtil.showShort(context,

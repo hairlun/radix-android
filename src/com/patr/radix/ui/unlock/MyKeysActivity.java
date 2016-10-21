@@ -126,7 +126,7 @@ public class MyKeysActivity extends Activity implements OnClickListener,
                         MyApplication.instance.setLocks(result.getLocks());
                         adapter.notifyDataSetChanged();
                     } else {
-                        ToastUtil.showShort(context, result.getRetinfo());
+//                        ToastUtil.showShort(context, result.getRetinfo());
                     }
                 } else {
                     ToastUtil.showShort(context, R.string.connect_exception);

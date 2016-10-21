@@ -771,7 +771,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 if (result.getErrorCode().equals("0")) {
                     refreshWeather(result);
                 } else {
-                    ToastUtil.showShort(context, result.getReason());
+//                    ToastUtil.showShort(context, result.getReason());
                 }
             }
 
@@ -850,8 +850,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                                 ListSelectDialog.show(context, "请选择小区",
                                         adapter, UnlockFragment.this);
                             } else {
-                                ToastUtil.showShort(context,
-                                        result.getRetinfo());
+//                                ToastUtil.showShort(context,
+//                                        result.getRetinfo());
                                 getCommunityListFromCache();
                             }
                         } else {
@@ -933,7 +933,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                             setSelectedKey();
                             refreshKey();
                         } else {
-                            ToastUtil.showShort(context, result.getRetinfo());
+//                            ToastUtil.showShort(context, result.getRetinfo());
                             getLockListFromCache();
                         }
                     } else {

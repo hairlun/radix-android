@@ -237,10 +237,10 @@ public class SettingsFragment extends Fragment implements OnClickListener,
                         PrefUtil.saveUserInfo(context, result.getUserInfo());
                         refresh();
                     } else {
-                        ToastUtil.showShort(context, result.getRetinfo());
+//                        ToastUtil.showShort(context, result.getRetinfo());
                     }
                 } else {
-                    ToastUtil.showShort(context, R.string.connect_exception);
+//                    ToastUtil.showShort(context, R.string.connect_exception);
                 }
                 loadingDialog.dismiss();
             }
@@ -319,21 +319,21 @@ public class SettingsFragment extends Fragment implements OnClickListener,
                                 ListSelectDialog.show(context, "请选择小区",
                                         adapter, SettingsFragment.this);
                             } else {
-                                ToastUtil.showShort(context,
-                                        result.getRetinfo());
+//                                ToastUtil.showShort(context,
+//                                        result.getRetinfo());
                                 getCommunityListFromCache();
                             }
                         } else {
-                            ToastUtil.showShort(context,
-                                    R.string.connect_exception);
+//                            ToastUtil.showShort(context,
+//                                    R.string.connect_exception);
                             getCommunityListFromCache();
                         }
                     }
 
                     @Override
                     public void onFailure(Exception error, String content) {
-                        ToastUtil
-                                .showShort(context, R.string.connect_exception);
+//                        ToastUtil
+//                                .showShort(context, R.string.connect_exception);
                         getCommunityListFromCache();
                     }
 
