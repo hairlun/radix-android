@@ -203,7 +203,7 @@
             android:id="@+id/unlock_btn"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_above="@id/video_call_in_ly"
+            android:above="@id/video_call_in_ly"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/unlock_btn_bg_selector"
