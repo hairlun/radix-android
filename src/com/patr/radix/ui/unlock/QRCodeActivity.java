@@ -15,6 +15,7 @@ import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.utils.BitmapUtil;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.PrefUtil;
+import com.yuntongxun.ecdemo.ui.voip.SJVideoActivity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -63,12 +64,15 @@ public class QRCodeActivity extends Activity implements OnClickListener,
     private Uri qrcodeUri;
 
     private ShareView areaPicView;
+    
+    private boolean isAfterIM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode);
         context = this;
+        isAfterIM = getIntent().getBooleanExtra("IM", false);
         bitmap = getIntent().getParcelableExtra("bitmap");
         initView();
     }
@@ -145,7 +149,12 @@ public class QRCodeActivity extends Activity implements OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.titlebar_close_btn:
-            Intent intent = new Intent(context, MainActivity.class);
+            Intent intent;
+            if (isAfterIM) {
+                intent = new Intent(context, SJVideoActivity.class);
+            } else {
+                intent = new Intent(context, MainActivity.class);
+            }
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
             break;
@@ -180,6 +189,13 @@ public class QRCodeActivity extends Activity implements OnClickListener,
 
     public static void start(Context context, Bitmap bitmap) {
         Intent intent = new Intent(context, QRCodeActivity.class);
+        intent.putExtra("bitmap", bitmap);
+        context.startActivity(intent);
+    }
+
+    public static void startAfterIM(Context context, Bitmap bitmap) {
+        Intent intent = new Intent(context, QRCodeActivity.class);
+        intent.putExtra("IM", true);
         intent.putExtra("bitmap", bitmap);
         context.startActivity(intent);
     }

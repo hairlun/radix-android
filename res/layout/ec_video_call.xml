@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            layout="@layout/ec_voip_dialerpad"/>
+            layout="@layout/ec_voip_dialerpad" />
 
         <ImageButton
             android:id="@+id/camera_switch"
@@ -58,7 +58,7 @@
             android:background="@null"
             android:src="@drawable/ec_voip_switch_camera"
             android:visibility="gone" />
-        
+
         <ImageButton
             android:id="@+id/layout_call_dialnum"
             android:layout_width="wrap_content"
@@ -198,19 +198,20 @@
                 android:textColor="@android:color/white"
                 android:textSize="19.0sp" />
         </RelativeLayout>
-    
-        <Button
-            android:id="@+id/unlock_btn"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:above="@id/video_call_in_ly"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/unlock_btn_bg_selector"
-            android:text="开门"
-            android:textColor="@android:color/white"
-            android:textSize="19sp"
-            android:visibility="gone" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/unlock_btn"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_above="@id/video_botton_ly"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/unlock_btn_bg_selector"
+        android:text="开门"
+        android:textColor="@android:color/white"
+        android:textSize="19sp"
+        android:visibility="gone" />
 
 </RelativeLayout>

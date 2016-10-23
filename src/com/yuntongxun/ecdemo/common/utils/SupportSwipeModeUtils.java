@@ -31,7 +31,7 @@ public class SupportSwipeModeUtils {
         }
 
         if(mode == 0) {
-            if(!CCPAppManager.getSharePreference().getBoolean("settings_support_swipe", true)) {
+            if(CCPAppManager.getSharePreference() == null || !CCPAppManager.getSharePreference().getBoolean("settings_support_swipe", true)) {
                 mode = 2;
             } else {
                 mode = 1;

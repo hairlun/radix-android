@@ -84,7 +84,8 @@
                 android:layout_marginLeft="3dp"
                 android:src="@drawable/send_key_btn_return"
                 android:scaleType="fitCenter"
-                android:clickable="true" />
+                android:clickable="true"
+                android:visibility="gone" />
             
         </LinearLayout>
     </LinearLayout>

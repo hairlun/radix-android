@@ -31,6 +31,7 @@ import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.utils.Utils;
 import com.patr.radix.utils.qrcode.QRCodeUtil;
 import com.yuntongxun.ecdemo.ui.chatting.IMChattingHelper;
+import com.yuntongxun.ecdemo.ui.voip.SJVideoActivity;
 import com.yuntongxun.ecsdk.ECMessage;
 import com.yuntongxun.ecsdk.im.ECTextMessageBody;
 
@@ -284,7 +285,7 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
             String text = new String(array, "ISO8859-1");
             Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(text, 300, 300);
             loadingDialog.dismiss();
-            QRCodeActivity.start(context, bitmap);
+            QRCodeActivity.startAfterIM(context, bitmap);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -305,7 +306,12 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
             showDatePickerDialog(1);
             break;
         case R.id.titlebar_close_btn:
-            Intent intent = new Intent(context, MainActivity.class);
+            Intent intent;
+            if (isAfterIM) {
+                intent = new Intent(context, SJVideoActivity.class);
+            } else {
+                intent = new Intent(context, MainActivity.class);
+            }
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
             break;

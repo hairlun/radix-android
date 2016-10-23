@@ -104,14 +104,12 @@ public class SJVideoActivity extends ECVoIPBaseActivity implements View.OnClickL
         if(!mIncomingCall) {
             mVideoTopTips.setText(R.string.ec_voip_call_connecting_server);
             mCallId = VoIPCallHelper.makeCall(mCallType, mCallNumber);
-            unlockBtn.setVisibility(View.GONE);
         } else {
             mVideoCancle.setVisibility(View.GONE);
             mVideoTipsLy.setVisibility(View.VISIBLE);
             mVideoBegin.setVisibility(View.VISIBLE);
             mVideoTopTips.setText((mCallName == null ? mCallNumber : mCallName) + getString(R.string.ec_voip_invited_video_tip));
             mVideoTopTips.setVisibility(View.VISIBLE);
-            unlockBtn.setVisibility(View.VISIBLE);
         }
 
         if(mIncomingCall){
@@ -192,6 +190,7 @@ public class SJVideoActivity extends ECVoIPBaseActivity implements View.OnClickL
         mChronometer.start();
         // mDiaerpadBtn.setVisibility(View.VISIBLE);
         mDiaerpadBtn.setEnabled(false);
+        unlockBtn.setVisibility(View.VISIBLE);
 
     }
     
