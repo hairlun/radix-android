@@ -15,7 +15,7 @@ import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.utils.BitmapUtil;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.PrefUtil;
-import com.yuntongxun.ecdemo.ui.voip.SJVideoActivity;
+import com.yuntongxun.ecdemo.ui.voip.VideoActivity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -151,7 +151,7 @@ public class QRCodeActivity extends Activity implements OnClickListener,
         case R.id.titlebar_close_btn:
             Intent intent;
             if (isAfterIM) {
-                intent = new Intent(context, SJVideoActivity.class);
+                intent = new Intent(context, VideoActivity.class);
             } else {
                 intent = new Intent(context, MainActivity.class);
             }

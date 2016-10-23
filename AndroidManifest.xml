@@ -28,15 +28,15 @@
     // SDK 权限申明, 第三方 APP 接入时，请将 com.yuntongxun.ecdemo 替换为自己的包名
     // 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。
     <permission
-        android:name="com.yuntongxun.ecdemo.permission.RECEIVE_MSG"
+        android:name="com.patr.radix.permission.RECEIVE_MSG"
         android:protectionLevel="signature" />
     <permission
-        android:name="com.yuntongxun.ecdemo.permission.INCOMING_CALL"
+        android:name="com.patr.radix.permission.INCOMING_CALL"
         android:protectionLevel="signature" />
     // 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.yuntongxun.ecdemo 替换为自己的包名
-    <uses-permission android:name="com.yuntongxun.ecdemo.permission.RECEIVE_MSG" />
+    <uses-permission android:name="com.patr.radix.permission.RECEIVE_MSG" />
     // 如果没有VOIP功能可以忽略
-    <uses-permission android:name="com.yuntongxun.ecdemo.permission.INCOMING_CALL" />
+    <uses-permission android:name="com.patr.radix.permission.INCOMING_CALL" />
 
     <!-- 允许一个程序获取信息有关当前或最近运行的任务，一个缩略的任务状态，是否活动等等(必选配置) -->
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -114,11 +114,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.mob.tools.MobUIShell"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name="com.patr.radix.LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -360,7 +355,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.yuntongxun.ecdemo.ui.voip.SJVideoActivity"
+            android:name="com.yuntongxun.ecdemo.ui.voip.VideoActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -478,11 +473,31 @@
 
         <!-- 微信分享页面 -->
         <activity
-            android:name=".ui.settings.WXEntryActivity"
+            android:name="com.yuntongxun.ecdemo.ui.settings.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+
+            <intent-filter>
+                <data android:scheme="tencent103425b1e7dc5" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- 调用新浪原生SDK，需要注册的回调activity -->
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <!-- 图片选择界面 -->
         <activity
             android:name="com.yuntongxun.ecdemo.photopicker.PhotoPickerActivity"
@@ -537,7 +552,7 @@
         // 如果没有VOIP功能可以忽略
         <!-- 需要权限声明 <uses-permission android:name="com.yuntongxun.ecdemo.permission.INCOMING_CALL"/> -->
         <receiver
-            android:name=".service.YuntxNotifyReceiver"
+            android:name="com.yuntongxun.ecdemo.service.YuntxNotifyReceiver"
             android:exported="false" >
             <intent-filter>
                 // 接收push消息
@@ -552,7 +567,7 @@
         </receiver>
         // *****************************ECSDK核心服务类 End*******************************************
         // 应用处理程序逻辑服务
-        <service android:name=".service.YuntxNotifyReceiver$NotifyService" />
+        <service android:name="com.yuntongxun.ecdemo.service.YuntxNotifyReceiver$NotifyService" />
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

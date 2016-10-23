@@ -31,7 +31,7 @@ import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.utils.Utils;
 import com.patr.radix.utils.qrcode.QRCodeUtil;
 import com.yuntongxun.ecdemo.ui.chatting.IMChattingHelper;
-import com.yuntongxun.ecdemo.ui.voip.SJVideoActivity;
+import com.yuntongxun.ecdemo.ui.voip.VideoActivity;
 import com.yuntongxun.ecsdk.ECMessage;
 import com.yuntongxun.ecsdk.im.ECTextMessageBody;
 
@@ -308,7 +308,7 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
         case R.id.titlebar_close_btn:
             Intent intent;
             if (isAfterIM) {
-                intent = new Intent(context, SJVideoActivity.class);
+                intent = new Intent(context, VideoActivity.class);
             } else {
                 intent = new Intent(context, MainActivity.class);
             }

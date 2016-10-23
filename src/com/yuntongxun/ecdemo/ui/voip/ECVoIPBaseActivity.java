@@ -136,7 +136,7 @@ public abstract class ECVoIPBaseActivity extends ECSuperActivity
 
         if(!VoIPCallHelper.mHandlerVideoCall && mCallType == ECVoIPCallManager.CallType.VIDEO) {
             VoIPCallHelper.mHandlerVideoCall = true;
-            Intent mVideoIntent = new Intent(this , SJVideoActivity.class);
+            Intent mVideoIntent = new Intent(this , VideoActivity.class);
             mVideoIntent.putExtras(getIntent().getExtras());
             mVideoIntent.putExtra(VoIPCallActivity.EXTRA_OUTGOING_CALL , false);
             startActivity(mVideoIntent);

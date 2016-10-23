@@ -42,7 +42,7 @@ import com.yuntongxun.ecsdk.voip.video.OnCameraInitListener;
  * Created by Jorstin on 2015/7/8.
  * Edited by Patrick on 2016/8/12.
  */
-public class SJVideoActivity extends ECVoIPBaseActivity implements View.OnClickListener{
+public class VideoActivity extends ECVoIPBaseActivity implements View.OnClickListener{
 
     private static final String TAG = "SJVideoActivity";
     private Context mContext;

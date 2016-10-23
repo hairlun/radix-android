@@ -47,7 +47,7 @@ import com.yuntongxun.ecdemo.ui.chatting.ImageGralleryPagerActivity;
 import com.yuntongxun.ecdemo.ui.chatting.ImageMsgInfoEntry;
 import com.yuntongxun.ecdemo.ui.chatting.ViewImageInfo;
 import com.yuntongxun.ecdemo.ui.chatting.view.ChatFooterPanel;
-import com.yuntongxun.ecdemo.ui.voip.SJVideoActivity;
+import com.yuntongxun.ecdemo.ui.voip.VideoActivity;
 import com.yuntongxun.ecdemo.ui.voip.VoIPCallActivity;
 import com.yuntongxun.ecdemo.ui.voip.VoIPCallHelper;
 import com.yuntongxun.ecsdk.ECDevice;
@@ -356,7 +356,7 @@ public class CCPAppManager {
         // VoIP呼叫
         Intent callAction = new Intent(ctx , VoIPCallActivity.class);
         if(callType == ECVoIPCallManager.CallType.VIDEO) {
-            callAction = new Intent(ctx , SJVideoActivity.class);
+            callAction = new Intent(ctx , VideoActivity.class);
             VoIPCallHelper.mHandlerVideoCall = true;
         } else {
             VoIPCallHelper.mHandlerVideoCall = false;
@@ -383,7 +383,7 @@ public class CCPAppManager {
         // VoIP呼叫
         Intent callAction = new Intent(ctx , VoIPCallActivity.class);
         if(callType == ECVoIPCallManager.CallType.VIDEO) {
-            callAction = new Intent(ctx , SJVideoActivity.class);
+            callAction = new Intent(ctx , VideoActivity.class);
             VoIPCallHelper.mHandlerVideoCall = true;
         } else {
             VoIPCallHelper.mHandlerVideoCall = false;
