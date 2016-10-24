@@ -166,7 +166,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                                     clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
                                     clientUser.setPassword(pass);
                                     CCPAppManager.setClientUser(clientUser);
-                                    SDKCoreHelper.init(context, LoginMode.FORCE_LOGIN);
+                                    SDKCoreHelper.init(getApplicationContext(), LoginMode.FORCE_LOGIN);
                                 }
                             }, 1500);
                         }
