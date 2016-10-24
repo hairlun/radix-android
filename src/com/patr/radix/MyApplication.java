@@ -8,6 +8,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.File;
+import java.io.InvalidClassException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,13 @@ import org.xutils.x;
 
 import cn.smssdk.SMSSDK;
 
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
@@ -31,6 +40,12 @@ import com.patr.radix.utils.PrefUtil;
 import com.tencent.android.tpush.XGNotifaction;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.XGPushNotifactionCallback;
+import com.yuntongxun.ecdemo.common.CCPAppManager;
+import com.yuntongxun.ecdemo.common.ECContentObservers;
+import com.yuntongxun.ecdemo.common.utils.CrashHandler;
+import com.yuntongxun.ecdemo.common.utils.ECPreferenceSettings;
+import com.yuntongxun.ecdemo.common.utils.ECPreferences;
+import com.yuntongxun.ecdemo.common.utils.FileAccessor;
 
 public class MyApplication extends Application {
 
@@ -61,6 +76,8 @@ public class MyApplication extends Application {
     private UserInfo userInfo = new UserInfo();
 
     private String visitorId;
+    
+    private String myMobile;
 
     private int badge = 0;
 
@@ -85,6 +102,18 @@ public class MyApplication extends Application {
         SMSSDK.initSDK(this, "17805a217c862",
                 "4489d28f7383f6b9eb6b697b3998a42d");
         setVisitorId(String.format("%s", System.currentTimeMillis()));
+        if (userInfo != null && !TextUtils.isEmpty(userInfo.getMobile())) {
+            myMobile = userInfo.getMobile();
+        } else {
+            myMobile = visitorId;
+        }
+
+        // 云通讯初始化
+        CCPAppManager.setContext(instance);
+        FileAccessor.initFileAccess();
+        setChattingContactId();
+        initImageLoader();
+        CrashHandler.getInstance().init(this);
 
         // 在主进程设置信鸽相关的内容
         if (isMainProcess()) {
@@ -115,6 +144,39 @@ public class MyApplication extends Application {
                         }
                     });
         }
+    }
+
+    /**
+     * 保存当前的聊天界面所对应的联系人、方便来消息屏蔽通知
+     */
+    private void setChattingContactId() {
+        try {
+            ECPreferences.savePreference(
+                    ECPreferenceSettings.SETTING_CHATTING_CONTACTID, "", true);
+        } catch (InvalidClassException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initImageLoader() {
+        File cacheDir = StorageUtils.getOwnCacheDirectory(
+                getApplicationContext(), "ECSDK_Demo/image");
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                this).threadPoolSize(1)
+                // 线程池内加载的数量
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .memoryCache(new WeakMemoryCache())
+                // .denyCacheImageMultipleSizesInMemory()
+                .diskCacheFileNameGenerator(CCPAppManager.md5FileNameGenerator)
+                // 将保存的时候的URI名称用MD5 加密
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .diskCache(
+                        new UnlimitedDiscCache(cacheDir, null,
+                                CCPAppManager.md5FileNameGenerator))// 自定义缓存路径
+                .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+                // .writeDebugLogs() // Remove for release app
+                .build();// 开始构建
+        ImageLoader.getInstance().init(config);
     }
 
     public boolean isMainProcess() {
@@ -302,6 +364,14 @@ public class MyApplication extends Application {
 
     public void setBadge(int badge) {
         this.badge = badge;
+    }
+
+    public String getMyMobile() {
+        return myMobile;
+    }
+
+    public void setMyMobile(String myMobile) {
+        this.myMobile = myMobile;
     }
 
     public void clearCache() {

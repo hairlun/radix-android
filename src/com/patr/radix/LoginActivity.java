@@ -13,6 +13,7 @@ import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.common.utils.FileAccessor;
 import com.yuntongxun.ecdemo.core.ClientUser;
 import com.yuntongxun.ecdemo.ui.SDKCoreHelper;
+import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECInitParams.LoginAuthType;
 import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
 
@@ -20,6 +21,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,6 +44,8 @@ public class LoginActivity extends Activity implements OnClickListener {
     private Button loginBtn;
     
     private Button forgetPwdBtn;
+    
+    private Handler handler;
 
     private String account;
 
@@ -56,6 +60,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         setContentView(R.layout.activity_login);
         context = this;
         initView();
+        handler = new Handler();
     }
 
     private void initView() {
@@ -141,32 +146,29 @@ public class LoginActivity extends Activity implements OnClickListener {
                         MyApplication.instance
                                 .setUserInfo(result.getUserInfo());
                         PrefUtil.saveUserInfo(context, result.getUserInfo());
-                        // 若用户已登录且手机号码不为空，则初始化和登录云通讯账号
-                        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo()
-                                .getMobile())) {
-                            String appKey = FileAccessor.getAppKey();
-                            String token = FileAccessor.getAppToken();
-                            String myMobile = MyApplication.instance.getUserInfo().getMobile();
-                            String pass = "";
-                            ClientUser clientUser = new ClientUser(myMobile);
-                            clientUser.setAppKey(appKey);
-                            clientUser.setAppToken(token);
-                            clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
-                            clientUser.setPassword(pass);
-                            CCPAppManager.setClientUser(clientUser);
-                            SDKCoreHelper.init(context, LoginMode.FORCE_LOGIN);
-                        } else {
-                            String appKey = FileAccessor.getAppKey();
-                            String token = FileAccessor.getAppToken();
-                            String myMobile = MyApplication.instance.getVisitorId();
-                            String pass = "";
-                            ClientUser clientUser = new ClientUser(myMobile);
-                            clientUser.setAppKey(appKey);
-                            clientUser.setAppToken(token);
-                            clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
-                            clientUser.setPassword(pass);
-                            CCPAppManager.setClientUser(clientUser);
-                            SDKCoreHelper.init(context, LoginMode.FORCE_LOGIN);
+                        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getMobile())) {
+                            MyApplication.instance.setMyMobile(MyApplication.instance.getUserInfo().getMobile());
+                            // 注销云通讯
+                            CCPAppManager.setClientUser(null);
+                            ECDevice.unInitial();
+                            handler.postDelayed(new Runnable() {
+                                
+                                @Override
+                                public void run() {
+                                    // 若用户已登录且手机号码不为空，则初始化和登录云通讯账号
+                                    String appKey = FileAccessor.getAppKey();
+                                    String token = FileAccessor.getAppToken();
+                                    String myMobile = MyApplication.instance.getMyMobile();
+                                    String pass = "";
+                                    ClientUser clientUser = new ClientUser(myMobile);
+                                    clientUser.setAppKey(appKey);
+                                    clientUser.setAppToken(token);
+                                    clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
+                                    clientUser.setPassword(pass);
+                                    CCPAppManager.setClientUser(clientUser);
+                                    SDKCoreHelper.init(context, LoginMode.FORCE_LOGIN);
+                                }
+                            }, 1500);
                         }
 
                         finish();

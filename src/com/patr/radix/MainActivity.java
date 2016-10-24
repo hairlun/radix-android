@@ -118,13 +118,8 @@ public class MainActivity extends FragmentActivity implements
         registerReceiver();
         adapter = new KeyListAdapter2(this, MyApplication.instance.getLocks());
         updateBadge();
-
-        // 云通讯初始化
-        CCPAppManager.setContext(MyApplication.instance);
-        FileAccessor.initFileAccess();
-        setChattingContactId();
-        initImageLoader();
-        // CrashHandler.getInstance().init(MyApplication.instance);
+        
+        // 云通讯
         ECContentObservers.getInstance().initContentObserver();
         CrashHandler.getInstance().setContext(this);
 
@@ -226,39 +221,6 @@ public class MainActivity extends FragmentActivity implements
         IntentFilter filter = new IntentFilter();
         filter.addAction("actionClearPersonMessage");
         registerReceiver(receiver, filter);
-    }
-
-    /**
-     * 保存当前的聊天界面所对应的联系人、方便来消息屏蔽通知
-     */
-    private void setChattingContactId() {
-        try {
-            ECPreferences.savePreference(
-                    ECPreferenceSettings.SETTING_CHATTING_CONTACTID, "", true);
-        } catch (InvalidClassException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void initImageLoader() {
-        File cacheDir = StorageUtils.getOwnCacheDirectory(
-                getApplicationContext(), "ECSDK_Demo/image");
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-                this).threadPoolSize(1)
-                // 线程池内加载的数量
-                .threadPriority(Thread.NORM_PRIORITY - 2)
-                .memoryCache(new WeakMemoryCache())
-                // .denyCacheImageMultipleSizesInMemory()
-                .diskCacheFileNameGenerator(CCPAppManager.md5FileNameGenerator)
-                // 将保存的时候的URI名称用MD5 加密
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .diskCache(
-                        new UnlimitedDiscCache(cacheDir, null,
-                                CCPAppManager.md5FileNameGenerator))// 自定义缓存路径
-                .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-                // .writeDebugLogs() // Remove for release app
-                .build();// 开始构建
-        ImageLoader.getInstance().init(config);
     }
 
     private void updateBadge() {

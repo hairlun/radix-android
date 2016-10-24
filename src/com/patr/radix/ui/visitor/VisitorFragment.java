@@ -82,24 +82,11 @@ public class VisitorFragment extends Fragment implements OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
-        // 若用户已登录且手机号码不为空，则初始化和登录云通讯账号
-        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo()
-                .getMobile())) {
+        // 初始化和登录云通讯账号
+        if (!TextUtils.isEmpty(MyApplication.instance.getMyMobile())) {
             String appKey = FileAccessor.getAppKey();
             String token = FileAccessor.getAppToken();
-            String myMobile = MyApplication.instance.getUserInfo().getMobile();
-            String pass = "";
-            ClientUser clientUser = new ClientUser(myMobile);
-            clientUser.setAppKey(appKey);
-            clientUser.setAppToken(token);
-            clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
-            clientUser.setPassword(pass);
-            CCPAppManager.setClientUser(clientUser);
-            SDKCoreHelper.init(context, LoginMode.FORCE_LOGIN);
-        } else {
-            String appKey = FileAccessor.getAppKey();
-            String token = FileAccessor.getAppToken();
-            String myMobile = MyApplication.instance.getVisitorId();
+            String myMobile = MyApplication.instance.getMyMobile();
             String pass = "";
             ClientUser clientUser = new ClientUser(myMobile);
             clientUser.setAppKey(appKey);
