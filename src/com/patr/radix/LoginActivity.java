@@ -173,7 +173,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
                         finish();
                     } else {
-//                        ToastUtil.showLong(context, result.getRetinfo());
+                        ToastUtil.showLong(context, result.getRetinfo());
                     }
                 } else {
                     ToastUtil.showShort(context, R.string.connect_exception);

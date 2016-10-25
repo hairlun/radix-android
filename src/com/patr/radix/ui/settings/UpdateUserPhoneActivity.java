@@ -181,11 +181,21 @@ public class UpdateUserPhoneActivity extends Activity implements
 
                     @Override
                     public void onSuccess(int stateCode, RequestResult result) {
-                        ToastUtil.showShort(context, "成功！");
-                        loadingDialog.dismiss();
-                        MyApplication.instance.getUserInfo().setMobile(mobile);
-                        PrefUtil.save(context, Constants.PREF_MOBILE, mobile);
-                        finish();
+                        if (result != null) {
+                            if (result.isSuccesses()) {
+                                ToastUtil.showShort(context, "修改成功！");
+                                loadingDialog.dismiss();
+                                MyApplication.instance.getUserInfo().setMobile(mobile);
+                                PrefUtil.save(context, Constants.PREF_MOBILE, mobile);
+                                finish();
+                            } else {
+                                ToastUtil.showShort(context, result.getRetinfo());
+                                loadingDialog.dismiss();
+                            }
+                        } else {
+                            ToastUtil.showShort(context, R.string.connect_exception);
+                            loadingDialog.dismiss();
+                        }
                     }
 
                     @Override

@@ -191,7 +191,7 @@ public class VideoActivity extends ECVoIPBaseActivity implements View.OnClickLis
         mChronometer.start();
         // mDiaerpadBtn.setVisibility(View.VISIBLE);
         mDiaerpadBtn.setEnabled(false);
-        if (mIncomingCall) {
+        if (mIncomingCall && MyApplication.instance.getMyMobile().equals(MyApplication.instance.getUserInfo().getMobile())) {
             unlockBtn.setVisibility(View.VISIBLE);
         }
 

@@ -228,9 +228,12 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 
             @Override
             public void onSuccess(int stateCode, MobileUploadResult result) {
-                if (result.isSuccesses()) {
+                if (result != null && result.isSuccesses()) {
                     String userPic = result.getUserPic();
                     updateAvatar(userPic);
+                } else {
+                    ToastUtil.showShort(context, R.string.connect_exception);
+                    loadingDialog.dismiss();
                 }
             }
 
@@ -248,22 +251,27 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 
             @Override
             public void onSuccess(int stateCode, RequestResult result) {
-                String pic = userPic;
-                if (!TextUtils.isEmpty(userPic) && !userPic.startsWith("http")) {
-                    Community community = MyApplication.instance
-                            .getSelectedCommunity();
-                    if (userPic.contains("surpass")) {
-                        pic = String.format("%s:%s/%s", community.getHost(), community.getPort(),
-                            userPic);
-                    } else {
-                        pic = String.format("%s:%s/surpass/%s",
-                                community.getHost(), community.getPort(),
+                if (result != null && result.isSuccesses()) {
+                    String pic = userPic;
+                    if (!TextUtils.isEmpty(userPic) && !userPic.startsWith("http")) {
+                        Community community = MyApplication.instance
+                                .getSelectedCommunity();
+                        if (userPic.contains("surpass")) {
+                            pic = String.format("%s:%s/%s", community.getHost(), community.getPort(),
                                 userPic);
+                        } else {
+                            pic = String.format("%s:%s/surpass/%s",
+                                    community.getHost(), community.getPort(),
+                                    userPic);
+                        }
                     }
+                    MyApplication.instance.getUserInfo().setUserPic(pic);
+                    x.image().bind(avatarIv, pic);
+                    loadingDialog.dismiss();
+                } else {
+                    ToastUtil.showShort(context, R.string.connect_exception);
+                    loadingDialog.dismiss();
                 }
-                MyApplication.instance.getUserInfo().setUserPic(pic);
-                x.image().bind(avatarIv, pic);
-                loadingDialog.dismiss();
             }
 
             @Override
