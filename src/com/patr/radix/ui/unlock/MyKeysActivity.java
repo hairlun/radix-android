@@ -276,8 +276,12 @@ public class MyKeysActivity extends Activity implements OnClickListener,
                         public void onSuccess(int stateCode,
                                 RequestResult result) {
                             if (result != null) {
-                                ToastUtil.showShort(context,
-                                        result.getRetinfo());
+                                if (result.isSuccesses()) {
+                                    ToastUtil.showShort(context, "提交成功");
+                                } else {
+                                    ToastUtil.showShort(context,
+                                            result.getRetinfo());
+                                }
                             } else {
                                 ToastUtil.showShort(context,
                                         R.string.connect_exception);

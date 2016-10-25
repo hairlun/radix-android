@@ -44,7 +44,7 @@ import com.yuntongxun.ecsdk.voip.video.OnCameraInitListener;
  */
 public class VideoActivity extends ECVoIPBaseActivity implements View.OnClickListener{
 
-    private static final String TAG = "SJVideoActivity";
+    private static final String TAG = "VideoActivity";
     private Context mContext;
     private static long lastClickTime;
     private Button mVideoStop;
@@ -161,6 +161,7 @@ public class VideoActivity extends ECVoIPBaseActivity implements View.OnClickLis
         mCallStatus.setVisibility(View.GONE);
         unlockBtn = (Button) findViewById(R.id.unlock_btn);
         unlockBtn.setOnClickListener(this);
+        unlockBtn.setVisibility(View.GONE);
         // mVideoView.getHolder().setFixedSize(width, height);
 
         // SurfaceView localView = ViERenderer.CreateLocalRenderer(this);
@@ -190,7 +191,9 @@ public class VideoActivity extends ECVoIPBaseActivity implements View.OnClickLis
         mChronometer.start();
         // mDiaerpadBtn.setVisibility(View.VISIBLE);
         mDiaerpadBtn.setEnabled(false);
-        unlockBtn.setVisibility(View.VISIBLE);
+        if (mIncomingCall) {
+            unlockBtn.setVisibility(View.VISIBLE);
+        }
 
     }
     
