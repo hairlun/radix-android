@@ -146,12 +146,18 @@ public class MessageFragment extends Fragment implements OnPageChangeListener,
             @Override
             public void onSuccess(int stateCode, RequestResult result) {
                 if (result != null) {
-                    ToastUtil.showShort(context, result.getRetinfo());
-                    ((MessageView)mViews.get(1)).refresh();
+                    if (result.isSuccesses()) {
+                        ToastUtil.showShort(context, "删除成功");
+                        loadingDialog.dismiss();
+                        ((MessageView)mViews.get(1)).refresh();
+                    } else {
+                        ToastUtil.showShort(context, result.getRetinfo());
+                        loadingDialog.dismiss();
+                    }
                 } else {
                     ToastUtil.showShort(context, R.string.connect_exception);
+                    loadingDialog.dismiss();
                 }
-                loadingDialog.dismiss();
             }
 
             @Override

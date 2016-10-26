@@ -116,6 +116,7 @@ public class EditPwdActivity extends Activity implements OnClickListener {
                 if (result != null) {
                     if (result.isSuccesses()) {
                         ToastUtil.showShort(context, "修改成功！");
+                        finish();
                     } else {
                         ToastUtil.showShort(context, result.getRetinfo());
                     }
