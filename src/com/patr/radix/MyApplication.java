@@ -83,6 +83,8 @@ public class MyApplication extends Application {
 
     // 信鸽推送token
     private String pushToken;
+    
+    public static boolean firstRequest;
 
     public static MyApplication instance;
 
@@ -107,6 +109,7 @@ public class MyApplication extends Application {
         } else {
             myMobile = visitorId;
         }
+        firstRequest = true;
 
         // 云通讯初始化
         CCPAppManager.setContext(instance);

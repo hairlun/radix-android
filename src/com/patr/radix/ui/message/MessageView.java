@@ -9,6 +9,7 @@ package com.patr.radix.ui.message;
 import java.util.Currency;
 import java.util.List;
 
+import com.patr.radix.MyApplication;
 import com.patr.radix.R;
 import com.patr.radix.adapter.MessageListAdapter;
 import com.patr.radix.adapter.NoticeListAdapter;
@@ -24,6 +25,7 @@ import com.patr.radix.ui.view.swipe.SwipeRefreshLayoutDirection;
 import com.patr.radix.utils.ToastUtil;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +64,7 @@ public class MessageView extends LinearLayout implements OnRefreshListener {
         lv.setAdapter(adapter);
         swipe.setOnRefreshListener(this);
     }
-    
+
     public void refresh() {
         pageNum = 1;
         totalCount = 0;
@@ -71,57 +73,60 @@ public class MessageView extends LinearLayout implements OnRefreshListener {
     }
 
     private void loadData() {
-        // 从服务器获取个人消息列表
-        ServiceManager.queryPersonMessage(pageNum,
-                new RequestListener<QueryPersonMessageResult>() {
+        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getToken())) {
+            // 从服务器获取个人消息列表
+            ServiceManager.queryPersonMessage(pageNum,
+                    new RequestListener<QueryPersonMessageResult>() {
 
-                    @Override
-                    public void onStart() {
-                        swipe.post(new Runnable() {
+                        @Override
+                        public void onStart() {
+                            swipe.post(new Runnable() {
 
-                            @Override
-                            public void run() {
-                                swipe.setRefreshing(true);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onSuccess(int stateCode,
-                            QueryPersonMessageResult result) {
-                        if (result != null) {
-                            if (result.isSuccesses()) {
-                                List<PersonMessage> messages = result.getMessages();
-                                totalCount = result.getTotalCount();
-                                totalPage = result.getTotalPage();
-                                if (pageNum > 1) {
-                                    adapter.addAll(messages);
-                                } else {
-                                    adapter.set(messages);
+                                @Override
+                                public void run() {
+                                    swipe.setRefreshing(true);
                                 }
-                                adapter.notifyDataSetChanged();
+                            });
+                        }
+
+                        @Override
+                        public void onSuccess(int stateCode,
+                                QueryPersonMessageResult result) {
+                            if (result != null) {
+                                if (result.isSuccesses()) {
+                                    List<PersonMessage> messages = result
+                                            .getMessages();
+                                    totalCount = result.getTotalCount();
+                                    totalPage = result.getTotalPage();
+                                    if (pageNum > 1) {
+                                        adapter.addAll(messages);
+                                    } else {
+                                        adapter.set(messages);
+                                    }
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    // ToastUtil.showShort(getContext(),
+                                    // result.getRetinfo());
+                                }
                             } else {
-//                                ToastUtil.showShort(getContext(),
-//                                        result.getRetinfo());
+                                // ToastUtil.showShort(context,
+                                // R.string.connect_exception);
                             }
-                        } else {
+                        }
+
+                        @Override
+                        public void onFailure(Exception error, String content) {
                             // ToastUtil.showShort(context,
                             // R.string.connect_exception);
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Exception error, String content) {
-                        // ToastUtil.showShort(context,
-                        // R.string.connect_exception);
-                    }
+                        @Override
+                        public void onStopped() {
+                            swipe.setRefreshing(false);
+                        }
 
-                    @Override
-                    public void onStopped() {
-                        swipe.setRefreshing(false);
-                    }
-
-                });
+                    });
+        }
     }
 
     @Override

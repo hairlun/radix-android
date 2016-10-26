@@ -185,7 +185,8 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             break;
 
         case R.id.modify_userinfo_ll:
-            if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getAccount())) {
+            if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo()
+                    .getAccount())) {
                 intent = new Intent(context, EditUserInfoActivity.class);
                 context.startActivity(intent);
             } else {
@@ -196,7 +197,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             break;
 
         case R.id.share_ll:
-            shareMsg("请选择", "", "http://zsyuxindianzi.b2b.c-ps.net/", null);
+            shareMsg("请选择", "", "http://www.godgiftgame.com/page/f430a270354fdfde4b66c559f5140e68.html", null);
             break;
 
         case R.id.feedback_ll:
@@ -222,36 +223,44 @@ public class SettingsFragment extends Fragment implements OnClickListener,
     }
 
     private void getUserInfo() {
-        ServiceManager.queryMobileUserById(new RequestListener<LoginResult>() {
+        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getToken())) {
+            ServiceManager
+                    .queryMobileUserById(new RequestListener<LoginResult>() {
 
-            @Override
-            public void onStart() {
-                loadingDialog.show("正在加载…");
-            }
+                        @Override
+                        public void onStart() {
+                            loadingDialog.show("正在加载…");
+                        }
 
-            @Override
-            public void onSuccess(int stateCode, LoginResult result) {
-                if (result != null) {
-                    if (result.isSuccesses()) {
-                        MyApplication.instance.setUserInfo(result.getUserInfo());
-                        PrefUtil.saveUserInfo(context, result.getUserInfo());
-                        refresh();
-                    } else {
-//                        ToastUtil.showShort(context, result.getRetinfo());
-                    }
-                } else {
-//                    ToastUtil.showShort(context, R.string.connect_exception);
-                }
-                loadingDialog.dismiss();
-            }
+                        @Override
+                        public void onSuccess(int stateCode, LoginResult result) {
+                            if (result != null) {
+                                if (result.isSuccesses()) {
+                                    MyApplication.instance.setUserInfo(result
+                                            .getUserInfo());
+                                    PrefUtil.saveUserInfo(context,
+                                            result.getUserInfo());
+                                    refresh();
+                                } else {
+                                    // ToastUtil.showShort(context,
+                                    // result.getRetinfo());
+                                }
+                            } else {
+                                // ToastUtil.showShort(context,
+                                // R.string.connect_exception);
+                            }
+                            loadingDialog.dismiss();
+                        }
 
-            @Override
-            public void onFailure(Exception error, String content) {
-                ToastUtil.showShort(context, R.string.connect_exception);
-                loadingDialog.dismiss();
-            }
+                        @Override
+                        public void onFailure(Exception error, String content) {
+                            ToastUtil.showShort(context,
+                                    R.string.connect_exception);
+                            loadingDialog.dismiss();
+                        }
 
-        });
+                    });
+        }
     }
 
     public void shareMsg(String activityTitle, String msgTitle, String msgText,
@@ -319,21 +328,21 @@ public class SettingsFragment extends Fragment implements OnClickListener,
                                 ListSelectDialog.show(context, "请选择小区",
                                         adapter, SettingsFragment.this);
                             } else {
-//                                ToastUtil.showShort(context,
-//                                        result.getRetinfo());
+                                // ToastUtil.showShort(context,
+                                // result.getRetinfo());
                                 getCommunityListFromCache();
                             }
                         } else {
-//                            ToastUtil.showShort(context,
-//                                    R.string.connect_exception);
+                            // ToastUtil.showShort(context,
+                            // R.string.connect_exception);
                             getCommunityListFromCache();
                         }
                     }
 
                     @Override
                     public void onFailure(Exception error, String content) {
-//                        ToastUtil
-//                                .showShort(context, R.string.connect_exception);
+                        // ToastUtil
+                        // .showShort(context, R.string.connect_exception);
                         getCommunityListFromCache();
                     }
 

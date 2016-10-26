@@ -31,6 +31,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -104,47 +105,53 @@ public class MyKeysActivity extends Activity implements OnClickListener,
     }
 
     private void loadData() {
+        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getToken())) {
+            // 从服务器获取门禁钥匙列表
+            ServiceManager
+                    .getLockList(new RequestListener<GetLockListResult>() {
 
-        // 从服务器获取门禁钥匙列表
-        ServiceManager.getLockList(new RequestListener<GetLockListResult>() {
+                        @Override
+                        public void onStart() {
+                            swipe.post(new Runnable() {
 
-            @Override
-            public void onStart() {
-                swipe.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    swipe.setRefreshing(true);
+                                }
+                            });
+                        }
 
-                    @Override
-                    public void run() {
-                        swipe.setRefreshing(true);
-                    }
-                });
-            }
+                        @Override
+                        public void onSuccess(int stateCode,
+                                GetLockListResult result) {
+                            if (result != null) {
+                                if (result.isSuccesses()) {
+                                    MyApplication.instance.setLocks(result
+                                            .getLocks());
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    // ToastUtil.showShort(context,
+                                    // result.getRetinfo());
+                                }
+                            } else {
+                                ToastUtil.showShort(context,
+                                        R.string.connect_exception);
+                            }
+                        }
 
-            @Override
-            public void onSuccess(int stateCode, GetLockListResult result) {
-                if (result != null) {
-                    if (result.isSuccesses()) {
-                        MyApplication.instance.setLocks(result.getLocks());
-                        adapter.notifyDataSetChanged();
-                    } else {
-//                        ToastUtil.showShort(context, result.getRetinfo());
-                    }
-                } else {
-                    ToastUtil.showShort(context, R.string.connect_exception);
-                }
-            }
+                        @Override
+                        public void onFailure(Exception error, String content) {
+                            ToastUtil.showShort(context,
+                                    R.string.connect_exception);
+                        }
 
-            @Override
-            public void onFailure(Exception error, String content) {
-                ToastUtil.showShort(context, R.string.connect_exception);
-            }
+                        @Override
+                        public void onStopped() {
+                            swipe.setRefreshing(false);
+                        }
 
-            @Override
-            public void onStopped() {
-                swipe.setRefreshing(false);
-            }
-
-        });
-
+                    });
+        }
     }
 
     private void testData() {

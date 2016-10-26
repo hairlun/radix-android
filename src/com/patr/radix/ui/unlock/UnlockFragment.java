@@ -872,16 +872,21 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void getLockList() {
-        switch (NetUtils.getConnectedType(context)) {
-        case NONE:
-            getLockListFromCache();
-            break;
-        case WIFI:
-        case OTHER:
-            getLockListFromServer();
-            break;
-        default:
-            break;
+        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getToken())) {
+            switch (NetUtils.getConnectedType(context)) {
+            case NONE:
+                getLockListFromCache();
+                break;
+            case WIFI:
+            case OTHER:
+                getLockListFromServer();
+                break;
+            default:
+                break;
+            }
+        } else if (MyApplication.firstRequest) {
+            ToastUtil.showShort(context, "未登录，请先登录");
+            MyApplication.firstRequest = false;
         }
     }
 
