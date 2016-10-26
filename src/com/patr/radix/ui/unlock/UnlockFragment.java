@@ -237,7 +237,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 // statusTv.setText("");
                 LogUtil.d("连接已断开。");
                 if (isDisconnectForUnlock) {
-                    // BluetoothLeService.close();
+                    BluetoothLeService.close();
                     isUnlocking = false;
                     loadingDialog.dismiss();
                 }
