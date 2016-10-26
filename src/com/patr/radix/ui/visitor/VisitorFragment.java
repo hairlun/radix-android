@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -185,8 +186,15 @@ public class VisitorFragment extends Fragment implements OnClickListener,
         String mobile = null;
         switch (v.getId()) {
         case R.id.visitor_contact_btn:
-            startActivityForResult(new Intent(Intent.ACTION_PICK,
-                    ContactsContract.Contacts.CONTENT_URI), 0);
+            PackageManager pm = context.getPackageManager();  
+            boolean permission = (PackageManager.PERMISSION_GRANTED ==   
+                    pm.checkPermission("android.permission.READ_CONTACTS", "com.patr.radix"));  
+            if (permission) {  
+                startActivityForResult(new Intent(Intent.ACTION_PICK,
+                        ContactsContract.Contacts.CONTENT_URI), 0);
+            }else {  
+                ToastUtil.showShort(context, "没有读取通讯录权限！");
+            }  
             break;
         case R.id.visitor_btn:
             mobile = mobileEt.getText().toString().trim();
