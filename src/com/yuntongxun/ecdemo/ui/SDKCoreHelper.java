@@ -237,7 +237,7 @@ public class SDKCoreHelper implements ECDevice.InitListener , ECDevice.OnECDevic
             Intent intent = new Intent(ACTION_KICK_OFF);
             intent.putExtra("kickoffText" , error.errorMsg);
             mContext.sendBroadcast(intent);
-            LauncherActivity.mLauncherUI.handlerKickOff(error.errorMsg);
+            // LauncherActivity.mLauncherUI.handlerKickOff(error.errorMsg);
             ECNotificationManager.getInstance().showKickoffNotification(mContext ,error.errorMsg);
         }
         getInstance().mConnect = state;

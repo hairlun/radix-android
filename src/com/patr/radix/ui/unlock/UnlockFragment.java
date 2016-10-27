@@ -1128,7 +1128,15 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
                 @Override
                 public void run() {
-                    loadingDialog.show("正在开门…");
+                    loadingDialog.show("正在开门…", true);
+                    loadingDialog.setOnClickListener(new OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            BluetoothLeService.close();
+                            isUnlocking = false;
+                        }
+                    });
                 }
             });
         }
