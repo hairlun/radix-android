@@ -8,7 +8,7 @@ package com.patr.radix.ui.unlock;
 
 import org.xutils.x;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 
 import android.content.Context;
@@ -49,7 +49,7 @@ public class ShareView extends LinearLayout {
             iv.setImageBitmap(bitmap);
         } else {
             x.image().bind(iv,
-                    MyApplication.instance.getUserInfo().getAreaPic());
+                    App.instance.getUserInfo().getAreaPic());
         }
     }
 

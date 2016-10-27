@@ -14,7 +14,7 @@ package com.yuntongxun.ecdemo.ui.chatting;
 
 import android.content.Context;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.ui.SDKCoreHelper;
@@ -134,7 +134,7 @@ public class AppPanelControl {
 	 */
 	private Context getContext() {
 		if (mContext == null) {
-			mContext = MyApplication.instance.getApplicationContext();
+			mContext = App.instance.getApplicationContext();
 		}
 		return mContext;
 	}

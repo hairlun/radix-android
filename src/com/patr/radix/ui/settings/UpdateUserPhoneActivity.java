@@ -14,7 +14,7 @@ import org.xutils.common.util.LogUtil;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.patr.radix.bean.RequestResult;
 import com.patr.radix.bll.ServiceManager;
@@ -161,7 +161,7 @@ public class UpdateUserPhoneActivity extends Activity implements
             ToastUtil.showShort(context, "请输入验证码");
             return;
         }
-        SMSSDK.submitVerificationCode("86", MyApplication.instance
+        SMSSDK.submitVerificationCode("86", App.instance
                 .getUserInfo().getMobile(), code);
     }
 
@@ -185,7 +185,7 @@ public class UpdateUserPhoneActivity extends Activity implements
                             if (result.isSuccesses()) {
                                 ToastUtil.showShort(context, "修改成功！");
                                 loadingDialog.dismiss();
-                                MyApplication.instance.getUserInfo().setMobile(mobile);
+                                App.instance.getUserInfo().setMobile(mobile);
                                 PrefUtil.save(context, Constants.PREF_MOBILE, mobile);
                                 finish();
                             } else {
@@ -216,7 +216,7 @@ public class UpdateUserPhoneActivity extends Activity implements
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.verify_btn:
-            SMSSDK.getVerificationCode("86", MyApplication.instance
+            SMSSDK.getVerificationCode("86", App.instance
                     .getUserInfo().getMobile());
             countdown = RETRY_TIME;
             verifyBtn.setText("获取验证码(" + countdown + ")");

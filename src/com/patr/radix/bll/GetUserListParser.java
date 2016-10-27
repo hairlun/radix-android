@@ -10,7 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.GetUserListResult;
 import com.patr.radix.bean.RequestResult;
@@ -84,7 +84,7 @@ public class GetUserListParser extends AbsBaseParser<GetUserListResult> {
                                 userInfo.setMobile(mobile);
                                 userInfo.setHome(home);
                                 if (!areaPic.startsWith("http")) {
-                                    Community community = MyApplication.instance
+                                    Community community = App.instance
                                             .getSelectedCommunity();
                                     areaPic = String.format("%s:%s%s",
                                             community.getHost(),

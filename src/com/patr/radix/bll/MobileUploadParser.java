@@ -9,7 +9,7 @@ package com.patr.radix.bll;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.MobileUploadResult;
 import com.patr.radix.bean.RequestResult;

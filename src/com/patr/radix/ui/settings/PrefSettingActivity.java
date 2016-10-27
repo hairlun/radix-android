@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.patr.radix.LoginActivity;
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.patr.radix.bean.UserInfo;
 import com.patr.radix.ui.view.LoadingDialog;
@@ -121,10 +121,10 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
                     public void onClick(View v) {
                         loadingDialog.show("正在退出…");
                         UserInfo userInfo = new UserInfo();
-                        MyApplication.instance.setUserInfo(userInfo);
+                        App.instance.setUserInfo(userInfo);
                         PrefUtil.saveUserInfo(context, userInfo);
-                        MyApplication.instance.clearCache();
-                        MyApplication.instance.setMyMobile(MyApplication.instance.getVisitorId());
+                        App.instance.clearCache();
+                        App.instance.setMyMobile(App.instance.getVisitorId());
                         // 注销云通讯
                         CCPAppManager.setClientUser(null);
                         ECDevice.unInitial();
@@ -136,7 +136,7 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
                                 // 以访客id重新登录云通讯
                                 String appKey = FileAccessor.getAppKey();
                                 String token = FileAccessor.getAppToken();
-                                String myMobile = MyApplication.instance.getMyMobile();
+                                String myMobile = App.instance.getMyMobile();
                                 String pass = "";
                                 ClientUser clientUser = new ClientUser(myMobile);
                                 clientUser.setAppKey(appKey);
@@ -154,7 +154,7 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
     }
 
     private void refresh() {
-        if (TextUtils.isEmpty(MyApplication.instance.getUserInfo().getToken())) {
+        if (TextUtils.isEmpty(App.instance.getUserInfo().getToken())) {
             logoutBtn.setText("登录");
         } else {
             logoutBtn.setText("退出登录");
@@ -181,7 +181,7 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
                                 Log.d("TPush", "注册成功，设备token为："
                                         + data);
                                 // 保存pushToken到本地
-                                MyApplication.instance
+                                App.instance
                                         .setPushToken((String) data);
                             }
 
@@ -240,7 +240,7 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
             break;
 
         case R.id.logout_btn:
-            if (TextUtils.isEmpty(MyApplication.instance.getUserInfo()
+            if (TextUtils.isEmpty(App.instance.getUserInfo()
                     .getAccount())) {
                 login();
             } else {

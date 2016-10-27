@@ -9,7 +9,7 @@ package com.patr.radix.ui.message;
 import java.util.Currency;
 import java.util.List;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.patr.radix.adapter.MessageListAdapter;
 import com.patr.radix.adapter.NoticeListAdapter;
@@ -73,7 +73,7 @@ public class MessageView extends LinearLayout implements OnRefreshListener {
     }
 
     private void loadData() {
-        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getToken())) {
+        if (!TextUtils.isEmpty(App.instance.getUserInfo().getToken())) {
             // 从服务器获取个人消息列表
             ServiceManager.queryPersonMessage(pageNum,
                     new RequestListener<QueryPersonMessageResult>() {

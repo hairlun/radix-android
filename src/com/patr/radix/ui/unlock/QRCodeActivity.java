@@ -6,7 +6,7 @@ import java.util.List;
 import org.xutils.x;
 
 import com.patr.radix.MainActivity;
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.patr.radix.R.id;
 import com.patr.radix.R.layout;

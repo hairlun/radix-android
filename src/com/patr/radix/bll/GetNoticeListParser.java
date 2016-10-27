@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.GetNoticeListResult;
 import com.patr.radix.bean.Message;
@@ -65,7 +65,7 @@ public class GetNoticeListParser extends AbsBaseParser<GetNoticeListResult> {
                                 notice.setContent(content);
                                 notice.setReadTime(readTime);
                                 if (!TextUtils.isEmpty(imgUrl) && !imgUrl.startsWith("http")) {
-                                    Community community = MyApplication.instance
+                                    Community community = App.instance
                                             .getSelectedCommunity();
                                     imgUrl = String.format("%s:%s/%s",
                                             community.getHost(),

@@ -2,7 +2,7 @@ package com.patr.radix.ui.visitor;
 
 import org.xutils.common.util.LogUtil;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.patr.radix.adapter.UserListAdapter;
 import com.patr.radix.bean.GetUserListResult;
@@ -84,10 +84,10 @@ public class VisitorFragment extends Fragment implements OnClickListener,
     public void onResume() {
         super.onResume();
         // 初始化和登录云通讯账号
-        if (!TextUtils.isEmpty(MyApplication.instance.getMyMobile())) {
+        if (!TextUtils.isEmpty(App.instance.getMyMobile())) {
             String appKey = FileAccessor.getAppKey();
             String token = FileAccessor.getAppToken();
-            String myMobile = MyApplication.instance.getMyMobile();
+            String myMobile = App.instance.getMyMobile();
             String pass = "";
             ClientUser clientUser = new ClientUser(myMobile);
             clientUser.setAppKey(appKey);
@@ -95,7 +95,7 @@ public class VisitorFragment extends Fragment implements OnClickListener,
             clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
             clientUser.setPassword(pass);
             CCPAppManager.setClientUser(clientUser);
-            SDKCoreHelper.init(MyApplication.instance, LoginMode.FORCE_LOGIN);
+            SDKCoreHelper.init(App.instance, LoginMode.FORCE_LOGIN);
         }
     }
 

@@ -11,7 +11,7 @@ import java.io.File;
 import org.xutils.common.Callback.Cancelable;
 import org.xutils.http.RequestParams;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.bean.AddVisitorResult;
 import com.patr.radix.bean.GetCommunityListResult;
 import com.patr.radix.bean.GetLockListResult;
@@ -280,7 +280,7 @@ public class ServiceManager {
     public static Cancelable login(String account, String pwd,
             final RequestListener<LoginResult> listener) {
         String[] keys = { RequestKey.ACCOUNT, RequestKey.PWD, RequestKey.PUSH_TOKEN };
-        String[] values = { account, pwd, MyApplication.instance.getPushToken() };
+        String[] values = { account, pwd, App.instance.getPushToken() };
         return WebService.post(Url.LOGIN, keys, values, listener,
                 new LoginParser(listener));
     }
@@ -294,7 +294,7 @@ public class ServiceManager {
     public static Cancelable getUserList(
             final RequestListener<GetUserListResult> listener) {
         String[] keys = { RequestKey.TOKEN };
-        String[] values = { MyApplication.instance.getUserInfo().getToken() };
+        String[] values = { App.instance.getUserInfo().getToken() };
         return WebService.post(Url.USER_LIST, keys, values, listener,
                 new GetUserListParser(listener));
     }
@@ -308,7 +308,7 @@ public class ServiceManager {
     public static Cancelable getLockList(
             final RequestListener<GetLockListResult> listener) {
         String[] keys = { RequestKey.TOKEN };
-        String[] values = { MyApplication.instance.getUserInfo().getToken() };
+        String[] values = { App.instance.getUserInfo().getToken() };
         return WebService.post(Url.LOCK_LIST, keys, values, listener,
                 new GetLockListParser(listener));
     }
@@ -324,7 +324,7 @@ public class ServiceManager {
             final RequestListener<GetNoticeListResult> listener) {
         String[] keys = { RequestKey.TOKEN, RequestKey.PAGE_NUM,
                 RequestKey.PAGE_SIZE };
-        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+        String[] values = { App.instance.getUserInfo().getToken(),
                 String.valueOf(pageNum), String.valueOf(LIMIT) };
         return WebService.post(Url.NOTICE_LIST, keys, values, listener,
                 new GetNoticeListParser(listener));
@@ -340,7 +340,7 @@ public class ServiceManager {
     public static Cancelable mobileOpenDoor(String doorId,
             final RequestListener<RequestResult> listener) {
         String[] keys = { RequestKey.TOKEN, RequestKey.DOOR_ID };
-        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+        String[] values = { App.instance.getUserInfo().getToken(),
                 doorId };
         return WebService.post(Url.MOBILE_OPEN_DOOR, keys, values, listener,
                 new RequestResultParser(listener));
@@ -363,7 +363,7 @@ public class ServiceManager {
         String[] keys = { RequestKey.TOKEN, RequestKey.VISITOR_NAME,
                 RequestKey.START_TIME, RequestKey.END_TIME,
                 RequestKey.PHONE_NUM, RequestKey.REMARK };
-        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+        String[] values = { App.instance.getUserInfo().getToken(),
                 visitorName, startTime, endTime, phoneNum, remark };
         return WebService.post(Url.MOBILE_ADD_VISITOR, keys, values, listener,
                 new AddVisitorParser(listener));
@@ -380,7 +380,7 @@ public class ServiceManager {
             final RequestListener<MobileUploadResult> listener) {
         String[] keys = { RequestKey.TOKEN, RequestKey.FILENAME,
                 RequestKey.NAME };
-        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+        String[] values = { App.instance.getUserInfo().getToken(),
                 filename, "file" };
         return WebService.upload(Url.MOBILE_UPLOAD, keys, values, file,
                 listener, new MobileUploadParser(listener));
@@ -396,7 +396,7 @@ public class ServiceManager {
     public static Cancelable updateUserPortrait(String userPic,
             final RequestListener<RequestResult> listener) {
         String[] keys = { RequestKey.TOKEN, RequestKey.USER_PIC };
-        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+        String[] values = { App.instance.getUserInfo().getToken(),
                 userPic };
         return WebService.post(Url.UPDATE_USER_PORTRAIT, keys, values,
                 listener, new RequestResultParser(listener));
@@ -412,7 +412,7 @@ public class ServiceManager {
     public static Cancelable updateUserPhone(String mobile,
             final RequestListener<RequestResult> listener) {
         String[] keys = { RequestKey.TOKEN, RequestKey.MOBILE };
-        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+        String[] values = { App.instance.getUserInfo().getToken(),
                 mobile };
         return WebService.post(Url.UPDATE_USER_PHONE, keys, values, listener,
                 new RequestResultParser(listener));
@@ -428,7 +428,7 @@ public class ServiceManager {
     public static Cancelable updateUserPwd(String pwd, String oldPwd,
             final RequestListener<RequestResult> listener) {
         String[] keys = { RequestKey.TOKEN, RequestKey.PWD, RequestKey.OLD_PWD };
-        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+        String[] values = { App.instance.getUserInfo().getToken(),
                 pwd, oldPwd };
         return WebService.post(Url.UPDATE_USER_PWD, keys, values, listener,
                 new RequestResultParser(listener));
@@ -462,7 +462,7 @@ public class ServiceManager {
     public static Cancelable adviceFeedback(String title, String content,
             final RequestListener<RequestResult> listener) {
         String[] keys = { RequestKey.TOKEN, RequestKey.TITLE, RequestKey.CONTENT };
-        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+        String[] values = { App.instance.getUserInfo().getToken(),
                 title, content };
         return WebService.post(Url.ADVICE_FEEDBACK, keys, values, listener,
                 new RequestResultParser(listener));
@@ -476,7 +476,7 @@ public class ServiceManager {
      */
     public static Cancelable queryMobileUserById(final RequestListener<LoginResult> listener) {
         String[] keys = { RequestKey.TOKEN };
-        String[] values = { MyApplication.instance.getUserInfo().getToken() };
+        String[] values = { App.instance.getUserInfo().getToken() };
         return WebService.post(Url.QUERY_MOBILE_USER_BY_ID, keys, values, listener,
                 new LoginParser(listener));
     }
@@ -484,7 +484,7 @@ public class ServiceManager {
     public static Cancelable queryPersonMessage(int pageNum,
             final RequestListener<QueryPersonMessageResult> listener) {
         String[] keys = { RequestKey.TOKEN, RequestKey.PAGE_NUM };
-        String[] values = { MyApplication.instance.getUserInfo().getToken(),
+        String[] values = { App.instance.getUserInfo().getToken(),
                 String.valueOf(pageNum), String.valueOf(LIMIT) };
         return WebService.post(Url.QUERY_PERSON_MESSAGE, keys, values, listener,
                 new QueryPersonMessageParser(listener));
@@ -493,7 +493,7 @@ public class ServiceManager {
     public static Cancelable deletePersonMessage(
             final RequestListener<RequestResult> listener) {
         String[] keys = { RequestKey.TOKEN };
-        String[] values = { MyApplication.instance.getUserInfo().getToken() };
+        String[] values = { App.instance.getUserInfo().getToken() };
         return WebService.post(Url.DELETE_PERSON_MESSAGE, keys, values, listener,
                 new RequestResultParser(listener));
     }

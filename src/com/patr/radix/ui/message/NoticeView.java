@@ -8,7 +8,7 @@ package com.patr.radix.ui.message;
 
 import java.util.List;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.patr.radix.adapter.NoticeListAdapter;
 import com.patr.radix.bean.GetNoticeListResult;
@@ -75,7 +75,7 @@ public class NoticeView extends LinearLayout implements OnItemClickListener,
     }
 
     private void loadData() {
-        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getToken())) {
+        if (!TextUtils.isEmpty(App.instance.getUserInfo().getToken())) {
             // 从服务器获取公告列表
             ServiceManager.getNoticeList(pageNum,
                     new RequestListener<GetNoticeListResult>() {

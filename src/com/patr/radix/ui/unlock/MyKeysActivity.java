@@ -9,7 +9,7 @@ package com.patr.radix.ui.unlock;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.patr.radix.R.id;
 import com.patr.radix.R.layout;
@@ -73,10 +73,10 @@ public class MyKeysActivity extends Activity implements OnClickListener,
         setContentView(R.layout.activity_my_keys);
         initView();
         // 测试数据
-        if (MyApplication.TEST) {
+        if (App.TEST) {
             testData();
         }
-        if (MyApplication.instance.getLocks().size() == 0) {
+        if (App.instance.getLocks().size() == 0) {
             loadData();
         }
     }
@@ -97,7 +97,7 @@ public class MyKeysActivity extends Activity implements OnClickListener,
         } else {
             okBtn.setVisibility(View.VISIBLE);
         }
-        adapter = new KeyListAdapter(this, MyApplication.instance.getLocks(),
+        adapter = new KeyListAdapter(this, App.instance.getLocks(),
                 !remoteOpenDoor);
         keysLv.setAdapter(adapter);
         swipe.setDirection(SwipeRefreshLayoutDirection.TOP);
@@ -105,7 +105,7 @@ public class MyKeysActivity extends Activity implements OnClickListener,
     }
 
     private void loadData() {
-        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getToken())) {
+        if (!TextUtils.isEmpty(App.instance.getUserInfo().getToken())) {
             // 从服务器获取门禁钥匙列表
             ServiceManager
                     .getLockList(new RequestListener<GetLockListResult>() {
@@ -126,7 +126,7 @@ public class MyKeysActivity extends Activity implements OnClickListener,
                                 GetLockListResult result) {
                             if (result != null) {
                                 if (result.isSuccesses()) {
-                                    MyApplication.instance.setLocks(result
+                                    App.instance.setLocks(result
                                             .getLocks());
                                     adapter.notifyDataSetChanged();
                                 } else {
@@ -177,7 +177,7 @@ public class MyKeysActivity extends Activity implements OnClickListener,
             lock.setEnd("2016-06-30 12:00");
             locks.add(lock);
         }
-        MyApplication.instance.setLocks(locks);
+        App.instance.setLocks(locks);
     }
 
     /*
@@ -193,7 +193,7 @@ public class MyKeysActivity extends Activity implements OnClickListener,
                 ToastUtil.showShort(context, "请至少选择一个钥匙！");
             } else {
                 if (adapter.selectedSet.size() <= 5) {
-                    MyApplication.instance
+                    App.instance
                             .setSelectedLocks(new ArrayList<RadixLock>(
                                     adapter.selectedSet));
                     // 设置有效时间，生成二维码

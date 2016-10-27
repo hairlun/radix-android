@@ -21,7 +21,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.yuntongxun.ecdemo.common.CCPAppManager;
 import com.yuntongxun.ecdemo.common.utils.BitmapUtil;
@@ -583,7 +583,7 @@ public class ContactLogic {
         long photoId = contact.getPhotoId();
         if (photoId != 0) {
             Cursor cursor = null;
-            ContentResolver contentResolver = MyApplication.instance.getApplicationContext().getContentResolver();
+            ContentResolver contentResolver = App.instance.getApplicationContext().getContentResolver();
             try {
                 cursor = contentResolver.query(ContactsContract.Data.CONTENT_URI, new String[] { ContactsContract.CommonDataKinds.Photo._ID, ContactsContract.CommonDataKinds.Photo.PHOTO }, ContactsContract.CommonDataKinds.Photo._ID + " = " + photoId, null, null);
                 if (cursor != null && cursor.moveToNext()) {

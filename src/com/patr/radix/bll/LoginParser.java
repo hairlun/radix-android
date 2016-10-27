@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.LoginResult;
 import com.patr.radix.bean.RequestResult;
@@ -55,7 +55,7 @@ public class LoginParser extends AbsBaseParser<LoginResult> {
                         userInfo.setHome(home);
                         userInfo.setToken(token);
                         if (!TextUtils.isEmpty(areaPic) && !areaPic.startsWith("http")) {
-                            Community community = MyApplication.instance
+                            Community community = App.instance
                                     .getSelectedCommunity();
                             if (areaPic.contains("surpass")) {
                                 areaPic = String.format("%s:%s/%s",
@@ -70,7 +70,7 @@ public class LoginParser extends AbsBaseParser<LoginResult> {
                         userInfo.setAreaPic(areaPic);
                         userInfo.setCardNo(cardNo);
                         if (!TextUtils.isEmpty(userPic) && !userPic.startsWith("http")) {
-                            Community community = MyApplication.instance
+                            Community community = App.instance
                                     .getSelectedCommunity();
                             if (userPic.contains("surpass")) {
                                 userPic = String.format("%s:%s/%s", community.getHost(), community.getPort(),

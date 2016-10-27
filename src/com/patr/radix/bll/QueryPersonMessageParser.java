@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.QueryPersonMessageResult;
 import com.patr.radix.bean.PersonMessage;

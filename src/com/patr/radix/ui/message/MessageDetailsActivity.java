@@ -1,6 +1,6 @@
 package com.patr.radix.ui.message;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.patr.radix.R.id;
 import com.patr.radix.R.layout;
@@ -59,7 +59,7 @@ public class MessageDetailsActivity extends Activity implements
 
     private void loadData() {
         String url = WebService.URL + Url.NOTICE_DETAILS + "token="
-                + MyApplication.instance.getUserInfo().getToken() + "&id="
+                + App.instance.getUserInfo().getToken() + "&id="
                 + noticeId;
         initWebView(url);
         // // 从服务器获取公告详情

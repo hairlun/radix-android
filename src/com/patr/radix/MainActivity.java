@@ -70,7 +70,7 @@ public class MainActivity extends FragmentActivity implements
             String action = intent.getAction();
             Log.i("MainActivity", action);
             if ("actionClearPersonMessage".equals(action)) {
-                MyApplication.instance.setBadge(0);
+                App.instance.setBadge(0);
                 View view = tabHost.getTabWidget().getChildAt(2);
                 ImageView badge = (ImageView) view.findViewById(R.id.badge);
                 badge.setVisibility(View.GONE);
@@ -116,7 +116,7 @@ public class MainActivity extends FragmentActivity implements
         tabHost.setOnTabChangedListener(this);
         initTab();
         registerReceiver();
-        adapter = new KeyListAdapter2(this, MyApplication.instance.getLocks());
+        adapter = new KeyListAdapter2(this, App.instance.getLocks());
         updateBadge();
         
         // 云通讯
@@ -130,7 +130,7 @@ public class MainActivity extends FragmentActivity implements
         // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
         // 具体可参考详细的开发指南
         // 传递的参数为ApplicationContext
-        XGPushConfig.enableDebug(this, MyApplication.DEBUG);
+        XGPushConfig.enableDebug(this, App.DEBUG);
         final Context context = getApplicationContext();
         XGPushManager.registerPush(this, new XGIOperateCallback() {
 
@@ -138,7 +138,7 @@ public class MainActivity extends FragmentActivity implements
             public void onSuccess(Object data, int flag) {
                 Log.d("TPush", "注册成功，设备token为：" + data);
                 // 保存pushToken到本地
-                MyApplication.instance.setPushToken((String) data);
+                App.instance.setPushToken((String) data);
                 if (!PrefUtil.getBoolean(context, Constants.PREF_PUSH_SWITCH,
                         true)) {
                     XGPushManager.unregisterPush(getApplicationContext(),
@@ -226,7 +226,7 @@ public class MainActivity extends FragmentActivity implements
     private void updateBadge() {
         View view = tabHost.getTabWidget().getChildAt(2);
         ImageView badge = (ImageView) view.findViewById(R.id.badge);
-        if (MyApplication.instance.getBadge() > 0) {
+        if (App.instance.getBadge() > 0) {
             badge.setVisibility(View.VISIBLE);
         } else {
             badge.setVisibility(View.GONE);
@@ -272,7 +272,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
             long id) {
-        MyApplication.instance.setSelectedLock(adapter.getItem(position));
+        App.instance.setSelectedLock(adapter.getItem(position));
     }
 
 }

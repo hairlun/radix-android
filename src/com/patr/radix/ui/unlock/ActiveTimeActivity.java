@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.patr.radix.MainActivity;
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.patr.radix.R.id;
 import com.patr.radix.R.layout;
@@ -227,7 +227,7 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
     }
 
     private void sendKey() {
-        List<RadixLock> list = MyApplication.instance.getSelectedLocks();
+        List<RadixLock> list = App.instance.getSelectedLocks();
     }
 
     private void addVisitor() {
@@ -279,7 +279,7 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
                             .getTime()))
                     + Utils.ByteArraytoHex(Utils.dateTime2Bytes(endCal
                             .getTime()))
-                    + MyApplication.instance.getUserInfo().getCardNo();
+                    + App.instance.getUserInfo().getCardNo();
             String cmdData = Utils.getCmdData("00 ", cmd, data);
             byte[] array = Utils.getCmdDataByteArray(cmdData);
             String text = new String(array, "ISO8859-1");

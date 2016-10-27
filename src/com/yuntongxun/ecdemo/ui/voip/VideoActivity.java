@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.patr.radix.MainActivity;
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.patr.radix.bean.UserInfo;
 import com.patr.radix.ui.unlock.MyKeysActivity;
@@ -191,7 +191,7 @@ public class VideoActivity extends ECVoIPBaseActivity implements View.OnClickLis
         mChronometer.start();
         // mDiaerpadBtn.setVisibility(View.VISIBLE);
         mDiaerpadBtn.setEnabled(false);
-        if (mIncomingCall && MyApplication.instance.getMyMobile().equals(MyApplication.instance.getUserInfo().getMobile())) {
+        if (mIncomingCall && App.instance.getMyMobile().equals(App.instance.getUserInfo().getMobile())) {
             unlockBtn.setVisibility(View.VISIBLE);
         }
 

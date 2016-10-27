@@ -15,7 +15,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 
 /**
  * Toast工具类
@@ -60,7 +60,7 @@ public class ToastUtil {
                         toast.setText(msg);
                         toast.setDuration(len);
                     } else {
-                        toast = Toast.makeText(MyApplication.instance.getApplicationContext(), msg, len);
+                        toast = Toast.makeText(App.instance.getApplicationContext(), msg, len);
                     }
                     toast.show();
                 }
@@ -83,7 +83,7 @@ public class ToastUtil {
                         toast.setText(msg);
                         toast.setDuration(len);
                     } else {
-                        toast = Toast.makeText(MyApplication.instance.getApplicationContext(), msg, len);
+                        toast = Toast.makeText(App.instance.getApplicationContext(), msg, len);
                     }
                     toast.show();
                 }

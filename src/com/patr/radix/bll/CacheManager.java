@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.xutils.common.util.LogUtil;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.bll.ServiceManager.Url;
 import com.patr.radix.dal.CacheDAOImpl;
 import com.patr.radix.dal.CacheDAOImpl.Key;
@@ -25,15 +25,15 @@ public class CacheManager {
     }
 
     public static String getLockListUrl() {
-        return String.format("%s%stoken=%s", MyApplication.instance
+        return String.format("%s%stoken=%s", App.instance
                 .getSelectedCommunity().getUrl(), Url.LOCK_LIST,
-                MyApplication.instance.getUserInfo().getToken());
+                App.instance.getUserInfo().getToken());
     }
 
     public static String getUserListUrl() {
-        return String.format("%s%stoken=%s", MyApplication.instance
+        return String.format("%s%stoken=%s", App.instance
                 .getSelectedCommunity().getUrl(), Url.USER_LIST,
-                MyApplication.instance.getUserInfo().getToken());
+                App.instance.getUserInfo().getToken());
     }
 
     /**

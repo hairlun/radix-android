@@ -47,7 +47,7 @@ import com.yuntongxun.ecdemo.common.utils.ECPreferenceSettings;
 import com.yuntongxun.ecdemo.common.utils.ECPreferences;
 import com.yuntongxun.ecdemo.common.utils.FileAccessor;
 
-public class MyApplication extends Application {
+public class App extends Application {
 
     /**
      * 打包发布要改为false
@@ -86,7 +86,7 @@ public class MyApplication extends Application {
     
     public static boolean firstRequest;
 
-    public static MyApplication instance;
+    public static App instance;
 
     @Override
     public void onCreate() {
@@ -101,8 +101,8 @@ public class MyApplication extends Application {
         // 从缓存读取门禁钥匙列表和当前选择门禁钥匙
         getLockListFromCache();
         // 初始化验证码模块
-        SMSSDK.initSDK(this, "17805a217c862",
-                "4489d28f7383f6b9eb6b697b3998a42d");
+        SMSSDK.initSDK(this, "17806aaa377bd",
+                "de9d31aa0575be3283f716d59f7b7334");
         setVisitorId(String.format("%s", System.currentTimeMillis()));
         if (userInfo != null && !TextUtils.isEmpty(userInfo.getMobile())) {
             myMobile = userInfo.getMobile();

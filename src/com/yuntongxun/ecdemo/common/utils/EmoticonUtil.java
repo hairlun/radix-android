@@ -26,7 +26,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.yuntongxun.ecdemo.ui.chatting.base.EmojiconHandler;
 import com.yuntongxun.ecdemo.ui.chatting.base.emoji.Emojicon;
@@ -120,7 +120,7 @@ public class EmoticonUtil {
 				emoji.setEmojiDesc(emojicon.getEmoji());
 				int unicode = Character.codePointAt(emojicon.getEmoji(), 0);
 				if(unicode > 0xff) {
-					emoji.setId(EmojiconHandler.getEmojiResource(MyApplication.instance.getApplicationContext(), unicode));
+					emoji.setId(EmojiconHandler.getEmojiResource(App.instance.getApplicationContext(), unicode));
 					emojis.add(emoji);
 				}
 			}

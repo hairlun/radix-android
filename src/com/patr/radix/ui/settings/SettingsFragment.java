@@ -4,7 +4,7 @@ import org.xutils.x;
 import org.xutils.common.util.LogUtil;
 
 import com.patr.radix.LoginActivity;
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.patr.radix.adapter.CommunityListAdapter;
 import com.patr.radix.bean.Community;
@@ -112,8 +112,8 @@ public class SettingsFragment extends Fragment implements OnClickListener,
         settingBtn.setOnClickListener(this);
 
         adapter = new CommunityListAdapter(context,
-                MyApplication.instance.getCommunities());
-        Community selectedCommunity = MyApplication.instance
+                App.instance.getCommunities());
+        Community selectedCommunity = App.instance
                 .getSelectedCommunity();
         if (selectedCommunity != null) {
             communityName.setText("(" + selectedCommunity.getName() + ")");
@@ -136,12 +136,12 @@ public class SettingsFragment extends Fragment implements OnClickListener,
     }
 
     private void refresh() {
-        Community selectedCommunity = MyApplication.instance
+        Community selectedCommunity = App.instance
                 .getSelectedCommunity();
         if (selectedCommunity != null) {
             communityName.setText("(" + selectedCommunity.getName() + ")");
         }
-        UserInfo userInfo = MyApplication.instance.getUserInfo();
+        UserInfo userInfo = App.instance.getUserInfo();
         if (!TextUtils.isEmpty(userInfo.getToken())) {
             if (!TextUtils.isEmpty(userInfo.getUserPic())) {
                 avatarIv.setVisibility(View.VISIBLE);
@@ -185,7 +185,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
             break;
 
         case R.id.modify_userinfo_ll:
-            if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo()
+            if (!TextUtils.isEmpty(App.instance.getUserInfo()
                     .getAccount())) {
                 intent = new Intent(context, EditUserInfoActivity.class);
                 context.startActivity(intent);
@@ -212,7 +212,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
                         @Override
                         public void onClick(View v) {
                             loadingDialog.show("正在清除缓存…");
-                            MyApplication.instance.clearCache();
+                            App.instance.clearCache();
                             loadingDialog.dismiss();
                             getUserInfo();
                         }
@@ -223,7 +223,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
     }
 
     private void getUserInfo() {
-        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getToken())) {
+        if (!TextUtils.isEmpty(App.instance.getUserInfo().getToken())) {
             ServiceManager
                     .queryMobileUserById(new RequestListener<LoginResult>() {
 
@@ -236,7 +236,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
                         public void onSuccess(int stateCode, LoginResult result) {
                             if (result != null) {
                                 if (result.isSuccesses()) {
-                                    MyApplication.instance.setUserInfo(result
+                                    App.instance.setUserInfo(result
                                             .getUserInfo());
                                     PrefUtil.saveUserInfo(context,
                                             result.getUserInfo());
@@ -300,7 +300,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
                     public void onSuccess(int stateCode,
                             GetCommunityListResult result) {
                         if (result != null) {
-                            MyApplication.instance.setCommunities(result
+                            App.instance.setCommunities(result
                                     .getCommunities());
                             adapter.notifyDataSetChanged();
                             ListSelectDialog.show(context, "请选择小区", adapter,
@@ -321,7 +321,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
                             GetCommunityListResult result) {
                         if (result != null) {
                             if (result.isSuccesses()) {
-                                MyApplication.instance.setCommunities(result
+                                App.instance.setCommunities(result
                                         .getCommunities());
                                 saveCommunityListToDb(result.getResponse());
                                 adapter.notifyDataSetChanged();
@@ -376,7 +376,7 @@ public class SettingsFragment extends Fragment implements OnClickListener,
 
                     @Override
                     public void onClick(View v) {
-                        MyApplication.instance.setUserInfo(new UserInfo());
+                        App.instance.setUserInfo(new UserInfo());
                         PrefUtil.saveUserInfo(context, new UserInfo());
                         refresh();
                     }
@@ -386,12 +386,12 @@ public class SettingsFragment extends Fragment implements OnClickListener,
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
             long id) {
-        MyApplication.instance.setSelectedCommunity(adapter.getItem(position));
+        App.instance.setSelectedCommunity(adapter.getItem(position));
         if (!adapter.isSelect(position)) {
             UserInfo userInfo = new UserInfo();
-            MyApplication.instance.setUserInfo(userInfo);
+            App.instance.setUserInfo(userInfo);
             PrefUtil.saveUserInfo(context, userInfo);
-            MyApplication.instance.clearCache();
+            App.instance.clearCache();
         }
         adapter.select(position);
         refresh();

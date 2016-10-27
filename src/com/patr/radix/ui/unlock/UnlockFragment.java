@@ -9,7 +9,7 @@ import org.xutils.common.util.LogUtil;
 
 import com.felipecsl.gifimageview.library.GifImageView;
 import com.patr.radix.LockValidateActivity;
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.patr.radix.adapter.CommunityListAdapter;
 import com.patr.radix.bean.GetCommunityListResult;
@@ -185,7 +185,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         vibrator = (Vibrator) context
                 .getSystemService(Context.VIBRATOR_SERVICE);
         adapter = new CommunityListAdapter(context,
-                MyApplication.instance.getCommunities());
+                App.instance.getCommunities());
         checkBleSupportAndInitialize();
 
         handler = new Handler();
@@ -603,7 +603,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             @Override
             public void run() {
                 writeOption("30 ", "06 00 00 "
-                        + MyApplication.instance.getUserInfo().getCardNo());
+                        + App.instance.getUserInfo().getCardNo());
             }
         });
         // handler.post(new Runnable() {
@@ -726,15 +726,15 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private void loadData() {
         // 若没有选小区，则获取小区列表，让用户选小区
-        if (MyApplication.instance.getSelectedCommunity() == null) {
+        if (App.instance.getSelectedCommunity() == null) {
             getCommunityList();
             return;
         }
         // 初始化和登录云通讯账号s
-        if (!TextUtils.isEmpty(MyApplication.instance.getMyMobile())) {
+        if (!TextUtils.isEmpty(App.instance.getMyMobile())) {
             String appKey = FileAccessor.getAppKey();
             String token = FileAccessor.getAppToken();
-            String myMobile = MyApplication.instance.getMyMobile();
+            String myMobile = App.instance.getMyMobile();
             String pass = "";
             ClientUser clientUser = new ClientUser(myMobile);
             clientUser.setAppKey(appKey);
@@ -742,7 +742,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
             clientUser.setPassword(pass);
             CCPAppManager.setClientUser(clientUser);
-            SDKCoreHelper.init(MyApplication.instance, LoginMode.FORCE_LOGIN);
+            SDKCoreHelper.init(App.instance, LoginMode.FORCE_LOGIN);
         }
     }
 
@@ -809,7 +809,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     public void onSuccess(int stateCode,
                             GetCommunityListResult result) {
                         if (result != null) {
-                            MyApplication.instance.setCommunities(result
+                            App.instance.setCommunities(result
                                     .getCommunities());
                             adapter.notifyDataSetChanged();
                             ListSelectDialog.show(context, "请选择小区", adapter,
@@ -830,7 +830,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                             GetCommunityListResult result) {
                         if (result != null) {
                             if (result.isSuccesses()) {
-                                MyApplication.instance.setCommunities(result
+                                App.instance.setCommunities(result
                                         .getCommunities());
                                 saveCommunityListToDb(result.getResponse());
                                 adapter.notifyDataSetChanged();
@@ -872,7 +872,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void getLockList() {
-        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getToken())) {
+        if (!TextUtils.isEmpty(App.instance.getUserInfo().getToken())) {
             switch (NetUtils.getConnectedType(context)) {
             case NONE:
                 getLockListFromCache();
@@ -884,14 +884,14 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             default:
                 break;
             }
-        } else if (MyApplication.firstRequest) {
+        } else if (App.firstRequest) {
             ToastUtil.showShort(context, "未登录，请先登录");
-            MyApplication.firstRequest = false;
+            App.firstRequest = false;
         }
     }
 
     private void getLockListFromCache() {
-        if (MyApplication.instance.getSelectedCommunity() != null) {
+        if (App.instance.getSelectedCommunity() != null) {
             CacheManager.getCacheContent(context,
                     CacheManager.getLockListUrl(),
                     new RequestListener<GetLockListResult>() {
@@ -900,7 +900,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                         public void onSuccess(int stateCode,
                                 GetLockListResult result) {
                             if (result != null) {
-                                MyApplication.instance.setLocks(result
+                                App.instance.setLocks(result
                                         .getLocks());
                                 setSelectedKey();
                                 refreshKey();
@@ -912,7 +912,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void getLockListFromServer() {
-        if (MyApplication.instance.getSelectedCommunity() != null) {
+        if (App.instance.getSelectedCommunity() != null) {
             // 从服务器获取门禁钥匙列表
             ServiceManager.getLockList(new RequestListener<GetLockListResult>() {
     
@@ -920,7 +920,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 public void onSuccess(int stateCode, GetLockListResult result) {
                     if (result != null) {
                         if (result.isSuccesses()) {
-                            MyApplication.instance.setLocks(result.getLocks());
+                            App.instance.setLocks(result.getLocks());
                             saveLockListToDb(result.getResponse());
                             setSelectedKey();
                             refreshKey();
@@ -959,12 +959,12 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void refreshKey() {
-        RadixLock selectedKey = MyApplication.instance.getSelectedLock();
+        RadixLock selectedKey = App.instance.getSelectedLock();
         if (selectedKey != null) {
             keyTv.setText(selectedKey.getName());
         }
         keysLl.removeAllViews();
-        final List<RadixLock> keys = MyApplication.instance.getLocks();
+        final List<RadixLock> keys = App.instance.getLocks();
         int size = keys.size();
         for (int i = 0; i < size; i++) {
             KeyView keyView;
@@ -979,8 +979,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 public void onClick(View v) {
                     int idx = (int) v.getTag();
                     if (!keys.get(idx).equals(
-                            MyApplication.instance.getSelectedLock())) {
-                        MyApplication.instance.setSelectedLock(keys.get(idx));
+                            App.instance.getSelectedLock())) {
+                        App.instance.setSelectedLock(keys.get(idx));
                         refreshKey();
                     }
                 }
@@ -992,15 +992,15 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     private void setSelectedKey() {
         String selectedKey = PrefUtil.getString(context,
                 Constants.PREF_SELECTED_KEY);
-        for (RadixLock lock : MyApplication.instance.getLocks()) {
+        for (RadixLock lock : App.instance.getLocks()) {
             if (selectedKey.equals(lock.getId())) {
-                MyApplication.instance.setSelectedLock(lock);
+                App.instance.setSelectedLock(lock);
                 return;
             }
         }
         // 若没有选择钥匙，则默认选第一个
-        if (MyApplication.instance.getLocks().size() > 0) {
-            MyApplication.instance.setSelectedLock(MyApplication.instance
+        if (App.instance.getLocks().size() > 0) {
+            App.instance.setSelectedLock(App.instance
                     .getLocks().get(0));
         }
     }
@@ -1063,9 +1063,9 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
             long id) {
-        MyApplication.instance.setSelectedCommunity(adapter.getItem(position));
+        App.instance.setSelectedCommunity(adapter.getItem(position));
         if (!adapter.isSelect(position)) {
-            MyApplication.instance.setSelectedLock(null);
+            App.instance.setSelectedLock(null);
             getLockList();
         }
         adapter.select(position);
@@ -1091,7 +1091,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void preUnlock() {
-        RadixLock lock = MyApplication.instance.getSelectedLock();
+        RadixLock lock = App.instance.getSelectedLock();
         LogUtil.d("preUnlock: lock = " + lock.getBleName1());
         if (lock != null) {
             String lockPaternStr = PrefUtil.getString(context,
@@ -1120,7 +1120,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         if (!isUnlocking) {
             isUnlocking = true;
             retryCount = 0;
-            RadixLock lock = MyApplication.instance.getSelectedLock();
+            RadixLock lock = App.instance.getSelectedLock();
             LogUtil.d("unlock: inBleName = " + lock.getBleName1()
                     + ", outBleName = " + lock.getBleName2());
             startScan();
@@ -1206,7 +1206,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     if (name == null) {
                         return;
                     }
-                    RadixLock lock = MyApplication.instance.getSelectedLock();
+                    RadixLock lock = App.instance.getSelectedLock();
                     if (name.equals(lock.getBleName1())
                             || name.equals(lock.getBleName2())) {
                         if (!foundDevice) {
@@ -1318,7 +1318,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     if (name == null) {
                         return;
                     }
-                    RadixLock lock = MyApplication.instance.getSelectedLock();
+                    RadixLock lock = App.instance.getSelectedLock();
                     if (name.equals(lock.getBleName1())
                             || name.equals(lock.getBleName2())) {
                         if (!foundDevice) {

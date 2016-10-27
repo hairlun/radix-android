@@ -115,7 +115,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         userInfo.setAreaName("物业部");
         userInfo.setHome("0508");
         userInfo.setMobile("88888888");
-        MyApplication.instance.setUserInfo(userInfo);
+        App.instance.setUserInfo(userInfo);
         PrefUtil.saveUserInfo(context, userInfo);
         // MainActivity.startAfterLogin(context);
         finish();
@@ -143,11 +143,11 @@ public class LoginActivity extends Activity implements OnClickListener {
             public void onSuccess(int statusCode, LoginResult result) {
                 if (result != null) {
                     if (result.isSuccesses()) {
-                        MyApplication.instance
+                        App.instance
                                 .setUserInfo(result.getUserInfo());
                         PrefUtil.saveUserInfo(context, result.getUserInfo());
-                        if (!TextUtils.isEmpty(MyApplication.instance.getUserInfo().getMobile())) {
-                            MyApplication.instance.setMyMobile(MyApplication.instance.getUserInfo().getMobile());
+                        if (!TextUtils.isEmpty(App.instance.getUserInfo().getMobile())) {
+                            App.instance.setMyMobile(App.instance.getUserInfo().getMobile());
                             // 注销云通讯
                             CCPAppManager.setClientUser(null);
                             ECDevice.unInitial();
@@ -158,7 +158,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                                     // 若用户已登录且手机号码不为空，则初始化和登录云通讯账号
                                     String appKey = FileAccessor.getAppKey();
                                     String token = FileAccessor.getAppToken();
-                                    String myMobile = MyApplication.instance.getMyMobile();
+                                    String myMobile = App.instance.getMyMobile();
                                     String pass = "";
                                     ClientUser clientUser = new ClientUser(myMobile);
                                     clientUser.setAppKey(appKey);

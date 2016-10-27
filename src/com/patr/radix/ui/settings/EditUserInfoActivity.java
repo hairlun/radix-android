@@ -5,7 +5,7 @@ import java.io.File;
 import org.xutils.x;
 import org.xutils.common.Callback.Cancelable;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.patr.radix.bean.Community;
 import com.patr.radix.bean.MobileUploadResult;
@@ -83,8 +83,8 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        phoneTv.setText(MyApplication.instance.getUserInfo().getMobile());
-        String pic = MyApplication.instance.getUserInfo().getUserPic();
+        phoneTv.setText(App.instance.getUserInfo().getMobile());
+        String pic = App.instance.getUserInfo().getUserPic();
         if (!TextUtils.isEmpty(pic)) {
             avatarIv.setVisibility(View.VISIBLE);
             x.image().bind(avatarIv, pic);
@@ -254,7 +254,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
                 if (result != null && result.isSuccesses()) {
                     String pic = userPic;
                     if (!TextUtils.isEmpty(userPic) && !userPic.startsWith("http")) {
-                        Community community = MyApplication.instance
+                        Community community = App.instance
                                 .getSelectedCommunity();
                         if (userPic.contains("surpass")) {
                             pic = String.format("%s:%s/%s", community.getHost(), community.getPort(),
@@ -265,7 +265,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
                                     userPic);
                         }
                     }
-                    MyApplication.instance.getUserInfo().setUserPic(pic);
+                    App.instance.getUserInfo().setUserPic(pic);
                     x.image().bind(avatarIv, pic);
                     loadingDialog.dismiss();
                 } else {

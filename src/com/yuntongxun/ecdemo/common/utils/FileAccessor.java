@@ -21,7 +21,7 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import com.patr.radix.MyApplication;
+import com.patr.radix.App;
 import com.patr.radix.R;
 
 /**
@@ -301,7 +301,7 @@ public class FileAccessor {
      * @return
      */
     public static String getAppContextPath() {
-        return MyApplication.instance.getFilesDir().getAbsolutePath();
+        return App.instance.getFilesDir().getAbsolutePath();
     }
 
     /**
