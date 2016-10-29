@@ -33,12 +33,12 @@ import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.utils.Utils;
-import com.yuntongxun.ecdemo.common.CCPAppManager;
-import com.yuntongxun.ecdemo.common.utils.FileAccessor;
-import com.yuntongxun.ecdemo.core.ClientUser;
-import com.yuntongxun.ecdemo.ui.SDKCoreHelper;
-import com.yuntongxun.ecsdk.ECInitParams.LoginAuthType;
-import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
+//import com.yuntongxun.ecdemo.common.CCPAppManager;
+//import com.yuntongxun.ecdemo.common.utils.FileAccessor;
+//import com.yuntongxun.ecdemo.core.ClientUser;
+//import com.yuntongxun.ecdemo.ui.SDKCoreHelper;
+//import com.yuntongxun.ecsdk.ECInitParams.LoginAuthType;
+//import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -730,20 +730,20 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             getCommunityList();
             return;
         }
-        // 初始化和登录云通讯账号s
-        if (!TextUtils.isEmpty(App.instance.getMyMobile())) {
-            String appKey = FileAccessor.getAppKey();
-            String token = FileAccessor.getAppToken();
-            String myMobile = App.instance.getMyMobile();
-            String pass = "";
-            ClientUser clientUser = new ClientUser(myMobile);
-            clientUser.setAppKey(appKey);
-            clientUser.setAppToken(token);
-            clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
-            clientUser.setPassword(pass);
-            CCPAppManager.setClientUser(clientUser);
-            SDKCoreHelper.init(App.instance, LoginMode.FORCE_LOGIN);
-        }
+//        // 初始化和登录云通讯账号s
+//        if (!TextUtils.isEmpty(App.instance.getMyMobile())) {
+//            String appKey = FileAccessor.getAppKey();
+//            String token = FileAccessor.getAppToken();
+//            String myMobile = App.instance.getMyMobile();
+//            String pass = "";
+//            ClientUser clientUser = new ClientUser(myMobile);
+//            clientUser.setAppKey(appKey);
+//            clientUser.setAppToken(token);
+//            clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
+//            clientUser.setPassword(pass);
+//            CCPAppManager.setClientUser(clientUser);
+//            SDKCoreHelper.init(App.instance, LoginMode.FORCE_LOGIN);
+//        }
     }
 
     private void getWeather() {

@@ -14,13 +14,6 @@ import com.patr.radix.ui.view.ListSelectDialog;
 import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.ToastUtil;
-import com.yuntongxun.ecdemo.common.CCPAppManager;
-import com.yuntongxun.ecdemo.common.utils.FileAccessor;
-import com.yuntongxun.ecdemo.core.ClientUser;
-import com.yuntongxun.ecdemo.ui.SDKCoreHelper;
-import com.yuntongxun.ecsdk.ECInitParams.LoginAuthType;
-import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
-import com.yuntongxun.ecsdk.ECVoIPCallManager.CallType;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -83,20 +76,20 @@ public class VisitorFragment extends Fragment implements OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
-        // 初始化和登录云通讯账号
-        if (!TextUtils.isEmpty(App.instance.getMyMobile())) {
-            String appKey = FileAccessor.getAppKey();
-            String token = FileAccessor.getAppToken();
-            String myMobile = App.instance.getMyMobile();
-            String pass = "";
-            ClientUser clientUser = new ClientUser(myMobile);
-            clientUser.setAppKey(appKey);
-            clientUser.setAppToken(token);
-            clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
-            clientUser.setPassword(pass);
-            CCPAppManager.setClientUser(clientUser);
-            SDKCoreHelper.init(App.instance, LoginMode.FORCE_LOGIN);
-        }
+//        // 初始化和登录云通讯账号
+//        if (!TextUtils.isEmpty(App.instance.getMyMobile())) {
+//            String appKey = FileAccessor.getAppKey();
+//            String token = FileAccessor.getAppToken();
+//            String myMobile = App.instance.getMyMobile();
+//            String pass = "";
+//            ClientUser clientUser = new ClientUser(myMobile);
+//            clientUser.setAppKey(appKey);
+//            clientUser.setAppToken(token);
+//            clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
+//            clientUser.setPassword(pass);
+//            CCPAppManager.setClientUser(clientUser);
+//            SDKCoreHelper.init(App.instance, LoginMode.FORCE_LOGIN);
+//        }
     }
 
     @Override
@@ -202,9 +195,9 @@ public class VisitorFragment extends Fragment implements OnClickListener,
                 ToastUtil.showShort(context, "请输入手机号码！");
                 return;
             }
-            // 申请访问
-            CCPAppManager.callVoIPAction(getActivity(), CallType.VIDEO, "",
-                    mobile, false);
+//            // 申请访问
+//            CCPAppManager.callVoIPAction(getActivity(), CallType.VIDEO, "",
+//                    mobile, false);
             break;
         }
     }

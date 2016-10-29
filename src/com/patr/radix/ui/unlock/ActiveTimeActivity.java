@@ -30,10 +30,6 @@ import com.patr.radix.utils.TimeUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.utils.Utils;
 import com.patr.radix.utils.qrcode.QRCodeUtil;
-import com.yuntongxun.ecdemo.ui.chatting.IMChattingHelper;
-import com.yuntongxun.ecdemo.ui.voip.VideoActivity;
-import com.yuntongxun.ecsdk.ECMessage;
-import com.yuntongxun.ecsdk.im.ECTextMessageBody;
 
 import android.app.Activity;
 import android.content.Context;
@@ -194,38 +190,6 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
         }
     }
 
-    /**
-     * 处理文本发送方法事件通知
-     * 
-     * @param text
-     */
-    private void handleSendTextMessage(CharSequence text) {
-        if (text == null || text.toString().trim().length() <= 0) {
-            return;
-        }
-        // 组建一个待发送的ECMessage
-        ECMessage msg = ECMessage.createECMessage(ECMessage.Type.TXT);
-        // 设置消息接收者
-        msg.setTo(callNumber);
-        // 创建一个文本消息体，并添加到消息对象中
-        ECTextMessageBody msgBody = new ECTextMessageBody(text.toString());
-        msg.setBody(msgBody);
-        try {
-            // 发送消息，该函数见上
-            long rowId = -1;
-            // if(mCustomerService) {
-            // rowId = CustomerServiceHelper.sendMCMessage(msg);
-            // } else {
-            rowId = IMChattingHelper.sendECMessage(msg);
-            // }
-            // 通知列表刷新
-            msg.setId(rowId);
-            // notifyIMessageListView(msg);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void sendKey() {
         List<RadixLock> list = App.instance.getSelectedLocks();
     }
@@ -307,11 +271,11 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
             break;
         case R.id.titlebar_close_btn:
             Intent intent;
-            if (isAfterIM) {
-                intent = new Intent(context, VideoActivity.class);
-            } else {
+//            if (isAfterIM) {
+//                intent = new Intent(context, VideoActivity.class);
+//            } else {
                 intent = new Intent(context, MainActivity.class);
-            }
+//            }
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
             break;
