@@ -18,6 +18,7 @@ import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
+import com.yuntongxun.ecsdk.ECDevice;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
@@ -105,9 +106,7 @@ public class MainActivity extends FragmentActivity implements
         adapter = new KeyListAdapter2(this, App.instance.getLocks());
         updateBadge();
         
-//        // 云通讯
-//        ECContentObservers.getInstance().initContentObserver();
-//        CrashHandler.getInstance().setContext(this);
+        // 云通讯
 
         // 信鸽注册
         // 开启logcat输出，方便debug，发布时请关闭

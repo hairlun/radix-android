@@ -118,6 +118,8 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
                         PrefUtil.saveUserInfo(context, userInfo);
                         App.instance.clearCache();
                         App.instance.setMyMobile(App.instance.getVisitorId());
+                        refresh();
+                        loadingDialog.dismiss();
 //                        // 注销云通讯
 //                        CCPAppManager.setClientUser(null);
 //                        ECDevice.unInitial();
