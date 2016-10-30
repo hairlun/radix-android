@@ -85,8 +85,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class UnlockFragment extends Fragment implements OnClickListener,
-        OnItemClickListener, SensorEventListener {
+public class UnlockFragment extends Fragment
+        implements OnClickListener, OnItemClickListener, SensorEventListener {
 
     private Context context;
 
@@ -157,8 +157,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View view = inflater
-                .inflate(R.layout.fragment_unlock, container, false);
+        View view = inflater.inflate(R.layout.fragment_unlock, container,
+                false);
         areaTv = (TextView) view.findViewById(R.id.area_tv);
         weatherIv = (ImageView) view.findViewById(R.id.weather_iv);
         weatherTv = (TextView) view.findViewById(R.id.weather_tv);
@@ -212,13 +212,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 LogUtil.d("已连接门禁。");
 
                 // 搜索服务
-                handler.post(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        BluetoothLeService.discoverServices();
-                    }
-                });
+                BluetoothLeService.discoverServices();
 
             }
             // Services Discovered from GATT Server
@@ -227,8 +221,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 System.out.println("--------------------->发现SERVICES");
                 // statusTv.setText();
                 LogUtil.d("已连接门禁，正在开门…");
-                prepareGattServices(BluetoothLeService
-                        .getSupportedGattServices());
+                prepareGattServices(
+                        BluetoothLeService.getSupportedGattServices());
                 doUnlock();
             } else if (action
                     .equals(BluetoothLeService.ACTION_GATT_DISCONNECTED)) {
@@ -239,7 +233,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 if (isDisconnectForUnlock) {
                     BluetoothLeService.close();
                     isUnlocking = false;
-                    loadingDialog.dismiss();
                 }
             }
 
@@ -264,26 +257,14 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                             .getByteArrayExtra(Constants.EXTRA_BYTE_VALUE);
                     LogUtil.d("收到数据：" + Utils.ByteArraytoHex(array));
                     if (extras.containsKey(Constants.EXTRA_BYTE_UUID_VALUE)) {
-                        // int size = encryptArray.length;
-                        // byte[] array = new byte[size];
-                        // for (int i = 0; i < size; i++) {
-                        // array[i] = (byte) (encryptArray[i] ^
-                        // Constants.ENCRYPT);
-                        // }
-                        handler.post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                handle(array);
-                            }
-                        });
+                        handle(array);
                     }
                 }
                 if (extras.containsKey(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE)) {
-                    if (extras
-                            .containsKey(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE_CHARACTERISTIC_UUID)) {
-                        byte[] array = intent
-                                .getByteArrayExtra(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE);
+                    if (extras.containsKey(
+                            Constants.EXTRA_DESCRIPTOR_BYTE_VALUE_CHARACTERISTIC_UUID)) {
+                        byte[] array = intent.getByteArrayExtra(
+                                Constants.EXTRA_DESCRIPTOR_BYTE_VALUE);
 
                         // updateButtonStatus(array);
 
@@ -291,9 +272,10 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 }
             }
 
-            if (action
-                    .equals(BluetoothLeService.ACTION_GATT_DESCRIPTORWRITE_RESULT)) {
-                if (extras.containsKey(Constants.EXTRA_DESCRIPTOR_WRITE_RESULT)) {
+            if (action.equals(
+                    BluetoothLeService.ACTION_GATT_DESCRIPTORWRITE_RESULT)) {
+                if (extras
+                        .containsKey(Constants.EXTRA_DESCRIPTOR_WRITE_RESULT)) {
                     int status = extras
                             .getInt(Constants.EXTRA_DESCRIPTOR_WRITE_RESULT);
                     if (status != BluetoothGatt.GATT_SUCCESS) {
@@ -303,14 +285,14 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 }
             }
 
-            if (action
-                    .equals(BluetoothLeService.ACTION_GATT_CHARACTERISTIC_ERROR)) {
-                if (extras
-                        .containsKey(Constants.EXTRA_CHARACTERISTIC_ERROR_MESSAGE)) {
-                    String errorMessage = extras
-                            .getString(Constants.EXTRA_CHARACTERISTIC_ERROR_MESSAGE);
-                    System.out
-                            .println("GattDetailActivity---------------------->err:"
+            if (action.equals(
+                    BluetoothLeService.ACTION_GATT_CHARACTERISTIC_ERROR)) {
+                if (extras.containsKey(
+                        Constants.EXTRA_CHARACTERISTIC_ERROR_MESSAGE)) {
+                    String errorMessage = extras.getString(
+                            Constants.EXTRA_CHARACTERISTIC_ERROR_MESSAGE);
+                    System.out.println(
+                            "GattDetailActivity---------------------->err:"
                                     + errorMessage);
                     Toast.makeText(context, errorMessage, Toast.LENGTH_LONG)
                             .show();
@@ -319,23 +301,9 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             }
 
             // write characteristics succcess
-            if (action
-                    .equals(BluetoothLeService.ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS)) {
+            if (action.equals(
+                    BluetoothLeService.ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS)) {
                 LogUtil.d("发送开门命令成功！");
-                // handler.post(new Runnable() {
-                // @Override
-                // public void run() {
-                // try {
-                // Thread.sleep(5000);
-                // if (isUnlocking) {
-                // ToastUtil.showShort(context, "开门失败，断开连接！");
-                // disconnectDevice();
-                // }
-                // } catch (Exception e) {
-                // e.printStackTrace();
-                // }
-                // }
-                // });
             }
 
             if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
@@ -406,15 +374,9 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             if (size < 6 + len || array[len + 5] != (byte) 0xDD) {
                 // invalid msg
                 if (isUnlocking) {
-                    retryCount++;
-                    if (retryCount <= 3) {
-                        LogUtil.d("开门失败，第" + retryCount + "次重试…");
-                        doUnlock();
-                    } else {
                         LogUtil.d("开门失败，断开连接！");
                         ToastUtil.showShort(context, "开门失败，断开连接！");
                         disconnectDevice();
-                    }
                 }
             } else {
                 byte check = array[1];
@@ -426,34 +388,23 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     // check pass
                     if (array[4] == 0x00) {
                         // 命令执行成功，断开蓝牙连接
+                        loadingDialog.dismiss();
                         ToastUtil.showShort(context, "开门成功");
                         disconnectDevice();
                     } else {
                         // 命令执行失败或命令数据错误
                         if (isUnlocking) {
-                            retryCount++;
-                            if (retryCount <= 3) {
-                                LogUtil.d("开门失败，第" + retryCount + "次重试…");
-                                doUnlock();
-                            } else {
                                 LogUtil.d("开门失败，断开连接！");
                                 ToastUtil.showShort(context, "开门失败，断开连接！");
                                 disconnectDevice();
-                            }
                         }
                     }
                 } else {
                     // check fail
                     if (isUnlocking) {
-                        retryCount++;
-                        if (retryCount <= 3) {
-                            LogUtil.d("开门失败，第" + retryCount + "次重试…");
-                            doUnlock();
-                        } else {
                             LogUtil.d("开门失败，断开连接！");
                             ToastUtil.showShort(context, "开门失败，断开连接！");
                             disconnectDevice();
-                        }
                     }
                 }
             }
@@ -598,28 +549,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     }
 
     private void doUnlock() {
-        handler.post(new Runnable() {
-
-            @Override
-            public void run() {
-                writeOption("30 ", "06 00 00 "
-                        + App.instance.getUserInfo().getCardNo());
-            }
-        });
-        // handler.post(new Runnable() {
-        // @Override
-        // public void run() {
-        // try {
-        // Thread.sleep(5000);
-        // if (isUnlocking) {
-        // ToastUtil.showShort(context, "开门失败，断开连接！");
-        // disconnectDevice();
-        // }
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // }
-        // }
-        // });
+        writeOption("30 ",
+                "06 00 00 " + App.instance.getUserInfo().getCardNo());
     }
 
     private void writeOption(String cmd, String data) {
@@ -631,8 +562,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 Utils.getCmdDataByteArray(hexStr));
     }
 
-    private void writeCharacteristic(
-            BluetoothGattCharacteristic characteristic, byte[] bytes) {
+    private void writeCharacteristic(BluetoothGattCharacteristic characteristic,
+            byte[] bytes) {
         // Writing the hexValue to the characteristics
         try {
             LogUtil.d("write bytes: " + Utils.ByteArraytoHex(bytes));
@@ -672,7 +603,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
      * 
      * @param characteristic
      */
-    void prepareBroadcastDataNotify(BluetoothGattCharacteristic characteristic) {
+    void prepareBroadcastDataNotify(
+            BluetoothGattCharacteristic characteristic) {
         final int charaProp = characteristic.getProperties();
         if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
             BluetoothLeService.setCharacteristicNotification(characteristic,
@@ -700,7 +632,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         LogUtil.d("connectDevice: DevName = " + currentDevName
                 + "; DevAddress = " + currentDevAddress);
         // 如果是连接状态，断开，重新连接
-        if (BluetoothLeService.getConnectionState() != BluetoothLeService.STATE_DISCONNECTED) {
+        if (BluetoothLeService
+                .getConnectionState() != BluetoothLeService.STATE_DISCONNECTED) {
             isDisconnectForUnlock = false;
             BluetoothLeService.disconnect();
         }
@@ -715,13 +648,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         } else {
             isDisconnectForUnlock = false;
         }
-        handler.post(new Runnable() {
-
-            @Override
-            public void run() {
-                BluetoothLeService.disconnect();
-            }
-        });
+        BluetoothLeService.disconnect();
     }
 
     private void loadData() {
@@ -730,20 +657,20 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             getCommunityList();
             return;
         }
-//        // 初始化和登录云通讯账号s
-//        if (!TextUtils.isEmpty(App.instance.getMyMobile())) {
-//            String appKey = FileAccessor.getAppKey();
-//            String token = FileAccessor.getAppToken();
-//            String myMobile = App.instance.getMyMobile();
-//            String pass = "";
-//            ClientUser clientUser = new ClientUser(myMobile);
-//            clientUser.setAppKey(appKey);
-//            clientUser.setAppToken(token);
-//            clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
-//            clientUser.setPassword(pass);
-//            CCPAppManager.setClientUser(clientUser);
-//            SDKCoreHelper.init(App.instance, LoginMode.FORCE_LOGIN);
-//        }
+        // // 初始化和登录云通讯账号s
+        // if (!TextUtils.isEmpty(App.instance.getMyMobile())) {
+        // String appKey = FileAccessor.getAppKey();
+        // String token = FileAccessor.getAppToken();
+        // String myMobile = App.instance.getMyMobile();
+        // String pass = "";
+        // ClientUser clientUser = new ClientUser(myMobile);
+        // clientUser.setAppKey(appKey);
+        // clientUser.setAppToken(token);
+        // clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
+        // clientUser.setPassword(pass);
+        // CCPAppManager.setClientUser(clientUser);
+        // SDKCoreHelper.init(App.instance, LoginMode.FORCE_LOGIN);
+        // }
     }
 
     private void getWeather() {
@@ -758,7 +685,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 if (result.getErrorCode().equals("0")) {
                     refreshWeather(result);
                 } else {
-//                    ToastUtil.showShort(context, result.getReason());
+                    // ToastUtil.showShort(context, result.getReason());
                 }
             }
 
@@ -773,8 +700,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     private void refreshWeather(GetWeatherResult result) {
         Field f;
         try {
-            f = (Field) R.drawable.class.getDeclaredField("ww"
-                    + result.getImg());
+            f = (Field) R.drawable.class
+                    .getDeclaredField("ww" + result.getImg());
             int id = f.getInt(R.drawable.class);
             weatherIv.setImageResource(id);
         } catch (Exception e) {
@@ -809,8 +736,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     public void onSuccess(int stateCode,
                             GetCommunityListResult result) {
                         if (result != null) {
-                            App.instance.setCommunities(result
-                                    .getCommunities());
+                            App.instance
+                                    .setCommunities(result.getCommunities());
                             adapter.notifyDataSetChanged();
                             ListSelectDialog.show(context, "请选择小区", adapter,
                                     UnlockFragment.this);
@@ -822,23 +749,23 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private void getCommunityListFromServer() {
         // 从服务器获取小区列表
-        ServiceManager
-                .getCommunityList(new RequestListener<GetCommunityListResult>() {
+        ServiceManager.getCommunityList(
+                new RequestListener<GetCommunityListResult>() {
 
                     @Override
                     public void onSuccess(int stateCode,
                             GetCommunityListResult result) {
                         if (result != null) {
                             if (result.isSuccesses()) {
-                                App.instance.setCommunities(result
-                                        .getCommunities());
+                                App.instance.setCommunities(
+                                        result.getCommunities());
                                 saveCommunityListToDb(result.getResponse());
                                 adapter.notifyDataSetChanged();
-                                ListSelectDialog.show(context, "请选择小区",
-                                        adapter, UnlockFragment.this);
+                                ListSelectDialog.show(context, "请选择小区", adapter,
+                                        UnlockFragment.this);
                             } else {
-//                                ToastUtil.showShort(context,
-//                                        result.getRetinfo());
+                                // ToastUtil.showShort(context,
+                                // result.getRetinfo());
                                 getCommunityListFromCache();
                             }
                         } else {
@@ -892,16 +819,14 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private void getLockListFromCache() {
         if (App.instance.getSelectedCommunity() != null) {
-            CacheManager.getCacheContent(context,
-                    CacheManager.getLockListUrl(),
+            CacheManager.getCacheContent(context, CacheManager.getLockListUrl(),
                     new RequestListener<GetLockListResult>() {
 
                         @Override
                         public void onSuccess(int stateCode,
                                 GetLockListResult result) {
                             if (result != null) {
-                                App.instance.setLocks(result
-                                        .getLocks());
+                                App.instance.setLocks(result.getLocks());
                                 setSelectedKey();
                                 refreshKey();
                             }
@@ -914,31 +839,34 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     private void getLockListFromServer() {
         if (App.instance.getSelectedCommunity() != null) {
             // 从服务器获取门禁钥匙列表
-            ServiceManager.getLockList(new RequestListener<GetLockListResult>() {
-    
-                @Override
-                public void onSuccess(int stateCode, GetLockListResult result) {
-                    if (result != null) {
-                        if (result.isSuccesses()) {
-                            App.instance.setLocks(result.getLocks());
-                            saveLockListToDb(result.getResponse());
-                            setSelectedKey();
-                            refreshKey();
-                        } else {
-//                            ToastUtil.showShort(context, result.getRetinfo());
+            ServiceManager
+                    .getLockList(new RequestListener<GetLockListResult>() {
+
+                        @Override
+                        public void onSuccess(int stateCode,
+                                GetLockListResult result) {
+                            if (result != null) {
+                                if (result.isSuccesses()) {
+                                    App.instance.setLocks(result.getLocks());
+                                    saveLockListToDb(result.getResponse());
+                                    setSelectedKey();
+                                    refreshKey();
+                                } else {
+                                    // ToastUtil.showShort(context,
+                                    // result.getRetinfo());
+                                    getLockListFromCache();
+                                }
+                            } else {
+                                getLockListFromCache();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Exception error, String content) {
                             getLockListFromCache();
                         }
-                    } else {
-                        getLockListFromCache();
-                    }
-                }
-    
-                @Override
-                public void onFailure(Exception error, String content) {
-                    getLockListFromCache();
-                }
-    
-            });
+
+                    });
         }
     }
 
@@ -978,8 +906,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 @Override
                 public void onClick(View v) {
                     int idx = (int) v.getTag();
-                    if (!keys.get(idx).equals(
-                            App.instance.getSelectedLock())) {
+                    if (!keys.get(idx).equals(App.instance.getSelectedLock())) {
                         App.instance.setSelectedLock(keys.get(idx));
                         refreshKey();
                     }
@@ -1000,8 +927,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         }
         // 若没有选择钥匙，则默认选第一个
         if (App.instance.getLocks().size() > 0) {
-            App.instance.setSelectedLock(App.instance
-                    .getLocks().get(0));
+            App.instance.setSelectedLock(App.instance.getLocks().get(0));
         }
     }
 
@@ -1077,8 +1003,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         // values[0]:X轴，values[1]：Y轴，values[2]：Z轴
         float[] values = event.values;
         if (sensorType == Sensor.TYPE_ACCELEROMETER) {
-            if ((Math.abs(values[0]) > 17 || Math.abs(values[1]) > 17 || Math
-                    .abs(values[2]) > 17)) {
+            if ((Math.abs(values[0]) > 17 || Math.abs(values[1]) > 17
+                    || Math.abs(values[2]) > 17)) {
                 LogUtil.d("============ values[0] = " + values[0]);
                 LogUtil.d("============ values[1] = " + values[1]);
                 LogUtil.d("============ values[2] = " + values[2]);
@@ -1123,42 +1049,31 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             RadixLock lock = App.instance.getSelectedLock();
             LogUtil.d("unlock: inBleName = " + lock.getBleName1()
                     + ", outBleName = " + lock.getBleName2());
-            startScan();
-            handler.post(new Runnable() {
+            
+            loadingDialog.show("正在扫描…", true);
+            loadingDialog.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    BluetoothLeService.close();
+                    isUnlocking = false;
+                }
+            });
+            new Thread() {
 
                 @Override
                 public void run() {
-                    loadingDialog.show("正在开门…", true);
-                    loadingDialog.setOnClickListener(new OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-                            BluetoothLeService.close();
-                            isUnlocking = false;
-                        }
-                    });
+                    BluetoothLeService.close();
+                    startScan();
                 }
-            });
+            }.start();
         }
-        // for (MDevice device : list) {
-        // LogUtil.d("device list: " + device.getDevice().getName());
-        // if (device.getDevice().getName() != null &&
-        // device.getDevice().getName().equalsIgnoreCase(bleName)) {
-        // if (!isUnlocking) {
-        // isUnlocking = true;
-        // retryCount = 0;
-        // loadingDialog.show("正在开门…");
-        // connectDevice(device.getDevice());
-        // break;
-        // }
-        // }
-        // }
     }
 
     private void checkBleSupportAndInitialize() {
         // Use this check to determine whether BLE is supported on the device.
-        if (!context.getPackageManager().hasSystemFeature(
-                PackageManager.FEATURE_BLUETOOTH_LE)) {
+        if (!context.getPackageManager()
+                .hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(context, "不支持BLE", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -1169,6 +1084,26 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             // Device does not support Blue tooth
             Toast.makeText(context, "不支持BLE", Toast.LENGTH_SHORT).show();
             return;
+        }
+
+        // 打开蓝牙
+        if (!mBluetoothAdapter.isEnabled()) {
+            mBluetoothAdapter.enable();
+        }
+    }
+
+    private void bleReset() {
+        // Initializes a Blue tooth adapter.
+        getBluetoothAdapter();
+
+        if (mBluetoothAdapter == null) {
+            // Device does not support Blue tooth
+            Toast.makeText(context, "不支持BLE", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
+        if (mBluetoothAdapter.isDiscovering()) {
+            mBluetoothAdapter.cancelDiscovery();
         }
 
         // 打开蓝牙
@@ -1193,9 +1128,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         public void onLeScan(final BluetoothDevice device, final int rssi,
                 byte[] scanRecord) {
 
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
                     MDevice mDev = new MDevice(device, rssi);
                     if (list.contains(mDev)) {
                         return;
@@ -1213,19 +1145,50 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                             foundDevice = true;
                             LogUtil.d("正在连接……");
                             handler.post(new Runnable() {
+                                
+                                @Override
+                                public void run() {
+                                    loadingDialog.show("正在开门…", true);
+                                }
+                            });
+                            new Thread() {
+                                int time = 0;
 
                                 @Override
                                 public void run() {
-                                    connectDevice(device);
+                                    while (isUnlocking) {
+                                        try {
+                                            sleep(50);
+                                        } catch (InterruptedException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        }
+                                        time += 50;
+                                        if (time >= 5000) {
+                                            break;
+                                        }
+                                    }
+                                    if (isUnlocking) {
+                                        BluetoothLeService.close();
+                                        isUnlocking = false;
+                                        bleReset();
+                                        handler.post(new Runnable() {
+                                            
+                                            @Override
+                                            public void run() {
+                                                loadingDialog.dismiss();
+                                            }
+                                        });
+                                    }
                                 }
-                            });
-                            if (mBluetoothAdapter != null) {
-                                mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                            }
+                                
+                            }.start();
+                            connectDevice(device);
+//                            if (mBluetoothAdapter != null) {
+//                                mBluetoothAdapter.stopLeScan(mLeScanCallback);
+//                            }
                         }
                     }
-                }
-            });
         }
     };
 
@@ -1251,13 +1214,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     mBluetoothAdapter.stopLeScan(mLeScanCallback);
                 }
                 if (!foundDevice) {
-                    ToastUtil.showShort(context, "没找到此门禁设备！");
+//                    ToastUtil.showShort(context, "没找到此门禁设备！");
                     loadingDialog.dismiss();
                     isUnlocking = false;
                 }
                 mScanning = false;
             }
-        }, 2800);
+        }, 2000);
 
         if (mBluetoothAdapter == null) {
             getBluetoothAdapter();
@@ -1286,13 +1249,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     });
                 }
                 if (!foundDevice) {
-                    ToastUtil.showShort(context, "没找到此门禁设备！");
+//                    ToastUtil.showShort(context, "没找到此门禁设备！");
                     loadingDialog.dismiss();
                     isUnlocking = false;
                 }
                 mScanning = false;
             }
-        }, 2800);
+        }, 2000);
 
         if (bleScanner == null) {
             if (mBluetoothAdapter == null) {
@@ -1307,8 +1270,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 @Override
                 public void onScanResult(int callbackType, ScanResult result) {
                     super.onScanResult(callbackType, result);
-                    final MDevice mDev = new MDevice(result.getDevice(), result
-                            .getRssi());
+                    final MDevice mDev = new MDevice(result.getDevice(),
+                            result.getRssi());
                     if (list.contains(mDev)) {
                         return;
                     }
@@ -1325,21 +1288,55 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                             foundDevice = true;
                             LogUtil.d("正在连接……");
                             handler.post(new Runnable() {
+                                
+                                @Override
+                                public void run() {
+                                    loadingDialog.show("正在开门…", true);
+                                }
+                            });
+                            new Thread() {
+                                int time = 0;
 
                                 @Override
                                 public void run() {
-                                    connectDevice(mDev.getDevice());
-                                }
-                            });
-                            if (bleScanner != null) {
-                                bleScanner.stopScan(new ScanCallback() {
-                                    @Override
-                                    public void onScanResult(int callbackType,
-                                            ScanResult result) {
-                                        super.onScanResult(callbackType, result);
+                                    while (isUnlocking) {
+                                        try {
+                                            sleep(50);
+                                        } catch (InterruptedException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        }
+                                        time += 50;
+                                        if (time >= 5000) {
+                                            break;
+                                        }
                                     }
-                                });
-                            }
+                                    if (isUnlocking) {
+                                        BluetoothLeService.close();
+                                        isUnlocking = false;
+                                        bleReset();
+                                        handler.post(new Runnable() {
+                                            
+                                            @Override
+                                            public void run() {
+                                                loadingDialog.dismiss();
+                                            }
+                                        });
+                                    }
+                                }
+                                
+                            }.start();
+                            connectDevice(mDev.getDevice());
+//                            if (bleScanner != null) {
+//                                bleScanner.stopScan(new ScanCallback() {
+//                                    @Override
+//                                    public void onScanResult(int callbackType,
+//                                            ScanResult result) {
+//                                        super.onScanResult(callbackType,
+//                                                result);
+//                                    }
+//                                });
+//                            }
                         }
                     }
                 }
