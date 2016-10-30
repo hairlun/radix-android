@@ -231,7 +231,7 @@ public class UnlockFragment extends Fragment
                 // statusTv.setText("");
                 LogUtil.d("连接已断开。");
                 if (isDisconnectForUnlock) {
-                    BluetoothLeService.close();
+//                    BluetoothLeService.close();
                     isUnlocking = false;
                 }
             }
@@ -256,9 +256,7 @@ public class UnlockFragment extends Fragment
                     final byte[] array = intent
                             .getByteArrayExtra(Constants.EXTRA_BYTE_VALUE);
                     LogUtil.d("收到数据：" + Utils.ByteArraytoHex(array));
-                    if (extras.containsKey(Constants.EXTRA_BYTE_UUID_VALUE)) {
-                        handle(array);
-                    }
+                    handle(array);
                 }
                 if (extras.containsKey(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE)) {
                     if (extras.containsKey(
@@ -344,7 +342,7 @@ public class UnlockFragment extends Fragment
                 continue;
             if (uuid.equals(GattAttributes.USR_SERVICE)) {
                 initCharacteristics(gattService.getCharacteristics());
-                notifyOption();
+                notifyOption(true);
                 break;
             }
         }
@@ -377,6 +375,7 @@ public class UnlockFragment extends Fragment
                         LogUtil.d("开门失败，断开连接！");
                         ToastUtil.showShort(context, "开门失败，断开连接！");
                         disconnectDevice();
+                        loadingDialog.dismiss();
                 }
             } else {
                 byte check = array[1];
@@ -388,15 +387,16 @@ public class UnlockFragment extends Fragment
                     // check pass
                     if (array[4] == 0x00) {
                         // 命令执行成功，断开蓝牙连接
-                        loadingDialog.dismiss();
                         ToastUtil.showShort(context, "开门成功");
                         disconnectDevice();
+                        loadingDialog.dismiss();
                     } else {
                         // 命令执行失败或命令数据错误
                         if (isUnlocking) {
                                 LogUtil.d("开门失败，断开连接！");
                                 ToastUtil.showShort(context, "开门失败，断开连接！");
                                 disconnectDevice();
+                                loadingDialog.dismiss();
                         }
                     }
                 } else {
@@ -405,6 +405,7 @@ public class UnlockFragment extends Fragment
                             LogUtil.d("开门失败，断开连接！");
                             ToastUtil.showShort(context, "开门失败，断开连接！");
                             disconnectDevice();
+                            loadingDialog.dismiss();
                     }
                 }
             }
@@ -588,11 +589,11 @@ public class UnlockFragment extends Fragment
         }
     }
 
-    private void notifyOption() {
-        if (notifyEnable) {
+    private void notifyOption(boolean enabled) {
+        if (notifyEnable && !enabled) {
             notifyEnable = false;
             stopBroadcastDataNotify(notifyCharacteristic);
-        } else {
+        } else if (!notifyEnable && enabled) {
             notifyEnable = true;
             prepareBroadcastDataNotify(notifyCharacteristic);
         }
@@ -631,18 +632,18 @@ public class UnlockFragment extends Fragment
         currentDevName = device.getName();
         LogUtil.d("connectDevice: DevName = " + currentDevName
                 + "; DevAddress = " + currentDevAddress);
-        // 如果是连接状态，断开，重新连接
-        if (BluetoothLeService
-                .getConnectionState() != BluetoothLeService.STATE_DISCONNECTED) {
-            isDisconnectForUnlock = false;
-            BluetoothLeService.disconnect();
-        }
+//        // 如果是连接状态，断开，重新连接
+//        if (BluetoothLeService
+//                .getConnectionState() != BluetoothLeService.STATE_DISCONNECTED) {
+//            isDisconnectForUnlock = false;
+//            BluetoothLeService.disconnect();
+//        }
 
         BluetoothLeService.connect(currentDevAddress, currentDevName, context);
     }
 
     private void disconnectDevice() {
-        notifyOption();
+        notifyOption(false);
         if (isUnlocking) {
             isDisconnectForUnlock = true;
         } else {
@@ -1050,20 +1051,11 @@ public class UnlockFragment extends Fragment
             LogUtil.d("unlock: inBleName = " + lock.getBleName1()
                     + ", outBleName = " + lock.getBleName2());
             
-            loadingDialog.show("正在扫描…", true);
-            loadingDialog.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    BluetoothLeService.close();
-                    isUnlocking = false;
-                }
-            });
+            loadingDialog.show("正在扫描…");
             new Thread() {
 
                 @Override
                 public void run() {
-                    BluetoothLeService.close();
                     startScan();
                 }
             }.start();
@@ -1106,10 +1098,19 @@ public class UnlockFragment extends Fragment
             mBluetoothAdapter.cancelDiscovery();
         }
 
-        // 打开蓝牙
-        if (!mBluetoothAdapter.isEnabled()) {
-            mBluetoothAdapter.enable();
+        // 重启蓝牙
+        if (mBluetoothAdapter.isEnabled()) {
+            mBluetoothAdapter.disable();
         }
+        handler.postDelayed(new Runnable() {
+            
+            @Override
+            public void run() {
+                if (!mBluetoothAdapter.isEnabled()) {
+                    mBluetoothAdapter.enable();
+                }
+            }
+        }, 5000);
     }
 
     private void getBluetoothAdapter() {
@@ -1148,7 +1149,7 @@ public class UnlockFragment extends Fragment
                                 
                                 @Override
                                 public void run() {
-                                    loadingDialog.show("正在开门…", true);
+                                    loadingDialog.show("正在开门…");
                                 }
                             });
                             new Thread() {
@@ -1169,17 +1170,16 @@ public class UnlockFragment extends Fragment
                                         }
                                     }
                                     if (isUnlocking) {
-                                        BluetoothLeService.close();
                                         isUnlocking = false;
                                         bleReset();
-                                        handler.post(new Runnable() {
-                                            
-                                            @Override
-                                            public void run() {
-                                                loadingDialog.dismiss();
-                                            }
-                                        });
                                     }
+                                    handler.post(new Runnable() {
+                                        
+                                        @Override
+                                        public void run() {
+                                            loadingDialog.dismiss();
+                                        }
+                                    });
                                 }
                                 
                             }.start();
@@ -1291,7 +1291,7 @@ public class UnlockFragment extends Fragment
                                 
                                 @Override
                                 public void run() {
-                                    loadingDialog.show("正在开门…", true);
+                                    loadingDialog.show("正在开门…");
                                 }
                             });
                             new Thread() {
@@ -1315,14 +1315,14 @@ public class UnlockFragment extends Fragment
                                         BluetoothLeService.close();
                                         isUnlocking = false;
                                         bleReset();
-                                        handler.post(new Runnable() {
-                                            
-                                            @Override
-                                            public void run() {
-                                                loadingDialog.dismiss();
-                                            }
-                                        });
                                     }
+                                    handler.post(new Runnable() {
+                                        
+                                        @Override
+                                        public void run() {
+                                            loadingDialog.dismiss();
+                                        }
+                                    });
                                 }
                                 
                             }.start();
