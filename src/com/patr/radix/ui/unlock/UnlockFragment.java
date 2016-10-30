@@ -148,6 +148,8 @@ public class UnlockFragment extends Fragment
 
     private static final int REQUEST_FINE_LOCATION = 0;
 
+    private boolean bleReseting = false;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -1041,7 +1043,11 @@ public class UnlockFragment extends Fragment
             getBluetoothAdapter();
         }
         if (!mBluetoothAdapter.isEnabled()) {
-            ToastUtil.showLong(context, "蓝牙未开启，请先开启蓝牙！");
+            if (bleReseting) {
+                ToastUtil.showLong(context, "正在重启蓝牙，请稍候再试");
+            } else {
+                ToastUtil.showLong(context, "蓝牙未开启，请先开启蓝牙！");
+            }
             return;
         }
         if (!isUnlocking) {
@@ -1099,6 +1105,7 @@ public class UnlockFragment extends Fragment
         }
 
         // 重启蓝牙
+        bleReseting = true;
         if (mBluetoothAdapter.isEnabled()) {
             mBluetoothAdapter.disable();
         }
@@ -1108,6 +1115,7 @@ public class UnlockFragment extends Fragment
             public void run() {
                 if (!mBluetoothAdapter.isEnabled()) {
                     mBluetoothAdapter.enable();
+                    bleReseting = false;
                 }
             }
         }, 5000);
