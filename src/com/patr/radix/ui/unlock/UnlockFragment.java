@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.xutils.common.util.LogUtil;
 
-import com.felipecsl.gifimageview.library.GifImageView;
 import com.patr.radix.LockValidateActivity;
 import com.patr.radix.App;
 import com.patr.radix.R;
