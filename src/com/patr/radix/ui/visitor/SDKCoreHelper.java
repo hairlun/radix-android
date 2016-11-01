@@ -26,10 +26,11 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class YtxSDKCoreHelper
-        implements InitListener, OnECDeviceConnectListener, OnVoIPListener {
+public class SDKCoreHelper
+        implements InitListener, OnECDeviceConnectListener {
 
-    private static YtxSDKCoreHelper sInstance;
+    public static final String TAG = "SDKCoreHelper";
+    private static SDKCoreHelper sInstance;
     private Context mContext;
     private ECDevice.ECConnectState mConnect = ECDevice.ECConnectState.CONNECT_FAILED;
     private ECInitParams mInitParams;
@@ -38,13 +39,13 @@ public class YtxSDKCoreHelper
     private static final String APP_KEY = "8a216da857511049015774ed4f891606";
     private static final String TOKEN = "ffd37ae409314220af2bdf679efc3b36";
 
-    private YtxSDKCoreHelper() {
+    private SDKCoreHelper() {
 
     }
 
-    public static YtxSDKCoreHelper getInstance() {
+    public static SDKCoreHelper getInstance() {
         if (sInstance == null) {
-            sInstance = new YtxSDKCoreHelper();
+            sInstance = new SDKCoreHelper();
         }
         return sInstance;
     }
@@ -82,16 +83,10 @@ public class YtxSDKCoreHelper
         // 设置登陆验证模式：自定义登录方式
         params.setAuthType(ECInitParams.LoginAuthType.NORMAL_AUTH);
         // LoginMode（强制上线：FORCE_LOGIN 默认登录：AUTO。使用方式详见注意事项）
-        params.setMode(ECInitParams.LoginMode.FORCE_LOGIN);
+        params.setMode(mMode);
 
         // 设置登录回调监听
         ECDevice.setOnDeviceConnectListener(this);
-
-        // 设置语音通话状态监听
-        ECVoIPCallManager callInterface = ECDevice.getECVoIPCallManager();
-        if (callInterface != null) {
-            callInterface.setOnVoIPCallListener(this);
-        }
 
         // 设置VOIP 自定义铃声路径
         ECVoIPSetupManager setupManager = ECDevice.getECVoIPSetupManager();
@@ -145,6 +140,7 @@ public class YtxSDKCoreHelper
         } else if (state == ECDevice.ECConnectState.CONNECT_SUCCESS) {
             Log.i("", "==登陆成功");
         }
+        getInstance().mConnect = state;
     }
 
     @Override
@@ -153,67 +149,98 @@ public class YtxSDKCoreHelper
 
     }
 
-    @Override
-    public void onSwitchCallMediaTypeRequest(String arg0, CallType arg1) {
-        // TODO Auto-generated method stub
-
+    /**
+     * VoIP呼叫接口
+     * @return
+     */
+    public static ECVoIPCallManager getVoIPCallManager() {
+        return ECDevice.getECVoIPCallManager();
     }
 
-    @Override
-    public void onSwitchCallMediaTypeResponse(String arg0, CallType arg1) {
-        // TODO Auto-generated method stub
-
+    public static ECVoIPSetupManager getVoIPSetManager() {
+        return ECDevice.getECVoIPSetupManager();
     }
-
-    @Override
-    public void onVideoRatioChanged(VideoRatio arg0) {
-        // TODO Auto-generated method stub
-
+    
+    /**
+     * 
+     * 是否支持voip及会议功能
+     * true 表示支持 false表示不支持
+     * 请在sdk初始化完成之后调用
+     */
+    public boolean isSupportMedia(){
+        
+        return ECDevice.isSupportMedia();
     }
-
-    @Override
-    public void onCallEvents(VoIPCall voipCall) {
-        // 处理呼叫事件回调
-        if (voipCall == null) {
-            Log.e("SDKCoreHelper", "handle call event error , voipCall null");
-            return;
-        }
-        // 根据不同的事件通知类型来处理不同的业务
-        ECVoIPCallManager.ECCallState callState = voipCall.callState;
-        switch (callState) {
-        case ECCALL_PROCEEDING:
-            Log.i("", "正在连接服务器处理呼叫请求，callid：" + voipCall.callId);
-            break;
-        case ECCALL_ALERTING:
-            Log.i("", "呼叫到达对方，正在振铃，callid：" + voipCall.callId);
-            break;
-        case ECCALL_ANSWERED:
-            Log.i("", "对方接听本次呼叫,callid：" + voipCall.callId);
-            break;
-        case ECCALL_FAILED:
-            // 本次呼叫失败，根据失败原因进行业务处理或跳转
-            Log.i("",
-                    "called:" + voipCall.callId + ",reason:" + voipCall.reason);
-            break;
-        case ECCALL_RELEASED:
-            // 通话释放[完成一次呼叫]
-            break;
-        default:
-            Log.e("SDKCoreHelper",
-                    "handle call event error , callState " + callState);
-            break;
-        }
+    
+    /**
+     * 判断服务是否自动重启
+     * @return 是否自动重启
+     */
+    public static boolean isUIShowing() {
+        return ECDevice.isInitialized();
     }
-
-    @Override
-    public void onDtmfReceived(String arg0, char arg1) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onMediaDestinationChanged(VoipMediaChangedInfo arg0) {
-        // TODO Auto-generated method stub
-
-    }
+//
+//    @Override
+//    public void onSwitchCallMediaTypeRequest(String arg0, CallType arg1) {
+//        // TODO Auto-generated method stub
+//
+//    }
+//
+//    @Override
+//    public void onSwitchCallMediaTypeResponse(String arg0, CallType arg1) {
+//        // TODO Auto-generated method stub
+//
+//    }
+//
+//    @Override
+//    public void onVideoRatioChanged(VideoRatio arg0) {
+//        // TODO Auto-generated method stub
+//
+//    }
+//
+//    @Override
+//    public void onCallEvents(VoIPCall voipCall) {
+//        // 处理呼叫事件回调
+//        if (voipCall == null) {
+//            Log.e("SDKCoreHelper", "handle call event error , voipCall null");
+//            return;
+//        }
+//        // 根据不同的事件通知类型来处理不同的业务
+//        ECVoIPCallManager.ECCallState callState = voipCall.callState;
+//        switch (callState) {
+//        case ECCALL_PROCEEDING:
+//            Log.i("", "正在连接服务器处理呼叫请求，callid：" + voipCall.callId);
+//            break;
+//        case ECCALL_ALERTING:
+//            Log.i("", "呼叫到达对方，正在振铃，callid：" + voipCall.callId);
+//            break;
+//        case ECCALL_ANSWERED:
+//            Log.i("", "对方接听本次呼叫,callid：" + voipCall.callId);
+//            break;
+//        case ECCALL_FAILED:
+//            // 本次呼叫失败，根据失败原因进行业务处理或跳转
+//            Log.i("",
+//                    "called:" + voipCall.callId + ",reason:" + voipCall.reason);
+//            break;
+//        case ECCALL_RELEASED:
+//            // 通话释放[完成一次呼叫]
+//            break;
+//        default:
+//            Log.e("SDKCoreHelper",
+//                    "handle call event error , callState " + callState);
+//            break;
+//        }
+//    }
+//
+//    @Override
+//    public void onDtmfReceived(String arg0, char arg1) {
+//        // TODO Auto-generated method stub
+//
+//    }
+//
+//    @Override
+//    public void onMediaDestinationChanged(VoipMediaChangedInfo arg0) {
+//        // TODO Auto-generated method stub
+//
+//    }
 }
