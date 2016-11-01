@@ -34,10 +34,6 @@ public class CCPActivityImpl extends CCPActivityBase {
         return mActivity.getLayoutId();
     }
 
-    public int getTitleLayout() {
-        return mActivity.getTitleLayout();
-    }
-
     @Override
     protected View getContentLayoutView() {
         return null;
