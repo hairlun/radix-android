@@ -19,7 +19,7 @@ import com.yuntongxun.ecsdk.meeting.ECMeeting;
 import com.yuntongxun.ecsdk.platformtools.ECHandlerHelper;
 
 public abstract class ECVoIPBaseActivity extends ECSuperActivity
-        implements VoIPCallHelper.OnCallEventNotifyListener , ECCallControlUILayout.OnCallControlDelegate , OnSendDTMFDelegate {
+        implements VoIPCallHelper.OnCallEventNotifyListener , ECCallControlUILayout.OnCallControlDelegate {
 
     private static final String TAG = "ECVoIPBaseActivity";
 
@@ -279,10 +279,4 @@ public abstract class ECVoIPBaseActivity extends ECSuperActivity
             ECVoIPBaseActivity.super.finish();
         }
     };
-    
-    @Override
-	public void sendDTMF(char c) {
-
-		SDKCoreHelper.getVoIPCallManager().sendDTMF(mCallId, c);
-	}
 }

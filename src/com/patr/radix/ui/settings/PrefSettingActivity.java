@@ -17,10 +17,13 @@ import com.patr.radix.ui.view.LoadingDialog;
 import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.ui.view.dialog.MsgDialog;
 import com.patr.radix.ui.view.dialog.MsgDialog.BtnType;
+import com.patr.radix.ui.visitor.SDKCoreHelper;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.PrefUtil;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushManager;
+import com.yuntongxun.ecsdk.ECDevice;
+import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
 
 import android.app.Activity;
 import android.content.Context;
@@ -120,30 +123,19 @@ public class PrefSettingActivity extends Activity implements OnClickListener {
                         App.instance.setMyMobile(App.instance.getVisitorId());
                         refresh();
                         loadingDialog.dismiss();
-//                        // 注销云通讯
-//                        CCPAppManager.setClientUser(null);
-//                        ECDevice.unInitial();
-//                        
-//                        handler.postDelayed(new Runnable() {
-//                            
-//                            @Override
-//                            public void run() {
-//                                // 以访客id重新登录云通讯
-//                                String appKey = FileAccessor.getAppKey();
-//                                String token = FileAccessor.getAppToken();
-//                                String myMobile = App.instance.getMyMobile();
-//                                String pass = "";
-//                                ClientUser clientUser = new ClientUser(myMobile);
-//                                clientUser.setAppKey(appKey);
-//                                clientUser.setAppToken(token);
-//                                clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
-//                                clientUser.setPassword(pass);
-//                                CCPAppManager.setClientUser(clientUser);
-//                                SDKCoreHelper.init(getApplicationContext(), LoginMode.FORCE_LOGIN);
-//                                refresh();
-//                                loadingDialog.dismiss();
-//                            }
-//                        }, 1500);
+                        // 注销云通讯
+                        ECDevice.unInitial();
+                        
+                        handler.postDelayed(new Runnable() {
+                            
+                            @Override
+                            public void run() {
+                                // 以访客id重新登录云通讯
+                                SDKCoreHelper.init(getApplicationContext(), LoginMode.FORCE_LOGIN);
+                                refresh();
+                                loadingDialog.dismiss();
+                            }
+                        }, 1500);
                     }
                 }, BtnType.TWO);
     }

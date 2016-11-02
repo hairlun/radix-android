@@ -76,14 +76,14 @@ public class SDKCoreHelper
         LogUtil.d("ECSDK is ready");
 
         // 设置登录参数
-        ECInitParams params = ECInitParams.createParams();
-        params.setUserid(App.instance.getMyMobile());
-        params.setAppKey(APP_KEY);
-        params.setToken(TOKEN);
+        mInitParams = ECInitParams.createParams();
+        mInitParams.setUserid(App.instance.getMyMobile());
+        mInitParams.setAppKey(APP_KEY);
+        mInitParams.setToken(TOKEN);
         // 设置登陆验证模式：自定义登录方式
-        params.setAuthType(ECInitParams.LoginAuthType.NORMAL_AUTH);
+        mInitParams.setAuthType(ECInitParams.LoginAuthType.NORMAL_AUTH);
         // LoginMode（强制上线：FORCE_LOGIN 默认登录：AUTO。使用方式详见注意事项）
-        params.setMode(mMode);
+        mInitParams.setMode(mMode);
 
         // 设置登录回调监听
         ECDevice.setOnDeviceConnectListener(this);
@@ -113,7 +113,6 @@ public class SDKCoreHelper
         ECDevice.setPendingIntent(pendingIntent);
 
         // 登录云通讯SDK
-        mInitParams.setAuthType(LoginAuthType.NORMAL_AUTH);
         if (!mInitParams.validate()) {
             ToastUtil.showShort(mContext, "注册云通讯参数错误，请检查");
             return;

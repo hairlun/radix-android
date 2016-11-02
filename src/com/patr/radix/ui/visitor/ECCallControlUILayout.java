@@ -159,11 +159,6 @@ public class ECCallControlUILayout extends LinearLayout
                 boolean handFree = VoIPCallHelper.getHandFree();
                 mCallHandFree .setImageResource(handFree ? R.drawable.ec_call_interface_hands_free_on : R.drawable.ec_call_interface_hands_free);
 				break;
-			case R.id.layout_call_dialnum:
-				
-				mOnCallControlDelegate.setDialerpadUI();
-				
-				break;
 			}
 		}
 	};
@@ -211,6 +206,5 @@ public class ECCallControlUILayout extends LinearLayout
         void onViewAccept(ECCallControlUILayout controlPanelView , ImageButton view);
         void onViewReject(ECCallControlUILayout controlPanelView , ImageButton view);
         void onViewRelease(ECCallControlUILayout controlPanelView , ImageButton view);
-        void setDialerpadUI();
     }
 }

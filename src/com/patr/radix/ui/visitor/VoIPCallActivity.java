@@ -2,6 +2,7 @@ package com.patr.radix.ui.visitor;
 
 import org.xutils.common.util.LogUtil;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -20,11 +21,11 @@ import com.yuntongxun.ecsdk.ECVoIPSetupManager;
 import com.yuntongxun.ecsdk.SdkErrorCode;
 import com.yuntongxun.ecsdk.VoIPCallUserInfo;
 
-public class VoIPCallActivity extends ECVoIPBaseActivity /*implements ECVoIPCallManager.OnCallProcessMultiDataListener*/{
+public class VoIPCallActivity extends ECVoIPBaseActivity {
 
     private static final String TAG = "VoIPCallActivity";
 	private boolean isCallBack;
-	
+	private Context context;
 
     @Override
     protected int getLayoutId() {
@@ -61,7 +62,7 @@ public class VoIPCallActivity extends ECVoIPBaseActivity /*implements ECVoIPCall
         if (!mIncomingCall) {
             // 处理呼叫逻辑
             if (TextUtils.isEmpty(mCallNumber)) {
-                ToastUtil.showMessage(R.string.ec_call_number_error);
+                ToastUtil.showShort(context, "呼叫的号码错误");
                 finish();
                 return;
             }
@@ -72,13 +73,13 @@ public class VoIPCallActivity extends ECVoIPBaseActivity /*implements ECVoIPCall
                 //ECDevice.getECVoIPCallManager().setProcessDataEnabled(null , true , true , this);
                 mCallId = VoIPCallHelper.makeCall(mCallType, mCallNumber);
                 if (TextUtils.isEmpty(mCallId)) {
-                    ToastUtil .showMessage(R.string.ec_app_err_disconnect_server_tip);
-                    LogUtil.d(TAG, "Call fail, callId " + mCallId);
+                    ToastUtil.showShort(context, "无法连接服务器，请稍后再试");
+                    LogUtil.d("Call fail, callId " + mCallId);
                     finish();
                     return;
                 }
             }
-            mCallHeaderView .setCallTextMsg(R.string.ec_voip_call_connecting_server);
+            mCallHeaderView .setCallTextMsg("正在连接服务器…");
         } else {
             mCallHeaderView.setCallTextMsg(" ");
         }
@@ -104,8 +105,6 @@ public class VoIPCallActivity extends ECVoIPBaseActivity /*implements ECVoIPCall
         ECCallControlUILayout.CallLayout callLayout = mIncomingCall ? ECCallControlUILayout.CallLayout.INCOMING
                 : ECCallControlUILayout.CallLayout.OUTGOING;
         mCallControlUIView.setCallDirect(callLayout);
-
-        mCallHeaderView.setSendDTMFDelegate(this);
     }
 
 
@@ -130,8 +129,8 @@ public class VoIPCallActivity extends ECVoIPBaseActivity /*implements ECVoIPCall
         if(mCallHeaderView == null || !needNotify(callId)) {
             return ;
         }
-        LogUtil.d(TAG, "onUICallProceeding:: call id " + callId);
-        mCallHeaderView.setCallTextMsg(R.string.ec_voip_call_connect);
+        LogUtil.d("onUICallProceeding:: call id " + callId);
+        mCallHeaderView.setCallTextMsg("正在呼叫对方，请稍候…");
     }
 
     /**
@@ -143,8 +142,8 @@ public class VoIPCallActivity extends ECVoIPBaseActivity /*implements ECVoIPCall
         if(!needNotify(callId) || mCallHeaderView == null) {
             return ;
         }
-        LogUtil.d(TAG , "onUICallAlerting:: call id " + callId);
-        mCallHeaderView.setCallTextMsg(R.string.ec_voip_calling_wait);
+        LogUtil.d("onUICallAlerting:: call id " + callId);
+        mCallHeaderView.setCallTextMsg("等待对方接听…");
         mCallControlUIView.setCallDirect(ECCallControlUILayout.CallLayout.ALERTING);
     }
 
@@ -157,7 +156,7 @@ public class VoIPCallActivity extends ECVoIPBaseActivity /*implements ECVoIPCall
         if(!needNotify(callId)|| mCallHeaderView == null) {
             return ;
         }
-        LogUtil.d(TAG , "onUICallAnswered:: call id " + callId);
+        LogUtil.d("onUICallAnswered:: call id " + callId);
         mCallHeaderView.setCalling(true);
         isConnect = true;
 
@@ -191,7 +190,7 @@ public class VoIPCallActivity extends ECVoIPBaseActivity /*implements ECVoIPCall
         if(mCallHeaderView == null || !needNotify(callId)) {
             return ;
         }
-        LogUtil.d(TAG, "onUIMakeCallFailed:: call id " + callId + " ,reason " + reason);
+        LogUtil.d("onUIMakeCallFailed:: call id " + callId + " ,reason " + reason);
         mCallHeaderView.setCalling(false);
         isConnect = false;
         mCallHeaderView.setCallTextMsg(CallFailReason.getCallFailReason(reason));
@@ -216,10 +215,10 @@ public class VoIPCallActivity extends ECVoIPBaseActivity /*implements ECVoIPCall
         if(mCallHeaderView == null || !needNotify(callId)) {
             return ;
         }
-        LogUtil.d(TAG , "onUICallReleased:: call id " + callId);
+        LogUtil.d("onUICallReleased:: call id " + callId);
         mCallHeaderView.setCalling(false);
         isConnect = false;
-        mCallHeaderView.setCallTextMsg(R.string.ec_voip_calling_finish);
+        mCallHeaderView.setCallTextMsg("通话结束");
         mCallControlUIView.setControlEnable(false);
         finish();
     }
@@ -232,7 +231,7 @@ public class VoIPCallActivity extends ECVoIPBaseActivity /*implements ECVoIPCall
 		if(ecError.errorCode != SdkErrorCode.REQUEST_SUCCESS) {
 			mCallHeaderView .setCallTextMsg("回拨呼叫失败[" + ecError.errorCode + "]");
 		} else {
-			mCallHeaderView .setCallTextMsg(R.string.ec_voip_call_back_success);
+			mCallHeaderView .setCallTextMsg("回拨呼叫成功，请注意接听系统来电!");
 		}
 		mCallHeaderView.setCalling(false);
         isConnect = false;
@@ -240,21 +239,16 @@ public class VoIPCallActivity extends ECVoIPBaseActivity /*implements ECVoIPCall
 		finish();
 	}
 
-	@Override
-	public void setDialerpadUI() {
-		mCallHeaderView.controllerDiaNumUI();
-	}
-
    /* @Override
     public byte[] onCallProcessData(byte[] inByte, boolean upLink) {
 
-        ECLogger.d(TAG , "upLink audio %b " , upLink);
+        ECLogger.d("upLink audio %b " , upLink);
         return inByte;
     }
 
     @Override
     public byte[] onCallProcessVideoData(byte[] inByte, boolean upLink) {
-        ECLogger.d(TAG , "upLink video %b " , upLink);
+        ECLogger.d("upLink video %b " , upLink);
         return inByte;
     }*/
 }
