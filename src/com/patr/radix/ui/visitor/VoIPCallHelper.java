@@ -41,8 +41,8 @@ public class VoIPCallHelper implements OnMakeCallBackListener {
 	private VoIPCallHelper() {
 		mVoIPCallback = new SubVoIPCallback();
         mUserInfo = new VoIPCallUserInfo();
-            LogUtil.d("username " + App.instance.getMyMobile() + " , userphone " + App.instance.getMyMobile());
-            mUserInfo.setNickName(App.instance.getMyMobile());
+            LogUtil.d("username  , userphone " + App.instance.getMyMobile());
+            mUserInfo.setNickName("");
             mUserInfo.setPhoneNumber(App.instance.getMyMobile());
 	}
 
@@ -203,7 +203,7 @@ public class VoIPCallHelper implements OnMakeCallBackListener {
 		}
         if(ourInstance.mCallSetInterface != null) {
                 // 设置呼叫参数信息[呼叫昵称、呼叫手机号]
-                VoIPCallUserInfo info = new VoIPCallUserInfo(App.instance.getMyMobile(), App.instance.getMyMobile());
+                VoIPCallUserInfo info = new VoIPCallUserInfo("", App.instance.getMyMobile());
                 ourInstance.mCallSetInterface.setVoIPCallUserInfo(info);
                 getInstance().mUserInfo=info;
         }

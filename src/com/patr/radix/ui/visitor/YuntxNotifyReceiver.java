@@ -182,7 +182,7 @@ public class YuntxNotifyReceiver extends ECNotifyReceiver {
             switch (optCode) {
                 case EVENT_TYPE_CALL:
                     LogUtil.d("receive call event ");
-                    Intent call = new Intent(this ,VideoActivity.class);
+                    Intent call = new Intent(this ,VoIPCallActivity.class);
                     call.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     call.putExtras(intent);
                     startActivity(call);

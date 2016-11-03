@@ -135,8 +135,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private boolean isUnlocking = false;
 
-    private boolean isDisconnectForUnlock = false;
-
     private boolean foundDevice = false;
 
     private int retryCount = 0;
@@ -227,10 +225,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 // connect break (连接断开)
                 // statusTv.setText("");
                 LogUtil.d("连接已断开。");
-                if (isDisconnectForUnlock) {
-                    // BluetoothLeService.close();
-                    isUnlocking = false;
-                }
+                BluetoothLeService.close();
+                isUnlocking = false;
             }
 
             // There are four basic operations for moving data in BLE: read,
@@ -638,11 +634,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private void disconnectDevice() {
         notifyOption(false);
-        if (isUnlocking) {
-            isDisconnectForUnlock = true;
-        } else {
-            isDisconnectForUnlock = false;
-        }
         BluetoothLeService.disconnect();
     }
 
@@ -1134,19 +1125,20 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     || name.equals(lock.getBleName2())) {
                 if (!foundDevice) {
                     foundDevice = true;
+                    isUnlocking = true;
                     LogUtil.d("正在连接……");
-                    handler.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            loadingDialog.show("正在开门…");
-                        }
-                    });
                     new Thread() {
                         int time = 0;
 
                         @Override
                         public void run() {
+                            handler.post(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    loadingDialog.show("正在开门…");
+                                }
+                            });
                             while (isUnlocking) {
                                 try {
                                     sleep(50);
@@ -1276,19 +1268,20 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                             || name.equals(lock.getBleName2())) {
                         if (!foundDevice) {
                             foundDevice = true;
+                            isUnlocking = true;
                             LogUtil.d("正在连接……");
-                            handler.post(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    loadingDialog.show("正在开门…");
-                                }
-                            });
                             new Thread() {
                                 int time = 0;
 
                                 @Override
                                 public void run() {
+                                    handler.post(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            loadingDialog.show("正在开门…");
+                                        }
+                                    });
                                     while (isUnlocking) {
                                         try {
                                             sleep(50);
