@@ -207,7 +207,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 LogUtil.d("已连接门禁。");
 
                 // 搜索服务
-                BluetoothLeService.discoverServices();
+                handler.postDelayed(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        BluetoothLeService.discoverServices();
+                    }
+                }, 200);
 
             }
             // Services Discovered from GATT Server
@@ -218,7 +224,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 LogUtil.d("已连接门禁，正在开门…");
                 prepareGattServices(BluetoothLeService
                         .getSupportedGattServices());
-                doUnlock();
+                handler.postDelayed(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        doUnlock();
+                    }
+                }, 100);
             } else if (action
                     .equals(BluetoothLeService.ACTION_GATT_DISCONNECTED)) {
                 System.out.println("--------------------->断开连接");
@@ -634,7 +646,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private void disconnectDevice() {
         notifyOption(false);
-        BluetoothLeService.disconnect();
+        handler.postDelayed(new Runnable() {
+            
+            @Override
+            public void run() {
+                BluetoothLeService.disconnect();
+            }
+        }, 100);
     }
 
     private void loadData() {
@@ -1147,7 +1165,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                                     e.printStackTrace();
                                 }
                                 time += 50;
-                                if (time >= 5000) {
+                                if (time >= 6000) {
                                     break;
                                 }
                             }
@@ -1165,10 +1183,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                         }
 
                     }.start();
-                    connectDevice(device);
-                    // if (mBluetoothAdapter != null) {
-                    // mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                    // }
+                    handler.postDelayed(new Runnable() {
+                        
+                        @Override
+                        public void run() {
+                            connectDevice(device);
+                        }
+                    }, 50);
                 }
             }
         }
@@ -1290,7 +1311,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                                             e.printStackTrace();
                                         }
                                         time += 50;
-                                        if (time >= 5000) {
+                                        if (time >= 6000) {
                                             break;
                                         }
                                     }
@@ -1309,17 +1330,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                                 }
 
                             }.start();
-                            connectDevice(mDev.getDevice());
-                            // if (bleScanner != null) {
-                            // bleScanner.stopScan(new ScanCallback() {
-                            // @Override
-                            // public void onScanResult(int callbackType,
-                            // ScanResult result) {
-                            // super.onScanResult(callbackType,
-                            // result);
-                            // }
-                            // });
-                            // }
+                            handler.postDelayed(new Runnable() {
+                                
+                                @Override
+                                public void run() {
+                                    connectDevice(mDev.getDevice());
+                                }
+                            }, 50);
                         }
                     }
                 }
