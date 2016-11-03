@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.xutils.common.util.LogUtil;
 
-import com.felipecsl.gifimageview.library.GifImageView;
 import com.patr.radix.LockValidateActivity;
 import com.patr.radix.App;
 import com.patr.radix.R;
@@ -27,18 +26,14 @@ import com.patr.radix.ui.WeatherActivity;
 import com.patr.radix.ui.view.ListSelectDialog;
 import com.patr.radix.ui.view.LoadingDialog;
 import com.patr.radix.ui.view.TitleBarView;
+import com.patr.radix.ui.visitor.SDKCoreHelper;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.GattAttributes;
 import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.utils.Utils;
-//import com.yuntongxun.ecdemo.common.CCPAppManager;
-//import com.yuntongxun.ecdemo.common.utils.FileAccessor;
-//import com.yuntongxun.ecdemo.core.ClientUser;
-//import com.yuntongxun.ecdemo.ui.SDKCoreHelper;
-//import com.yuntongxun.ecsdk.ECInitParams.LoginAuthType;
-//import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
+import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -85,8 +80,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class UnlockFragment extends Fragment
-        implements OnClickListener, OnItemClickListener, SensorEventListener {
+public class UnlockFragment extends Fragment implements OnClickListener,
+        OnItemClickListener, SensorEventListener {
 
     private Context context;
 
@@ -159,8 +154,8 @@ public class UnlockFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_unlock, container,
-                false);
+        View view = inflater
+                .inflate(R.layout.fragment_unlock, container, false);
         areaTv = (TextView) view.findViewById(R.id.area_tv);
         weatherIv = (ImageView) view.findViewById(R.id.weather_iv);
         weatherTv = (TextView) view.findViewById(R.id.weather_tv);
@@ -223,8 +218,8 @@ public class UnlockFragment extends Fragment
                 System.out.println("--------------------->发现SERVICES");
                 // statusTv.setText();
                 LogUtil.d("已连接门禁，正在开门…");
-                prepareGattServices(
-                        BluetoothLeService.getSupportedGattServices());
+                prepareGattServices(BluetoothLeService
+                        .getSupportedGattServices());
                 doUnlock();
             } else if (action
                     .equals(BluetoothLeService.ACTION_GATT_DISCONNECTED)) {
@@ -261,10 +256,10 @@ public class UnlockFragment extends Fragment
                     handle(array);
                 }
                 if (extras.containsKey(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE)) {
-                    if (extras.containsKey(
-                            Constants.EXTRA_DESCRIPTOR_BYTE_VALUE_CHARACTERISTIC_UUID)) {
-                        byte[] array = intent.getByteArrayExtra(
-                                Constants.EXTRA_DESCRIPTOR_BYTE_VALUE);
+                    if (extras
+                            .containsKey(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE_CHARACTERISTIC_UUID)) {
+                        byte[] array = intent
+                                .getByteArrayExtra(Constants.EXTRA_DESCRIPTOR_BYTE_VALUE);
 
                         // updateButtonStatus(array);
 
@@ -272,10 +267,9 @@ public class UnlockFragment extends Fragment
                 }
             }
 
-            if (action.equals(
-                    BluetoothLeService.ACTION_GATT_DESCRIPTORWRITE_RESULT)) {
-                if (extras
-                        .containsKey(Constants.EXTRA_DESCRIPTOR_WRITE_RESULT)) {
+            if (action
+                    .equals(BluetoothLeService.ACTION_GATT_DESCRIPTORWRITE_RESULT)) {
+                if (extras.containsKey(Constants.EXTRA_DESCRIPTOR_WRITE_RESULT)) {
                     int status = extras
                             .getInt(Constants.EXTRA_DESCRIPTOR_WRITE_RESULT);
                     if (status != BluetoothGatt.GATT_SUCCESS) {
@@ -285,14 +279,14 @@ public class UnlockFragment extends Fragment
                 }
             }
 
-            if (action.equals(
-                    BluetoothLeService.ACTION_GATT_CHARACTERISTIC_ERROR)) {
-                if (extras.containsKey(
-                        Constants.EXTRA_CHARACTERISTIC_ERROR_MESSAGE)) {
-                    String errorMessage = extras.getString(
-                            Constants.EXTRA_CHARACTERISTIC_ERROR_MESSAGE);
-                    System.out.println(
-                            "GattDetailActivity---------------------->err:"
+            if (action
+                    .equals(BluetoothLeService.ACTION_GATT_CHARACTERISTIC_ERROR)) {
+                if (extras
+                        .containsKey(Constants.EXTRA_CHARACTERISTIC_ERROR_MESSAGE)) {
+                    String errorMessage = extras
+                            .getString(Constants.EXTRA_CHARACTERISTIC_ERROR_MESSAGE);
+                    System.out
+                            .println("GattDetailActivity---------------------->err:"
                                     + errorMessage);
                     Toast.makeText(context, errorMessage, Toast.LENGTH_LONG)
                             .show();
@@ -301,8 +295,8 @@ public class UnlockFragment extends Fragment
             }
 
             // write characteristics succcess
-            if (action.equals(
-                    BluetoothLeService.ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS)) {
+            if (action
+                    .equals(BluetoothLeService.ACTION_GATT_CHARACTERISTIC_WRITE_SUCCESS)) {
                 LogUtil.d("发送开门命令成功！");
             }
 
@@ -552,8 +546,7 @@ public class UnlockFragment extends Fragment
     }
 
     private void doUnlock() {
-        writeOption("30 ",
-                "06 00 00 " + App.instance.getUserInfo().getCardNo());
+        writeOption("30 ", "06 00 00 " + App.instance.getUserInfo().getCardNo());
     }
 
     private void writeOption(String cmd, String data) {
@@ -565,8 +558,8 @@ public class UnlockFragment extends Fragment
                 Utils.getCmdDataByteArray(hexStr));
     }
 
-    private void writeCharacteristic(BluetoothGattCharacteristic characteristic,
-            byte[] bytes) {
+    private void writeCharacteristic(
+            BluetoothGattCharacteristic characteristic, byte[] bytes) {
         // Writing the hexValue to the characteristics
         try {
             LogUtil.d("write bytes: " + Utils.ByteArraytoHex(bytes));
@@ -606,8 +599,7 @@ public class UnlockFragment extends Fragment
      * 
      * @param characteristic
      */
-    void prepareBroadcastDataNotify(
-            BluetoothGattCharacteristic characteristic) {
+    void prepareBroadcastDataNotify(BluetoothGattCharacteristic characteristic) {
         final int charaProp = characteristic.getProperties();
         if ((charaProp | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
             BluetoothLeService.setCharacteristicNotification(characteristic,
@@ -660,20 +652,10 @@ public class UnlockFragment extends Fragment
             getCommunityList();
             return;
         }
-        // // 初始化和登录云通讯账号s
-        // if (!TextUtils.isEmpty(App.instance.getMyMobile())) {
-        // String appKey = FileAccessor.getAppKey();
-        // String token = FileAccessor.getAppToken();
-        // String myMobile = App.instance.getMyMobile();
-        // String pass = "";
-        // ClientUser clientUser = new ClientUser(myMobile);
-        // clientUser.setAppKey(appKey);
-        // clientUser.setAppToken(token);
-        // clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
-        // clientUser.setPassword(pass);
-        // CCPAppManager.setClientUser(clientUser);
-        // SDKCoreHelper.init(App.instance, LoginMode.FORCE_LOGIN);
-        // }
+        // 初始化和登录云通讯账号
+        if (!TextUtils.isEmpty(App.instance.getMyMobile())) {
+            SDKCoreHelper.init(App.instance, LoginMode.FORCE_LOGIN);
+        }
     }
 
     private void getWeather() {
@@ -703,8 +685,8 @@ public class UnlockFragment extends Fragment
     private void refreshWeather(GetWeatherResult result) {
         Field f;
         try {
-            f = (Field) R.drawable.class
-                    .getDeclaredField("ww" + result.getImg());
+            f = (Field) R.drawable.class.getDeclaredField("ww"
+                    + result.getImg());
             int id = f.getInt(R.drawable.class);
             weatherIv.setImageResource(id);
         } catch (Exception e) {
@@ -739,8 +721,7 @@ public class UnlockFragment extends Fragment
                     public void onSuccess(int stateCode,
                             GetCommunityListResult result) {
                         if (result != null) {
-                            App.instance
-                                    .setCommunities(result.getCommunities());
+                            App.instance.setCommunities(result.getCommunities());
                             adapter.notifyDataSetChanged();
                             ListSelectDialog.show(context, "请选择小区", adapter,
                                     UnlockFragment.this);
@@ -752,20 +733,20 @@ public class UnlockFragment extends Fragment
 
     private void getCommunityListFromServer() {
         // 从服务器获取小区列表
-        ServiceManager.getCommunityList(
-                new RequestListener<GetCommunityListResult>() {
+        ServiceManager
+                .getCommunityList(new RequestListener<GetCommunityListResult>() {
 
                     @Override
                     public void onSuccess(int stateCode,
                             GetCommunityListResult result) {
                         if (result != null) {
                             if (result.isSuccesses()) {
-                                App.instance.setCommunities(
-                                        result.getCommunities());
+                                App.instance.setCommunities(result
+                                        .getCommunities());
                                 saveCommunityListToDb(result.getResponse());
                                 adapter.notifyDataSetChanged();
-                                ListSelectDialog.show(context, "请选择小区", adapter,
-                                        UnlockFragment.this);
+                                ListSelectDialog.show(context, "请选择小区",
+                                        adapter, UnlockFragment.this);
                             } else {
                                 // ToastUtil.showShort(context,
                                 // result.getRetinfo());
@@ -822,7 +803,8 @@ public class UnlockFragment extends Fragment
 
     private void getLockListFromCache() {
         if (App.instance.getSelectedCommunity() != null) {
-            CacheManager.getCacheContent(context, CacheManager.getLockListUrl(),
+            CacheManager.getCacheContent(context,
+                    CacheManager.getLockListUrl(),
                     new RequestListener<GetLockListResult>() {
 
                         @Override
@@ -1006,8 +988,8 @@ public class UnlockFragment extends Fragment
         // values[0]:X轴，values[1]：Y轴，values[2]：Z轴
         float[] values = event.values;
         if (sensorType == Sensor.TYPE_ACCELEROMETER) {
-            if ((Math.abs(values[0]) > 17 || Math.abs(values[1]) > 17
-                    || Math.abs(values[2]) > 17)) {
+            if ((Math.abs(values[0]) > 17 || Math.abs(values[1]) > 17 || Math
+                    .abs(values[2]) > 17)) {
                 LogUtil.d("============ values[0] = " + values[0]);
                 LogUtil.d("============ values[1] = " + values[1]);
                 LogUtil.d("============ values[2] = " + values[2]);
@@ -1070,8 +1052,8 @@ public class UnlockFragment extends Fragment
 
     private void checkBleSupportAndInitialize() {
         // Use this check to determine whether BLE is supported on the device.
-        if (!context.getPackageManager()
-                .hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+        if (!context.getPackageManager().hasSystemFeature(
+                PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(context, "不支持BLE", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -1278,8 +1260,8 @@ public class UnlockFragment extends Fragment
                 @Override
                 public void onScanResult(int callbackType, ScanResult result) {
                     super.onScanResult(callbackType, result);
-                    final MDevice mDev = new MDevice(result.getDevice(),
-                            result.getRssi());
+                    final MDevice mDev = new MDevice(result.getDevice(), result
+                            .getRssi());
                     if (list.contains(mDev)) {
                         return;
                     }

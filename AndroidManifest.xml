@@ -141,6 +141,29 @@
             android:name="com.patr.radix.ForgetPwdActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
+        <!-- VoIP 呼叫界面 -->
+        <activity
+            android:name="com.patr.radix.ui.visitor.VoIPCallActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="con.patr.radix.intent.ACTION_VOICE_CALL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.patr.radix.ui.visitor.VideoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="con.patr.radix.intent.ACTION_VIDEO_CALL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         
         <service
             android:name="com.patr.radix.ble.BluetoothLeService"
@@ -199,7 +222,7 @@
         // 声明自定义通知的广播接收器，第三方 APP 集成时，action 中的 com.yuntongxun.ecdemo 请替换为自己的包名 -->
         // 如果没有VOIP功能可以忽略
         <receiver
-            android:name="com.patr.radix.service.YuntxNotifyReceiver"
+            android:name="com.patr.radix.ui.visitor.YuntxNotifyReceiver"
             android:exported="false" >
             <intent-filter>
                 // 接收push消息

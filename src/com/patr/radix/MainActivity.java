@@ -106,8 +106,6 @@ public class MainActivity extends FragmentActivity implements
         adapter = new KeyListAdapter2(this, App.instance.getLocks());
         updateBadge();
         
-        // 云通讯
-
         // 信鸽注册
         // 开启logcat输出，方便debug，发布时请关闭
         // 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),

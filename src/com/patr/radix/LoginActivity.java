@@ -6,9 +6,12 @@ import com.patr.radix.bll.ServiceManager;
 import com.patr.radix.network.RequestListener;
 import com.patr.radix.ui.view.LoadingDialog;
 import com.patr.radix.ui.view.TitleBarView;
+import com.patr.radix.ui.visitor.SDKCoreHelper;
 import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
+import com.yuntongxun.ecsdk.ECDevice;
+import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
 
 import android.app.Activity;
 import android.content.Context;
@@ -85,11 +88,7 @@ public class LoginActivity extends Activity implements OnClickListener {
             } else if (TextUtils.isEmpty(pwd)) {
                 ToastUtil.showLong(context, "密码不能为空，请重新输入!");
             } else {
-                // if (MyApplication.DEBUG) {
-                // testLogin();
-                // } else {
                 login();
-                // }
             }
             break;
             
@@ -97,21 +96,6 @@ public class LoginActivity extends Activity implements OnClickListener {
             context.startActivity(new Intent(context, ForgetPwdActivity.class));
             break;
         }
-    }
-
-    private void testLogin() {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setAccount("admin");
-        userInfo.setName("admin");
-        userInfo.setId("1");
-        userInfo.setAreaId("5");
-        userInfo.setAreaName("物业部");
-        userInfo.setHome("0508");
-        userInfo.setMobile("88888888");
-        App.instance.setUserInfo(userInfo);
-        PrefUtil.saveUserInfo(context, userInfo);
-        // MainActivity.startAfterLogin(context);
-        finish();
     }
 
     private void login() {
@@ -141,32 +125,21 @@ public class LoginActivity extends Activity implements OnClickListener {
                         PrefUtil.saveUserInfo(context, result.getUserInfo());
                         if (!TextUtils.isEmpty(App.instance.getUserInfo().getMobile())) {
                             App.instance.setMyMobile(App.instance.getUserInfo().getMobile());
-//                            // 注销云通讯
-//                            CCPAppManager.setClientUser(null);
-//                            ECDevice.unInitial();
-//                            handler.postDelayed(new Runnable() {
-//                                
-//                                @Override
-//                                public void run() {
-//                                    // 若用户已登录且手机号码不为空，则初始化和登录云通讯账号
-//                                    String appKey = FileAccessor.getAppKey();
-//                                    String token = FileAccessor.getAppToken();
-//                                    String myMobile = App.instance.getMyMobile();
-//                                    String pass = "";
-//                                    ClientUser clientUser = new ClientUser(myMobile);
-//                                    clientUser.setAppKey(appKey);
-//                                    clientUser.setAppToken(token);
-//                                    clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
-//                                    clientUser.setPassword(pass);
-//                                    CCPAppManager.setClientUser(clientUser);
-//                                    SDKCoreHelper.init(getApplicationContext(), LoginMode.FORCE_LOGIN);
-//                                }
-//                            }, 1500);
+                            // 注销云通讯
+                            ECDevice.unInitial();
+                            handler.postDelayed(new Runnable() {
+                                
+                                @Override
+                                public void run() {
+                                    // 若用户已登录且手机号码不为空，则初始化和登录云通讯账号
+                                    SDKCoreHelper.init(getApplicationContext(), LoginMode.FORCE_LOGIN);
+                                }
+                            }, 1500);
                         }
 
                         finish();
                     } else {
-                        ToastUtil.showLong(context, result.getRetinfo());
+                        ToastUtil.showShort(context, result.getRetinfo());
                     }
                 } else {
                     ToastUtil.showShort(context, R.string.connect_exception);

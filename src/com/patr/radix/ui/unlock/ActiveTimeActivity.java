@@ -276,7 +276,7 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
 //            } else {
                 intent = new Intent(context, MainActivity.class);
 //            }
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             context.startActivity(intent);
             break;
         case R.id.unlock_generate_qrcode_btn:
