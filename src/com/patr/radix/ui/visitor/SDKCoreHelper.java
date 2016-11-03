@@ -3,6 +3,7 @@ package com.patr.radix.ui.visitor;
 import org.xutils.common.util.LogUtil;
 
 import com.patr.radix.App;
+import com.patr.radix.R;
 import com.patr.radix.utils.ToastUtil;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECDevice.ECConnectState;
@@ -10,6 +11,7 @@ import com.yuntongxun.ecsdk.ECDevice.InitListener;
 import com.yuntongxun.ecsdk.ECDevice.OnECDeviceConnectListener;
 import com.yuntongxun.ecsdk.ECError;
 import com.yuntongxun.ecsdk.ECInitParams;
+import com.yuntongxun.ecsdk.ECNotifyOptions;
 import com.yuntongxun.ecsdk.ECInitParams.LoginAuthType;
 import com.yuntongxun.ecsdk.ECVoIPCallManager;
 import com.yuntongxun.ecsdk.ECVoIPCallManager.CallType;
@@ -35,12 +37,13 @@ public class SDKCoreHelper
     private ECDevice.ECConnectState mConnect = ECDevice.ECConnectState.CONNECT_FAILED;
     private ECInitParams mInitParams;
     private ECInitParams.LoginMode mMode = ECInitParams.LoginMode.FORCE_LOGIN;
+    private ECNotifyOptions mOptions;
 
     private static final String APP_KEY = "8a216da857511049015774ed4f891606";
     private static final String TOKEN = "ffd37ae409314220af2bdf679efc3b36";
 
     private SDKCoreHelper() {
-
+        initNotifyOptions();
     }
 
     public static SDKCoreHelper getInstance() {
@@ -67,6 +70,22 @@ public class SDKCoreHelper
         LogUtil.d(" SDK has inited , then regist..");
         // 已经初始化成功，直接进行注册
         getInstance().onInitialized();
+    }
+    
+    private void initNotifyOptions() {
+        if(mOptions == null) {
+            mOptions = new ECNotifyOptions();
+        }
+        // 设置新消息是否提醒
+        mOptions.setNewMsgNotify(true);
+        // 设置状态栏通知图标
+        mOptions.setIcon(R.drawable.ic_launcher);
+        // 设置是否启用勿扰模式（不会声音/震动提醒）
+        mOptions.setSilenceEnable(false);
+        // 设置是否震动提醒(如果处于免打扰模式则设置无效，没有震动)
+        mOptions.enableShake(true);
+        // 设置是否声音提醒(如果处于免打扰模式则设置无效，没有声音)
+        mOptions.enableSound(true);
     }
 
     @Override
