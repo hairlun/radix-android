@@ -30,6 +30,7 @@ import com.patr.radix.utils.TimeUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.utils.Utils;
 import com.patr.radix.utils.qrcode.QRCodeUtil;
+import com.yuntongxun.ecdemo.ui.voip.VideoActivity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -271,11 +272,11 @@ public class ActiveTimeActivity extends Activity implements OnClickListener,
             break;
         case R.id.titlebar_close_btn:
             Intent intent;
-//            if (isAfterIM) {
-//                intent = new Intent(context, VideoActivity.class);
-//            } else {
+            if (isAfterIM) {
+                intent = new Intent(context, VideoActivity.class);
+            } else {
                 intent = new Intent(context, MainActivity.class);
-//            }
+            }
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             context.startActivity(intent);
             break;

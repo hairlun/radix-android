@@ -14,8 +14,11 @@ import com.patr.radix.ui.view.ListSelectDialog;
 import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.ToastUtil;
-import com.yuntongxun.ecsdk.ECDevice;
-import com.yuntongxun.ecsdk.ECVoIPCallManager;
+import com.yuntongxun.ecdemo.common.CCPAppManager;
+import com.yuntongxun.ecdemo.common.utils.FileAccessor;
+import com.yuntongxun.ecdemo.core.ClientUser;
+import com.yuntongxun.ecdemo.ui.SDKCoreHelper;
+import com.yuntongxun.ecsdk.ECInitParams.LoginAuthType;
 import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
 import com.yuntongxun.ecsdk.ECVoIPCallManager.CallType;
 
@@ -82,9 +85,17 @@ public class VisitorFragment extends Fragment implements OnClickListener,
         super.onResume();
         // 初始化和登录云通讯账号
         if (!TextUtils.isEmpty(App.instance.getMyMobile())) {
-
-            SDKCoreHelper.init(App.instance.getApplicationContext(),
-                    LoginMode.FORCE_LOGIN);
+            String appKey = FileAccessor.getAppKey();
+            String token = FileAccessor.getAppToken();
+            String myMobile = App.instance.getMyMobile();
+            String pass = "";
+            ClientUser clientUser = new ClientUser(myMobile);
+            clientUser.setAppKey(appKey);
+            clientUser.setAppToken(token);
+            clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
+            clientUser.setPassword(pass);
+            CCPAppManager.setClientUser(clientUser);
+            SDKCoreHelper.init(App.instance, LoginMode.FORCE_LOGIN);
         }
     }
 
@@ -170,40 +181,6 @@ public class VisitorFragment extends Fragment implements OnClickListener,
                 });
     }
 
-    /**
-     * 根据呼叫类型通话
-     * 
-     * @param ctx
-     *            上下文
-     * @param callType
-     *            呼叫类型
-     * @param nickname
-     *            昵称
-     * @param contactId
-     *            号码
-     */
-    public static void callVoIPAction(Context ctx,
-            ECVoIPCallManager.CallType callType, String nickname,
-            String contactId, boolean flag) {
-        // VoIP呼叫
-        Intent callAction = new Intent(ctx, VoIPCallActivity.class);
-        if (callType == ECVoIPCallManager.CallType.VIDEO) {
-            callAction = new Intent(ctx, VideoActivity.class);
-            VoIPCallHelper.mHandlerVideoCall = true;
-        } else {
-            VoIPCallHelper.mHandlerVideoCall = false;
-        }
-        callAction.putExtra(VoIPCallActivity.EXTRA_CALL_NAME, nickname);
-        callAction.putExtra(VoIPCallActivity.EXTRA_CALL_NUMBER, contactId);
-        callAction.putExtra(ECDevice.CALLTYPE, callType);
-        callAction.putExtra(VoIPCallActivity.EXTRA_OUTGOING_CALL, true);
-
-        if (flag) {
-            callAction.putExtra(VoIPCallActivity.ACTION_CALLBACK_CALL, true);
-        }
-        ctx.startActivity(callAction);
-    }
-
     @Override
     public void onClick(View v) {
         String mobile = null;
@@ -227,7 +204,8 @@ public class VisitorFragment extends Fragment implements OnClickListener,
                 return;
             }
             // 申请访问
-            callVoIPAction(getActivity(), CallType.VIDEO, "", mobile, false);
+            CCPAppManager.callVoIPAction(getActivity(), CallType.VIDEO, "",
+                    mobile, false);
             break;
         }
     }

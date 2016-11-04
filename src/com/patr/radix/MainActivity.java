@@ -3,6 +3,14 @@ package com.patr.radix;
 import java.io.File;
 import java.io.InvalidClassException;
 
+import com.baidu.mapapi.SDKInitializer;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.patr.radix.adapter.KeyListAdapter2;
 import com.patr.radix.bean.QueryPersonMessageResult;
 import com.patr.radix.ble.BluetoothLeService;
@@ -18,7 +26,12 @@ import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
-import com.yuntongxun.ecsdk.ECDevice;
+import com.yuntongxun.ecdemo.common.CCPAppManager;
+import com.yuntongxun.ecdemo.common.ECContentObservers;
+import com.yuntongxun.ecdemo.common.utils.CrashHandler;
+import com.yuntongxun.ecdemo.common.utils.ECPreferenceSettings;
+import com.yuntongxun.ecdemo.common.utils.ECPreferences;
+import com.yuntongxun.ecdemo.common.utils.FileAccessor;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
@@ -106,6 +119,10 @@ public class MainActivity extends FragmentActivity implements
         adapter = new KeyListAdapter2(this, App.instance.getLocks());
         updateBadge();
         
+        // 云通讯
+        ECContentObservers.getInstance().initContentObserver();
+        CrashHandler.getInstance().setContext(this);
+
         // 信鸽注册
         // 开启logcat输出，方便debug，发布时请关闭
         // 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(),

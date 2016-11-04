@@ -49,6 +49,11 @@
                 android:paddingRight="20dip"
                 android:src="@drawable/ec_call_interface_answer" />
         </LinearLayout>
+        
+        <include 
+	        android:id="@+id/layout_diaerpad"
+	        android:visibility="gone"
+	        layout="@layout/voip_dialerpad"/>
 
         <LinearLayout
             android:id="@+id/calling_bottom_show"

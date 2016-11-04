@@ -11,11 +11,11 @@
    in the file PATENTS.  All contributing project authors may
    be found in the AUTHORS file in the root of the source tree.
  -->
-<com.patr.radix.ui.visitor.CCPLayoutListenerView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.yuntongxun.ecdemo.common.base.CCPLayoutListenerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ccp_content_fl"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#00000000"
+    android:background="@color/transparent"
     android:contentDescription="ccp_activity.xml" >
 
     <Button
@@ -29,7 +29,7 @@
         android:id="@+id/ccp_root_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#00000000"
+        android:background="@color/transparent"
         android:orientation="vertical" />
 
-</com.patr.radix.ui.visitor.CCPLayoutListenerView>
+</com.yuntongxun.ecdemo.common.base.CCPLayoutListenerView>

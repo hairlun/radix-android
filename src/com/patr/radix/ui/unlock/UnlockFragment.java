@@ -26,13 +26,17 @@ import com.patr.radix.ui.WeatherActivity;
 import com.patr.radix.ui.view.ListSelectDialog;
 import com.patr.radix.ui.view.LoadingDialog;
 import com.patr.radix.ui.view.TitleBarView;
-import com.patr.radix.ui.visitor.SDKCoreHelper;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.GattAttributes;
 import com.patr.radix.utils.NetUtils;
 import com.patr.radix.utils.PrefUtil;
 import com.patr.radix.utils.ToastUtil;
 import com.patr.radix.utils.Utils;
+import com.yuntongxun.ecdemo.common.CCPAppManager;
+import com.yuntongxun.ecdemo.common.utils.FileAccessor;
+import com.yuntongxun.ecdemo.core.ClientUser;
+import com.yuntongxun.ecdemo.ui.SDKCoreHelper;
+import com.yuntongxun.ecsdk.ECInitParams.LoginAuthType;
 import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
 
 import android.Manifest;
@@ -663,6 +667,16 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         }
         // 初始化和登录云通讯账号
         if (!TextUtils.isEmpty(App.instance.getMyMobile())) {
+            String appKey = FileAccessor.getAppKey();
+            String token = FileAccessor.getAppToken();
+            String myMobile = App.instance.getMyMobile();
+            String pass = "";
+            ClientUser clientUser = new ClientUser(myMobile);
+            clientUser.setAppKey(appKey);
+            clientUser.setAppToken(token);
+            clientUser.setLoginAuthType(LoginAuthType.NORMAL_AUTH);
+            clientUser.setPassword(pass);
+            CCPAppManager.setClientUser(clientUser);
             SDKCoreHelper.init(App.instance, LoginMode.FORCE_LOGIN);
         }
     }
@@ -1128,70 +1142,75 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         public void onLeScan(final BluetoothDevice device, final int rssi,
                 byte[] scanRecord) {
 
-            MDevice mDev = new MDevice(device, rssi);
-            if (list.contains(mDev)) {
-                return;
-            }
-            list.add(mDev);
-            String name = mDev.getDevice().getName();
-            LogUtil.d("发现蓝牙设备：" + name);
-            if (name == null) {
-                return;
-            }
-            RadixLock lock = App.instance.getSelectedLock();
-            if (name.equals(lock.getBleName1())
-                    || name.equals(lock.getBleName2())) {
-                if (!foundDevice) {
-                    foundDevice = true;
-                    isUnlocking = true;
-                    LogUtil.d("正在连接……");
-                    new Thread() {
-                        int time = 0;
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+		            MDevice mDev = new MDevice(device, rssi);
+		            if (list.contains(mDev)) {
+		                return;
+		            }
+		            list.add(mDev);
+		            String name = mDev.getDevice().getName();
+		            LogUtil.d("发现蓝牙设备：" + name);
+		            if (name == null) {
+		                return;
+		            }
+		            RadixLock lock = App.instance.getSelectedLock();
+		            if (name.equals(lock.getBleName1())
+		                    || name.equals(lock.getBleName2())) {
+		                if (!foundDevice) {
+		                    foundDevice = true;
+		                    isUnlocking = true;
+		                    LogUtil.d("正在连接……");
+		                    new Thread() {
+		                        int time = 0;
 
-                        @Override
-                        public void run() {
-                            handler.post(new Runnable() {
+		                        @Override
+		                        public void run() {
+		                            handler.post(new Runnable() {
 
-                                @Override
-                                public void run() {
-                                    loadingDialog.show("正在开门…");
-                                }
-                            });
-                            while (isUnlocking) {
-                                try {
-                                    sleep(50);
-                                } catch (InterruptedException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                }
-                                time += 50;
-                                if (time >= 6000) {
-                                    break;
-                                }
-                            }
-                            if (isUnlocking) {
-                                isUnlocking = false;
-                                bleReset();
-                            }
-                            handler.post(new Runnable() {
+		                                @Override
+		                                public void run() {
+		                                    loadingDialog.show("正在开门…");
+		                                }
+		                            });
+		                            while (isUnlocking) {
+		                                try {
+		                                    sleep(50);
+		                                } catch (InterruptedException e) {
+		                                    // TODO Auto-generated catch block
+		                                    e.printStackTrace();
+		                                }
+		                                time += 50;
+		                                if (time >= 6000) {
+		                                    break;
+		                                }
+		                            }
+		                            if (isUnlocking) {
+		                                isUnlocking = false;
+		                                bleReset();
+		                            }
+		                            handler.post(new Runnable() {
 
-                                @Override
-                                public void run() {
-                                    loadingDialog.dismiss();
-                                }
-                            });
-                        }
+		                                @Override
+		                                public void run() {
+		                                    loadingDialog.dismiss();
+		                                }
+		                            });
+		                        }
 
-                    }.start();
-                    handler.postDelayed(new Runnable() {
+		                    }.start();
+		                    handler.postDelayed(new Runnable() {
                         
-                        @Override
-                        public void run() {
-                            connectDevice(device);
-                        }
-                    }, 50);
-                }
-            }
+		                        @Override
+		                        public void run() {
+		                            connectDevice(device);
+		                        }
+		                    }, 50);
+		                }
+		            }
+				}
+			});
         }
     };
 
