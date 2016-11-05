@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.patr.radix.App;
 import com.patr.radix.R;
 import com.yuntongxun.ecdemo.common.dialog.ECListDialog;
 import com.yuntongxun.ecdemo.common.utils.ECPreferenceSettings;
@@ -159,9 +160,11 @@ public class CCPAppManager {
     }
 
     private static String getAutoRegisterAccount() {
-        SharedPreferences sharedPreferences = ECPreferences.getSharedPreferences();
-        ECPreferenceSettings registerAuto = ECPreferenceSettings.SETTINGS_REGIST_AUTO;
-        String registerAccount = sharedPreferences.getString(registerAuto.getId(), (String) registerAuto.getDefaultValue());
+//        SharedPreferences sharedPreferences = ECPreferences.getSharedPreferences();
+//        ECPreferenceSettings registerAuto = ECPreferenceSettings.SETTINGS_REGIST_AUTO;
+//        String registerAccount = sharedPreferences.getString(registerAuto.getId(), (String) registerAuto.getDefaultValue());
+        SharedPreferences sharedPreferences = App.instance.getSharedPreferences("com.patr.radix.ytx", Context.MODE_PRIVATE);
+        String registerAccount = sharedPreferences.getString("ytxAccount", String.format("%s", System.currentTimeMillis()));
         return registerAccount;
     }
 

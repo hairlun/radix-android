@@ -36,16 +36,16 @@ public abstract class ECVoIPBaseActivity extends ECSuperActivity
     private static final String TAG = "ECSDK_Demo.ECVoIPBaseActivity";
 
     /**昵称*/
-    public static final String EXTRA_CALL_NAME = "con.yuntongxun.ecdemo.VoIP_CALL_NAME";
+    public static final String EXTRA_CALL_NAME = "com.patr.radix.VoIP_CALL_NAME";
     /**通话号码*/
-    public static final String EXTRA_CALL_NUMBER = "con.yuntongxun.ecdemo.VoIP_CALL_NUMBER";
+    public static final String EXTRA_CALL_NUMBER = "com.patr.radix.VoIP_CALL_NUMBER";
     /**呼入方或者呼出方*/
-    public static final String EXTRA_OUTGOING_CALL = "con.yuntongxun.ecdemo.VoIP_OUTGOING_CALL";
+    public static final String EXTRA_OUTGOING_CALL = "com.patr.radix.VoIP_OUTGOING_CALL";
     /**VoIP呼叫*/
-    public static final String ACTION_VOICE_CALL = "con.yuntongxun.ecdemo.intent.ACTION_VOICE_CALL";
+    public static final String ACTION_VOICE_CALL = "com.patr.radix.intent.ACTION_VOICE_CALL";
     /**Video呼叫*/
-    public static final String ACTION_VIDEO_CALL = "con.yuntongxun.ecdemo.intent.ACTION_VIDEO_CALL";
-    public static final String ACTION_CALLBACK_CALL = "con.yuntongxun.ecdemo.intent.ACTION_VIDEO_CALLBACK";
+    public static final String ACTION_VIDEO_CALL = "com.patr.radix.intent.ACTION_VIDEO_CALL";
+    public static final String ACTION_CALLBACK_CALL = "com.patr.radix.intent.ACTION_VIDEO_CALLBACK";
 
     /**通话昵称*/
     protected String mCallName;

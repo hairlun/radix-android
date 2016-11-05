@@ -349,7 +349,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
-                <action android:name="con.yuntongxun.ecdemo.intent.ACTION_VOICE_CALL" />
+                <action android:name="com.patr.radix.intent.ACTION_VOICE_CALL" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -361,7 +361,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
-                <action android:name="con.yuntongxun.ecdemo.intent.ACTION_VIDEO_CALL" />
+                <action android:name="com.patr.radix.intent.ACTION_VIDEO_CALL" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -557,12 +557,12 @@
             <intent-filter>
                 // 接收push消息
                 // action匹配规则{packageName + ".action" + "功能"}
-                <action android:name="com.yuntongxun.ecdemo.action.VOIP_CALL" />
-                <action android:name="com.yuntongxun.ecdemo.action.MESSAGE" />
-                <action android:name="com.yuntongxun.ecdemo.action.NOTIFICATION_CLICK" />
-                <action android:name="com.yuntongxun.ecdemo.action.PERSON_VERSION" />
+                <action android:name="com.patr.radix.action.VOIP_CALL" />
+                <action android:name="com.patr.radix.action.MESSAGE" />
+                <action android:name="com.patr.radix.action.NOTIFICATION_CLICK" />
+                <action android:name="com.patr.radix.action.PERSON_VERSION" />
                 // 这个配置是容联IM专有的配置，其他应用集成的时候可以忽略
-                <action android:name="com.yuntongxun.ecdemo.action.SOFT_UPDATER" />
+                <action android:name="com.patr.radix.action.SOFT_UPDATER" />
             </intent-filter>
         </receiver>
         // *****************************ECSDK核心服务类 End*******************************************

@@ -3,6 +3,8 @@ package com.yuntongxun.ecdemo.ui;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -204,11 +206,11 @@ public class SDKCoreHelper implements ECDevice.InitListener , ECDevice.OnECDevic
             return ;
         }
 
-
-
         ECDevice.login(mInitParams);
-        //调式
-
+        SharedPreferences sharedPreferences = App.instance.getSharedPreferences("com.patr.radix.ytx", Context.MODE_PRIVATE);
+        Editor editor = sharedPreferences.edit();
+        editor.putString("ytxAccount", clientUser.toString());
+        editor.apply();
     }
 
     @Override
@@ -227,8 +229,6 @@ public class SDKCoreHelper implements ECDevice.InitListener , ECDevice.OnECDevic
         if(state == ECDevice.ECConnectState.CONNECT_FAILED && error.errorCode == SdkErrorCode.SDK_KICKED_OFF) {
             try {
                 ECPreferences.savePreference(ECPreferenceSettings.SETTINGS_REGIST_AUTO, "", true);
-//                ECPreferences.savePreference(ECPreferenceSettings.SETTINGS_FULLY_EXIT, true, true);
-//                ECPreferences.savePreference(ECPreferenceSettings.SETTINGS_FULLY_EXIT, true, true);
             } catch (InvalidClassException e) {
                 e.printStackTrace();
             }
@@ -244,7 +244,7 @@ public class SDKCoreHelper implements ECDevice.InitListener , ECDevice.OnECDevic
         Intent intent = new Intent(ACTION_SDK_CONNECT);
         intent.putExtra("error", error.errorCode);
         mContext.sendBroadcast(intent);
-        postConnectNotify();
+//        postConnectNotify();
     }
 
     /**
