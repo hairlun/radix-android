@@ -804,13 +804,13 @@ public class BluetoothLeService extends Service {
             return;
         }
 
-        if (mConnectionState == STATE_CONNECTED) {
+//        if (mConnectionState == STATE_CONNECTED) {
             // Logger.datalog(mContext.getResources().getString(R.string.dl_device_connecting));
             mBluetoothGatt.disconnect();
             // 注释掉这句，因为disconnect()后直接调用close()会收不到STATE_DISCONNECTED的状态，
             // 在收到STATE_DISCONNECTED之后再调用close()
             // mBluetoothGatt.close();
-        }
+//        }
     }
 
     public static void discoverServices() {
