@@ -40,6 +40,7 @@ import com.yuntongxun.ecsdk.ECInitParams.LoginAuthType;
 import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -187,7 +188,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 App.instance.getCommunities());
         checkBleSupportAndInitialize();
 
-        handler = new Handler();
+        handler = new Handler(context.getMainLooper());
         // 注册广播接收者，接收消息
         context.registerReceiver(mGattUpdateReceiver,
                 Utils.makeGattUpdateIntentFilter());
@@ -212,7 +213,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
                 // 搜索服务
                 handler.postDelayed(new Runnable() {
-                    
+
                     @Override
                     public void run() {
                         BluetoothLeService.discoverServices();
@@ -225,11 +226,11 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     .equals(action)) {
                 System.out.println("--------------------->发现SERVICES");
                 // statusTv.setText();
-                LogUtil.d("已连接门禁，正在开门…");
+                LogUtil.d("已搜索服务，正在开门…");
                 prepareGattServices(BluetoothLeService
                         .getSupportedGattServices());
                 handler.postDelayed(new Runnable() {
-                    
+
                     @Override
                     public void run() {
                         doUnlock();
@@ -241,7 +242,13 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 // connect break (连接断开)
                 // statusTv.setText("");
                 LogUtil.d("连接已断开。");
-                BluetoothLeService.close();
+                handler.post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        BluetoothLeService.close();
+                    }
+                });
                 isUnlocking = false;
             }
 
@@ -651,12 +658,12 @@ public class UnlockFragment extends Fragment implements OnClickListener,
     private void disconnectDevice() {
         notifyOption(false);
         handler.postDelayed(new Runnable() {
-            
+
             @Override
             public void run() {
                 BluetoothLeService.disconnect();
             }
-        }, 100);
+        }, 50);
     }
 
     private void loadData() {
@@ -1063,13 +1070,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     + ", outBleName = " + lock.getBleName2());
 
             loadingDialog.show("正在扫描…");
-            new Thread() {
-
-                @Override
-                public void run() {
-                    startScan();
-                }
-            }.start();
+            startScan();
         }
     }
 
@@ -1145,155 +1146,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-		            MDevice mDev = new MDevice(device, rssi);
-		            if (list.contains(mDev)) {
-		                return;
-		            }
-		            list.add(mDev);
-		            String name = mDev.getDevice().getName();
-		            LogUtil.d("发现蓝牙设备：" + name);
-		            if (name == null) {
-		                return;
-		            }
-		            RadixLock lock = App.instance.getSelectedLock();
-		            if (name.equals(lock.getBleName1())
-		                    || name.equals(lock.getBleName2())) {
-		                if (!foundDevice) {
-		                    foundDevice = true;
-		                    isUnlocking = true;
-		                    LogUtil.d("正在连接……");
-		                    new Thread() {
-		                        int time = 0;
-
-		                        @Override
-		                        public void run() {
-		                            handler.post(new Runnable() {
-
-		                                @Override
-		                                public void run() {
-		                                    loadingDialog.show("正在开门…");
-		                                }
-		                            });
-		                            while (isUnlocking) {
-		                                try {
-		                                    sleep(50);
-		                                } catch (InterruptedException e) {
-		                                    // TODO Auto-generated catch block
-		                                    e.printStackTrace();
-		                                }
-		                                time += 50;
-		                                if (time >= 8000) {
-		                                    break;
-		                                }
-		                            }
-		                            if (isUnlocking) {
-		                                isUnlocking = false;
-		                                bleReset();
-		                            }
-		                            handler.post(new Runnable() {
-
-		                                @Override
-		                                public void run() {
-		                                    loadingDialog.dismiss();
-		                                }
-		                            });
-		                        }
-
-		                    }.start();
-		                    handler.postDelayed(new Runnable() {
-                        
-		                        @Override
-		                        public void run() {
-		                            connectDevice(device);
-		                        }
-		                    }, 50);
-		                }
-		            }
-				}
-			});
-        }
-    };
-
-    private void startScan() {
-        list.clear();
-        foundDevice = false;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            scanPrevious21Version();
-        } else {
-            scanAfter21Version();
-        }
-    }
-
-    /**
-     * 版本号21之前的调用该方法搜索
-     */
-    private void scanPrevious21Version() {
-        // 2秒后停止扫描
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mBluetoothAdapter != null) {
-                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                }
-                if (!foundDevice) {
-                    // ToastUtil.showShort(context, "没找到此门禁设备！");
-                    loadingDialog.dismiss();
-                    isUnlocking = false;
-                }
-                mScanning = false;
-            }
-        }, 3000);
-
-        if (mBluetoothAdapter == null) {
-            getBluetoothAdapter();
-        }
-        if (mBluetoothAdapter != null) {
-            mScanning = true;
-            mBluetoothAdapter.startLeScan(mLeScanCallback);
-        }
-    }
-
-    /**
-     * 版本号21及之后的调用该方法扫描
-     */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void scanAfter21Version() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (bleScanner != null) {
-                    bleScanner.stopScan(new ScanCallback() {
-                        @Override
-                        public void onScanResult(int callbackType,
-                                ScanResult result) {
-                            super.onScanResult(callbackType, result);
-                        }
-                    });
-                }
-                if (!foundDevice) {
-                    // ToastUtil.showShort(context, "没找到此门禁设备！");
-                    loadingDialog.dismiss();
-                    isUnlocking = false;
-                }
-                mScanning = false;
-            }
-        }, 3000);
-
-        if (bleScanner == null) {
-            if (mBluetoothAdapter == null) {
-                getBluetoothAdapter();
-            }
-            bleScanner = mBluetoothAdapter.getBluetoothLeScanner();
-        }
-
-        if (bleScanner != null) {
-            mScanning = true;
-            bleScanner.startScan(new ScanCallback() {
-                @Override
-                public void onScanResult(int callbackType, ScanResult result) {
-                    super.onScanResult(callbackType, result);
-                    final MDevice mDev = new MDevice(result.getDevice(), result
-                            .getRssi());
+                    MDevice mDev = new MDevice(device, rssi);
                     if (list.contains(mDev)) {
                         return;
                     }
@@ -1335,7 +1188,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                                         }
                                     }
                                     if (isUnlocking) {
-                                        BluetoothLeService.close();
                                         isUnlocking = false;
                                         bleReset();
                                     }
@@ -1350,16 +1202,162 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
                             }.start();
                             handler.postDelayed(new Runnable() {
-                                
+
                                 @Override
                                 public void run() {
-                                    connectDevice(mDev.getDevice());
+                                    connectDevice(device);
                                 }
                             }, 50);
                         }
                     }
                 }
             });
+        }
+    };
+
+    @SuppressLint("NewApi")
+    private ScanCallback mScanCallback = new ScanCallback() {
+        @Override
+        public void onScanResult(int callbackType, ScanResult result) {
+            super.onScanResult(callbackType, result);
+            final MDevice mDev = new MDevice(result.getDevice(),
+                    result.getRssi());
+            if (list.contains(mDev)) {
+                return;
+            }
+            list.add(mDev);
+            String name = mDev.getDevice().getName();
+            LogUtil.d("发现蓝牙设备：" + name);
+            if (name == null) {
+                return;
+            }
+            RadixLock lock = App.instance.getSelectedLock();
+            if (name.equals(lock.getBleName1())
+                    || name.equals(lock.getBleName2())) {
+                if (!foundDevice) {
+                    foundDevice = true;
+                    isUnlocking = true;
+                    LogUtil.d("正在连接……");
+                    loadingDialog.show("正在开门…");
+                    handler.postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            connectDevice(mDev.getDevice());
+                        }
+                    }, 50);
+                    new Thread() {
+                        int time = 0;
+
+                        @Override
+                        public void run() {
+                            while (isUnlocking) {
+                                try {
+                                    sleep(50);
+                                } catch (InterruptedException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                                time += 50;
+                                if (time >= 8000) {
+                                    break;
+                                }
+                            }
+                            if (isUnlocking) {
+                                handler.post(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        BluetoothLeService.close();
+                                        isUnlocking = false;
+                                        bleReset();
+                                    }
+                                });
+                            }
+                            handler.post(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    loadingDialog.dismiss();
+                                }
+                            });
+                        }
+
+                    }.start();
+                }
+            }
+        }
+    };
+
+    private void startScan() {
+        list.clear();
+        foundDevice = false;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            scanPrevious21Version();
+        } else {
+            scanAfter21Version();
+        }
+    }
+
+    /**
+     * 版本号21之前的调用该方法搜索
+     */
+    private void scanPrevious21Version() {
+        // 2秒后停止扫描
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mBluetoothAdapter != null) {
+                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                }
+                if (!foundDevice) {
+                    ToastUtil.showShort(context, "没找到此门禁设备！");
+                    loadingDialog.dismiss();
+                    isUnlocking = false;
+                }
+                mScanning = false;
+            }
+        }, 3000);
+
+        if (mBluetoothAdapter == null) {
+            getBluetoothAdapter();
+        }
+        if (mBluetoothAdapter != null) {
+            mScanning = true;
+            mBluetoothAdapter.startLeScan(mLeScanCallback);
+        }
+    }
+
+    /**
+     * 版本号21及之后的调用该方法扫描
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void scanAfter21Version() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (bleScanner != null) {
+                    bleScanner.stopScan(mScanCallback);
+                }
+                if (!foundDevice) {
+                    // ToastUtil.showShort(context, "没找到此门禁设备！");
+                    loadingDialog.dismiss();
+                    isUnlocking = false;
+                }
+                mScanning = false;
+            }
+        }, 3000);
+
+        if (bleScanner == null) {
+            if (mBluetoothAdapter == null) {
+                getBluetoothAdapter();
+            }
+            bleScanner = mBluetoothAdapter.getBluetoothLeScanner();
+        }
+
+        if (bleScanner != null) {
+            mScanning = true;
+            bleScanner.startScan(mScanCallback);
         }
     }
 
