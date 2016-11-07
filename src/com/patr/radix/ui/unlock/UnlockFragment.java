@@ -1,6 +1,5 @@
 package com.patr.radix.ui.unlock;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,6 @@ import com.patr.radix.network.RequestListener;
 import com.patr.radix.ui.WeatherActivity;
 import com.patr.radix.ui.view.ListSelectDialog;
 import com.patr.radix.ui.view.LoadingDialog;
-import com.patr.radix.ui.view.TitleBarView;
 import com.patr.radix.utils.Constants;
 import com.patr.radix.utils.GattAttributes;
 import com.patr.radix.utils.NetUtils;
@@ -39,7 +37,6 @@ import com.yuntongxun.ecdemo.ui.SDKCoreHelper;
 import com.yuntongxun.ecsdk.ECInitParams.LoginAuthType;
 import com.yuntongxun.ecsdk.ECInitParams.LoginMode;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -57,8 +54,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources.NotFoundException;
-import android.graphics.drawable.GradientDrawable.Orientation;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -66,9 +61,7 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.os.Vibrator;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -80,7 +73,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -959,6 +951,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         // 若没有选择钥匙，则默认选第一个
         if (App.instance.getLocks().size() > 0) {
             App.instance.setSelectedLock(App.instance.getLocks().get(0));
+        } else {
+            App.instance.setSelectedLock(null);
         }
     }
 
@@ -1049,7 +1043,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private void preUnlock() {
         RadixLock lock = App.instance.getSelectedLock();
-        LogUtil.d("preUnlock: lock = " + lock.getBleName1());
         if (lock != null) {
             String lockPaternStr = PrefUtil.getString(context,
                     Constants.PREF_LOCK_KEY, null);
