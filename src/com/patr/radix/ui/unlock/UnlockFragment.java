@@ -140,6 +140,8 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private boolean isUnlocking = false;
 
+    private boolean isDisconnectForUnlock = false;
+
     private boolean foundDevice = false;
 
     private int retryCount = 0;
@@ -218,7 +220,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     public void run() {
                         BluetoothLeService.discoverServices();
                     }
-                }, 200);
+                }, 50);
 
             }
             // Services Discovered from GATT Server
@@ -235,21 +237,25 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     public void run() {
                         doUnlock();
                     }
-                }, 100);
+                }, 50);
             } else if (action
                     .equals(BluetoothLeService.ACTION_GATT_DISCONNECTED)) {
                 System.out.println("--------------------->断开连接");
                 // connect break (连接断开)
                 // statusTv.setText("");
                 LogUtil.d("连接已断开。");
-                handler.post(new Runnable() {
+                if (!isDisconnectForUnlock) {
+                    handler.post(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        BluetoothLeService.close();
-                    }
-                });
-                isUnlocking = false;
+                        @Override
+                        public void run() {
+                            BluetoothLeService.close();
+                        }
+                    });
+                    isUnlocking = false;
+                } else {
+                    isDisconnectForUnlock = false;
+                }
             }
 
             // There are four basic operations for moving data in BLE: read,
@@ -645,18 +651,28 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         currentDevName = device.getName();
         LogUtil.d("connectDevice: DevName = " + currentDevName
                 + "; DevAddress = " + currentDevAddress);
-        // // 如果是连接状态，断开，重新连接
-        // if (BluetoothLeService
-        // .getConnectionState() != BluetoothLeService.STATE_DISCONNECTED) {
-        // isDisconnectForUnlock = false;
-        // BluetoothLeService.disconnect();
-        // }
+        // 如果是连接状态，断开，重新连接
+        if (BluetoothLeService.getConnectionState() != BluetoothLeService.STATE_DISCONNECTED) {
+            isDisconnectForUnlock = true;
+            BluetoothLeService.disconnect();
+            handler.postDelayed(new Runnable() {
 
-        BluetoothLeService.connect(currentDevAddress, currentDevName, context);
+                @Override
+                public void run() {
+                    BluetoothLeService.connect(currentDevAddress,
+                            currentDevName, context);
+                }
+            }, 300);
+        } else {
+            BluetoothLeService.connect(currentDevAddress, currentDevName,
+                    context);
+        }
+
     }
 
     private void disconnectDevice() {
         notifyOption(false);
+        isDisconnectForUnlock = false;
         handler.postDelayed(new Runnable() {
 
             @Override
