@@ -1123,7 +1123,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     bleReseting = false;
                 }
             }
-        }, 5000);
+        }, 8000);
     }
 
     private void getBluetoothAdapter() {
@@ -1182,7 +1182,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 		                                    e.printStackTrace();
 		                                }
 		                                time += 50;
-		                                if (time >= 6000) {
+		                                if (time >= 8000) {
 		                                    break;
 		                                }
 		                            }
@@ -1242,7 +1242,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 }
                 mScanning = false;
             }
-        }, 2000);
+        }, 3000);
 
         if (mBluetoothAdapter == null) {
             getBluetoothAdapter();
@@ -1277,7 +1277,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 }
                 mScanning = false;
             }
-        }, 2000);
+        }, 3000);
 
         if (bleScanner == null) {
             if (mBluetoothAdapter == null) {
@@ -1330,7 +1330,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                                             e.printStackTrace();
                                         }
                                         time += 50;
-                                        if (time >= 6000) {
+                                        if (time >= 8000) {
                                             break;
                                         }
                                     }
