@@ -1349,7 +1349,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                     bleScanner.stopScan(mScanCallback);
                 }
                 if (!foundDevice) {
-                    // ToastUtil.showShort(context, "没找到此门禁设备！");
+                    ToastUtil.showShort(context, "没找到此门禁设备！");
                     loadingDialog.dismiss();
                     isUnlocking = false;
                 }
