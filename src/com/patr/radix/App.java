@@ -76,14 +76,14 @@ public class App extends Application {
     private UserInfo userInfo = new UserInfo();
 
     private String visitorId;
-    
+
     private String myMobile;
 
     private int badge = 0;
 
     // 信鸽推送token
     private String pushToken;
-    
+
     public static boolean firstRequest;
 
     public static App instance;
@@ -136,7 +136,8 @@ public class App extends Application {
                             int end = title.indexOf(")");
                             if (start < end) {
                                 try {
-                                    setBadge(Integer.parseInt(title.substring(start, end)));
+                                    setBadge(Integer.parseInt(title.substring(
+                                            start, end)));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

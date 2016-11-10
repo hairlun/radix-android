@@ -142,6 +142,10 @@ public class UnlockFragment extends Fragment implements OnClickListener,
 
     private boolean bleReseting = false;
 
+    private LeScanCallback mLeScanCallback;
+
+    private ScanCallback mScanCallback;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -173,6 +177,7 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         return view;
     }
 
+    @SuppressLint("NewApi")
     private void init() {
         sensorManager = (SensorManager) context
                 .getSystemService(Context.SENSOR_SERVICE);
@@ -189,6 +194,165 @@ public class UnlockFragment extends Fragment implements OnClickListener,
         Intent gattServiceIntent = new Intent(context.getApplicationContext(),
                 BluetoothLeService.class);
         context.startService(gattServiceIntent);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            /**
+             * Call back for BLE Scan This call back is called when a BLE device
+             * is found near by. 发现设备时回调
+             */
+            mLeScanCallback = new LeScanCallback() {
+
+                @Override
+                public void onLeScan(final BluetoothDevice device,
+                        final int rssi, byte[] scanRecord) {
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            MDevice mDev = new MDevice(device, rssi);
+                            if (list.contains(mDev)) {
+                                return;
+                            }
+                            list.add(mDev);
+                            String name = mDev.getDevice().getName();
+                            LogUtil.d("发现蓝牙设备：" + name);
+                            if (name == null) {
+                                return;
+                            }
+                            RadixLock lock = App.instance.getSelectedLock();
+                            if (name.equals(lock.getBleName1())
+                                    || name.equals(lock.getBleName2())) {
+                                if (!foundDevice) {
+                                    foundDevice = true;
+                                    isUnlocking = true;
+                                    LogUtil.d("正在连接……");
+                                    new Thread() {
+                                        int time = 0;
+
+                                        @Override
+                                        public void run() {
+                                            handler.post(new Runnable() {
+
+                                                @Override
+                                                public void run() {
+                                                    loadingDialog.show("正在开门…");
+                                                }
+                                            });
+                                            while (isUnlocking) {
+                                                try {
+                                                    sleep(50);
+                                                } catch (InterruptedException e) {
+                                                    // TODO Auto-generated catch
+                                                    // block
+                                                    e.printStackTrace();
+                                                }
+                                                time += 50;
+                                                if (time >= 8000) {
+                                                    break;
+                                                }
+                                            }
+                                            if (isUnlocking) {
+                                                isUnlocking = false;
+                                                bleReset();
+                                            }
+                                            handler.post(new Runnable() {
+
+                                                @Override
+                                                public void run() {
+                                                    loadingDialog.dismiss();
+                                                }
+                                            });
+                                        }
+
+                                    }.start();
+                                    handler.postDelayed(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            connectDevice(device);
+                                        }
+                                    }, 50);
+                                }
+                            }
+                        }
+                    });
+                }
+            };
+        } else {
+            mScanCallback = new ScanCallback() {
+                @Override
+                public void onScanResult(int callbackType, ScanResult result) {
+                    super.onScanResult(callbackType, result);
+                    final MDevice mDev = new MDevice(result.getDevice(),
+                            result.getRssi());
+                    if (list.contains(mDev)) {
+                        return;
+                    }
+                    list.add(mDev);
+                    String name = mDev.getDevice().getName();
+                    LogUtil.d("发现蓝牙设备：" + name);
+                    if (name == null) {
+                        return;
+                    }
+                    RadixLock lock = App.instance.getSelectedLock();
+                    if (name.equals(lock.getBleName1())
+                            || name.equals(lock.getBleName2())) {
+                        if (!foundDevice) {
+                            foundDevice = true;
+                            isUnlocking = true;
+                            LogUtil.d("正在连接……");
+                            loadingDialog.show("正在开门…");
+                            handler.postDelayed(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    connectDevice(mDev.getDevice());
+                                }
+                            }, 50);
+                            new Thread() {
+                                int time = 0;
+
+                                @Override
+                                public void run() {
+                                    while (isUnlocking) {
+                                        try {
+                                            sleep(50);
+                                        } catch (InterruptedException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        }
+                                        time += 50;
+                                        if (time >= 8000) {
+                                            break;
+                                        }
+                                    }
+                                    if (isUnlocking) {
+                                        handler.post(new Runnable() {
+
+                                            @Override
+                                            public void run() {
+                                                BluetoothLeService.close();
+                                                isUnlocking = false;
+                                                bleReset();
+                                            }
+                                        });
+                                    }
+                                    handler.post(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            loadingDialog.dismiss();
+                                        }
+                                    });
+                                }
+
+                            }.start();
+                        }
+                    }
+                }
+            };
+        }
+
     }
 
     /**
@@ -1141,162 +1305,6 @@ public class UnlockFragment extends Fragment implements OnClickListener,
                 .getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
     }
-
-    /**
-     * Call back for BLE Scan This call back is called when a BLE device is
-     * found near by. 发现设备时回调
-     */
-    private LeScanCallback mLeScanCallback = new LeScanCallback() {
-
-        @Override
-        public void onLeScan(final BluetoothDevice device, final int rssi,
-                byte[] scanRecord) {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    MDevice mDev = new MDevice(device, rssi);
-                    if (list.contains(mDev)) {
-                        return;
-                    }
-                    list.add(mDev);
-                    String name = mDev.getDevice().getName();
-                    LogUtil.d("发现蓝牙设备：" + name);
-                    if (name == null) {
-                        return;
-                    }
-                    RadixLock lock = App.instance.getSelectedLock();
-                    if (name.equals(lock.getBleName1())
-                            || name.equals(lock.getBleName2())) {
-                        if (!foundDevice) {
-                            foundDevice = true;
-                            isUnlocking = true;
-                            LogUtil.d("正在连接……");
-                            new Thread() {
-                                int time = 0;
-
-                                @Override
-                                public void run() {
-                                    handler.post(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-                                            loadingDialog.show("正在开门…");
-                                        }
-                                    });
-                                    while (isUnlocking) {
-                                        try {
-                                            sleep(50);
-                                        } catch (InterruptedException e) {
-                                            // TODO Auto-generated catch block
-                                            e.printStackTrace();
-                                        }
-                                        time += 50;
-                                        if (time >= 8000) {
-                                            break;
-                                        }
-                                    }
-                                    if (isUnlocking) {
-                                        isUnlocking = false;
-                                        bleReset();
-                                    }
-                                    handler.post(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-                                            loadingDialog.dismiss();
-                                        }
-                                    });
-                                }
-
-                            }.start();
-                            handler.postDelayed(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    connectDevice(device);
-                                }
-                            }, 50);
-                        }
-                    }
-                }
-            });
-        }
-    };
-
-    @SuppressLint("NewApi")
-    private ScanCallback mScanCallback = new ScanCallback() {
-        @Override
-        public void onScanResult(int callbackType, ScanResult result) {
-            super.onScanResult(callbackType, result);
-            final MDevice mDev = new MDevice(result.getDevice(),
-                    result.getRssi());
-            if (list.contains(mDev)) {
-                return;
-            }
-            list.add(mDev);
-            String name = mDev.getDevice().getName();
-            LogUtil.d("发现蓝牙设备：" + name);
-            if (name == null) {
-                return;
-            }
-            RadixLock lock = App.instance.getSelectedLock();
-            if (name.equals(lock.getBleName1())
-                    || name.equals(lock.getBleName2())) {
-                if (!foundDevice) {
-                    foundDevice = true;
-                    isUnlocking = true;
-                    LogUtil.d("正在连接……");
-                    loadingDialog.show("正在开门…");
-                    handler.postDelayed(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            connectDevice(mDev.getDevice());
-                        }
-                    }, 50);
-                    new Thread() {
-                        int time = 0;
-
-                        @Override
-                        public void run() {
-                            while (isUnlocking) {
-                                try {
-                                    sleep(50);
-                                } catch (InterruptedException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                }
-                                time += 50;
-                                if (time >= 8000) {
-                                    break;
-                                }
-                            }
-                            if (isUnlocking) {
-                                handler.post(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        BluetoothLeService.close();
-                                        isUnlocking = false;
-                                        bleReset();
-                                    }
-                                });
-                            }
-                            handler.post(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    loadingDialog.dismiss();
-                                }
-                            });
-                        }
-
-                    }.start();
-                }
-            }
-        }
-    };
 
     private void startScan() {
         list.clear();
