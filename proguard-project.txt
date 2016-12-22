@@ -28,12 +28,8 @@
 -keepattributes *Annotation*
 -keepattributes Signature
 
--libraryjars libs/armeabi/libbdpush_V2_2.so
 -libraryjars libs/armeabi/libwebpbackport.so
--libraryjars libs/mips/libbdpush_V2_2.so
--libraryjars libs/x86/libwebpbackport.so
 -libraryjars libs/core-3.2.1.jar
--libraryjars libs/pushservice-4.4.1.88.jar
 -libraryjars libs/xUtils_3.3.32.jar
 
 -keep class com.baidu.** { *; }
